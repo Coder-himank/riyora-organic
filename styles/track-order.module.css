@@ -1,0 +1,26 @@
+.track-order-container {
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.order-details {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 50%;
+    margin: 20px auto;
+}
+
+.order-item {
+    margin: 10px 0;
+}
+
+.order-item strong {
+    font-weight: bold;
+}
+
+.order-item p {
+    margin: 0;
+}

@@ -1,0 +1,59 @@
+.checkout-container {
+    width: 100%;
+    min-width: 450px;
+    max-width: 900px;
+    margin: 10px auto;
+}
+
+.address-section {
+    /* display: flex; */
+    align-items: center;
+    justify-content: space-between;
+}
+
+.address-section button {
+    /* height: 100%; */
+    /* width: 100%; */
+    display: block;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.select-address {
+    width: 80%;
+    max-width: 500px;
+    padding: 10px;
+}
+
+.new-address-form {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.new-address-form input {
+    padding: 6px;
+    font-size: 0.95rem;
+    display: block;
+    margin: 10px auto;
+}
+
+.new-address-form button {
+    padding: 15px;
+    width: 200px;
+}
+
+.pay-btn {
+    width: 200px;
+    font-size: 0.9rem;
+    padding: 17px;
+    margin: 50px 0;
+}
+
+@media screen and (max-width:600px) {
+    .new-address-form input {
+
+        max-width: 400px;
+    }
+}

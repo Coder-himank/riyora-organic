@@ -1,0 +1,242 @@
+/* Define CSS Variables for Easy Customization */
+:root {
+  /* Colors */
+  --home-bg-color: #FDFCFB;
+  --home-text-color: #3A3A3A;
+  --home-primary-color: #3A7D44;
+  --home-secondary-color: #5D5D5D;
+  --home-accent-color: #A8D5BA;
+  --home-accent-hover: #89C099;
+  --home-benefit-bg: #D7E3FC;
+  --home-review-bg: #e0ffe9;
+  --home-hero-bg: #E6F4EA;
+
+  /* Spacing & Sizing */
+  --home-padding: 80px 0;
+  --home-section-padding: 50px 20px;
+  --home-border-radius: 8px;
+  --home-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  --home-transition: all 0.3s ease-in-out;
+
+  /* Font Sizes */
+  --home-heading-font-size: 2rem;
+  --home-subtext-font-size: 1.1rem;
+  --home-button-font-size: 1.2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* General Page Styling */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--home-bg-color);
+  color: var(--home-text-color);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Hero Section */
+.home-container .hero-section {
+  padding: var(--home-section-padding);
+  width: 100%;
+  height: 100vw;
+  max-height: 100vh;
+  background: var(--home-hero-bg);
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  background-image: url("/images/rishi.png");
+  background-position: 0 130;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.home-container .hero-text {
+  position: absolute;
+  right: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 7;
+}
+
+.home-container .glow-text {
+  font-size: var(--home-heading-font-size);
+  font-weight: bold;
+  color: var(--home-primary-color);
+}
+
+.home-container .subtext {
+  font-size: var(--home-subtext-font-size);
+  color: var(--home-secondary-color);
+  margin-top: 10px;
+}
+
+/* Button */
+.home-container .shop-btn a {
+  color: unset;
+}
+
+.home-container .shop-btn {
+  max-width: 200px;
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: var(--home-button-font-size);
+  background: var(--home-accent-color);
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--home-transition);
+  box-shadow: var(--home-box-shadow);
+  text-decoration: none;
+}
+
+.home-container .shop-btn:hover {
+  background: var(--home-accent-hover);
+  transform: scale(1.05);
+}
+
+/* Sections */
+.home-container section {
+  width: 100%;
+  padding: var(--home-padding);
+}
+
+h2 {
+  font-size: var(--home-heading-font-size);
+  margin-bottom: 20px;
+  color: var(--home-primary-color);
+}
+
+/* Benefits Grid */
+.home-container .benefits-section {
+  padding-top: 150px;
+  background-image: linear-gradient(var(--home-hero-bg), var(--home-hero-bg), white);
+}
+
+.home-container .benefits-grid {
+  width: fit-content;
+  margin: auto;
+  padding: var(--home-padding);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px 10px;
+  justify-content: center;
+}
+
+.home-container .benefit-card {
+  background: var(--home-benefit-bg);
+  padding: 15px;
+  width: 30vw;
+  min-width: 200px;
+  border-radius: var(--home-border-radius);
+  font-weight: bold;
+  text-align: center;
+  color: var(--home-text-color);
+}
+
+/* Trending Products */
+.home-container .product-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 30px;
+}
+
+.home-container .product-card {
+  padding: 15px;
+  border-radius: var(--home-border-radius);
+  box-shadow: var(--home-box-shadow);
+  text-align: center;
+  transition: var(--home-transition);
+  width: 25vw;
+  min-width: 180px;
+  max-width: 400px;
+  height: 60vw;
+  max-height: 500px;
+}
+
+.home-container .product-card p {
+  padding: 15px 3px;
+}
+
+.home-container .product-card:hover {
+  box-shadow: 0 0 20px -4px rgba(0, 0, 0, 0.193);
+  transform: scale(1.05);
+}
+
+.home-container .product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Reviews */
+.home-container .reviews-section {
+  width: 100%;
+}
+
+.home-container .review-cards {
+  padding: var(--home-padding);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.home-container .review-card {
+  min-width: 180px;
+  width: 20vw;
+  height: 30vw;
+  max-height: 400px;
+  display: inline-flex;
+  background: var(--home-review-bg);
+  padding: 15px;
+  border-radius: var(--home-border-radius);
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+}
+
+.subscribe-section input {
+  padding: 10px;
+  border-radius: var(--home-border-radius);
+  border: 1px solid gray;
+  outline: none;
+  width: 50vw;
+}
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+  .home-container .hero-section {
+    background-position: center 130;
+    background-size: cover;
+  }
+
+  .home-container .hero-text {
+    background-color: white;
+    min-height: fit-content;
+    box-shadow: 0 0 20px -9px #00000033;
+    padding: 20px;
+
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .home-container .hero-text {
+    width: 80%;
+    height: 20vw;
+    position: absolute;
+    bottom: -100px;
+  }
+}

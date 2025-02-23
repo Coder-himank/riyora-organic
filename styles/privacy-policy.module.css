@@ -1,0 +1,10 @@
+.privacy-container {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+}
+
+.privacy-container p {
+    font-size: 14px;
+    line-height: 1.6;
+}
