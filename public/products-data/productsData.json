@@ -1,0 +1,316 @@
+[
+    {
+        "name": "Multani Mitti",
+        "price": 10.99,
+        "ingredients": [
+            "Montmorillonite"
+        ],
+        "suitableFor": [
+            "Oily Skin",
+            "Acne-Prone Skin"
+        ],
+        "bestFor": [
+            "Deep Cleansing",
+            "Oil Control"
+        ],
+        "howToUse": "Mix with rose water, apply as a mask, leave for 15 mins, and rinse.",
+        "reviews": [],
+        "availableQuantity": 50,
+        "category": "Skincare",
+        "imageUrl": "/products/multani-mitti.webp",
+        "discountPercentage": 10,
+        "promotionCode": "SKIN10",
+        "stockStatus": "in stock",
+        "expirationDate": "2026-12-31",
+        "tags": [
+            "natural",
+            "oil-control",
+            "face-mask"
+        ]
+    },
+    {
+        "name": "Amla Powder",
+        "price": 12.50,
+        "ingredients": [
+            "Phyllanthus emblica"
+        ],
+        "suitableFor": [
+            "Hair Strengthening",
+            "Skin Brightening"
+        ],
+        "bestFor": [
+            "Dandruff Control",
+            "Anti-Aging"
+        ],
+        "howToUse": "Mix with water, apply to hair, leave for 30 mins, then rinse.",
+        "reviews": [],
+        "availableQuantity": 30,
+        "category": "Haircare",
+        "imageUrl": "/products/amla-powder.webp",
+        "discountPercentage": 5,
+        "promotionCode": "GLOW5",
+        "stockStatus": "in stock",
+        "expirationDate": "2027-06-30",
+        "tags": [
+            "hair",
+            "anti-aging",
+            "vitamin-C"
+        ]
+    },
+    {
+        "name": "Indigo Powder",
+        "price": 14.99,
+        "ingredients": [
+            "Indigofera tinctoria"
+        ],
+        "suitableFor": [
+            "Hair Coloring"
+        ],
+        "bestFor": [
+            "Natural Hair Dye"
+        ],
+        "howToUse": "Mix with water, apply to hair, leave for 2 hours, and rinse.",
+        "reviews": [],
+        "availableQuantity": 40,
+        "category": "Haircare",
+        "imageUrl": "/products/indigo-powder.webp",
+        "discountPercentage": 8,
+        "promotionCode": "DYE8",
+        "stockStatus": "in stock",
+        "expirationDate": "2027-04-15",
+        "tags": [
+            "hair",
+            "coloring",
+            "natural-dye"
+        ]
+    },
+    {
+        "name": "Neem Powder",
+        "price": 9.99,
+        "ingredients": [
+            "Azadirachta indica"
+        ],
+        "suitableFor": [
+            "Acne-Prone Skin",
+            "Scalp Health"
+        ],
+        "bestFor": [
+            "Detox",
+            "Anti-Bacterial Treatment"
+        ],
+        "howToUse": "Mix with yogurt, apply to scalp, leave for 20 mins, then rinse.",
+        "reviews": [],
+        "availableQuantity": 20,
+        "category": "Health & Wellness",
+        "imageUrl": "/products/neem-powder.webp",
+        "discountPercentage": 8,
+        "promotionCode": "HERB8",
+        "stockStatus": "in stock",
+        "expirationDate": "2026-09-15",
+        "tags": [
+            "herbal",
+            "anti-bacterial",
+            "scalp-care"
+        ]
+    },
+    {
+        "name": "Shikakai Powder",
+        "price": 11.99,
+        "ingredients": [
+            "Acacia concinna"
+        ],
+        "suitableFor": [
+            "Hair Cleansing"
+        ],
+        "bestFor": [
+            "Natural Shampoo Alternative"
+        ],
+        "howToUse": "Mix with water, apply to hair, massage gently, and rinse.",
+        "reviews": [],
+        "availableQuantity": 25,
+        "category": "Haircare",
+        "imageUrl": "/products/shikakai-powder.webp",
+        "discountPercentage": 6,
+        "promotionCode": "HAIR6",
+        "stockStatus": "in stock",
+        "expirationDate": "2027-01-10",
+        "tags": [
+            "hair",
+            "cleansing",
+            "natural"
+        ]
+    },
+    {
+        "name": "Henna Powder",
+        "price": 13.50,
+        "ingredients": [
+            "Lawsonia inermis"
+        ],
+        "suitableFor": [
+            "Hair Coloring",
+            "Cooling Scalp"
+        ],
+        "bestFor": [
+            "Natural Hair Dye",
+            "Conditioning"
+        ],
+        "howToUse": "Mix with water, apply to hair, leave for 2-3 hours, and rinse.",
+        "reviews": [],
+        "availableQuantity": 28,
+        "category": "Haircare",
+        "imageUrl": "/products/henna-powder.webp",
+        "discountPercentage": 7,
+        "promotionCode": "HENNA7",
+        "stockStatus": "in stock",
+        "expirationDate": "2026-06-20",
+        "tags": [
+            "hair",
+            "natural-dye",
+            "conditioning"
+        ]
+    },
+    {
+        "name": "Bhringraj Powder",
+        "price": 14.99,
+        "ingredients": [
+            "Eclipta prostrata"
+        ],
+        "suitableFor": [
+            "Hair Strengthening",
+            "Hair Growth"
+        ],
+        "bestFor": [
+            "Hair Nourishment"
+        ],
+        "howToUse": "Mix with water, apply to scalp, leave for 30 mins, and rinse.",
+        "reviews": [],
+        "availableQuantity": 35,
+        "category": "Haircare",
+        "imageUrl": "/products/bhringraj-powder.webp",
+        "discountPercentage": 9,
+        "promotionCode": "HAIR9",
+        "stockStatus": "in stock",
+        "expirationDate": "2026-11-15",
+        "tags": [
+            "hair",
+            "growth",
+            "nourishment"
+        ]
+    },
+    {
+        "name": "Soapnut Powder",
+        "price": 9.49,
+        "ingredients": [
+            "Soapnut Sapindus"
+        ],
+        "suitableFor": [
+            "Hair Wash",
+            "Skin Cleansing"
+        ],
+        "bestFor": [
+            "Natural Shampoo",
+            "Mild Detergent"
+        ],
+        "howToUse": "Mix with water, apply to hair and body, rinse well.",
+        "reviews": [],
+        "availableQuantity": 22,
+        "category": "Haircare",
+        "imageUrl": "/products/shikakai-powder.webp",
+        "discountPercentage": 5,
+        "promotionCode": "NATURAL5",
+        "stockStatus": "in stock",
+        "expirationDate": "2027-02-05",
+        "tags": [
+            "hair",
+            "cleansing",
+            "natural-detergent"
+        ]
+    },
+    {
+        "name": "Haritaki Powder",
+        "price": 12.99,
+        "ingredients": [
+            "Terminalia chebula"
+        ],
+        "suitableFor": [
+            "Digestion",
+            "Detox"
+        ],
+        "bestFor": [
+            "Gut Health",
+            "Immunity Boost"
+        ],
+        "howToUse": "Mix with warm water and drink before bed.",
+        "reviews": [],
+        "availableQuantity": 15,
+        "category": "Health & Wellness",
+        "imageUrl": "/products/haritaki-powder.webp",
+        "discountPercentage": 6,
+        "promotionCode": "DETOX6",
+        "stockStatus": "in stock",
+        "expirationDate": "2026-10-30",
+        "tags": [
+            "digestion",
+            "detox",
+            "immunity"
+        ]
+    },
+    {
+        "name": "Moringa Powder",
+        "price": 14.49,
+        "ingredients": [
+            "Moringa oleifera"
+        ],
+        "suitableFor": [
+            "Immunity Boost",
+            "Energy"
+        ],
+        "bestFor": [
+            "Superfood",
+            "Antioxidant"
+        ],
+        "howToUse": "Mix with water or smoothies, consume daily.",
+        "reviews": [],
+        "availableQuantity": 18,
+        "category": "Health & Wellness",
+        "imageUrl": "/products/moringa-powder.webp",
+        "discountPercentage": 7,
+        "promotionCode": "MORINGA7",
+        "stockStatus": "in stock",
+        "expirationDate": "2027-01-15",
+        "tags": [
+            "superfood",
+            "energy",
+            "antioxidant"
+        ]
+    },
+    {
+        "name": "Rose Petal Powder",
+        "price": 11.99,
+        "ingredients": [
+            "Rosa damascena"
+        ],
+        "suitableFor": [
+            "Sensitive Skin",
+            "Glowing Skin"
+        ],
+        "bestFor": [
+            "Hydration",
+            "Soothing"
+        ],
+        "howToUse": "Mix with yogurt or honey, apply as a face pack.",
+        "reviews": [],
+        "availableQuantity": 30,
+        "category": "Skincare",
+        "imageUrl": "/products/rose-petal-powder.webp",
+        "discountPercentage": 8,
+        "promotionCode": "ROSE8",
+        "stockStatus": "in stock",
+        "expirationDate": "2026-09-20",
+        "tags": [
+            "hydration",
+            "soothing",
+            "glowing-skin"
+        ]
+    }
+]
