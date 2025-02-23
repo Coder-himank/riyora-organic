@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import "@/styles/contact.css";
+import "@/styles/contact.module.css";
 
 export default function Contact() {
   const { t } = useTranslation("common");

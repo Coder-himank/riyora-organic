@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import "@/styles/userProfile.css";
+import "@/styles/userProfile.module.css";
 import axios from "axios";
 
 export default function UserProfile() {

@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import "@/styles/privacy-policy.css";
+import "@/styles/privacy-policy.module.css";
 
 export default function PrivacyPolicy() {
   const { t } = useTranslation("common");

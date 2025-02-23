@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import "@/styles/track-order.css";
+import "@/styles/track-order.module.css";
 import axios from "axios";
 
 export default function TrackOrder() {

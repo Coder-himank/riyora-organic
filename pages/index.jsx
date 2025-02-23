@@ -3,7 +3,7 @@ import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { motion } from "framer-motion";
-import "@/styles/home.css";
+import "@/styles/home.module.css";
 import Image from "next/image";
 export default function Home() {
   const { t } = useTranslation("common");

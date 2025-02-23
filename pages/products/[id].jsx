@@ -3,7 +3,7 @@ import dbConnect from "@/server/db";
 import Image from "next/image";
 import { useState } from "react";
 import Product from "@/server/models/Product";
-import "@/styles/productPage.css"
+import "@/styles/productPage.module.css"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";
 const ExpandableSection = ({ title, children }) => {

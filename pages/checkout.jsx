@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSession } from "next-auth/react";
-import "@/styles/checkout.css";
+import "@/styles/checkout.module.css";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 
 export default function Checkout() {

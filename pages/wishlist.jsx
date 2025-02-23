@@ -4,8 +4,8 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import "@/styles/wishlist.css";
-import "@/styles/products.css";
+import "@/styles/wishlist.module.css";
+import "@/styles/products.module.css";
 import { useSession } from "next-auth/react";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 

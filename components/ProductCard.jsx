@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import "@/styles/product-card.css";
+import "@/styles/product-card.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link"

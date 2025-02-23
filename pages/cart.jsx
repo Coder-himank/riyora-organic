@@ -6,7 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useSWR from "swr";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import "@/styles/cart.css";
+import "@/styles/cart.module.css";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 import Checkout from "./checkout";
 

@@ -7,10 +7,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import "react-phone-input-2/lib/style.module.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useRouter } from "next/router";
-import "@/styles/authenticate.css";
+import "@/styles/authenticate.module.css";
 
 export default function AuthPage() {
     const { t } = useTranslation("common");

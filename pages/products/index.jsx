@@ -3,7 +3,7 @@ import axios from "axios";
 import ProductCard, { SkeletonCard } from "@/components/ProductCard";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import "@/styles/products.css";
+import "@/styles/products.module.css";
 
 export default function Products() {
   const { t } = useTranslation("common");
