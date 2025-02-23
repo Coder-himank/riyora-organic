@@ -39,14 +39,19 @@ export default function UserProfile() {
 
   if (error) return (
     <>
-      <div className="navHolder"></div>
-      <p className="error">{t("error_loading")}: {error}</p>
+      <div className="profile-container-loading">
+        <div className="navHolder"></div>
+        <p className="error">{t("error_loading")}: {error}</p>
+      </div>
     </>)
 
   if (!user) return (
     <>
-      <div className="navHolder"></div>
-      <div className="loading-spinner"></div>; // Better UX for loading
+      <div className="profile-container-loading">
+
+        <div className="navHolder"></div>
+        <div className="loading-spinner"></div>; // Better UX for loading
+      </div>
 
     </>
   )
@@ -55,49 +60,53 @@ export default function UserProfile() {
     <>
       <div className="navHolder"></div>
       <div className="profile-container">
-        <h1>👤 {t("user_profile")}</h1>
+
+        <div><span>{user?.name}</span> <span>{user?.loyaltyPoints}</span></div>
 
         <div className="profile-card">
-          <h2>{user?.name}</h2>
-          <p>{t("email")}: {user?.email}</p>
-          <p>{t("phone")}: {user?.phone}</p>
-          <p>{t("role")}: {user?.role}</p>
-          <p>{t("loyalty_points")}: {user?.loyaltyPoints}</p>
+          <table>
+            <tr>
+              <td>{t("email")}</td>
+              <td>{user?.email}</td>
+            </tr>
+            <tr>
+
+              <td>{t("phone")}:</td>
+              <td>{user?.phone}</td>
+            </tr>
+
+          </table>
+          <section>
+            <h3>Addresses</h3>
+
+            {user.addresses.map((item, index) => (
+              <div>
+                <span>{item.lable}</span>
+                <span>{item.address}</span>
+                <span>{item.city}</span>
+                <span>{item.country}</span>
+                <span>{item.pincode}</span>
+              </div>
+            ))}
+          </section>
+          <section>
+            <h3>Cart</h3>
+            {user.cartData.map((item) => (
+              <>
+                {item.productId} ----
+                {item.quantity_demanded}
+              </>
+            ))}
+          </section>
+          <section>
+            <h3>Wishlist</h3>
+            {user.wishlistData.length !== 0 ? user.wishlistData.map((item) => (
+              <>
+                {item.productId}
+              </>
+            )) : <p>Add some products to wishlist</p>}
+          </section>
         </div>
-
-        {/* Addresses Section */}
-        <Section title="📍 " label="addresses" data={user?.addresses} ref={(el) => sectionsRef.current[0] = el} renderItem={(address) => (
-          <div className="card">
-            <h3>{address.label.toUpperCase()}</h3>
-            <p>{address.address}</p>
-            <p>{address.city}, {address.country} - {address.pincode}</p>
-          </div>
-        )} />
-
-        {/* Cart Data */}
-        <Section title="🛒 " label="cart_items" data={user?.cartData} ref={(el) => sectionsRef.current[1] = el} renderItem={(item) => (
-          <div className="card">
-            <p>{t("product")}: {item.productId}</p>
-            <p>{t("quantity")}: {item.quantity_demanded}</p>
-          </div>
-        )} />
-
-        {/* Wishlist */}
-        <Section title="❤️ " label="wishlist" data={user?.wishlistData} ref={(el) => sectionsRef.current[2] = el} renderItem={(item) => (
-          <div className="card">
-            <p>{t("product")}: {item.productId}</p>
-          </div>
-        )} />
-
-        {/* Order History */}
-        <Section title="📦 " label="order_history" data={user?.orderHistory} ref={(el) => sectionsRef.current[3] = el} renderItem={(order) => (
-          <div className="card">
-            <p>{t("order_id")}: {order.orderId}</p>
-            <p>{t("status")}: {order.status}</p>
-            <p>{t("amount")}: ${order.totalAmount}</p>
-            <p>{t("placed_on")}: {new Date(order.placedOn).toLocaleDateString()}</p>
-          </div>
-        )} />
       </div>
     </>
   );

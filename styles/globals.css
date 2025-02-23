@@ -8,7 +8,7 @@
   --heading-color: #2c3e50;
   --background-color: #f9f9f9;
   --navbar-background: rgba(255, 255, 255, 0);
-  --navbar-text-color: green;
+  --navbar-text-color: rgb(0, 93, 0);
   --footer-background: #cee6d5;
 
   /* Buttons */
@@ -54,13 +54,16 @@ body {
 }
 
 /* Headings */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: var(--heading-font-weight);
   color: var(--heading-color);
 }
 
 /* ========== Buttons ========== */
-button, .btn {
+button,
+.btn {
   display: inline-block;
   padding: var(--spacing) 18px;
   font-size: var(--base-font-size);
@@ -75,18 +78,21 @@ button, .btn {
   box-shadow: var(--shadow-light);
 }
 
-button:hover, .btn:hover {
+button:hover,
+.btn:hover {
   transform: translateY(-3px);
   box-shadow: var(--button-hover-shadow);
 }
 
-button:active, .btn:active {
+button:active,
+.btn:active {
   transform: scale(0.98);
   box-shadow: var(--button-active-shadow);
 }
 
 /* Animation Effect (Shining Glow) */
-button::before, .btn::before {
+button::before,
+.btn::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -98,7 +104,8 @@ button::before, .btn::before {
   transform: translate(-50%, -50%) scale(0);
 }
 
-button:hover::before, .btn:hover::before {
+button:hover::before,
+.btn:hover::before {
   transform: translate(-50%, -50%) scale(1);
   opacity: 0;
 }
@@ -137,6 +144,10 @@ button:disabled {
   background: var(--navbar-background);
   z-index: 10;
   transition: all 0.5s;
+}
+
+.navbar a {
+  text-shadow: 0 0 1px var(--navbar-text-color);
 }
 
 .nav-left {
@@ -225,10 +236,13 @@ footer {
     opacity: 0;
     transform: translateY(-10px);
   }
-  10%, 90% {
+
+  10%,
+  90% {
     opacity: 1;
     transform: translateY(0);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-10px);

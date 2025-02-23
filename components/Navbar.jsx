@@ -51,7 +51,7 @@ export default function Navbar() {
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <nav className="navbar" style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : '' }}>
+      <nav className="navbar" style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }}>
         <div className="nav-left">
           <Link href="/"><span className="name-head">{t("welcome")}</span></Link>
           <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}><FaBars /></button>
