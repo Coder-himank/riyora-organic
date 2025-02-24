@@ -3,18 +3,18 @@ import dbConnect from "@/server/db";
 import Image from "next/image";
 import { useState } from "react";
 import Product from "@/server/models/Product";
-import "@/styles/productPage.module.css"
+import styles from "@/styles/productPage.module.css"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
 
     return (
-        <div className="expandable-section">
-            <h2 onClick={() => setIsOpen(!isOpen)} className="expandable-title">
+        <div className={styles.expandable_section}>
+            <h2 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
                 {title} {isOpen ? "▲" : "▼"}
             </h2>
-            {isOpen && <div className="expandable-content">{children}</div>}
+            {isOpen && <div className={styles.expandable_content}>{children}</div>}
         </div>
     );
 };
@@ -23,6 +23,62 @@ const ProductPage = ({ product, productDetail }) => {
     if (!product) {
         return <h1>Product not found</h1>;
     }
+    const site_url = process.env.BASE_URL
+
+    const productSchema = {
+        "@context": site_url,
+        "@type": "Product",
+        "name": `${product.name}`,
+        "image": [
+            `${site_url}/${product.imageUrl}`
+        ],
+        "description": `${productDetail.description}`,
+        "brand": {
+            "@type": "Brand",
+            "name": "Organic Robust"
+        },
+        "sku": "ORG-ALOE-001",
+        "mpn": "123456",
+        "identifier": {
+            "@type": "PropertyValue",
+            "propertyID": "GTIN",
+            "value": "0123456789012"
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": `${site_url}/${product.imageUrl}`,
+            "priceCurrency": "INR",
+            "price": `${product.price}`,
+            "priceValidUntil": "2025-12-31",
+            "availability": `${product.stockStatus}`,
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": {
+                "@type": "Organization",
+                "name": "Organic Robust"
+            }
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "56"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "John Doe"
+                },
+                "datePublished": "2025-01-15",
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5"
+                },
+                "reviewBody": "Amazing product! My skin feels so refreshed."
+            }
+        ]
+    };
 
     const t = useTranslation();
 
@@ -31,27 +87,53 @@ const ProductPage = ({ product, productDetail }) => {
         <>
             <Head>
                 <title>{product.name} | Organic Store</title>
-                <meta name="description" content={product.description} />
-                <meta name="keywords" content={product.tags?.join(", ")} />
-                <meta property="og:title" content={product.name} />
-                <meta property="og:description" content={product.description} />
-                <meta property="og:image" content={product.image} />
-            </Head>
+                <meta name="description" content={productDetail.description} />
 
-            <div className="product-container">
+
+                {/* <!-- Primary Meta Tags --> */}
+                <meta name="keywords" content="organic aloe vera gel, natural skincare, best aloe vera gel, hydrating gel, skin soothing" />
+                <meta name="author" content="Organic Robust" />
+                <meta name="robots" content="index, follow" />
+
+                {/* <!-- Open Graph / Facebook --> */}
+                <meta property="og:type" content="product" />
+                <meta property="og:title" content={productDetail.name} />
+                <meta property="og:description" content={productDetail.description} />
+                <meta property="og:image" content={`${site_url}/${product.imageUrl}`} />
+                <meta property="og:url" content={site_url + "/products/" + product._id} />
+                <meta property="og:site_name" content="Organic Robust" />
+
+                {/* <!-- Twitter --> */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={productDetail.name} />
+                <meta name="twitter:description" content={productDetail.description} />
+                <meta name="twitter:image" content={`${site_url}/${product.imageUrl}`} />
+                <meta name="twitter:site" content="Organic Robust" />
+
+                {/* <!-- Canonical URL --> */}
+                <link rel="canonical" href={site_url + "/products/" + product._id} />
+
+
+                {/* <!-- Product Schema --> */}
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+
+
+            </Head>
+            <div className="navHolder"></div>
+            <div className={styles.product_container}>
                 <h1>{product.name}</h1>
-                <section className="sec-1">
+                <section className={styles.sec_1}>
                     <Image src={product.imageUrl} width={350} height={400} alt={product.name} />
 
-                    <div className="details">
-                        <div className="sci-name">{product.scientificName}</div>
-                        <div className="oth-name">
+                    <div className={styles.details}>
+                        <div className={styles.sciName}>{product.scientificName}</div>
+                        <div className={styles.oth_name}>
                             {product.otherNames?.join(", ")}
                         </div>
                         <div><strong>Price:</strong> ${product.price}</div>
                         <div>Ratings: ⭐⭐⭐⭐☆</div>
                         <hr />
-                        <div className="description">
+                        <div className={styles.description}>
                             <p>{productDetail.description}</p>
                         </div>
                         <hr />

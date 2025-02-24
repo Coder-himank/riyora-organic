@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import "@/styles/product-card.module.css";
+import styles from "@/styles/product-card.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link"
@@ -11,35 +11,35 @@ export const SkeletonCard = () => {
   return (
     <>
       <motion.div
-        className="product-card skeleton-card"
+        className={`${styles.product_card} ${styles.skeleton_card}`}
         initial={{ opacity: 0, y: 20 }} // Animation when card appears
         animate={{ opacity: 1, y: 0 }}
         // whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)" }}
         transition={{ duration: 0.3 }}
       >
-        <div className="product-img skeleton-img"></div>
+        <div className={`${styles.product_image} ${styles.skeleton_image}`}></div>
 
-        <div className="product-info">
-          <h3 className="skeleton-text-1"></h3>
-          <p className="skeleton-text-2"></p>
-          <div className="product-actions">
+        <div className={styles.product_info}>
+          <h3 className={styles.skeleton_text_1}></h3>
+          <p className={styles.skeleton_text_2}></p>
+          <div className={styles.product_actions}>
 
             <div
-              className="product-btn btn-buy skeleton-btn"
+              className={`${styles.product_btn} ${styles.btn_buy} ${styles.skeleton_btn}`}
             >
             </div>
             <div
-              className="product-btn btn-buy skeleton-btn"
+              className={`${styles.product_btn} ${styles.btn_buy} ${styles.skeleton_btn}`}
             >
             </div>
             <div
-              className="product-btn btn-buy skeleton-btn"
+              className={`${styles.product_btn} ${styles.btn_buy} ${styles.skeleton_btn}`}
             >
             </div>
 
-          </div>
-        </div>
-      </motion.div></>
+          </div >
+        </div >
+      </motion.div ></>
   )
 }
 const ProductCard = ({ product }) => {
@@ -97,14 +97,14 @@ const ProductCard = ({ product }) => {
 
   // incase product id is provided we will fetch data of product from database directly
   return (
-    <Link href={`/products/${productData._id}`}>
-      <motion.div
-        className="product-card"
-        initial={{ opacity: 0, y: 20 }} // Animation when card appears
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)" }}
-        transition={{ duration: 0.3 }}
-      >
+    <motion.div
+      className={styles.product_card}
+      initial={{ opacity: 0, y: 20 }} // Animation when card appears
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)" }}
+      transition={{ duration: 0.3 }}
+    >
+      <Link href={`/products/${productData._id}`}>
         {/* Lazy Loaded Image */}
         <Image
           // src={product.image}
@@ -114,40 +114,44 @@ const ProductCard = ({ product }) => {
           height={300} // Set the desired height
           layout="responsive"
           objectFit="cover"
-          className="product-image"
+          className={styles.product_image}
         />
 
-        <div className="product-info">
-          <h3 className="product-name">{productData.name}</h3>
-          <p className="product-price">${productData.price}</p>
-          <div className="product-actions">
+      </Link >
 
-            <motion.button
-              className="product-btn btn-buy"
-              onClick={() => onBuy(productData._id)}
-              whileTap={{ scale: 0.9 }}
-            >
-              {t("buy_now")}
-            </motion.button>
-            <motion.button
-              className="product-btn btn-cart"
-              onClick={() => onAddToCart(productData._id, 1)}
-              whileTap={{ scale: 0.9 }}
-            >
-              {t("add_to_cart")}
-            </motion.button>
-            <motion.button
-              className="product-btn btn-wishlist"
-              onClick={() => onAddToWishlist(productData._id)}
-              whileTap={{ scale: 0.9 }}
-              aria-label="Add to Wishlist"
-            >
-              ♥
-            </motion.button>
-          </div>
+      <div className={styles.product_info}>
+        <Link href={`/products/${productData._id}`}>
+          <h3 className={styles.product_name}>{productData.name}</h3>
+          <p className={styles.product_price}>${productData.price}</p>
+        </Link >
+
+        <div className={styles.product_actions}>
+
+          <motion.button
+            className={`${styles.product_btn} ${styles.btn_buy}`}
+            onClick={() => onBuy(productData._id)}
+            whileTap={{ scale: 0.9 }}
+          >
+            {t("buy_now")}
+          </motion.button>
+          <motion.button
+            className={`${styles.product_btn} ${styles.btn_cart}`}
+            onClick={() => onAddToCart(productData._id, 1)}
+            whileTap={{ scale: 0.9 }}
+          >
+            {t("add_to_cart")}
+          </motion.button>
+          <motion.button
+            className={`${styles.product_btn} ${styles.btn_wishlist}`}
+            onClick={() => onAddToWishlist(productData._id)}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Add to Wishlist"
+          >
+            ♥
+          </motion.button>
         </div>
-      </motion.div>
-    </Link>
+      </div>
+    </motion.div >
   );
 };
 

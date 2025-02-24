@@ -1,12 +1,12 @@
-.cart-container {
+.cart_container {
     padding: 20px;
     background: #ffffff;
     border-radius: 10px;
 
 }
 
-.cart-loading,
-.empty-cart {
+.cart_loading,
+.empty_cart {
     width: 80%;
     height: 50vh;
     display: flex;
@@ -17,19 +17,19 @@
     flex-direction: column;
 }
 
-.cart-head {
+.cart_head {
     max-width: 900px;
     margin: auto;
 }
 
-.cart-container a {
+.cart_container a {
     text-decoration: none;
     color: black;
     height: fit-content;
     width: fit-content;
 }
 
-.cart-item {
+.cart_item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -39,31 +39,31 @@
     margin: auto;
 }
 
-.cart-item img {
+.cart_item img {
     width: 80px;
     border-radius: 5px;
 }
 
-.cart-item .qty {
+.cart_item .qty {
     padding: 15px;
 }
 
-.cart-item-details {
+.cart_item_details {
     flex: 1;
     padding: 10px 10px 10px 30px;
     margin-left: 15px;
 }
 
-.cart-item-details h3 {
+.cart_item_details h3 {
     font-size: 0.9rem;
 }
 
-.cart-item-details p {
+.cart_item_details p {
     font-size: 0.8rem;
     opacity: 0.5;
 }
 
-.cart-total {
+.cart_total {
     font-size: 20px;
     font-weight: bold;
     text-align: right;
@@ -71,7 +71,7 @@
 }
 
 /* Skeleton Loader Styles */
-.cart-item.loading {
+.cart_item.loading {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -82,7 +82,7 @@
     /* min-height: 176px; */
 }
 
-.skeleton-img {
+.skeleton_image {
     width: 80px;
     height: 90px;
     background: linear-gradient(90deg, #ececec 25%, #f3f3f3 50%, #ececec 75%);
@@ -91,8 +91,8 @@
     border-radius: 8px;
 }
 
-.skeleton-text,
-.skeleton-text-small {
+.skeleton_text,
+.skeleton_text_small {
     width: 60%;
     /* width: 150px; */
     height: 16px;
@@ -104,12 +104,12 @@
     margin: 10px 0;
 }
 
-.skeleton-text-small {
+.skeleton_text_small {
     height: 14px;
     width: 50%;
 }
 
-.skeleton-btn {
+.skeleton_btn {
     width: 43px;
     height: 30px;
     background: linear-gradient(90deg, #ececec 25%, #f3f3f3 50%, #ececec 75%);
@@ -120,7 +120,7 @@
     padding: 0;
 }
 
-.skeleton-qty {
+.skeleton_qty {
     width: 30px;
     height: 30px;
     margin: 5px;
@@ -132,11 +132,11 @@
     border-radius: 4px;
 }
 
-.pay-btn {
+.pay_btn {
     align-self: center;
 }
 
-.cart-billing {
+.cart_billing {
     max-width: 900px;
     margin: 10px auto;
     width: 100%;

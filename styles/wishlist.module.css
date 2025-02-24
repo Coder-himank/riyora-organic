@@ -1,4 +1,4 @@
-.wishlist-container {
+.wishlist_container {
     padding: 20px;
     background: #ffffff;
     border-radius: 10px;
@@ -8,7 +8,7 @@
     margin: auto;
 }
 
-.empty-wishlist {
+.empty_wishlist {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,19 +17,19 @@
     flex-direction: column;
 }
 
-.wishlist-head {
+.wishlist_head {
     max-width: 900px;
     margin: auto;
 }
 
-.wishlist-container a {
+.wishlist_container a {
     text-decoration: none;
     color: black;
     height: fit-content;
     width: fit-content;
 }
 
-.wishlist-item {
+.wishlist_item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,26 +40,27 @@
 
 }
 
-.wishlist-item img {
+.wishlist_item img {
     width: 80px;
     border-radius: 5px;
 }
 
 
-.wishlist-item-details {
+.wishlist_item_details {
     flex: 1;
     padding: 10px 10px 10px 30px;
     margin-left: 15px;
 }
 
-.wishlist-item-details h3 {
+.wishlist_item_details h3 {
     font-size: 0.9rem;
 }
 
-.wishlist-item-details p,
-ul li {
+.wishlist_item_details p,
+.wishlist_item_details .list {
     opacity: 0.5;
     font-size: 0.8rem;
+    margin-left: 15px;
 }
 
 .loading {
@@ -67,7 +68,7 @@ ul li {
 }
 
 /* Skeleton Loading Styles */
-.loading .skeleton-img {
+.loading .skeleton_img {
     width: 80px;
     height: 80px;
     background: #ddd;
@@ -75,7 +76,7 @@ ul li {
     animation: shimmer 1.5s infinite linear;
 }
 
-.loading .skeleton-text {
+.loading .skeleton_text {
     width: 60%;
     height: 16px;
     background: #ddd;
@@ -84,12 +85,12 @@ ul li {
     animation: shimmer 1.5s infinite linear;
 }
 
-.loading .skeleton-text.small {
+.loading .skeleton_text_small {
     width: 40%;
     height: 14px;
 }
 
-.loading .skeleton-list-item {
+.loading .skeleton_list_item {
     width: 70%;
     height: 12px;
     background: #ddd;
@@ -98,7 +99,7 @@ ul li {
     animation: shimmer 1.5s infinite linear;
 }
 
-.loading .skeleton-btn {
+.loading .skeleton_btn {
     width: 50px;
     height: 35px;
     background: #ddd;

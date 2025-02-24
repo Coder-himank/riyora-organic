@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import "@/styles/track-order.module.css";
+import styles from "@/styles/track-order.module.css";
 import axios from "axios";
 
 export default function TrackOrder() {
@@ -33,26 +33,26 @@ export default function TrackOrder() {
     };
 
     if (loading) return <p>{t("loading")}</p>;
-    if (error) return <p className="error">{error}</p>;
+    if (error) return <p className={styles.error}>{error}</p>;
 
     return (
-        <div className="track-order-container">
+        <div className={styles.track_order_container}>
             <h1>{t("track_order")}</h1>
             {orderDetails ? (
-                <div className="order-details">
-                    <div className="order-item">
+                <div className={styles.order_detail}>
+                    <div className={styles.order_item}>
                         <strong>{t("order_id")}:</strong> {orderDetails.orderId}
                     </div>
-                    <div className="order-item">
+                    <div className={styles.order_item}>
                         <strong>{t("placed_on")}:</strong> {new Date(orderDetails.placedOn).toLocaleDateString()}
                     </div>
-                    <div className="order-item">
+                    <div className={styles.order_item}>
                         <strong>{t("expected_delivery")}:</strong> {new Date(orderDetails.expectedDelivery).toLocaleDateString()}
                     </div>
-                    <div className="order-item">
+                    <div className={styles.order_item}>
                         <strong>{t("payment_status")}:</strong> {t(orderDetails.paymentStatus)}
                     </div>
-                    <div className="order-item">
+                    <div className={styles.order_item}>
                         <strong>{t("delivery_status")}:</strong> {t(orderDetails.deliveryStatus)}
                     </div>
                 </div>

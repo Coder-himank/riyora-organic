@@ -26,6 +26,30 @@
   /* Box Shadows */
   --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
   --shadow-medium: 0 6px 15px rgba(0, 0, 0, 0.2);
+
+  --home-bg-color: #FDFCFB;
+  --home-text-color: #3A3A3A;
+  --home-primary-color: #3A7D44;
+  --home-secondary-color: #5D5D5D;
+  --home-accent-color: #A8D5BA;
+  --home-accent-hover: #89C099;
+  --home-benefit-bg: #D7E3FC;
+  --home-review-bg: #e0ffe9;
+  --home-hero-bg: #E6F4EA;
+
+  /* Spacing & Sizing */
+  --home-padding: 80px 0;
+  --home-section-padding: 50px 20px;
+  --home-border-radius: 8px;
+  --home-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  --home-transition: all 0.3s ease-in-out;
+
+  /* Font Sizes */
+  --home-heading-font-size: 2rem;
+  --home-subtext-font-size: 1.1rem;
+  --home-button-font-size: 1.2rem;
+
+  --loading-color: rgba(145, 138, 138, 0.686);
 }
 
 /* ========== Global Styles ========== */
@@ -44,6 +68,11 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
 }
 
 .container {
@@ -209,7 +238,7 @@ button:disabled {
 /* ========== Notification ========== */
 .notification {
   position: fixed;
-  top: 20px;
+  top: 150px;
   right: 20px;
   background: var(--primary-color);
   color: white;

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import "@/styles/userProfile.module.css";
+import styles from "@/styles/userProfile.module.css";
 import axios from "axios";
 
 export default function UserProfile() {
@@ -39,7 +39,7 @@ export default function UserProfile() {
 
   if (error) return (
     <>
-      <div className="profile-container-loading">
+      <div className={styles.profile_container_loading}>
         <div className="navHolder"></div>
         <p className="error">{t("error_loading")}: {error}</p>
       </div>
@@ -47,7 +47,7 @@ export default function UserProfile() {
 
   if (!user) return (
     <>
-      <div className="profile-container-loading">
+      <div className={styles.profile_container_loading}>
 
         <div className="navHolder"></div>
         <div className="loading-spinner"></div>; // Better UX for loading
@@ -59,11 +59,11 @@ export default function UserProfile() {
   return (
     <>
       <div className="navHolder"></div>
-      <div className="profile-container">
+      <div className={styles.profile_container}>
 
         <div><span>{user?.name}</span> <span>{user?.loyaltyPoints}</span></div>
 
-        <div className="profile-card">
+        <div className={styles.profile_card}>
           <table>
             <tr>
               <td>{t("email")}</td>

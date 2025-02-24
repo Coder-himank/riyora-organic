@@ -6,16 +6,41 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useSWR from "swr";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import "@/styles/cart.module.css";
+import styles from "@/styles/cart.module.css";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 import Checkout from "./checkout";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
+
+const SkeletonCart = () => {
+  return (
+    <>
+      <div className={styles.cart_item}>
+        <div className={styles.skeleton_image}></div>
+
+        <div className={styles.cart_item_details}>
+          <div className={styles.skeleton_text}></div>
+          <div className={styles.skeleton_text_small}></div>
+
+          <span className={styles.quantity_controls}>
+            <span className={styles.skeleton_btn}></span>
+            <span className={styles.skeleton_qty}></span>
+            <span className={styles.skeleton_btn} ></span>
+          </span>
+        </div>
+        <span className={styles.remove_btn} ></span>
+
+      </div>
+    </>
+  )
+}
+
 export default function Cart() {
   const { t } = useTranslation("common");
   const { data: session } = useSession();
   const userId = session?.user?.id;
+
 
   const { data: cartItems, error, mutate } = useSWR(
     userId ? `/api/cart?userId=${userId}` : null,
@@ -25,10 +50,18 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   const [notification, setNotification] = useState(null);
   const [cartTotal, setCartTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   // Fetch cart details
   useEffect(() => {
-    if (!cartItems || !userId) return;
+    if (!session?.user) {
+      setLoading(false)
+      return
+    }
+    if (!cartItems || !userId) {
+      return
+    };
+
 
     const fetchCartData = async () => {
       try {
@@ -36,6 +69,7 @@ export default function Cart() {
           setCart([]);
           return;
         }
+        setLoading(true)
 
         const productIds = cartItems.map((item) => item.productId);
         const { data: products } = await axios.get(`/api/products?ids=${productIds.join(",")}`);
@@ -49,6 +83,7 @@ export default function Cart() {
       } catch (error) {
         console.error("Error fetching cart data:", error);
       }
+      setLoading(false)
     };
 
     fetchCartData();
@@ -91,24 +126,31 @@ export default function Cart() {
     }
   }, 500);
 
+  if (loading) return (
+    <>
+      <div className="navHolder"></div>
+      <SkeletonCart />
+    </>
+  )
   if (!session?.user) return <UnAuthorizedUser />;
 
   if (error) return (
     <>
       <div className="navHolder"></div>
-      <div className="cart-loading"><p>Error loading cart.</p></div>;
+      <div className={styles.cart_loading}><p>Error loading cart.</p></div>;
     </>
   )
 
+
   return (<>
     <div className="navHolder"></div>
-    <div className="cart-container">
-      <h1 className="cart-head">{t("cart")}</h1>
+    <div className={styles.cart_container}>
+      <h1 className={styles.cart_head}>{t("cart")}</h1>
 
       {notification && <div className="notification">{notification}</div>}
 
       {cart.length === 0 ? (
-        <div className="empty-cart">
+        <div className={styles.empty_cart}>
           <p>Your cart is empty.</p>
           <Link href="/products">
             <button className="shop-now">{t("shop_now")}</button>
@@ -117,10 +159,10 @@ export default function Cart() {
       ) : (
         <>
           {cart.map((item) => (
-            <div key={item.productId} className="cart-item">
+            <div key={item.productId} className={styles.cart_item}>
               <Link href={`/products/${item.productId}`}>
                 <motion.img
-                  src={item.image || "/products/hoodie.jpg"}
+                  src={item.imageUrl || "/products/hoodie.jpg"}
                   alt={item.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -129,24 +171,24 @@ export default function Cart() {
                 />
               </Link>
 
-              <div className="cart-item-details">
+              <div className={styles.cart_item_details}>
                 <Link href={`/products/${item.productId}`}>
                   <h3>{item.name}</h3>
                   <p>{item.description}</p>
                 </Link>
 
-                <span className="quantity-controls">
+                <span className={styles.quantity_controls}>
                   <button onClick={() => debouncedUpdateQuantity(item.productId, item.quantity_demanded + 1)}>+</button>
-                  <span className="qty">{item.quantity_demanded}</span>
+                  <span className={styles.qty}>{item.quantity_demanded}</span>
                   <button onClick={() => debouncedUpdateQuantity(item.productId, item.quantity_demanded - 1)}>-</button>
                 </span>
               </div>
-              <button className="remove-btn" onClick={() => removeFromCart(item.productId)}>🗑️</button>
+              <button className={styles.remove_btn} onClick={() => removeFromCart(item.productId)}>🗑️</button>
             </div>
           ))}
 
-          <div className="cart-billing">
-            <div className="cart-total">
+          <div className={styles.cart_billing}>
+            <div className={styles.cart_total}>
               Total: ${cartTotal.toFixed(2)}
             </div>
           </div>

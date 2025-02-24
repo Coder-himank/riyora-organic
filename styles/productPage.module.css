@@ -1,43 +1,56 @@
-.product-container {
+.product_container {
     width: 100%;
     max-width: 1000px;
     margin: auto;
 }
 
-.sec-1 {
+.expandable_section {
+    padding: 10px;
+}
+
+.expandable_title {
+    padding: 10px;
+}
+
+.expandable_content {
+    padding: 10px;
+}
+
+.sec_1 {
     width: 100%;
     height: 70vh;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    background-color: #fff;
 }
 
-.sec-1 .details .sci-name {
+.sec_1 .details .sci_name {
     font-size: 2rem;
     font-weight: 700;
     color: green;
 }
 
-.sec-1 .details .oth-name {
+.sec_1 .details .oth_name {
     color: rgb(71, 165, 71);
     font-size: 1rem;
     font-weight: 500;
 }
 
-.sec-1 img {
+.sec_1 img {
     width: fit-content;
     height: 50vw;
     max-height: 450px;
 }
 
-.sec-1 .details {
+.sec_1 .details {
     padding-top: 80px;
     max-width: 500px;
     height: fit-content;
     max-height: 450px;
 }
 
-.sec-1 .details div {
+.sec_1 .details div {
     min-height: 60px;
 }
 
@@ -46,25 +59,25 @@
 }
 
 @media screen and (max-width:900px) {
-    .sec-1 {
+    .sec_1 {
         flex-direction: column;
         height: fit-content;
     }
 
-    .sec-1 img {
+    .sec_1 img {
         padding: 40px;
         width: 80%;
         height: fit-content;
         max-height: 700px;
     }
 
-    .sec-1 .details {
+    .sec_1 .details {
         padding: 10px;
         max-width: none;
         width: 100%;
     }
 
-    .sec-1 .details div {
+    .sec_1 .details div {
 
         min-height: 20px;
         padding: 7px;

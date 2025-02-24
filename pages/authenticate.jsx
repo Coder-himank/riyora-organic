@@ -7,10 +7,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.module.css";
+import "react-phone-input-2/lib/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useRouter } from "next/router";
-import "@/styles/authenticate.module.css";
+import styles from "@/styles/authenticate.module.css";
 
 export default function AuthPage() {
     const { t } = useTranslation("common");
@@ -135,11 +135,11 @@ export default function AuthPage() {
     };
 
     return (
-        <div className="auth-container">
+        <div className={styles.auth_container}>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
-            <motion.div className="auth-box" initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <motion.div className={styles.auth_box} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                 <h2>{isLogin ? t("login") : t("sign_up")}</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={styles.form}>
                     {!isLogin && (
                         <input type="text" name="fullName" placeholder={t("full_name")} value={formData.fullName} onChange={handleChange} required />
                     )}
@@ -166,7 +166,7 @@ export default function AuthPage() {
                         )}
                     </div>
 
-                    <button type="submit" className="btn" disabled={loading}>
+                    <button type="submit" className={styles.btn} disabled={loading}>
                         {loading ? t("loading") : isLogin ? t("login") : t("sign_up")}
                     </button>
                 </form>

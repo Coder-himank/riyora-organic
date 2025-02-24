@@ -4,8 +4,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import "@/styles/wishlist.module.css";
-import "@/styles/products.module.css";
+import wislistStyles from "@/styles/wishlist.module.css";
 import { useSession } from "next-auth/react";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 
@@ -73,7 +72,7 @@ export default function Wishlist() {
   if (sessionStatus === "loading") {
     return (
       <>
-        <div className="wishlist-container">
+        <div className={wislistStyles.wishlist_container}>
 
           <div className="navHolder"></div>
           <p>Loading...</p>;
@@ -85,7 +84,7 @@ export default function Wishlist() {
   if (sessionStatus !== "authenticated") {
     return (
       <>
-        <div className="wishlist-container">
+        <div className={wislistStyles.wishlist_container}>
 
           <div className="navHolder"></div>
           <UnAuthorizedUser />
@@ -97,8 +96,8 @@ export default function Wishlist() {
   return (
     <>
       <div className="navHolder"></div>
-      <div className="wishlist-container">
-        <h1 className="wishlist-head">{t("wishlist")}</h1>
+      <div className={wislistStyles.wishlist_container}>
+        <h1 className={wislistStyles.wishlist_head}>{t("wishlist")}</h1>
 
         {notification && <div className="notification">{notification}</div>}
 
@@ -108,10 +107,10 @@ export default function Wishlist() {
           <EmptyWishlist t={t} />
         ) : (
           wishProductData.map((item) => (
-            <div key={item._id} className="wishlist-item">
+            <div key={item._id} className={wislistStyles.wishlist_item}>
               <Link href={`/products/${item._id}`}>
                 <motion.img
-                  src={item.image || "/products/placeholder.jpg"}
+                  src={`${item.imageUrl}` || "/products/placeholder.jpg"}
                   alt={item.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -119,18 +118,18 @@ export default function Wishlist() {
                   transition={{ duration: 0.3 }}
                 />
               </Link>
-              <div className="wishlist-item-details">
+              <div className={wislistStyles.wishlist_item_details}>
                 <Link href={`/products/${item._id}`}>
                   <h3>{item.name}</h3>
-                  <p>{item.description}</p>
+                  <p>{item.category}</p>
                   <ul>
-                    {(item.features || []).map((feature, index) => (
-                      <li key={index}>{feature}</li>
+                    {(item.suitableFor || []).map((feature, index) => (
+                      <li key={index} className={wislistStyles.list}>{feature}</li>
                     ))}
                   </ul>
                 </Link>
               </div>
-              <button className="remove-btn" onClick={() => removeFromWishlist(item._id)}>🗑️</button>
+              <button className={wislistStyles.remove_btn} onClick={() => removeFromWishlist(item._id)}>🗑️</button>
             </div>
           ))
         )}
@@ -141,22 +140,21 @@ export default function Wishlist() {
 
 const WishlistSkeleton = () => (
   <>
-    <div className="navHolder"></div>
-    <div className="wishlist-container">
-      <h1 className="wishlist-head">Loading Wishlist...</h1>
+    <div className={wislistStyles.wishlist_container}>
+      {/* <h1 className={wislistStyles.wishlist_head}>Loading Wishlist...</h1> */}
       {[...Array(3)].map((_, index) => (
-        <div key={index} className="wishlist-item loading">
-          <div className="skeleton-img"></div>
-          <div className="wishlist-item-details">
-            <div className="skeleton-text"></div>
-            <div className="skeleton-text small"></div>
-            <div className="skeleton-list">
+        <div key={index} className={`${wislistStyles.wishlist_item} ${wislistStyles.loading}`}>
+          <div className={wislistStyles.skeleton_img}></div>
+          <div className={wislistStyles.wishlist_item_details}>
+            <div className={wislistStyles.skeleton_text}></div>
+            <div className={wislistStyles.skeleton_text_small}></div>
+            <div className={wislistStyles.skeleton_list}>
               {[...Array(3)].map((_, idx) => (
-                <div key={idx} className="skeleton-list-item"></div>
+                <div key={idx} className={wislistStyles.skeleton_list_item}></div>
               ))}
             </div>
           </div>
-          <button className="skeleton-btn"></button>
+          <button className={wislistStyles.skeleton_btn}></button>
         </div>
       ))}
     </div>
@@ -164,7 +162,7 @@ const WishlistSkeleton = () => (
 );
 
 const EmptyWishlist = ({ t }) => (
-  <div className="empty-wishlist">
+  <div className={wislistStyles.empty_wishlist}>
     <p>{t("wishlist_empty")}</p>
     <Link href="/products">
       <button className="shop-now">{t("shop_now")}</button>

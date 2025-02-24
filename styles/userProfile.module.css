@@ -1,4 +1,4 @@
-.profile-container-loading {
+.profile_container_loading {
   max-width: 900px;
   margin: auto;
   padding: 20px;
@@ -6,11 +6,11 @@
   min-height: 90vh;
 }
 
-.profile-container {
+.profile_container {
   padding: 20px;
 }
 
-.profile-card {
+.profile_card {
   background: #E6F4EA;
   padding: 20px;
   border-radius: 10px;

@@ -1,5 +1,5 @@
 /* Product Grid */
-.product-list {
+.product_list {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,12 +8,12 @@
   width: 100%;
 }
 
-.product-container {
+.product_container {
   width: 100%;
 
 }
 
-.product-container h1 {
+.product_container h1 {
   padding-left: 100px;
   line-height: 90px;
 }

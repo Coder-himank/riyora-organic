@@ -1,10 +1,10 @@
-.track-order-container {
+.track_order_container {
     text-align: center;
     padding: 20px;
     margin-top: 50px;
 }
 
-.order-details {
+.order_details {
     margin-top: 20px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -13,14 +13,14 @@
     margin: 20px auto;
 }
 
-.order-item {
+.order_item {
     margin: 10px 0;
 }
 
-.order-item strong {
+.order_item strong {
     font-weight: bold;
 }
 
-.order-item p {
+.order_item p {
     margin: 0;
 }

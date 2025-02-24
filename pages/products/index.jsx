@@ -3,7 +3,7 @@ import axios from "axios";
 import ProductCard, { SkeletonCard } from "@/components/ProductCard";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import "@/styles/products.module.css";
+import styles from "@/styles/products.module.css";
 
 export default function Products() {
   const { t } = useTranslation("common");
@@ -28,10 +28,10 @@ export default function Products() {
 
   if (loading) {
     return (
-      <div className="product-container">
+      <div className={styles.product_container}>
         <div className="navHolder"></div>
         <h1>{t("our_products")}</h1>
-        <div className="product-list">
+        <div className={styles.product_list}>
           {Array.from({ length: 10 }).map((_, index) => (
             <SkeletonCard key={index} />
           ))}
@@ -43,10 +43,10 @@ export default function Products() {
   if (products.length === 0) return <h1>No Products Available</h1>;
 
   return (
-    <div className="product-container">
+    <div className={styles.product_container}>
       <div className="navHolder"></div>
       <h1>{t("our_products")}</h1>
-      <div className="product-list">
+      <div className={styles.product_list}>
         {products.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}

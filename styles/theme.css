@@ -1,0 +1,22 @@
+
+/* Default Theme Variables */
+:root {
+    --primary-color: #0070f3;
+    --secondary-color: #ff4081;
+    --background-color: #ffffff;
+    --text-color: #000000;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --primary-color: #1e90ff;
+    --secondary-color: #ff1493;
+    --background-color: #121212;
+    --text-color: #ffffff;
+}
+
+/* Apply Theme Variables */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}

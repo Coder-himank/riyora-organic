@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSession } from "next-auth/react";
-import "@/styles/checkout.module.css";
+import styles from "@/styles/checkout.module.css";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 
 export default function Checkout() {
@@ -135,7 +135,8 @@ export default function Checkout() {
   };
 
   return (
-    <div className="checkout-container">
+    <div className={styles.checkout_container}>
+      <div className="navHolder"></div>
 
 
       {!session && !session?.user ? (
@@ -148,12 +149,12 @@ export default function Checkout() {
           <p>Loading...</p>
         ) : (
           <>
-            <h1 className="checkout-head">{t("checkout")}</h1>
-            <p><strong>Total</strong>: ₹{amount}</p>
+            <h1 className={styles.checkout_head}>{t("checkout")}</h1>
+            <p className={styles.price} ><strong>Total</strong>: ₹{amount}</p>
             <h3>Select Delivery Address</h3>
-            <div className="address-section">
+            <div className={styles.address_section}>
               {addresses.length > 0 ? (
-                <select className="select-address" onChange={(e) => setSelectedAddress(JSON.parse(e.target.value))}>
+                <select className={styles.select_address} onChange={(e) => setSelectedAddress(JSON.parse(e.target.value))}>
                   {addresses.map((addr, index) => (
                     <option key={index} value={JSON.stringify(addr)}>
                       {addr.label} - {addr.address}, {addr.city}, {addr.country}, {addr.pincode}
@@ -170,7 +171,7 @@ export default function Checkout() {
 
 
             {showNewAddressForm && (
-              <div className="new-address-form">
+              <div className={styles.new_address_form}>
                 <h3>Add New Address</h3>
                 <input type="text" placeholder="Address" value={newAddress.address} onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })} />
                 <input type="text" placeholder="City" value={newAddress.city} onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })} />
@@ -180,7 +181,7 @@ export default function Checkout() {
               </div>
             )}
 
-            <button onClick={initiatePayment} className="pay-btn">Pay with Razorpay</button>
+            <button onClick={initiatePayment} className={styles.pay_btn}>Pay with Razorpay</button>
           </>
         )}
       </>
