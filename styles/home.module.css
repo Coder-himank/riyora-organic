@@ -100,83 +100,82 @@
   width: fit-content;
   margin: auto;
   padding: var(--home-padding);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px 10px;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .home_container .benefit_card {
-  background: var(--home-benefit-bg);
+  background: linear-gradient(30deg, var(--home-benefit-bg), var(--home-benefit-bg), white);
   padding: 15px;
-  width: 30vw;
-  min-width: 200px;
-  border-radius: var(--home-border-radius);
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
   font-weight: bold;
   text-align: center;
   color: var(--home-text-color);
+  margin: 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Trending Products */
-.home_container .product_list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 25px;
-  padding: 30px;
-}
-
-.home_container .product_card {
-  padding: 15px;
-  border-radius: var(--home-border-radius);
-  box-shadow: var(--home-box-shadow);
-  text-align: center;
-  transition: var(--home-transition);
-  width: 25vw;
-  min-width: 180px;
-  max-width: 400px;
-  height: 60vw;
-  max-height: 500px;
-}
-
-.home_container .product_card p {
-  padding: 15px 3px;
-}
-
-.home_container .product_card:hover {
-  box-shadow: 0 0 20px -4px rgba(0, 0, 0, 0.193);
-  transform: scale(1.05);
-}
-
-.home_container .product_card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.about_section {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
 }
 
 /* Reviews */
 .home_container .reviews_section {
   width: 100%;
+  height: fit-content;
+
 }
 
 .home_container .review_cards {
   padding: var(--home-padding);
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 10px;
+  overflow: scroll;
+  padding: 20px 10px;
+  scroll-behavior: calc(0);
+
+}
+
+.home_container .review_cards::-webkit-scrollbar {
+  height: 5px;
+  background: transparent;
+}
+
+.home_container .review_card p::before {
+  content: '"';
+  font-size: 2.6rem;
+  position: relative;
+  top: -20px;
+  left: 20px;
+  color: green;
 }
 
 .home_container .review_card {
-  min-width: 180px;
+  min-width: 300px;
   width: 20vw;
   height: 30vw;
   max-height: 400px;
+  min-height: 300px;
   display: inline-flex;
-  background: var(--home-review-bg);
+  /* background: var(--home-review-bg); */
   padding: 15px;
   border-radius: var(--home-border-radius);
-  margin: 10px;
+  color: var(--home-text-color);
+  border: 2px solid green;
+  /* background-color: rgb(1, 83, 1); */
+
   align-items: center;
   justify-content: center;
   font-weight: bold;
@@ -199,7 +198,7 @@
   }
 
   .home_container .hero_text {
-    background-color: white;
+    background: white;
     min-height: fit-content;
     box-shadow: 0 0 20px -9px #00000033;
     padding: 20px;

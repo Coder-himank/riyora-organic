@@ -33,10 +33,11 @@
   --home-secondary-color: #5D5D5D;
   --home-accent-color: #A8D5BA;
   --home-accent-hover: #89C099;
-  --home-benefit-bg: #D7E3FC;
-  --home-review-bg: #e0ffe9;
+  --home-benefit-bg: #76ca97;
+  --home-review-bg: #3b1f3b;
   --home-hero-bg: #E6F4EA;
 
+  --home-review-text-color: #d5d2d2;
   /* Spacing & Sizing */
   --home-padding: 80px 0;
   --home-section-padding: 50px 20px;

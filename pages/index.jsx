@@ -5,10 +5,37 @@ import { useTranslation } from "next-i18next";
 import { motion } from "framer-motion";
 import styles from "@/styles/home.module.css";
 import Image from "next/image";
+import ProductCarousel from "@/components/ProductCarousel";
+import Head from "next/head";
+
+
 export default function Home() {
   const { t } = useTranslation("common");
 
-  return (
+  const products = [
+    {
+      image: "/products/indigo-powder.webp",
+      name: "Indigo Powder",
+      price: 90.43
+    },
+    {
+      image: "/products/amla-powder.webp",
+      name: "Amla Powder",
+      price: 90.43
+    },
+    {
+      image: "/products/multani-mitti.webp",
+      name: "Multani Mitti",
+      price: 90.43
+    }
+  ]
+
+  return (<>
+
+    <Head>
+      <title>Learn And Buy Organic beauty Products</title>
+      <meta name="description" content="Buy Organic products derived from ayurveda for rough and frizzy hairs, dry and oily skin, weak immune system." />
+    </Head>
     <div className={styles.home_container}>
 
       {/* Hero Section */}
@@ -25,7 +52,7 @@ export default function Home() {
           transition={{ duration: 1.2 }}
         >
 
-          <h1 className={styles.glow_text}>{t("welcome")}</h1>
+          <h1 className={styles.glow_text}>{t("org_name")}</h1>
           <p className="subtext">Your best source for natural products.</p>
           <motion.div
             whileHover={{ scale: 1.1 }}
@@ -53,32 +80,23 @@ export default function Home() {
         </div>
       </motion.section>
 
+      <motion.section className={styles.about_section}>
+        <h2 className={styles.home_h2}>About Organic Robust</h2>
+        <p>Organic Robust Is a online business that sells organic products that improves healty lifestyle. This Company was started by A couple living in Udaipur Rajasthan. </p>
+      </motion.section>
+
       {/* Trending Products Section */}
       <motion.section
-        className={styles.trending_product}
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
+        className={styles.traending_product}
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
 
       >
         <h2 className={styles.home_h2}>Trending Products</h2>
-        <div className={styles.product_list}>
-          <motion.div className={styles.product_card} whileHover={{ scale: 1.05 }}>
-            <Image src="/products/amla-powder.webp" alt="Organic Honey" width={500} height={500} />
-            {/* <p>🍯 Organic Honey</p>
-            <span>$12.99</span> */}
-          </motion.div>
-          <motion.div className={styles.product_card} whileHover={{ scale: 1.05 }}>
-            <Image src="/products/amla-powder.webp" alt="Almond Butter" width={500} height={500} />
-            {/* <p>🥜 Almond Butter</p>
-            <span>$9.99</span> */}
-          </motion.div>
-          <motion.div className={styles.product_card} whileHover={{ scale: 1.05 }}>
-            <Image src="/products/amla-powder.webp" alt="Green Tea" width={500} height={500} />
-            {/* <p>🍵 Green Tea</p>
-            <span>$7.99</span> */}
-          </motion.div>
-        </div>
+        <ProductCarousel products={products} />
+
+
       </motion.section>
 
       {/* Reviews Section */}
@@ -116,6 +134,7 @@ export default function Home() {
       </motion.section>
 
     </div>
+  </>
   );
 }
 
