@@ -25,26 +25,29 @@
   align-items: center;
   position: relative;
   justify-content: center;
-  background-image: url("/images/rishi.png");
-  background-position: 0 130;
+  background-image: url("/images/home-hero.jpg");
+  background-position: center 0;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .home_container .hero_text {
   position: absolute;
-  right: 10vw;
+  /* right: 10vw; */
   display: flex;
+  top: 30vw;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   z-index: 7;
+  backdrop-filter: blur(2px);
 }
 
 .home_container .glow_text {
   font-size: var(--home-heading-font-size);
   font-weight: bold;
-  color: var(--home-primary-color);
+  color: rgb(216, 216, 216);
 }
 
 .home_container .subtext {
@@ -78,6 +81,28 @@
   transform: scale(1.05);
 }
 
+/* .hero_section .cloud {
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  top: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('/images/cloud.png');
+  background-size: cover;
+  background-position: center center;
+} */
+
+.cloud img {
+  display: none;
+  width: 400px;
+  object-fit: cover;
+  object-position: center center;
+  height: 100%;
+  backdrop-filter: blur(3px);
+}
+
 /* Sections */
 .home_container section {
   width: 100%;
@@ -108,11 +133,14 @@
 }
 
 .home_container .benefit_card {
-  background: linear-gradient(30deg, var(--home-benefit-bg), var(--home-benefit-bg), white);
+  /* background: linear-gradient(30deg, var(--home-benefit-bg), var(--home-benefit-bg), white); */
+  background-color: var(--home-benefit-bg);
   padding: 15px;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
+  width: 23vw;
+  height: 20vw;
+  min-width: 200px;
+  min-height: 150px;
+  border-radius: 10px;
   font-weight: bold;
   text-align: center;
   color: var(--home-text-color);
@@ -126,8 +154,28 @@
 /* Trending Products */
 .about_section {
   padding: 20px;
-  max-width: 600px;
+  /* max-width: 600px; */
   margin: auto;
+}
+
+.about_in {
+  padding: 30px 0;
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.about_in img {
+  width: 350px;
+  height: 350px;
+}
+
+.about_in p {
+  width: 40%;
+  text-align: left;
+  font-size: 1.2rem;
 }
 
 /* Reviews */
@@ -193,16 +241,29 @@
 /* Responsive */
 @media screen and (max-width: 1200px) {
   .home_container .hero_section {
-    background-position: center 130;
+    background-position: center 0;
     background-size: cover;
   }
 
   .home_container .hero_text {
-    background: white;
+    /* background: white; */
     min-height: fit-content;
-    box-shadow: 0 0 20px -9px #00000033;
+    /* box-shadow: 0 0 20px -9px #00000033; */
     padding: 20px;
 
+  }
+
+  .home_container .hero_text h1 {
+    font-size: 1.46rem;
+  }
+
+  .home_container .hero_text p {
+    font-size: 0.6rem;
+  }
+
+  .home_container .hero_text .shop_btn {
+    padding: 7px 10px;
+    font-size: 0.8rem;
   }
 }
 
@@ -212,5 +273,14 @@
     height: 20vw;
     position: absolute;
     bottom: -100px;
+  }
+
+  .about_in {
+    flex-direction: column;
+  }
+
+  .about_in p {
+    padding: 30px;
+    width: 100%;
   }
 }

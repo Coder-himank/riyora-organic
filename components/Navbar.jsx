@@ -20,7 +20,8 @@ export default function Navbar() {
     height: "70px",
     backgroundColor: "white",
     paddingTop: "20px",
-    boxShadow: "0 2px 20px -5px rgba(0,0,0,0.2)"
+    boxShadow: "0 2px 20px -5px rgba(0,0,0,0.2)",
+    color: "green"
   }
 
 
@@ -51,7 +52,7 @@ export default function Navbar() {
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <nav className="navbar" style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }}>
+      <nav className={`navbar ${toogleNavBar && "navOpen"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
         <div className="nav-left">
           <Link href="/"><span className="name-head">{t("welcome")}</span></Link>
           <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}><FaBars /></button>

@@ -62,6 +62,11 @@ export default function Home() {
             <Link href="/products">{t("shop_now")}</Link>
           </motion.div>
         </motion.div>
+
+        <motion.div className={styles.cloud}>
+          <Image src={"/images/cloud.png"} width={800} height={300} />
+          <Image src={"/images/cloud.png"} width={800} height={300} />
+        </motion.div>
       </motion.div>
       {/* Benefits Section */}
       <motion.section
@@ -69,8 +74,9 @@ export default function Home() {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-
       >
+
+
         <h2 className={styles.home_h2}>Why Choose Organic?</h2>
         <div className={styles.benefits_grid}>
           <div className={styles.benefit_card}>🌱 No Harmful Chemicals</div>
@@ -82,7 +88,10 @@ export default function Home() {
 
       <motion.section className={styles.about_section}>
         <h2 className={styles.home_h2}>About Organic Robust</h2>
-        <p>Organic Robust Is a online business that sells organic products that improves healty lifestyle. This Company was started by A couple living in Udaipur Rajasthan. </p>
+        <div className={styles.about_in}>
+          <Image src={"/images/rishi.png"} width={400} height={400} alt="Founder Of Organic Robust" />
+          <p>Organic Robust Is a online business that sells organic products that improves healty lifestyle. This Company was started by A couple living in Udaipur Rajasthan. </p>
+        </div>
       </motion.section>
 
       {/* Trending Products Section */}
