@@ -13,6 +13,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 300px;
+  min-width: fit-content;
 
 }
 
@@ -23,6 +24,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  min-width: fit-content;
 }
 
 .form input {

@@ -100,7 +100,6 @@ export default function AuthPage() {
         if (isLogin) {
             if (await verifyOtp()) {
                 try {
-                    console.log(formData);
 
                     const res = await signIn("credentials", { email: formData.email, redirect: false });
                     if (res?.error) {
@@ -121,7 +120,7 @@ export default function AuthPage() {
             try {
                 if (await verifyOtp()) {
 
-                    const response = await axios.post("/api/auth/signup", { ...formData, phoneVerified: userVerified });
+                    const response = await axios.post("/api/auth/signup", { ...formData, phoneVerified: true });
                     toast.success(response.data.message);
                     setIsLogin(true);
                     // setStep(0)
@@ -158,6 +157,7 @@ export default function AuthPage() {
                     {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder={t("enter_otp")} required />}
 
                     <div>
+                        {sentOtp && <p>{sentOtp}</p>}
                         {step === 1 && <button type="button" onClick={sendOtp}>{t("send_otp")}</button>}
                         {step === 2 && (
                             <button type="button" onClick={sendOtp} disabled={!canResend}>
