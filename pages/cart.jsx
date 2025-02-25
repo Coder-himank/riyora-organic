@@ -126,13 +126,21 @@ export default function Cart() {
     }
   }, 500);
 
+  if (!session && !session?.user) return (
+
+    <UnAuthorizedUser />
+  )
+
   if (loading) return (
     <>
       <div className="navHolder"></div>
       <SkeletonCart />
+      <SkeletonCart />
+      <SkeletonCart />
+      <SkeletonCart />
+      <SkeletonCart />
     </>
   )
-  if (!session?.user) return <UnAuthorizedUser />;
 
   if (error) return (
     <>
@@ -140,6 +148,7 @@ export default function Cart() {
       <div className={styles.cart_loading}><p>Error loading cart.</p></div>;
     </>
   )
+
 
 
   return (<>
@@ -191,11 +200,15 @@ export default function Cart() {
             <div className={styles.cart_total}>
               Total: ${cartTotal.toFixed(2)}
             </div>
+          <Link href={"/checkout"}>
+            <button>
+
+              Continue to check Out
+            </button>
+          </Link>
           </div>
         </>
       )}
-
-      {cart.length !== 0 && (<Checkout />)}
 
     </div>
   </>

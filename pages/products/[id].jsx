@@ -6,6 +6,9 @@ import Product from "@/server/models/Product";
 import styles from "@/styles/productPage.module.css"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "react-i18next";
+import { onAddToCart, onAddToWishlist, onBuy } from "@/components/ProductAction";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
 
@@ -24,6 +27,10 @@ const ProductPage = ({ product, productDetail }) => {
         return <h1>Product not found</h1>;
     }
     const site_url = process.env.BASE_URL
+    const { data: session } = useSession()
+    const [notification, setNotification] = useState(null)
+
+    const router = useRouter()
 
     const productSchema = {
         "@context": site_url,
@@ -80,6 +87,11 @@ const ProductPage = ({ product, productDetail }) => {
         ]
     };
 
+    const newNotify = (msg) => {
+        setNotification(msg)
+        setTimeout(setNotification(null), 2000)
+    }
+
     const t = useTranslation();
 
 
@@ -120,6 +132,8 @@ const ProductPage = ({ product, productDetail }) => {
 
             </Head>
             <div className="navHolder"></div>
+
+            {notification && <div className="notification"></div>}
             <div className={styles.product_container}>
                 <h1>{product.name}</h1>
                 <section className={styles.sec_1}>
@@ -135,6 +149,11 @@ const ProductPage = ({ product, productDetail }) => {
                         <hr />
                         <div className={styles.description}>
                             <p>{productDetail.description}</p>
+                        </div>
+                        <div className={styles.action_btn}>
+                            <button onClick={() => onAddToWishlist(router, product._id, session)} className="button-outline ">Add To Wishlist</button>
+                            <button onClick={() => onAddToCart(router, product._id, session)}>Add To Cart</button>
+                            <button onClick={() => onBuy(router, product._id, session)}>Buy Now</button>
                         </div>
                         <hr />
                     </div>

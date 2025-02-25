@@ -183,7 +183,7 @@ button:disabled {
 }
 
 .navbar a {
-  text-shadow: 0 0 1px var(--navbar-text-color);
+  /* text-shadow: 0 0 1px var(--navbar-text-color); */
 }
 
 .nav-left {

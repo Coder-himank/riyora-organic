@@ -51,7 +51,7 @@
     padding-top: 80px;
     max-width: 500px;
     height: fit-content;
-    max-height: 450px;
+    /* max-height: 450px; */
 }
 
 .price {
@@ -94,6 +94,34 @@
     padding: 10px 5px;
 }
 
+.action_btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    width: 100%;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+}
+
+.action_btn button {
+    border-radius: 1px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.action_btn button:nth-child(1) {
+    /* background-image: unset; */
+}
+
+.action_btn button:nth-child(2) {
+    background-image: unset;
+    background-color: rgb(183, 183, 44);
+}
+
+
+
 @media screen and (max-width:900px) {
     .sec_1 {
         flex-direction: column;
@@ -122,4 +150,12 @@
     .sec {
         padding: 10px;
     }
+
+
+    .action_btn button {
+        width: 100%;
+        font-size: 0.8rem;
+    }
+
+
 }

@@ -105,11 +105,13 @@
 .home_container .benefit_card {
   /* background: linear-gradient(30deg, var(--home-benefit-bg), var(--home-benefit-bg), white); */
   /* background-color: var(--home-benefit-bg); */
+  flex: 0 0 auto;
+  scroll-snap-align: start;
   background-color: #b6e0bc;
   padding: 15px;
-  width: 23vw;
+  width: 20vw;
   height: 20vw;
-  min-width: 320px;
+  min-width: 300px;
   min-height: 400px;
   border-radius: 10px;
   font-weight: bold;
@@ -136,26 +138,28 @@
 }
 
 .about_section h2 {
-  transform: translateY(-150%);
+  margin: 0px;
+  /* transform: translateY(-150%); */
   background-color: #fff;
   width: fit-content;
   margin: auto;
   padding: 20px 50px;
   border-radius: 50px;
-  box-shadow: 0 -5px 20px -5px rgba(0, 0, 0, 0.332);
+  /* box-shadow: 0 0px 20px -5px rgba(0, 0, 0, 0.332); */
 }
 
 .about_in {
 
   background-color: white;
   border-radius: 20px;
-  box-shadow: 0 0 20px -4px rgba(0, 0, 0, 0.344);
+  box-shadow: 0 5px 20px -4px rgba(0, 0, 0, 0.344);
 
   padding: 30px 0;
   width: 80%;
-  min-width: 450px;
+  min-width: 400px;
   margin: auto;
   min-height: 300px;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -186,12 +190,12 @@
 
 .productCard {
   flex: 0 0 auto;
+  scroll-snap-align: start;
   width: 25vw;
   min-height: 400px;
   max-height: fit-content;
   min-width: 340px;
   max-width: fit-content;
-  scroll-snap-align: start;
   text-align: center;
   display: flex;
   align-items: center;
@@ -252,6 +256,8 @@
 }
 
 .home_container .review_card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
   min-width: 300px;
   width: 20vw;
   height: 30vw;
@@ -306,17 +312,24 @@
 
 @media screen and (max-width: 900px) {
 
+  .home_container .hero_section {
+
+    background-position: center 100;
+  }
+
   .home_container .hero_text {
     width: 80%;
     width: fit-content;
     height: 20vw;
     position: absolute;
-    bottom: -100px;
+    top: 250px;
+    /* bottom: 10px; */
     backdrop-filter: blur(0);
   }
 
   .about_in {
     flex-direction: column;
+    box-shadow: none;
   }
 
   .about_in p {

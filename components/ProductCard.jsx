@@ -6,6 +6,7 @@ import styles from "@/styles/product-card.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link"
+import { onBuy, onAddToCart, onAddToWishlist } from "@/components/ProductAction"
 
 export const SkeletonCard = () => {
   return (
@@ -44,52 +45,10 @@ export const SkeletonCard = () => {
 }
 const ProductCard = ({ product }) => {
 
-  const router = useRouter()
-  async function onAddToCart(productId, quantity) {
-    if (!session?.user) {
-      router.push({ pathname: `/authenticate`, query: { callback: `/cart`, productId } })
-      return
 
-    }
-
-    try {
-      const response = await fetch(`/api/cart?userId=${session.user.id}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: session?.user?.id, productId, quantity })
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error updating user data:", error);
-      return { success: false, message: "Request failed" };
-    }
-  }
-  async function onAddToWishlist(productId) {
-    if (!session?.user?.id) {
-      router.push({ pathname: `/authenticate`, query: { callback: `/wishlist`, productId } })
-      return
-    }
-    try {
-      const response = await fetch("/api/wishlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: session?.user?.id, productId })
-      });
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error updating user data:", error);
-      return { success: false, message: "Request failed" };
-    }
-  }
-
-  const onBuy = (productId) => {
-    router.push({ pathname: `/checkout`, query: { productId } })
-  }
   const { t } = useTranslation("common");
   const { data: session } = useSession()
+  const router = useRouter()
   const userId = session?.user?.id
   const [productData, setProductData] = useState({ ...product })
 
@@ -129,21 +88,21 @@ const ProductCard = ({ product }) => {
 
           <motion.button
             className={`${styles.product_btn} ${styles.btn_buy}`}
-            onClick={() => onBuy(productData._id)}
+            onClick={() => onBuy(router, productData._id, session)}
             whileTap={{ scale: 0.9 }}
           >
             {t("buy_now")}
           </motion.button>
           <motion.button
             className={`${styles.product_btn} ${styles.btn_cart}`}
-            onClick={() => onAddToCart(productData._id, 1)}
+            onClick={() => onAddToCart(router, productData._id, session)}
             whileTap={{ scale: 0.9 }}
           >
             {t("add_to_cart")}
           </motion.button>
           <motion.button
             className={`${styles.product_btn} ${styles.btn_wishlist}`}
-            onClick={() => onAddToWishlist(productData._id)}
+            onClick={() => onAddToWishlist(router, productData._id, session)}
             whileTap={{ scale: 0.9 }}
             aria-label="Add to Wishlist"
           >
