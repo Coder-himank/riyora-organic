@@ -66,7 +66,7 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-       
+
       </motion.div>
       {/* Benefits Section */}
       <motion.section
@@ -115,7 +115,7 @@ export default function Home() {
         transition={{ duration: 1, delay: 0.3 }}
 
       >
-        <h2 className={styles.home_h2}>Trending Products</h2>
+        <h2 className={styles.home_h2}>Best Selling Products</h2>
         <Carousel>
           {products.map((product, index) => (
             <div key={index} className={styles.productCard} >

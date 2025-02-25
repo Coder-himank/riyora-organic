@@ -4,6 +4,10 @@
     margin: auto;
 }
 
+.product_container h1 {
+    padding: 10px;
+}
+
 .expandable_section {
     padding: 10px;
 }
@@ -22,7 +26,6 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background-color: #fff;
 }
 
 .sec_1 .details .sci_name {
@@ -39,8 +42,9 @@
 
 .sec_1 img {
     width: fit-content;
-    height: 50vw;
     max-height: 450px;
+    object-fit: contain;
+    height: 50vw;
 }
 
 .sec_1 .details {
@@ -48,6 +52,14 @@
     max-width: 500px;
     height: fit-content;
     max-height: 450px;
+}
+
+.price {
+    font-size: 1.8rem;
+}
+
+.description {
+    padding: 20px 10px;
 }
 
 .sec_1 .details div {
@@ -58,6 +70,30 @@
     padding: 40px;
 }
 
+.detail_title {
+    padding: 10px;
+}
+
+.detail_para {
+    padding: 10px 19px;
+}
+
+.other_details {
+    padding: 10px;
+}
+
+.other_details div {
+    padding: 10px;
+}
+
+.notes ul {
+    /* padding: 10px; */
+}
+
+.notes li {
+    padding: 10px 5px;
+}
+
 @media screen and (max-width:900px) {
     .sec_1 {
         flex-direction: column;
@@ -66,7 +102,7 @@
 
     .sec_1 img {
         padding: 40px;
-        width: 80%;
+        width: 100%;
         height: fit-content;
         max-height: 700px;
     }
@@ -80,7 +116,7 @@
     .sec_1 .details div {
 
         min-height: 20px;
-        padding: 7px;
+        padding: 8px;
     }
 
     .sec {

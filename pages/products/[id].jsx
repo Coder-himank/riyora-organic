@@ -12,7 +12,7 @@ const ExpandableSection = ({ title, children }) => {
     return (
         <div className={styles.expandable_section}>
             <h2 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
-                {title} {isOpen ? "▲" : "▼"}
+                {title} {isOpen ? "-" : "+"}
             </h2>
             {isOpen && <div className={styles.expandable_content}>{children}</div>}
         </div>
@@ -126,11 +126,11 @@ const ProductPage = ({ product, productDetail }) => {
                     <Image src={product.imageUrl} width={350} height={400} alt={product.name} />
 
                     <div className={styles.details}>
-                        <div className={styles.sciName}>{product.scientificName}</div>
+                        <div className={styles.sci_name}>{product.scientificName}</div>
                         <div className={styles.oth_name}>
                             {product.otherNames?.join(", ")}
                         </div>
-                        <div><strong>Price:</strong> ${product.price}</div>
+                        <div className={styles.price}><strong>Price:</strong> ${product.price}</div>
                         <div>Ratings: ⭐⭐⭐⭐☆</div>
                         <hr />
                         <div className={styles.description}>
@@ -139,28 +139,58 @@ const ProductPage = ({ product, productDetail }) => {
                         <hr />
                     </div>
                 </section>
+                <section>
+                    <ExpandableSection title={`More Details`}>
+                        <section className={styles.other_details}>
+                            <div>
+                                <strong>Ingredients</strong>  {product.ingredients.join(" | ")}
+                            </div>
+                            <div>
+                                <strong>Suitable For</strong>  {product.suitableFor.join(" | ")}
 
-                <section className="sec sec-2">
+                            </div>
+                            <div>
+                                <strong>Use With</strong>  {productDetail.ingredientsToUseWith.join(" | ")}
+                            </div>
+                            <div>
+                                <strong>Category</strong>  {product.category}
+                            </div>
+                            <div>
+                                <strong>Time Period</strong> {productDetail.timePeiod}
+                            </div>
+                            <div className={styles.notes}>
+                                <ul>
+                                    <strong>Note:</strong>
+                                    {productDetail.notes.map((item) => {
+                                        <li>{item}</li>
+                                    })}
+                                </ul>
+                            </div>
+                        </section>
 
+                    </ExpandableSection>
+                    <hr />
 
+                    {/* <hr /> */}
                     <ExpandableSection title={`Benefits of ${product.name}`}>
-                        <h3>For Hair</h3>
-                        <p>{productDetail?.benefits?.hair || "No data available."}</p>
-                        <h3>For Skin</h3>
-                        <p>{productDetail?.benefits?.skin || "No data available."}</p>
-                        <h3>For Health</h3>
-                        <p>{productDetail?.benefits?.health || "No data available."}</p>
+                        <h3 className={styles.detail_title}>For Hair</h3>
+                        <p className={styles.detail_para}>{productDetail?.benefits?.hair || "No data available."}</p>
+                        <h3 className={styles.detail_title}>For Skin</h3>
+                        <p className={styles.detail_para}>{productDetail?.benefits?.skin || "No data available."}</p>
+                        <h3 className={styles.detail_title}>For Health</h3>
+                        <p className={styles.detail_para}>{productDetail?.benefits?.health || "No data available."}</p>
                     </ExpandableSection>
 
                 </section>
+                <hr />
                 <section className="sec sec-2">
                     <ExpandableSection title={`How to Use ${product.name}`}>
-                        <h3>For Hair</h3>
-                        <p>{productDetail?.howToUse?.hair || "No data available."}</p>
-                        <h3>For Skin</h3>
-                        <p>{productDetail?.howToUse?.skin || "No data available."}</p>
-                        <h3>For Health</h3>
-                        <p>{productDetail?.howToUse?.health || "No data available."}</p>
+                        <h3 className={styles.detail_title}>For Hair</h3>
+                        <p className={styles.detail_para}>{productDetail?.howToUse?.hair || "No data available."}</p>
+                        <h3 className={styles.detail_title}>For Skin</h3>
+                        <p className={styles.detail_para}>{productDetail?.howToUse?.skin || "No data available."}</p>
+                        <h3 className={styles.detail_title}>For Health</h3>
+                        <p className={styles.detail_para}>{productDetail?.howToUse?.health || "No data available."}</p>
                     </ExpandableSection>
                 </section>
             </div>
@@ -210,6 +240,7 @@ export async function getStaticProps({ params, locale }) {
                 health: "Can be used in clay wraps for detoxification."
             },
             ingredientsToUseWith: ["Rose Water", "Aloe Vera", "Honey", "Neem Powder"],
+            timePeiod: "Use twice a week for 30 mins on skin | 5 - 30 mins on hair",
             notes: ["Avoid using on very dry skin.", "Use once or twice a week for best results."]
         },
         amlapowder: {
@@ -228,6 +259,7 @@ export async function getStaticProps({ params, locale }) {
                 health: "Consume raw, as juice, or in powder form with warm water."
             },
             ingredientsToUseWith: ["Shikakai", "Bhringraj", "Honey", "Turmeric"],
+            timePeiod: "Use twice a week for 30 mins on skin | 5 - 30 mins on hair",
             notes: ["Avoid excessive consumption as it may cause acidity."]
         },
         indigopowder: {
