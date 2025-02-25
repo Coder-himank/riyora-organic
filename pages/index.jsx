@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import { motion } from "framer-motion";
 import styles from "@/styles/home.module.css";
 import Image from "next/image";
-import ProductCarousel from "@/components/ProductCarousel";
+import Carousel from "@/components/Carousel";
 import Head from "next/head";
 
 
@@ -14,17 +14,20 @@ export default function Home() {
 
   const products = [
     {
-      image: "/products/indigo-powder.webp",
+      theme: "#164c3e",
+      image: "/products/indigo-powder.png",
       name: "Indigo Powder",
       price: 90.43
     },
     {
-      image: "/products/amla-powder.webp",
+      theme: "#a1b512",
+      image: "/products/amla-powder.png",
       name: "Amla Powder",
       price: 90.43
     },
     {
-      image: "/products/multani-mitti.webp",
+      theme: "#f0c08c",
+      image: "/products/multani-mitti.png",
       name: "Multani Mitti",
       price: 90.43
     }
@@ -63,30 +66,40 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        <motion.div className={styles.cloud}>
-          <Image src={"/images/cloud.png"} width={800} height={300} />
-          <Image src={"/images/cloud.png"} width={800} height={300} />
-        </motion.div>
+       
       </motion.div>
       {/* Benefits Section */}
       <motion.section
         className={styles.benefits_section}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 1, delay: 0.3 }}
       >
-
-
         <h2 className={styles.home_h2}>Why Choose Organic?</h2>
-        <div className={styles.benefits_grid}>
-          <div className={styles.benefit_card}>🌱 No Harmful Chemicals</div>
-          <div className={styles.benefit_card}>🥑 Rich in Nutrients</div>
-          <div className={styles.benefit_card}>🌍 Environmentally Friendly</div>
-          <div className={styles.benefit_card}>💪 Better for Health</div>
-        </div>
+        <Carousel>
+          <div className={styles.benefit_card}>
+            <Image src={"/images/plant.png"} width={200} height={200} alt="Organiic Robust No Harmful Chemicals" />
+            No Harmful Chemicals
+          </div>
+          <div className={styles.benefit_card}>
+            <Image src={"/images/nutrition.png"} width={200} height={200} alt="Organiic Robust No Harmful Chemicals" />
+            Rich in Nutrients
+          </div>
+          <div className={styles.benefit_card}>
+            <Image src={"/images/enviornment.png"} width={200} height={200} alt="Organiic Robust No Harmful Chemicals" />
+            Environmentally Friendly</div>
+          <div className={styles.benefit_card}>
+            <Image src={"/images/muscle.png"} width={200} height={200} alt="Organiic Robust No Harmful Chemicals" />
+            Better for Health
+          </div>
+        </Carousel>
       </motion.section>
 
-      <motion.section className={styles.about_section}>
+      <motion.section className={styles.about_section}
+        initial={{ y: 20, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1.8, delay: 0.3 }}
+      >
         <h2 className={styles.home_h2}>About Organic Robust</h2>
         <div className={styles.about_in}>
           <Image src={"/images/rishi.png"} width={400} height={400} alt="Founder Of Organic Robust" />
@@ -99,11 +112,23 @@ export default function Home() {
         className={styles.traending_product}
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 1, delay: 0.3 }}
 
       >
         <h2 className={styles.home_h2}>Trending Products</h2>
-        <ProductCarousel products={products} />
+        <Carousel>
+          {products.map((product, index) => (
+            <div key={index} className={styles.productCard} >
+              <Image src={product.image} alt={product.name} width={300} height={300} style={{ background: product.theme }} />
+              <section className={styles.product_info}>
+
+                <h3>{product.name}</h3>
+                {/* <p>${product.price}</p> */}
+                <Link href={`/products`}>Read More </Link>
+              </section>
+            </div>
+          ))}
+        </Carousel>
 
 
       </motion.section>
@@ -113,20 +138,18 @@ export default function Home() {
         className={styles.reviews_section}
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 1, delay: 0.3 }}
 
       >
         <h2 className={styles.home_h2}>What Our Customers Say</h2>
-
-        <section className={styles.review_cards}>
-
+        <Carousel>
           <div className={styles.review_card}>
             <p> "Best organic products! Highly recommended!" - Emily R.</p>
           </div>
           <div className={styles.review_card}>
             <p>"Loved the freshness of the products!" - David P.</p>
           </div>
-        </section>
+        </Carousel>
       </motion.section>
 
       {/* Subscription Section */}

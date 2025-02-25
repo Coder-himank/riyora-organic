@@ -31,11 +31,11 @@
   --home-text-color: #3A3A3A;
   --home-primary-color: #3A7D44;
   --home-secondary-color: #5D5D5D;
-  --home-accent-color: #A8D5BA;
-  --home-accent-hover: #89C099;
+  --home-accent-color: #225c39;
+  --home-accent-hover: #3d6f4b;
   --home-benefit-bg: #76ca97;
   --home-review-bg: #3b1f3b;
-  --home-hero-bg: #E6F4EA;
+  --home-hero-bg: #baebc8;
 
   --home-review-text-color: #d5d2d2;
   /* Spacing & Sizing */
@@ -174,7 +174,7 @@ button:disabled {
   background: var(--navbar-background);
   z-index: 10;
   transition: all 0.5s;
-  color: white;
+  color: green;
   backdrop-filter: blur(1px);
 }
 
@@ -200,6 +200,7 @@ button:disabled {
   font-size: 2vw;
   text-decoration: none;
   color: inherit;
+  font-weight: 900;
   font-family: 'Times New Roman', Times, serif;
 }
 
