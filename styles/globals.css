@@ -51,6 +51,10 @@
   --home-button-font-size: 1.2rem;
 
   --loading-color: rgba(145, 138, 138, 0.686);
+
+  --profile-secondary-color: rgb(224, 235, 224);
+
+  --list-hover-bg: rgba(143, 151, 143, 0.114);
 }
 
 /* ========== Global Styles ========== */
