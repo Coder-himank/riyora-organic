@@ -7,7 +7,9 @@ import axios from "axios";
 import { signOut } from "next-auth/react";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 import Link from "next/link";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+
 
 export default function UserProfile() {
   const { data: session } = useSession();
@@ -17,10 +19,10 @@ export default function UserProfile() {
   const [error, setError] = useState(null);
   const [toogleBars, setToogleBars] = useState(false)
   const sectionsRef = useRef([]);
+  const [loading, setLoading] = useState(true)
 
   const aside_styles = {
     left: "0%",
-    padding: "80px 10px 0 0"
   }
 
   // Fetch user profile
@@ -28,6 +30,7 @@ export default function UserProfile() {
     if (!session?.user) return;
 
     const fetchUserProfile = async () => {
+      setLoading(true)
       console.log(session.user.id);
 
       try {
@@ -43,6 +46,7 @@ export default function UserProfile() {
     };
 
     fetchUserProfile();
+    setLoading(false)
   }, [session]);
 
 
@@ -57,30 +61,37 @@ export default function UserProfile() {
 
   if (!user) return (
     <>
-      <div className={styles.profile_container_loading}>
+      <SkeletonLoader />
 
-        <div className="navHolder"></div>
-        <div className="loading-spinner"></div>; // Better UX for loading
-      </div>
 
     </>
   )
 
+  if (loading) {
+    return (
+      <div className="navHolder">
+        <SkeletonLoader />
+      </div>
+    )
+  }
+
   return (
     <>
       <div className="navHolder"></div>
+      <aside className={styles.aside} style={toogleBars ? aside_styles : {}}>
+        <button className={styles.bars} onClick={() => setToogleBars((prev) => !prev)}><FaBars /></button>
+        <Link href={"/profile"}>Dashboard</Link>
+        <Link href={"/refund"}>Refund</Link>
+        <Link href={"/track-order"}>Track Order</Link>
+        <Link href={"/payment-history"}>Payemnt History</Link>
+        <Link href={"/customer-care"}>Customer Care</Link>
+        <Link href={"/help"}>Help</Link>
+      </aside>
+
       <div className={styles.profile_container}>
         {
           session?.user
             ? <>
-              <aside className={styles.aside} style={toogleBars ? aside_styles : {}}>
-                <Link href={"/profile"}>Dashboard</Link>
-                <Link href={"/refund"}>Refund</Link>
-                <Link href={"/track-order"}>Track Order</Link>
-                <Link href={"/payment-history"}>Payemnt History</Link>
-                <Link href={"/customer-care"}>Customer Care</Link>
-                <Link href={"/help"}>Help</Link>
-              </aside>
 
 
               <div className={styles.profile_card}>
@@ -115,11 +126,23 @@ export default function UserProfile() {
                   {user?.addresses.map((item, index) => (
                     <table className={styles.address_plate}>
                       <tr>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Label</th>
+                        <th>Pincode</th>
+                        <th>Action</th>
+                      </tr>
+                      <tr>
                         <td>{item.address}</td>
                         <td>{item.city}</td>
                         <td>{item.country}</td>
                         <td>{item.lable || "-"}</td>
                         <td>{item.pincode}</td>
+                        <td className={styles.addr_action}>
+                          <span><FaEdit /></span>
+                          <span style={{ background: "red" }}><MdDelete /></span>
+                        </td>
                       </tr>
                     </table>
                   ))}
@@ -170,17 +193,37 @@ export default function UserProfile() {
   );
 }
 
-// Reusable Section Component
-const Section = ({ title, label, data, renderItem }, ref) => (
-  <div ref={ref} className="section">
-    <h2>{title} {useTranslation("common").t(label)}</h2>
-    <div className="grid">
-      {data?.length ? data.map((item, index) => (
-        <div key={index}>{renderItem(item)}</div>
-      )) : <p>{useTranslation("common").t(`no_${label}`)}</p>}
-    </div>
-  </div>
-);
+function SkeletonLoader() {
+  return (
+    <>
+      <div className="navHolder"></div>
+      <div className={styles.skeleton_container}>
+        <div className={styles.skeleton_sidebar}>
+          <div className={styles.skeleton_section}></div>
+          <div className={styles.skeleton_section}></div>
+          <div className={styles.skeleton_section}></div>
+          <div className={styles.skeleton_section}></div>
+
+        </div>
+        <div className={styles.skeleton_card}>
+          <div className={styles.skeleton_header}></div>
+          <div className={styles.skeleton_section}></div>
+          <div className={styles.skeleton_row}></div>
+          <div className={styles.skeleton_row}></div>
+          <div className={styles.skeleton_row}></div>
+          <div className={styles.skeleton_section}>
+          </div>
+          <div className={styles.skeleton_row}></div>
+          <div className={styles.skeleton_row}></div>
+          <div className={styles.skeleton_row}></div>
+
+          <div className={styles.skeleton_section}></div>
+          <div className={styles.skeleton_section}></div>
+        </div>
+      </div>
+    </>
+  );
+}
 
 // i18n Support
 export async function getStaticProps({ locale }) {

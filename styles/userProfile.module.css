@@ -6,7 +6,8 @@
   min-height: 90vh;
 }
 
-.profile_container {
+.profile_container,
+.skeleton_container {
   /* padding: 20px; */
   display: flex;
   /* align-items: start; */
@@ -14,9 +15,10 @@
   transform: translateY(-50px);
 }
 
-.profile_card {
+.profile_card,
+.skeleton_card {
   width: calc(100% - 260px);
-  background: #E6F4EA;
+  /* background: #E6F4EA; */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.13);
@@ -38,7 +40,8 @@
   color: green;
 }
 
-.top_name_left .bars {
+.top_name_left .bars,
+.aside button {
   width: 30px;
   height: 30px;
   font-size: 1.2rem;
@@ -61,8 +64,6 @@
 .profile_card .user_detail {
   padding: 20px;
   width: 100%;
-
-  background-color: #dfece3;
 }
 
 .orders a {
@@ -75,7 +76,7 @@
 }
 
 .orders a:hover {
-  background-color: rgba(143, 151, 143, 0.114);
+  background-color: var(--list-hover-bg);
 }
 
 .profile_card .user_detail td:nth-child(1) {
@@ -85,7 +86,7 @@
 
 .profile_card section {
   padding: 20px;
-  background-color: var(--profile-secondary-color);
+  /* background-color: var(--profile-secondary-color); */
   margin: 10px 0;
 }
 
@@ -94,13 +95,46 @@
   box-shadow: 0 0 20px -12px rgba(68, 68, 68, 0.278);
   width: 100%;
   padding: 4px;
-  background-color: #e4e8e5;
+  /* background-color: #e4e8e5; */
   margin: 2px 0;
 }
 
-.address_plate td {
-  padding: 3px;
+.address_plate tr:hover {
+  background: var(--list-hover-bg);
 }
+
+.address_plate td,
+.address_plate th {
+  padding: 3px;
+  text-align: left;
+  overflow: hidden;
+  height: 20px;
+}
+
+.addr_action {
+  display: flex;
+}
+
+.addr_action span {
+  width: fit-content;
+  height: fit-content;
+  padding: 3px;
+  border-radius: 3px;
+  background-color: green;
+  margin: 0 1px;
+  color: white;
+  font-weight: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.addr_action span:hover {
+  transform: translateY(-1px);
+}
+
 
 .productCard {
   width: 150px;
@@ -112,10 +146,11 @@
 
 }
 
-.aside {
+.aside,
+.skeleton_sidebar {
   max-width: 25%;
   max-width: 200px;
-  height: calc(100vh - 130px);
+  height: calc(100vh - 100px);
   width: 200px;
   display: flex;
   align-items: center;
@@ -124,12 +159,18 @@
   background-color: white;
   gap: 8px;
   padding: 10px 10px 0 0;
-  background-color: rgb(231, 238, 231);
   border-radius: 8px;
-  box-shadow: 0 0 20px -6px rgba(0, 0, 0, 0.168);
+  box-shadow: -3px 10px 20px -6px rgba(0, 0, 0, 0.168);
   position: fixed;
   left: 0;
+  top: 100px;
+  z-index: 11;
 
+}
+
+.aside button {
+  position: sticky;
+  left: -100%;
 }
 
 .aside a {
@@ -138,33 +179,68 @@
   border-radius: 9px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  background-color: rgb(239, 247, 239);
 }
 
 .aside a:hover {
-  background-color: rgb(132, 192, 132);
+  /* background-color: rgb(132, 192, 132); */
+  background-color: var(--list-hover-bg);
 }
 
-.aside a:active {
-  background-color: green;
+.skeleton_card {
+  background: var(--loading-solid-color);
+  min-height: 80vh;
 }
+
+.skeleton_sidebar {
+  background: var(--loading-solid-color);
+}
+
+.skeleton_header {
+  width: 50%;
+  height: 9px;
+  margin: 30px 0;
+  background: var(--loading-color-2);
+  background-size: var(--loading-bg-size);
+  animation: var(--loading-animation)
+}
+
+.skeleton_row {
+  height: 6px;
+  margin: 10px 0;
+  background: var(--loading-color-2);
+  background-size: var(--loading-bg-size);
+  animation: var(--loading-animation);
+}
+
+.skeleton_section {
+  margin: 10px 0;
+  width: 100%;
+  height: 150px;
+  background: var(--loading-color-2);
+  background-size: var(--loading-bg-size);
+  animation: var(--loading-animation);
+}
+
 
 @media screen and (max-width : 900px) {
   .profile_card section {
     padding: 2px;
   }
 
-  .profile_container {
+  .profile_container,
+  .skeleton_container {
     justify-content: center;
     padding: 20px;
   }
 
-  .aside {
+  .aside,
+  .skeleton_sidebar {
     position: fixed;
     left: -100%;
   }
 
-  .profile_card {
+  .profile_card,
+  .skeleton_card {
     width: 100%;
   }
 
@@ -172,7 +248,8 @@
     font-size: 0.8rem;
   }
 
-  .top_name_left .bars {
+  .top_name_left .bars,
+  .aside button {
     display: inline-flex;
     padding: 5px;
   }
