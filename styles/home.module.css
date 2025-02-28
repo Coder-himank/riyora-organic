@@ -204,7 +204,7 @@
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  /* margin: 0 10px; */
+  margin: 0 3px;
 }
 
 .productCard img {
@@ -264,12 +264,11 @@
   max-height: 400px;
   min-height: 400px;
   display: inline-flex;
-  /* background: var(--home-review-bg); */
   padding: 15px;
   border-radius: var(--home-border-radius);
   color: var(--home-text-color);
   border: 2px solid green;
-  /* background-color: rgb(1, 83, 1); */
+  margin: 0 3px;
 
   align-items: center;
   justify-content: center;
