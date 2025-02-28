@@ -8,7 +8,7 @@ import styles from "@/styles/checkout.module.css";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 
 export default function Checkout() {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("checkout");
   const router = useRouter();
   const { productId } = router.query;
   const { data: session } = useSession();
@@ -22,7 +22,7 @@ export default function Checkout() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState({
-    label: "Home",
+    label: t("home"),
     address: "",
     city: "",
     country: "",
@@ -41,19 +41,20 @@ export default function Checkout() {
   }, []);
 
   useEffect(() => {
-    if (session?.user?.id) {
-      createOrder();
-      fetchAddresses();
-    }
-  }, [session]);
+    if (!session?.user?.id) return;
+    if (!orderId) createOrder();
+    fetchAddresses();
+  }, [session?.user?.id, orderId]);
 
   const fetchAddresses = async () => {
     try {
       const { data } = await axios.get(`/api/userProfile?userId=${session.user.id}`);
       setAddresses(data.addresses);
-      setSelectedAddress(data.addresses[0] || null);
+      if (!selectedAddress && data.addresses.length > 0) {
+        setSelectedAddress(data.addresses[0]);
+      }
     } catch (error) {
-      console.error("Error fetching addresses:", error);
+      console.error(t("error_fetching_addresses"), error);
     }
   };
 
@@ -69,7 +70,7 @@ export default function Checkout() {
       setProducts(data.products);
       setLoading(false);
     } catch (error) {
-      console.error("Error creating order:", error);
+      console.error(t("error_creating_order"), error);
       setLoading(false);
     }
   };
@@ -89,35 +90,45 @@ export default function Checkout() {
 
       router.push({ pathname: `/order-success`, query: { orderId: response.razorpay_order_id } });
     } catch (error) {
-      console.error("Error updating order after payment:", error);
+      console.error(t("error_payment_update"), error);
     }
   };
 
   const initiatePayment = async () => {
-    if (!orderId) return console.error("No Order ID Generated");
-    if (!razorpayLoaded) return alert("Razorpay script not loaded. Please try again later.");
+    if (!orderId) return alert(t("order_id_missing"));
+    if (!razorpayLoaded) return alert(t("razorpay_not_loaded"));
 
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      amount: amount * 100,
-      currency: "INR",
-      order_id: orderId,
-      handler: handlePaymentSuccess,
-      prefill: {
-        name: session?.user?.name || "User",
-        email: session?.user?.email || "",
-        contact: session?.user?.phone || "",
-      },
-      theme: { color: "#F37254" },
-    };
+    try {
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "test_key",
+        amount: amount * 100,
+        currency: "INR",
+        order_id: orderId,
+        handler: handlePaymentSuccess,
+        prefill: {
+          name: session?.user?.name || "User",
+          email: session?.user?.email || "",
+          contact: session?.user?.phone || "",
+        },
+        theme: { color: "#F37254" },
+      };
 
-    const razorpay = new window.Razorpay(options);
-    razorpay.open();
+      const razorpay = new window.Razorpay(options);
+      razorpay.on("payment.failed", function (response) {
+        alert(t("payment_failed"));
+        console.error(response.error);
+      });
+
+      razorpay.open();
+    } catch (error) {
+      console.error(t("error_initiating_payment"), error);
+      alert(t("payment_error"));
+    }
   };
 
   const addNewAddress = async () => {
     if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
-      alert("Please fill all address fields.");
+      alert(t("fill_all_address_fields"));
       return;
     }
 
@@ -127,10 +138,10 @@ export default function Checkout() {
         address: newAddress,
       });
       fetchAddresses();
-      alert("Address added successfully!");
+      alert(t("address_added_successfully"));
       setShowNewAddressForm(false);
     } catch (error) {
-      console.error("Error adding address:", error);
+      console.error(t("error_adding_address"), error);
     }
   };
 
@@ -138,58 +149,60 @@ export default function Checkout() {
     <div className={styles.checkout_container}>
       <div className="navHolder"></div>
 
-
       {!session && !session?.user ? (
         <>
-          <center><h2>Login To Continue</h2></center>
+          <center><h2>{t("login_to_continue")}</h2></center>
           <UnAuthorizedUser />
         </>
-      ) : <>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            <h1 className={styles.checkout_head}>{t("checkout")}</h1>
-            <p className={styles.price} ><strong>Total</strong>: ₹{amount}</p>
-            <h3>Select Delivery Address</h3>
-            <div className={styles.address_section}>
-              {addresses.length > 0 ? (
-                <select className={styles.select_address} onChange={(e) => setSelectedAddress(JSON.parse(e.target.value))}>
-                  {addresses.map((addr, index) => (
-                    <option key={index} value={JSON.stringify(addr)}>
-                      {addr.label} - {addr.address}, {addr.city}, {addr.country}, {addr.pincode}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <p>No saved addresses. Add a new one below.</p>
-              )}
-              <button onClick={() => setShowNewAddressForm(!showNewAddressForm)}>
-                {showNewAddressForm ? "Cancel" : "New Address"}
-              </button>
-            </div>
-
-
-            {showNewAddressForm && (
-              <div className={styles.new_address_form}>
-                <h3>Add New Address</h3>
-                <input type="text" placeholder="Address" value={newAddress.address} onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })} />
-                <input type="text" placeholder="City" value={newAddress.city} onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })} />
-                <input type="text" placeholder="Country" value={newAddress.country} onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })} />
-                <input type="text" placeholder="Pincode" value={newAddress.pincode} onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })} />
-                <button onClick={addNewAddress}>Add Address</button>
+      ) : (
+        <>
+          {loading ? (
+            <p>{t("loading")}</p>
+          ) : (
+            <>
+              <h1 className={styles.checkout_head}>{t("checkout")}</h1>
+              <p className={styles.price}><strong>{t("total")}</strong>: ₹{amount}</p>
+              <h3>{t("select_delivery_address")}</h3>
+              <div className={styles.address_section}>
+                {addresses.length > 0 ? (
+                  <select
+                    className={styles.select_address}
+                    onChange={(e) => setSelectedAddress(JSON.parse(e.target.value))}
+                  >
+                    {addresses.map((addr, index) => (
+                      <option key={index} value={JSON.stringify(addr)}>
+                        {addr.label} - {addr.address}, {addr.city}, {addr.country}, {addr.pincode}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p>{t("no_saved_addresses")}</p>
+                )}
+                <button onClick={() => setShowNewAddressForm(!showNewAddressForm)}>
+                  {showNewAddressForm ? t("cancel") : t("new_address")}
+                </button>
               </div>
-            )}
 
-            <button onClick={initiatePayment} className={styles.pay_btn}>Pay with Razorpay</button>
-          </>
-        )}
-      </>
-      }
+              {showNewAddressForm && (
+                <div className={styles.new_address_form}>
+                  <h3>{t("add_new_address")}</h3>
+                  <input type="text" placeholder={t("address")} value={newAddress.address} onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })} />
+                  <input type="text" placeholder={t("city")} value={newAddress.city} onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })} />
+                  <input type="text" placeholder={t("country")} value={newAddress.country} onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })} />
+                  <input type="text" placeholder={t("pincode")} value={newAddress.pincode} onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })} />
+                  <button onClick={addNewAddress}>{t("add_address")}</button>
+                </div>
+              )}
+
+              <button onClick={initiatePayment} className={styles.pay_btn}>{t("pay_with_razorpay")}</button>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
 
 export async function getStaticProps({ locale }) {
-  return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
+  return { props: { ...(await serverSideTranslations(locale, ["checkout"])) } };
 }

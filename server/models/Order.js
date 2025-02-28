@@ -17,6 +17,7 @@ const orderSchema = new Schema({
     customerEmail: { type: String, required: true },
     products: [
         {
+            imageUrl: { type: String, default: "/images/placeholderProduct.png" },
             productId: { type: String, required: true },
             quantity_demanded: { type: Number, required: true },
             price: { type: Number, required: true }

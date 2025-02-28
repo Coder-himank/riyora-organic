@@ -40,6 +40,11 @@
   color: green;
 }
 
+.profile_card section h3{
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
 .top_name_left .bars,
 .aside button {
   width: 30px;
@@ -81,7 +86,8 @@
 
 .profile_card .user_detail td:nth-child(1) {
   padding: 5px 0;
-  text-transform: uppercase;
+  text-transform: capitalize;
+  font-weight: 600;
 }
 
 .profile_card section {
@@ -92,7 +98,8 @@
 
 .address_plate {
   /* border: 1px solid black; */
-  box-shadow: 0 0 20px -12px rgba(68, 68, 68, 0.278);
+  /* box-shadow: 0 0 20px -12px rgba(68, 68, 68, 0.278); */
+  border-bottom: 1px solid rgba(203, 200, 200, 0.463);
   width: 100%;
   padding: 4px;
   /* background-color: #e4e8e5; */

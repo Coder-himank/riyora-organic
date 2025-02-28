@@ -5,43 +5,34 @@ export default async function handler(req, res) {
     await connectDB();
 
     if (req.method === "GET") {
-        const { orderId } = req.query;
-
-        if (!orderId) {
-            return res.status(400).json({ message: "Missing Order Id" })
-        }
-
-        const orderDetails = await Order.findOne({ orderId })
-
-
-        res.status(200).json({ orderDetails })
-    }
-    if (req.method === "POST") {
         try {
-            // Extract only required fields (without defaults)
-            const { orderId, userId, amount, customerName, customerPhone, customerEmail, products } = req.body;
+            const { orderId, userId, status } = req.query;
 
-            // Validate required fields
-            if (!orderId || !userId || !amount || !customerName || !customerPhone || !customerEmail || !products?.length) {
-                return res.status(400).json({ success: false, message: "Missing required fields" });
+            if (!userId) {
+                return res.status(400).json({ message: "Missing Details" });
             }
 
-            const newOrder = new Order({
-                orderId,
-                userId,
-                amount,
-                customerName,
-                customerPhone,
-                customerEmail,
-                products
-            });
+            let orderDetails;
 
-            await newOrder.save();
-            res.status(201).json({ success: true, message: "Order created successfully", order: newOrder });
+            if (status !== undefined & status !== "undefined") {
+                orderDetails = await Order.find({
+                    userId,
+                    "statusHistory.status": status  // Correct way to filter nested arrays
+                });
+            } else if (orderId & orderId !== undefined) {
+                orderDetails = await Order.findOne({ userId, _id: orderId });
+                orderDetails = orderDetails ? [orderDetails] : [];
+            } else {
+                orderDetails = await Order.find({ userId });
+            }
+            return res.status(200).json({ orderDetails });
         } catch (error) {
-            res.status(500).json({ success: false, message: "Failed to create order", error: error.message });
+            console.error("Error fetching orders:", error);
+            return res.status(500).json({ message: "Internal Server Error", error: error.message });
         }
     }
+
+
 
     else if (req.method === "PUT") {
         try {

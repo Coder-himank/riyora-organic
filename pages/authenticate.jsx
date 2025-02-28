@@ -11,6 +11,7 @@ import "react-phone-input-2/lib/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useRouter } from "next/router";
 import styles from "@/styles/authenticate.module.css";
+import Link from "next/link";
 
 export default function AuthPage() {
     const { t } = useTranslation("common");
@@ -24,13 +25,20 @@ export default function AuthPage() {
     const [step, setStep] = useState(1);
     const [resendTimer, setResendTimer] = useState(25);
     const [canResend, setCanResend] = useState(false);
-    const [countryCode, setCountryCode] = useState("IN"); // Default country
+    const [countryCode, setCountryCode] = useState("IN");
 
     const router = useRouter();
     const { type: pageType, callback } = router.query;
 
     useEffect(() => {
-        if (pageType !== "login") setIsLogin(false);
+        console.log(pageType);
+
+        if (pageType !== "login") {
+
+            setIsLogin(false);
+            console.log(true);
+        }
+
     }, [pageType]);
 
     useEffect(() => {
@@ -46,7 +54,7 @@ export default function AuthPage() {
 
     const handlePhoneChange = (value, country) => {
         setFormData({ ...formData, phone: value });
-        setCountryCode(country.countryCode.toUpperCase()); // Update country dynamically
+        setCountryCode(country.countryCode.toUpperCase());
     };
 
     const validatePhone = () => {
@@ -67,14 +75,12 @@ export default function AuthPage() {
             if (response.data.success) {
                 setSentOtp(response.data.otp);
                 setStep(2);
-
                 toast.success(t("otp_sent"));
             } else {
                 toast.error(response.data.error);
             }
         } catch (error) {
             toast.error(t("otp_send_failed"));
-            console.error(error);
         }
     };
 
@@ -84,14 +90,14 @@ export default function AuthPage() {
             if (response.data.success) {
                 setUserVerified(true);
                 toast.success(t("phone_verified"));
-                return true
+                return true;
             } else {
                 toast.error(t("invalid_otp"));
             }
         } catch (error) {
             toast.error(t("otp_verification_failed"));
         }
-        return false
+        return false;
     };
 
     const handleSubmit = async (e) => {
@@ -100,14 +106,10 @@ export default function AuthPage() {
         if (isLogin) {
             if (await verifyOtp()) {
                 try {
-
-                    const res = await signIn("credentials", { email: formData.email, redirect: false });
+                    const res = await signIn("credentials", { email: formData.email, password: formData.password, redirect: false });
                     if (res?.error) {
                         toast.error(t("invalid_credentials"));
-                        console.log(res.error);
-
-                    }
-                    else {
+                    } else {
                         toast.success(t("login_success"));
                         setTimeout(() => router.push(callback || "/"), 1500);
                     }
@@ -115,16 +117,13 @@ export default function AuthPage() {
                     toast.error(t("login_failed"));
                 }
             }
-        }
-        else {
+        } else {
             try {
                 if (await verifyOtp()) {
-
                     const response = await axios.post("/api/auth/signup", { ...formData, phoneVerified: true });
                     toast.success(response.data.message);
                     setIsLogin(true);
-                    // setStep(0)
-                    setLoading(false)
+                    setLoading(false);
                 }
             } catch (error) {
                 toast.error(error.response?.data?.message || t("registration_failed"));
@@ -133,44 +132,28 @@ export default function AuthPage() {
         setLoading(false);
     };
 
+
+
     return (
         <div className={styles.auth_container}>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
             <motion.div className={styles.auth_box} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                 <h2>{isLogin ? t("login") : t("sign_up")}</h2>
                 <form onSubmit={handleSubmit} className={styles.form}>
-                    {!isLogin && (
-                        <input type="text" name="fullName" placeholder={t("full_name")} value={formData.fullName} onChange={handleChange} required />
-                    )}
+                    {!isLogin && <input type="text" name="fullName" placeholder={t("full_name")} value={formData.fullName} onChange={handleChange} required />}
                     <input type="email" name="email" placeholder={t("email")} value={formData.email} onChange={handleChange} required />
-                    {!isLogin && (
-                        <input type="password" name="password" placeholder={t("password")} value={formData.password} onChange={handleChange} required />
-                    )}
+                    {!isLogin && <input type="password" name="password" placeholder={t("password")} value={formData.password} onChange={handleChange} required />}
+                    <PhoneInput country={countryCode.toLowerCase()} value={formData.phone} onChange={handlePhoneChange} inputProps={{ name: "phone", required: true }} />
+                    {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder={t("authenticate.enter_otp")} required />}
+                    <button type="button" onClick={sendOtp} disabled={!canResend}>{canResend ? t("authenticate.resend_otp") : `${t("authenticate.resend_in")} ${resendTimer}s`}</button>
+                    <button type="submit" className={styles.btn} disabled={loading}>{loading ? t("loading") : isLogin ? t("login") : t("sign_up")}</button>
 
-                    <PhoneInput
-                        country={countryCode.toLowerCase()}
-                        value={formData.phone}
-                        onChange={handlePhoneChange}
-                        inputProps={{ name: "phone", required: true }}
-                    />
-
-                    {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder={t("enter_otp")} required />}
-
-                    <div>
-                        {sentOtp && <p>{sentOtp}</p>}
-                        {step === 1 && <button type="button" onClick={sendOtp}>{t("send_otp")}</button>}
-                        {step === 2 && (
-                            <button type="button" onClick={sendOtp} disabled={!canResend}>
-                                {canResend ? t("resend_otp") : `${t("resend_in")} ${resendTimer}s`}
-                            </button>
-                        )}
-                    </div>
-
-                    <button type="submit" className={styles.btn} disabled={loading}>
-                        {loading ? t("loading") : isLogin ? t("login") : t("sign_up")}
-                    </button>
+                    {!isLogin ?
+                        <p>Already Have a Account : <span style={{ color: "green" }} onClick={() => setIsLogin(true)}>{t("login")}</span></p> :
+                        <p>Create New Account : <span style={{ color: "green" }} onClick={() => setIsLogin(false)}>{t("signup")}</span></p>
+                    }
                 </form>
-                <p>Already Have a Account : <span style={{ color: "green" }} onClick={() => setIsLogin(true)}>Login</span></p>
+
             </motion.div>
         </div>
     );

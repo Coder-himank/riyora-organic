@@ -29,11 +29,11 @@ export default function Wishlist() {
     }
 
     try {
-      const productIds = wishlistItems.map(item => item.productId);
+      const productIds = wishlistItems.map((item) => item.productId);
       const { data: products } = await axios.get(`/api/products?ids=${productIds.join(",")}`);
       setWishProductData(products);
     } catch (error) {
-      console.error("Error fetching wishlist data:", error);
+      console.error(t("error_fetching_wishlist"), error);
       setWishProductData([]);
     } finally {
       setIsLoading(false);
@@ -47,7 +47,7 @@ export default function Wishlist() {
       });
       fetchWishlistData(data.wishlist);
     } catch (error) {
-      console.error("Error fetching wishlist:", error);
+      console.error(t("error_fetching_wishlist"), error);
       setWishProductData([]);
       setIsLoading(false);
     }
@@ -59,7 +59,7 @@ export default function Wishlist() {
       setWishProductData((prev) => prev.filter((item) => item._id !== productId));
       showNotification(t("removed_from_wishlist"));
     } catch (error) {
-      console.error("Error removing from wishlist:", error);
+      console.error(t("error_removing_wishlist"), error);
       showNotification(t("unable_to_remove"));
     }
   };
@@ -71,26 +71,20 @@ export default function Wishlist() {
 
   if (sessionStatus === "loading") {
     return (
-      <>
-        <div className={wislistStyles.wishlist_container}>
-
-          <div className="navHolder"></div>
-          <p>Loading...</p>;
-        </div>
-      </>
-    )
+      <div className={wislistStyles.wishlist_container}>
+        <div className="navHolder"></div>
+        <p>{t("loading")}</p>
+      </div>
+    );
   }
 
   if (sessionStatus !== "authenticated") {
     return (
-      <>
-        <div className={wislistStyles.wishlist_container}>
-
-          <div className="navHolder"></div>
-          <UnAuthorizedUser />
-        </div>
-      </>
-    )
+      <div className={wislistStyles.wishlist_container}>
+        <div className="navHolder"></div>
+        <UnAuthorizedUser />
+      </div>
+    );
   }
 
   return (
@@ -102,7 +96,7 @@ export default function Wishlist() {
         {notification && <div className="notification">{notification}</div>}
 
         {isLoading ? (
-          <WishlistSkeleton />
+          <WishlistSkeleton t={t} />
         ) : wishProductData.length === 0 ? (
           <EmptyWishlist t={t} />
         ) : (
@@ -138,27 +132,24 @@ export default function Wishlist() {
   );
 }
 
-const WishlistSkeleton = () => (
-  <>
-    <div className={wislistStyles.wishlist_container}>
-      {/* <h1 className={wislistStyles.wishlist_head}>Loading Wishlist...</h1> */}
-      {[...Array(3)].map((_, index) => (
-        <div key={index} className={`${wislistStyles.wishlist_item} ${wislistStyles.loading}`}>
-          <div className={wislistStyles.skeleton_img}></div>
-          <div className={wislistStyles.wishlist_item_details}>
-            <div className={wislistStyles.skeleton_text}></div>
-            <div className={wislistStyles.skeleton_text_small}></div>
-            <div className={wislistStyles.skeleton_list}>
-              {[...Array(3)].map((_, idx) => (
-                <div key={idx} className={wislistStyles.skeleton_list_item}></div>
-              ))}
-            </div>
+const WishlistSkeleton = ({ t }) => (
+  <div className={wislistStyles.wishlist_container}>
+    {[...Array(3)].map((_, index) => (
+      <div key={index} className={`${wislistStyles.wishlist_item} ${wislistStyles.loading}`}>
+        <div className={wislistStyles.skeleton_img}></div>
+        <div className={wislistStyles.wishlist_item_details}>
+          <div className={wislistStyles.skeleton_text}></div>
+          <div className={wislistStyles.skeleton_text_small}></div>
+          <div className={wislistStyles.skeleton_list}>
+            {[...Array(3)].map((_, idx) => (
+              <div key={idx} className={wislistStyles.skeleton_list_item}></div>
+            ))}
           </div>
-          <button className={wislistStyles.skeleton_btn}></button>
         </div>
-      ))}
-    </div>
-  </>
+        <button className={wislistStyles.skeleton_btn}></button>
+      </div>
+    ))}
+  </div>
 );
 
 const EmptyWishlist = ({ t }) => (

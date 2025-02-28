@@ -21,6 +21,7 @@ export default async function handler(req, res) {
 
             const final_products = cartItems.map((item, index) => {
                 return {
+                    imageUrl: item.imageUrl,
                     productId: item._id.toString(),
                     quantity_demanded: item.quantity_demanded,
                     price: item.price

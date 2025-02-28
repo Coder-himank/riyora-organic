@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import styles from "@/styles/Carousel.module.css"; // Ensure this CSS file exists
 
-const ProductCarousel = ({ children }) => {
+const Carousel = ({ children }) => {
     const scrollRef = useRef(null);
     const containerRef = useRef(null);
 
@@ -11,15 +11,16 @@ const ProductCarousel = ({ children }) => {
 
     // Function to check if the action buttons should be visible
     const checkOverflow = useCallback(() => {
-        if (scrollRef.current && containerRef.current) {
-            setShowActionButton(scrollRef.current.scrollWidth > containerRef.current.clientWidth);
+        if (!scrollRef.current || !containerRef.current || !scrollRef.current.children.length) return;
 
-            // Correct calculation for the number of slides
-            const itemWidth = scrollRef.current.children[0]?.offsetWidth + 10 || 0;
-            if (itemWidth > 0) {
-                setSlideCount(Math.ceil(scrollRef.current.scrollWidth / itemWidth));
-            }
-        }
+        const firstChild = scrollRef.current.children[0];
+        if (!firstChild) return;
+
+        const itemWidth = firstChild.offsetWidth + 10; // Account for margin
+        const totalWidth = scrollRef.current.scrollWidth;
+
+        setShowActionButton(totalWidth > containerRef.current.clientWidth);
+        setSlideCount(itemWidth > 0 ? Math.ceil(totalWidth / itemWidth) : 1);
     }, []);
 
     useEffect(() => {
@@ -30,33 +31,40 @@ const ProductCarousel = ({ children }) => {
 
     // Function to update the current slide index
     const updateIndex = useCallback(() => {
-        if (scrollRef.current) {
-            const scrollLeft = scrollRef.current.scrollLeft;
-            const itemWidth = scrollRef.current.children[0]?.offsetWidth + 10 || 0; // Width of one card + margin
-            if (itemWidth > 0) {
-                setCurrentIndex(Math.round(scrollLeft / itemWidth) + 1);
-            }
-        }
+        if (!scrollRef.current || !scrollRef.current.children.length) return;
+
+        const firstChild = scrollRef.current.children[0];
+        if (!firstChild) return;
+
+        const itemWidth = firstChild.offsetWidth + 10; // Account for margin
+        const scrollLeft = scrollRef.current.scrollLeft;
+
+        setCurrentIndex(itemWidth > 0 ? Math.round(scrollLeft / itemWidth) + 1 : 1);
     }, []);
 
     // Scroll function
     const scroll = (direction) => {
-        if (scrollRef.current) {
-            const scrollLeft = scrollRef.current.scrollLeft;
-            const scrollWidth = scrollRef.current.scrollWidth;
-            const clientWidth = scrollRef.current.clientWidth;
-            const scrollAmount = scrollRef.current.children[0]?.offsetWidth + 10 || 0; // Width of one card + margin
+        if (!scrollRef.current || !scrollRef.current.children.length) return;
 
-            if (direction === "left" && scrollLeft === 0) return;
-            if (direction === "right" && scrollLeft + clientWidth >= scrollWidth) return;
+        const firstChild = scrollRef.current.children[0];
+        if (!firstChild) return;
 
-            scrollRef.current.scrollBy({
-                left: direction === "left" ? -scrollAmount : scrollAmount,
-                behavior: "smooth",
-            });
+        const scrollLeft = scrollRef.current.scrollLeft;
+        const scrollWidth = scrollRef.current.scrollWidth;
+        const clientWidth = scrollRef.current.clientWidth;
+        const scrollAmount = firstChild.offsetWidth + 10; // Width of one card + margin
 
-            setTimeout(updateIndex, 300); // Allow some time for smooth scrolling before updating index
+        if ((direction === "left" && scrollLeft === 0) ||
+            (direction === "right" && scrollLeft + clientWidth >= scrollWidth)) {
+            return;
         }
+
+        scrollRef.current.scrollBy({
+            left: direction === "left" ? -scrollAmount : scrollAmount,
+            behavior: "smooth",
+        });
+
+        setTimeout(updateIndex, 300); // Allow some time for smooth scrolling before updating index
     };
 
     return (
@@ -65,20 +73,37 @@ const ProductCarousel = ({ children }) => {
                 {children}
             </div>
 
-            {showActionButton && (
+            {showActionButton && slideCount > 1 && (
                 <div className={styles.action_btn}>
-                    <button className={styles.scrollBtn} onClick={() => scroll("left")}>◀</button>
-                    <div className={styles.indicators}>
+                    <button
+                        className={styles.scrollBtn}
+                        onClick={() => scroll("left")}
+                        aria-label="Scroll Left"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === "Enter" && scroll("left")}
+                    >
+                        ◀
+                    </button>
 
+                    <div className={styles.indicators}>
                         {Array.from({ length: slideCount - 1 }, (_, i) => (
                             <span key={i} className={i + 1 === currentIndex ? styles.activeIndicator : styles.indicator}></span>
                         ))}
                     </div>
-                    <button className={styles.scrollBtn} onClick={() => scroll("right")}>▶</button>
+
+                    <button
+                        className={styles.scrollBtn}
+                        onClick={() => scroll("right")}
+                        aria-label="Scroll Right"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === "Enter" && scroll("right")}
+                    >
+                        ▶
+                    </button>
                 </div>
             )}
         </div>
     );
 };
 
-export default ProductCarousel;
+export default Carousel;

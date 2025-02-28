@@ -4,8 +4,8 @@
   "our_products": "Our Products",
   "profile": "User Profile",
   "cart": "Your Cart",
-  "checkout": "Checkout",
   "wishlist": "Your Wishlist",
+  "checkout": "Checkout",
   "about": "About Us",
   "contact": "Contact Us",
   "services": "Our Services",
@@ -38,5 +38,195 @@
   "order_success": "Order Success",
   "thank_you_for_your_order": "Thank you for your order!",
   "you_will_be_redirected_to_track_order_page": "You will be redirected to the track order page shortly.",
-  "redirect_in_5_seconds": "Redirecting in 5 seconds..."
+  "redirect_in_5_seconds": "Redirecting in 5 seconds...",
+  "signup": "Sign Up",
+  "add_to_wishlist": "Add to Wishlist",
+  "navbar": {
+    "welcome": "Welcome",
+    "our_products": "Our Products",
+    "cart": "Cart",
+    "wishlist": "Wishlist",
+    "signin": "Sign In",
+    "profile": "Profile"
+  },
+  "unauthorized": {
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "product": {
+    "buy_now": "Buy Now",
+    "add_to_cart": "Add to Cart",
+    "add_to_wishlist": "Add to Wishlist"
+  },
+  "footer": {
+    "copyright": "© 2025 Organic Store. All rights reserved."
+  },
+  "carousel": {
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "authenticate": {
+    "login": "Login",
+    "sign_up": "Sign Up",
+    "full_name": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "phone": "Phone Number",
+    "enter_otp": "Enter OTP",
+    "send_otp": "Send OTP",
+    "resend_otp": "Resend OTP",
+    "resend_in": "Resend in",
+    "otp_sent": "OTP sent successfully!",
+    "invalid_phone": "Invalid phone number!",
+    "otp_send_failed": "Failed to send OTP. Try again!",
+    "invalid_otp": "Invalid OTP! Please try again.",
+    "otp_verification_failed": "OTP verification failed!",
+    "phone_verified": "Phone number verified successfully!",
+    "invalid_credentials": "Invalid email or password!",
+    "login_success": "Login successful!",
+    "login_failed": "Login failed. Please try again!",
+    "registration_failed": "Registration failed. Please try again!",
+    "loading": "Loading...",
+    "already_have_account": "Already have an account?",
+    "dont_have_account": "Don't have an account?",
+    "switch_to_login": "Login",
+    "switch_to_signup": "Sign Up"
+  },
+  "wishlist_page": {
+    "wishlist": "Wishlist",
+    "removed_from_wishlist": "Removed from wishlist",
+    "unable_to_remove": "Unable to remove item",
+    "wishlist_empty": "Your wishlist is empty",
+    "shop_now": "Shop Now",
+    "loading": "Loading..."
+  },
+  "cart_page": {
+    "cart": "Cart",
+    "removed_from_cart": "Item removed from cart",
+    "cart_updated": "Cart updated",
+    "cart_empty": "Your cart is empty",
+    "shop_now": "Shop Now",
+    "checkout": "Continue to Checkout",
+    "total": "Total",
+    "error_loading_cart": "Error loading cart",
+    "error_fetching_cart": "Error fetching cart data",
+    "error_removing_cart_item": "Error removing item from cart",
+    "error_updating_cart": "Error updating cart quantity"
+  },
+  "checkout_page": {
+    "checkout": "Checkout",
+    "total": "Total",
+    "select_delivery_address": "Select a Delivery Address",
+    "no_saved_addresses": "No saved addresses found.",
+    "new_address": "Add New Address",
+    "cancel": "Cancel",
+    "add_new_address": "Add New Address",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "pincode": "Pincode",
+    "add_address": "Add Address",
+    "pay_with_razorpay": "Pay with Razorpay",
+    "login_to_continue": "Please log in to continue.",
+    "loading": "Loading...",
+    "home": "Home",
+    "error_fetching_addresses": "Error fetching addresses.",
+    "error_creating_order": "Error creating order.",
+    "error_payment_update": "Error updating payment details.",
+    "error_initiating_payment": "Error initiating payment.",
+    "payment_failed": "Payment failed. Please try again.",
+    "payment_error": "An error occurred while processing the payment.",
+    "order_id_missing": "Order ID is missing. Please try again later.",
+    "razorpay_not_loaded": "Razorpay is not loaded yet. Please wait.",
+    "fill_all_address_fields": "Please fill all address fields.",
+    "address_added_successfully": "Address added successfully!"
+  },
+  "home": {
+    "meta": {
+      "title": "Learn And Buy Organic Beauty Products",
+      "description": "Buy organic products derived from Ayurveda for healthy living."
+    },
+    "org_name": "Organic Robust",
+    "hero": {
+      "subtitle": "Your best source for natural products."
+    },
+    "shop_now": "Shop Now",
+    "benefits": {
+      "title": "Why Choose Organic?",
+      "no_chemicals": "No Harmful Chemicals",
+      "nutrients": "Rich in Nutrients",
+      "environment": "Environmentally Friendly",
+      "health": "Better for Health"
+    },
+    "about": {
+      "title": "About Organic Robust",
+      "description": "Organic Robust is an online business selling organic products for a healthy lifestyle."
+    },
+    "products": {
+      "best_selling": "Best Selling Products"
+    },
+    "product": {
+      "indigo": "Indigo Powder",
+      "amla": "Amla Powder",
+      "multani": "Multani Mitti"
+    },
+    "read_more": "Read More",
+    "reviews": {
+      "title": "What Our Customers Say",
+      "review1": "\"Best organic products! Highly recommended!\" - Emily R.",
+      "review2": "\"Loved the freshness of the products!\" - David P."
+    },
+    "subscribe": {
+      "title": "Get 10% Off on Your First Order!",
+      "placeholder": "Enter your email",
+      "button": "Subscribe"
+    }
+  },
+  "ordersPage": {
+    "error": "Error",
+    "orders": {
+      "title": "Orders",
+      "no_orders": "No Orders To Track",
+      "quantity": "Qty",
+      "payment": "Payment",
+      "placed_on": "Placed On",
+      "expected": "Expected",
+      "status": "Status",
+      "unknown": "Unknown",
+      "product_alt": "Product {{index}}"
+    }
+  },
+  "profilePage": {
+    "error_loading": "Error loading data",
+    "userId": "User ID",
+    "email": "Email",
+    "phone": "Phone",
+    "track_orders": "Track Orders",
+    "error_fetching_order": "Error fetching order details",
+    "order_id": "Order ID",
+    "placed_on": "Placed On",
+    "expected_delivery": "Expected Delivery",
+    "payment_status": "Payment Status",
+    "order_status": "Order Status",
+    "dashboard": "Dashboard",
+    "refund": "Refund",
+    "track_order_page": "Track Order",
+    "payment_history": "Payment History",
+    "customer_care": "Customer Care",
+    "help": "Help",
+    "no_orders": "No Orders To Track",
+    "canceled_orders": "Canceled Orders",
+    "all_orders": "All Orders",
+    "addresses": "Addresses",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "label": "Label",
+    "pincode": "Pincode",
+    "action": "Action",
+    "edit": "Edit",
+    "delete": "Delete",
+    "sign_out": "Sign Out",
+    "loyalty_points": "Loyalty Points"
+  }
 }
