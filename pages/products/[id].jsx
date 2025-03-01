@@ -133,8 +133,8 @@ const ProductPage = ({ product, productDetail }) => {
             </Head>
             <div className="navHolder"></div>
 
-            {notification && <div className="notification"></div>}
             <div className={styles.product_container}>
+                {notification && <div className="notification">{notification}</div>}
                 <h1>{product.name}</h1>
                 <section className={styles.sec_1}>
                     <Image src={product.imageUrl} width={350} height={400} alt={product.name} />
@@ -151,8 +151,8 @@ const ProductPage = ({ product, productDetail }) => {
                             <p>{productDetail.description}</p>
                         </div>
                         <div className={styles.action_btn}>
-                            <button onClick={() => onAddToWishlist(router, product._id, session)} className="button-outline ">Add To Wishlist</button>
-                            <button onClick={() => onAddToCart(router, product._id, session)}>Add To Cart</button>
+                            <button onClick={() => onAddToWishlist(router, product._id, session).success == false ? setNotification("Unable To Add to Wishlist") : setNotification("Added To Wishlist")} className="button-outline ">Add To Wishlist</button>
+                            <button onClick={() => onAddToCart(router, product._id, session).success == false ? setNotification("Unable To Add to Cart") : setNotification("Added To Cart")}>Add To Cart</button>
                             <button onClick={() => onBuy(router, product._id, session)}>Buy Now</button>
                         </div>
                         <hr />

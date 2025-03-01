@@ -16,21 +16,8 @@ export default function UserProfile() {
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  const [toogleBars, setToogleBars] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [resizeWidth, setResizeWidth] = useState(0);
 
-  useEffect(() => {
-    const checkOverflow = () => {
-      setResizeWidth(window.innerWidth);
-      if (window.innerWidth >= 900) {
-        setToogleBars(false);
-      }
-    };
-
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, []);
 
   // Fetch user profile
   useEffect(() => {
@@ -66,26 +53,13 @@ export default function UserProfile() {
   return (
     <>
       <div className="navHolder"></div>
-      <aside className={styles.aside} style={toogleBars ? { left: "0%", top: "0", height: "100vh", width: "300px" } : {}}>
-        <button className={styles.bars} onClick={() => setToogleBars((prev) => !prev)}>
-          <FaArrowLeft />
-        </button>
-        <Link href="/profile">{t("profilePage.dashboard")}</Link>
-        <Link href="/refund">{t("profilePage.refund")}</Link>
-        <Link href="/track-order">{t("profilePage.track_order")}</Link>
-        <Link href="/payment-history">{t("profilePage.payment_history")}</Link>
-        <Link href="/customer-care">{t("profilePage.customer_care")}</Link>
-        <Link href="/help">{t("profilePage.help")}</Link>
-      </aside>
 
       <div className={styles.profile_container}>
         {session?.user ? (
           <div className={styles.profile_card}>
             <div className={styles.top_name}>
               <div className={styles.top_name_left}>
-                <button className={styles.bars} onClick={() => setToogleBars((prev) => !prev)}>
-                  <FaArrowRight />
-                </button>
+
                 <span className={styles.username}>{user?.name}</span>
               </div>
               <div>

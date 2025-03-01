@@ -283,6 +283,51 @@ footer {
   text-align: center;
 }
 
+.profile_aside {
+  max-width: 25%;
+  max-width: 200px;
+  height: calc(100vh - 100px);
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  gap: 8px;
+  padding: 10px 10px 0 0;
+  border-radius: 8px;
+  box-shadow: -3px 10px 20px -6px rgba(0, 0, 0, 0.168);
+  position: fixed;
+  left: 0;
+  top: 100px;
+  z-index: 11;
+  padding: 20px;
+
+}
+
+.profile_aside_bars {
+  width: 30px;
+  height: 30px;
+  font-size: 1.2rem;
+  padding: 5px;
+  color: white;
+  display: none;
+  margin: 4px;
+  position: sticky;
+  left: -100%;
+}
+
+.profile_aside a {
+  width: 100%;
+  padding: 20px 20px;
+  border-radius: 9px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.profile_aside a:hover {
+  /* background-color: rgb(132, 192, 132); */
+  background-color: var(--list-hover-bg);
+}
+
 
 /* skeleton loading animation */
 @keyframes loading {
@@ -356,5 +401,20 @@ footer {
 
   .nav-links select {
     margin: var(--spacing);
+  }
+
+  .profile_aside {
+    left: -100%;
+    min-width: 100%;
+  }
+
+  .profile_aside a {
+    max-width: 70vw;
+  }
+
+  .profile_aside_bars {
+    display: inline-flex;
+    padding: 5px;
+
   }
 }
