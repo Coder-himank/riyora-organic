@@ -41,9 +41,21 @@ export default function Home() {
       <div className={styles.home_container}>
         {/* Hero Section */}
         <motion.div className={styles.hero_section} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-          <motion.div className={styles.hero_text} initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
-            <h1 className={styles.glow_text}>{t("home.org_name")}</h1>
+
+
+
+          <motion.div className={styles.hero_text_1} initial={{ opacity: 0, y: 200 }} animate={{ opacity: 1, y: 150 }} transition={{ duration: 1.2 }}>
+
+            <h1 className={styles.glow_text}>{t("home.hero.title")}</h1>
             <p className="subtext">{t("home.hero.subtitle")}</p>
+          </motion.div>
+
+          {/* tree */}
+          <motion.div className={styles.tree}>
+            <Image src={"/images/tree.png"} width={500} height={500} alt="Tree Of Fruits" />
+          </motion.div>
+
+          <motion.div className={styles.hero_text} initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className={styles.shop_btn}>
               <Link href="/products">{t("home.shop_now")}</Link>
             </motion.div>
@@ -77,8 +89,20 @@ export default function Home() {
         <motion.section className={styles.about_section} initial={{ y: 20, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} transition={{ duration: 1.8, delay: 0.3 }}>
           <h2 className={styles.home_h2}>{t("home.about.title")}</h2>
           <div className={styles.about_in}>
-            <Image src={"/images/rishi.png"} width={400} height={400} alt="Founder" />
-            <p>{t("home.about.description")}</p>
+            <motion.div
+              initial={{ x: -100, y: 20, opacity: 0.3 }}
+              whileInView={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 1.5 }}
+            >
+              <Image src={"/images/rishi.png"} width={400} height={400} alt="Founder" />
+            </motion.div>
+            <motion.div
+              initial={{ x: 100, y: 20, opacity: 0.3 }}
+              whileInView={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 1.5 }}
+            >
+              <p>{t("home.about.description")}</p>
+            </motion.div>
           </div>
         </motion.section>
 

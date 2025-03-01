@@ -1,5 +1,5 @@
 {
-  "welcome": "Welcome to Organic Store",
+  "welcome": "Organic Robust",
   "shop_now": "Shop Now",
   "our_products": "Our Products",
   "profile": "User Profile",
@@ -148,6 +148,7 @@
     },
     "org_name": "Organic Robust",
     "hero": {
+      "title": "Enhance The Beauty With The Magic Powders",
       "subtitle": "Your best source for natural products."
     },
     "shop_now": "Shop Now",

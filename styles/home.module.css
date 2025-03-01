@@ -18,7 +18,7 @@
 .home_container .hero_section {
   padding: var(--home-section-padding);
   width: 100%;
-  height: 100vw;
+  height: 100vh;
   max-height: 100vh;
   /* min-height: 80vh; */
   background: var(--home-hero-bg);
@@ -26,30 +26,49 @@
   align-items: center;
   position: relative;
   justify-content: center;
-  background-image: url("/images/home-hero.png");
-  background-position: center 0;
+  /* background-image: url(); */
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: scroll;
+  background-origin: 0 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
   /* background-blend-mode:; */
 }
 
-.home_container .hero_text {
-  position: absolute;
+.tree {
+  transform: translateY(100px);
+  width: fit-content;
+  height: fit-content;
+  margin: 30px;
+}
+
+
+.home_container .hero_text,
+.hero_text_1 {
   /* right: 10vw; */
+  height: fit-content;
+  width: fit-content;
   display: flex;
-  top: 30vw;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   z-index: 7;
-  backdrop-filter: blur(2px);
+}
+
+.hero_text_1 {
+  font-family: Avenir Heavy, sans-serif;
+  text-transform: lowercase;
 }
 
 .home_container .glow_text {
   font-size: var(--home-heading-font-size);
-  font-weight: bold;
-  color: rgb(109, 183, 31);
+  font-weight: 400;
+  font-size: 2.5rem;
+  color: rgb(56, 90, 20);
 }
 
 .home_container .subtext {
@@ -152,7 +171,7 @@
 
   background-color: white;
   border-radius: 20px;
-  box-shadow: 0 5px 20px -4px rgba(0, 0, 0, 0.344);
+  /* box-shadow: 0 5px 20px -4px rgba(0, 0, 0, 0.344); */
 
   padding: 30px 0;
   width: 80%;
@@ -284,47 +303,20 @@
   width: 50vw;
 }
 
-/* Responsive */
-@media screen and (max-width: 1200px) {
 
-  .home_container .hero_text {
-    /* background: white; */
-    min-height: fit-content;
-    /* box-shadow: 0 0 20px -9px #00000033; */
-    padding: 20px;
-
-  }
-
-  .home_container .hero_text h1 {
-    font-size: 1.46rem;
-  }
-
-  .home_container .hero_text p {
-    font-size: 0.6rem;
-  }
-
-  .home_container .hero_text .shop_btn {
-    padding: 7px 10px;
-    font-size: 0.8rem;
-  }
-}
 
 @media screen and (max-width: 900px) {
-
-  .home_container .hero_section {
-
-    background-position: center 100;
+  .tree {
+    width: 400px;
+    height: 600px;
+    /* border: 1px solid black; */
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    margin: 30px 0 0 0;
   }
 
-  .home_container .hero_text {
-    width: 80%;
-    width: fit-content;
-    height: 20vw;
-    position: absolute;
-    top: 250px;
-    /* bottom: 10px; */
-    backdrop-filter: blur(0);
-  }
 
   .about_in {
     flex-direction: column;
@@ -343,8 +335,4 @@
     font-size: 7vw;
   }
 
-  .home_container .hero_section {
-    background-size: contain;
-
-  }
 }

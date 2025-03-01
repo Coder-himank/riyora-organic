@@ -123,8 +123,7 @@ export default function Navbar() {
 
             <select onChange={(e) => changeLanguage(e.target.value)} defaultValue={locale}>
               <option value={"en"}>EN</option>
-              <option value={"es"}>ES</option>
-              <option value={"fr"}>FR</option>
+              <option value={"hi"}>HI</option>
 
             </select>
           </div>

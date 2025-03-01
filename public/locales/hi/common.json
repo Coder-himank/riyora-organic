@@ -1,0 +1,205 @@
+{
+    "welcome": "ऑर्गेनिक रोबस्ट",
+    "shop_now": "अभी खरीदें",
+    "our_products": "हमारे उत्पाद",
+    "profile": "उपयोगकर्ता प्रोफ़ाइल",
+    "cart": "आपकी गाड़ी",
+    "wishlist": "आपकी विशलिस्ट",
+    "checkout": "चेकआउट",
+    "about": "हमारे बारे में",
+    "contact": "संपर्क करें",
+    "services": "हमारी सेवाएँ",
+    "privacy_policy": "गोपनीयता नीति",
+    "buy_now": "अभी खरीदें",
+    "add_to_cart": "गाड़ी में डालें",
+    "email": "ईमेल",
+    "signin": "साइन इन",
+    "login": "लॉगिन करें",
+    "sign_up": "साइन अप करें",
+    "full_name": "पूरा नाम",
+    "password": "पासवर्ड",
+    "login_google": "गूगल से लॉगिन करें",
+    "dont_have_account": "खाता नहीं है?",
+    "already_have_account": "पहले से ही खाता है?",
+    "track_order": "ऑर्डर ट्रैक करें",
+    "order_id": "ऑर्डर आईडी",
+    "placed_on": "ऑर्डर किया गया",
+    "expected_delivery": "अपेक्षित डिलीवरी",
+    "payment_status": "भुगतान की स्थिति",
+    "delivery_status": "डिलीवरी की स्थिति",
+    "loading": "लोड हो रहा है...",
+    "order_not_found": "ऑर्डर नहीं मिला।",
+    "paid": "भुगतान किया गया",
+    "unpaid": "अवैतनिक",
+    "shipped": "भेज दिया गया",
+    "pending": "लंबित",
+    "delivered": "डिलीवर किया गया",
+    "cancelled": "रद्द किया गया",
+    "order_success": "ऑर्डर सफल",
+    "thank_you_for_your_order": "आपके ऑर्डर के लिए धन्यवाद!",
+    "you_will_be_redirected_to_track_order_page": "आपको शीघ्र ही ऑर्डर ट्रैक पृष्ठ पर पुनः निर्देशित किया जाएगा।",
+    "redirect_in_5_seconds": "5 सेकंड में पुनर्निर्देशन...",
+    "signup": "साइन अप करें",
+    "add_to_wishlist": "विशलिस्ट में जोड़ें",
+    "navbar": {
+        "welcome": "स्वागत है",
+        "our_products": "हमारे उत्पाद",
+        "cart": "गाड़ी",
+        "wishlist": "विशलिस्ट",
+        "signin": "साइन इन",
+        "profile": "प्रोफ़ाइल"
+    },
+    "unauthorized": {
+        "login": "लॉगिन करें",
+        "signup": "साइन अप करें"
+    },
+    "product": {
+        "buy_now": "अभी खरीदें",
+        "add_to_cart": "गाड़ी में डालें",
+        "add_to_wishlist": "विशलिस्ट में जोड़ें"
+    },
+    "footer": {
+        "copyright": "© 2025 ऑर्गेनिक स्टोर। सभी अधिकार सुरक्षित।"
+    },
+    "carousel": {
+        "prev": "पिछला",
+        "next": "अगला"
+    },
+    "authenticate": {
+        "login": "लॉगिन करें",
+        "sign_up": "साइन अप करें",
+        "full_name": "पूरा नाम",
+        "email": "ईमेल",
+        "password": "पासवर्ड",
+        "phone": "फ़ोन नंबर",
+        "enter_otp": "ओटीपी दर्ज करें",
+        "send_otp": "ओटीपी भेजें",
+        "resend_otp": "ओटीपी पुनः भेजें",
+        "resend_in": "पुनः भेजें",
+        "otp_sent": "ओटीपी सफलतापूर्वक भेजा गया!",
+        "invalid_phone": "अमान्य फ़ोन नंबर!",
+        "otp_send_failed": "ओटीपी भेजने में विफल। फिर प्रयास करें!",
+        "invalid_otp": "अमान्य ओटीपी! कृपया पुनः प्रयास करें।",
+        "otp_verification_failed": "ओटीपी सत्यापन विफल!",
+        "phone_verified": "फ़ोन नंबर सफलतापूर्वक सत्यापित!",
+        "invalid_credentials": "अमान्य ईमेल या पासवर्ड!",
+        "login_success": "लॉगिन सफल!",
+        "login_failed": "लॉगिन विफल। कृपया पुनः प्रयास करें!",
+        "registration_failed": "पंजीकरण विफल। कृपया पुनः प्रयास करें!",
+        "loading": "लोड हो रहा है...",
+        "already_have_account": "पहले से ही खाता है?",
+        "dont_have_account": "खाता नहीं है?",
+        "switch_to_login": "लॉगिन करें",
+        "switch_to_signup": "साइन अप करें"
+    },
+    "wishlist_page": {
+        "wishlist": "विशलिस्ट",
+        "removed_from_wishlist": "विशलिस्ट से हटाया गया",
+        "unable_to_remove": "आइटम हटाने में असमर्थ",
+        "wishlist_empty": "आपकी विशलिस्ट खाली है",
+        "shop_now": "अभी खरीदें",
+        "loading": "लोड हो रहा है..."
+    },
+    "cart_page": {
+        "cart": "गाड़ी",
+        "removed_from_cart": "आइटम गाड़ी से हटाया गया",
+        "cart_updated": "गाड़ी अपडेट की गई",
+        "cart_empty": "आपकी गाड़ी खाली है",
+        "shop_now": "अभी खरीदें",
+        "checkout": "चेकआउट जारी रखें",
+        "total": "कुल",
+        "error_loading_cart": "गाड़ी लोड करने में त्रुटि",
+        "error_fetching_cart": "गाड़ी डेटा प्राप्त करने में त्रुटि",
+        "error_removing_cart_item": "गाड़ी से आइटम हटाने में त्रुटि",
+        "error_updating_cart": "गाड़ी मात्रा अपडेट करने में त्रुटि"
+    },
+    "home": {
+        "meta": {
+            "title": "ऑर्गेनिक सौंदर्य उत्पाद सीखें और खरीदें",
+            "description": "आयुर्वेद से प्राप्त जैविक उत्पाद खरीदें और स्वस्थ जीवन जिएं।"
+        },
+        "org_name": "ऑर्गेनिक रोबस्ट",
+        "hero": {
+            "title": "सौंदर्य बढ़ाएं जादुई पाउडर के साथ",
+            "subtitle": "प्राकृतिक उत्पादों का सबसे अच्छा स्रोत।"
+        },
+        "shop_now": "अभी खरीदें",
+        "benefits": {
+            "title": "ऑर्गेनिक क्यों चुनें?",
+            "no_chemicals": "कोई हानिकारक रसायन नहीं",
+            "nutrients": "पोषक तत्वों से भरपूर",
+            "environment": "पर्यावरण के अनुकूल",
+            "health": "स्वास्थ्य के लिए बेहतर"
+        },
+        "about": {
+            "title": "ऑर्गेनिक रोबस्ट के बारे में",
+            "description": "ऑर्गेनिक रोबस्ट एक ऑनलाइन व्यवसाय है जो स्वस्थ जीवनशैली के लिए जैविक उत्पाद बेचता है।"
+        },
+        "products": {
+            "best_selling": "सबसे अधिक बिकने वाले उत्पाद"
+        },
+        "product": {
+            "indigo": "इंडिगो पाउडर",
+            "amla": "आंवला पाउडर",
+            "multani": "मुल्तानी मिट्टी"
+        },
+        "read_more": "और पढ़ें",
+        "reviews": {
+            "title": "हमारे ग्राहक क्या कहते हैं",
+            "review1": "\"सबसे अच्छे जैविक उत्पाद! अत्यधिक अनुशंसित!\" - एमिली आर.",
+            "review2": "\"उत्पादों की ताजगी को पसंद किया!\" - डेविड पी."
+        },
+        "subscribe": {
+            "title": "अपने पहले ऑर्डर पर 10% की छूट प्राप्त करें!",
+            "placeholder": "अपना ईमेल दर्ज करें",
+            "button": "सदस्यता लें"
+        }
+    },
+    "ordersPage": {
+        "error": "त्रुटि",
+        "orders": {
+            "title": "आदेश",
+            "no_orders": "ट्रैक करने के लिए कोई आदेश नहीं",
+            "quantity": "मात्रा",
+            "payment": "भुगतान",
+            "placed_on": "आदेश दिया गया",
+            "expected": "अपेक्षित",
+            "status": "स्थिति",
+            "unknown": "अज्ञात",
+            "product_alt": "उत्पाद {{index}}"
+        }
+    },
+    "profilePage": {
+        "error_loading": "डेटा लोड करने में त्रुटि",
+        "userId": "उपयोगकर्ता आईडी",
+        "email": "ईमेल",
+        "phone": "फोन",
+        "track_orders": "आदेश ट्रैक करें",
+        "error_fetching_order": "आदेश विवरण लाने में त्रुटि",
+        "order_id": "आदेश आईडी",
+        "placed_on": "आदेश दिया गया",
+        "expected_delivery": "अपेक्षित वितरण",
+        "payment_status": "भुगतान स्थिति",
+        "order_status": "आदेश स्थिति",
+        "dashboard": "डैशबोर्ड",
+        "refund": "वापसी",
+        "track_order_page": "आदेश ट्रैक करें",
+        "payment_history": "भुगतान इतिहास",
+        "customer_care": "ग्राहक सहायता",
+        "help": "सहायता",
+        "no_orders": "ट्रैक करने के लिए कोई आदेश नहीं",
+        "canceled_orders": "रद्द किए गए आदेश",
+        "all_orders": "सभी आदेश",
+        "addresses": "पते",
+        "address": "पता",
+        "city": "शहर",
+        "country": "देश",
+        "label": "लेबल",
+        "pincode": "पिनकोड",
+        "action": "क्रिया",
+        "edit": "संपादित करें",
+        "delete": "हटाएं",
+        "sign_out": "साइन आउट",
+        "loyalty_points": "वफादारी अंक"
+    }
+}
