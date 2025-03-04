@@ -4,6 +4,8 @@ import User from "../../server/models/User";
 export default async function handler(req, res) {
   await connectDB();
 
+  // await authMiddleware(res, req);
+
   try {
     const { userId } = req.method === "GET" ? req.query : req.body;
     if (!userId) {

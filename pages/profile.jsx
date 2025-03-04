@@ -9,6 +9,7 @@ import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 import Link from "next/link";
 import { FaBars, FaEdit, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { useRouter } from "next/router";
 
 export default function UserProfile() {
   const { data: session } = useSession();
@@ -17,8 +18,18 @@ export default function UserProfile() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState()
+  const router = useRouter()
 
 
+  // User LOgout Function
+  const UserLogOut = () => {
+    try {
+      signOut()
+    } catch {
+      setNotification("Error Signing Out")
+    }
+  }
   // Fetch user profile
   useEffect(() => {
     if (!session?.user) return;
@@ -40,6 +51,7 @@ export default function UserProfile() {
     fetchUserProfile();
   }, [session]);
 
+
   if (error)
     return (
       <div className={styles.profile_container_loading}>
@@ -48,12 +60,12 @@ export default function UserProfile() {
       </div>
     );
 
-  if (!user || loading) return <SkeletonLoader />;
+  if (loading) return <SkeletonLoader />;
 
   return (
     <>
       <div className="navHolder"></div>
-
+      {notification && <div className="notification">{notification}</div>}
       <div className={styles.profile_container}>
         {session?.user ? (
           <div className={styles.profile_card}>
@@ -113,7 +125,7 @@ export default function UserProfile() {
               <Link href="/orders">{t("profilePage.all_orders")}</Link>
             </section>
             <section>
-              <button onClick={() => signOut()}>{t("profilePage.sign_out")}</button>
+              <button onClick={() => UserLogOut()}>{t("profilePage.sign_out")}</button>
             </section>
           </div>
         ) : (

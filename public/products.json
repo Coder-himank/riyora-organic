@@ -1,0 +1,319 @@
+{
+    "multanimitti": {
+        "name": "multanimitti.name",
+        "description": "multanimitti.description",
+        "keywords": "multanimitti.keywords",
+        "scientificName": "Montmorillonite",
+        "category": [
+            "multanimitti.category.0",
+            "multanimitti.category.1",
+            "multanimitti.category.2"
+        ],
+        "otherNames": [
+            "multanimitti.otherName.0",
+            "multanimitti.otherName.1"
+        ],
+        "benefits": {
+            "hair": "multanimitti.benefits.hair",
+            "skin": "multanimitti.benefits.skin",
+            "health": "multanimitti.benefits.health"
+        },
+        "howToUse": {
+            "hair": "multanimitti.howToUse.hair",
+            "skin": "multanimitti.howToUse.skin",
+            "health": "multanimitti.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "multanimitti.ingredientsToUseWith.0",
+            "multanimitti.ingredientsToUseWith.1",
+            "multanimitti.ingredientsToUseWith.2",
+            "multanimitti.ingredientsToUseWith.4"
+        ],
+        "suitableFor": [
+            "multanimitti.suitableFor.0",
+            "multanimitti.suitableFor.1",
+            "multanimitti.suitableFor.2"
+        ],
+        "ingredients": [
+            "multanimitti.ingredients.0",
+            "multanimitti.ingredients.1"
+        ],
+        "timePeriod": "multanimitti.timePeriod",
+        "notes": [
+            "multanimitti.notes.0",
+            "multanimitti.notes.1"
+        ]
+    },
+    "amlapowder": {
+        "name": "amlapowder.name",
+        "description": "amlapowder.description",
+        "keywords": "amlapowder.keywords",
+        "scientificName": "Phyllanthus emblica",
+        "category": [],
+        "otherNames": [
+            "amlapowder.other.Name.0"
+        ],
+        "benefits": {
+            "hair": "amlapowder.benefits.hair",
+            "skin": "amlapowder.benefits.skin",
+            "health": "amlapowder.benefits.health"
+        },
+        "howToUse": {
+            "hair": "amlapowder.howToUse.hair",
+            "skin": "amlapowder.howToUse.skin",
+            "health": "amlapowder.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "amlapowder.ingredientsToUseWith.0",
+            "amlapowder.ingredientsToUseWith.1",
+            "amlapowder.ingredientsToUseWith.2",
+            "amlapowder.ingredientsToUseWith.4"
+        ],
+        "suitableFor": [
+            "amlapowder.suitableFor.0",
+            "amlapowder.suitableFor.1",
+            "amlapowder.suitableFor.2"
+        ],
+        "ingredients": [
+            "amlapowder.ingredients.0",
+            "amlapowder.ingredients.1",
+            "amlapowder.ingredients.2"
+        ],
+        "timePeriod": "amlapowder.timePeriod",
+        "notes": [
+            "amlapowder.notes.0"
+        ]
+    },
+    "indigopowder": {
+        "name": "indigopowder.name",
+        "description": "indigopowder.description",
+        "keywords": "indigopowder.keywords",
+        "scientificName": "Indigofera tinctoria",
+        "category": [
+            "indigopowder.category.0",
+            "indigopowder.category.1"
+        ],
+        "otherNames": [
+            "indigopowder.otherName.0"
+        ],
+        "benefits": {
+            "hair": "indigopowder.benefits.hair",
+            "skin": "indigopowder.benefits.skin",
+            "health": "indigopowder.benefits.health"
+        },
+        "howToUse": {
+            "hair": "indigopowder.howToUse.hair",
+            "skin": "indigopowder.howToUse.skin",
+            "health": "indigopowder.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "indigopowder.ingredientsToUseWith.0",
+            "indigopowder.ingredientsToUseWith.1",
+            "indigopowder.ingredientsToUseWith.2",
+            "indigopowder.ingredientsToUseWith.4"
+        ],
+        "suitableFor": [
+            "indigopowder.suitableFor.0",
+            "indigopowder.suitableFor.1",
+            "indigopowder.suitableFor.2"
+        ],
+        "ingredients": [
+            "indigopowder.ingredients.0",
+            "indigopowder.ingredients.1",
+            "indigopowder.ingredients.2"
+        ],
+        "timePeriod": "indigopowder.timePeriod",
+        "notes": [
+            "indigopowder.notes.0"
+        ]
+    },
+    "neempowder": {
+        "name": "neempowder.name",
+        "description": "neempowder.description",
+        "keywords": "neempowder.keywords",
+        "scientificName": "Azadirachta indica",
+        "category": [],
+        "otherNames": [
+            "neempowder.otherName.0"
+        ],
+        "benefits": {
+            "hair": "neempowder.benefits.hair",
+            "skin": "neempowder.benefits.skin",
+            "health": "neempowder.benefits.health"
+        },
+        "howToUse": {
+            "hair": "neempowder.howToUse.hair",
+            "skin": "neempowder.howToUse.skin",
+            "health": "neempowder.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "neempowder.ingredientsToUseWith.0",
+            "neempowder.ingredientsToUseWith.1",
+            "neempowder.ingredientsToUseWith.2"
+        ],
+        "suitableFor": [
+            "neempowder.suitableFor.0",
+            "neempowder.suitableFor.1",
+            "neempowder.suitableFor.2"
+        ],
+        "ingredients": [
+            "neempowder.ingredients.0",
+            "neempowder.ingredients.1"
+        ],
+        "timePeriod": "neempowder.timePeriod",
+        "notes": [
+            "neempowder.notes.0"
+        ]
+    },
+    "shikakaipowder": {
+        "name": "shikakaipowder.name",
+        "description": "shikakaipowder.description",
+        "keywords": "shikakaipowder.keywords",
+        "scientificName": "shikakaipowder.scientificName",
+        "category": [],
+        "otherNames": [
+            "shikakaipowder.otherName.0"
+        ],
+        "benefits": {
+            "hair": "shikakaipowder.benefits.hair",
+            "skin": "shikakaipowder.benefits.skin",
+            "health": "shikakaipowder.benefits.health"
+        },
+        "howToUse": {
+            "hair": "shikakaipowder.howToUse.hair",
+            "skin": "shikakaipowder.howToUse.skin",
+            "health": "shikakaipowder.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "shikakaipowder.ingredientsToUseWith.0",
+            "shikakaipowder.ingredientsToUseWith.1",
+            "shikakaipowder.ingredientsToUseWith.2"
+        ],
+        "suitableFor": [
+            "shikakaipowder.suitableFor.0",
+            "shikakaipowder.suitableFor.1",
+            "shikakaipowder.suitableFor.2"
+        ],
+        "ingredients": [
+            "shikakaipowder.ingredients.0",
+            "shikakaipowder.ingredients.1"
+        ],
+        "timePeriod": "shikakaipowder.timePeriod",
+        "notes": [
+            "shikakaipowder.notes.0"
+        ]
+    },
+    "hennapowder": {
+        "name": "hennapowder.name",
+        "description": "hennapowder.description",
+        "keywords": "hennapowder.keywords",
+        "scientificName": "hennapowder.scientificName",
+        "category": [],
+        "otherNames": [
+            "hennapowder.otherName.0"
+        ],
+        "benefits": {
+            "hair": "hennapowder.benefits.hair",
+            "skin": "hennapowder.benefits.skin",
+            "health": "hennapowder.benefits.health"
+        },
+        "howToUse": {
+            "hair": "hennapowder.howToUse.hair",
+            "skin": "hennapowder.howToUse.skin",
+            "health": "hennapowder.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "hennapowder.ingredientsToUseWith.0",
+            "hennapowder.ingredientsToUseWith.1",
+            "hennapowder.ingredientsToUseWith.2"
+        ],
+        "suitableFor": [
+            "hennapowder.suitableFor.0",
+            "hennapowder.suitableFor.1",
+            "hennapowder.suitableFor.2"
+        ],
+        "ingredients": [
+            "hennapowder.ingredients.0",
+            "hennapowder.ingredients.1"
+        ],
+        "timePeriod": "hennapowder.timePeriod",
+        "notes": [
+            "hennapowder.notes.0"
+        ]
+    },
+    "bhringraj": {
+        "name": "bhringraj.name",
+        "description": "bhringraj.description",
+        "keywords": "bhringraj.keywords",
+        "scientificName": "bhringraj.scientificName",
+        "category": [],
+        "otherNames": [
+            "bhringraj.otherName.0"
+        ],
+        "benefits": {
+            "hair": "bhringraj.benefits.hair",
+            "skin": "bhringraj.benefits.skin",
+            "health": "bhringraj.benefits.health"
+        },
+        "howToUse": {
+            "hair": "bhringraj.howToUse.hair",
+            "skin": "bhringraj.howToUse.skin",
+            "health": "bhringraj.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "bhringraj.ingredientsToUseWith.0",
+            "bhringraj.ingredientsToUseWith.1",
+            "bhringraj.ingredientsToUseWith.2"
+        ],
+        "suitableFor": [
+            "bhringraj.suitableFor.0",
+            "bhringraj.suitableFor.1",
+            "bhringraj.suitableFor.2"
+        ],
+        "ingredients": [
+            "bhringraj.ingredients.0",
+            "bhringraj.ingredients.1"
+        ],
+        "timePeriod": "bhringraj.timePeriod",
+        "notes": [
+            "bhringraj.notes.0"
+        ]
+    },
+    "reetha": {
+        "name": "reetha.name",
+        "description": "reetha.description",
+        "keywords": "reetha.keywords",
+        "scientificName": "reetha.scientificName",
+        "category": [],
+        "otherNames": [
+            "reetha.otherName.0"
+        ],
+        "benefits": {
+            "hair": "reetha.benefits.hair",
+            "skin": "reetha.benefits.skin",
+            "health": "reetha.benefits.health"
+        },
+        "howToUse": {
+            "hair": "reetha.howToUse.hair",
+            "skin": "reetha.howToUse.skin",
+            "health": "reetha.howToUse.health"
+        },
+        "ingredientsToUseWith": [
+            "reetha.ingredientsToUseWith.0",
+            "reetha.ingredientsToUseWith.1"
+        ],
+        "suitableFor": [
+            "reetha.suitableFor.0",
+            "reetha.suitableFor.1",
+            "reetha.suitableFor.2"
+        ],
+        "ingredients": [
+            "reetha.ingredients.0",
+            "reetha.ingredients.1"
+        ],
+        "timePeriod": "reetha.timePeriod",
+        "notes": [
+            "reetha.notes.0"
+        ]
+    }
+}

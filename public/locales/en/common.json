@@ -1,5 +1,6 @@
 {
   "welcome": "Organic Robust",
+  "brand_name": "organic robust",
   "shop_now": "Shop Now",
   "our_products": "Our Products",
   "profile": "User Profile",
@@ -41,6 +42,8 @@
   "redirect_in_5_seconds": "Redirecting in 5 seconds...",
   "signup": "Sign Up",
   "add_to_wishlist": "Add to Wishlist",
+  "price": "Price",
+  "rating": "Rating",
   "navbar": {
     "welcome": "Welcome",
     "our_products": "Our Products",
@@ -65,6 +68,10 @@
     "prev": "Previous",
     "next": "Next"
   },
+  "unable_to_add_to_wishlist": "Unable To Add to Wishlist",
+  "unable_to_add_to_cart": "Unable To Add to Cart",
+  "added_to_wishlist": "Added To Wishlist",
+  "added_to_cart": "Added To Cart",
   "authenticate": {
     "login": "Login",
     "sign_up": "Sign Up",
@@ -183,6 +190,20 @@
       "button": "Subscribe"
     }
   },
+  "product_page": {
+    "ingredients": "Ingredients",
+    "suitable_for": "Suitable For",
+    "use_with": "Use With",
+    "category": "Category",
+    "timePeriod": "Time Period",
+    "note": "Note",
+    "benefits": "Benefits",
+    "more_details": "More Details",
+    "how_to_use": "How To Use",
+    "for_hair": "For Hair",
+    "for_skin": "For Skin",
+    "for_health": "For Health"
+  },
   "ordersPage": {
     "error": "Error",
     "orders": {
@@ -229,5 +250,317 @@
     "delete": "Delete",
     "sign_out": "Sign Out",
     "loyalty_points": "Loyalty Points"
+  },
+  "multanimitti": {
+    "name": "Multani Mitti",
+    "description": "A mineral-rich clay used for skincare and haircare, known for its oil-absorbing and detoxifying properties.",
+    "keywords": "skin care, authentic, non preservative, natural, chemical free",
+    "scientificName": "Montmorillonite",
+    "category": [
+      "skin care",
+      "skin brightening",
+      "skin smoothing"
+    ],
+    "otherNames": [
+      "Fuller's Earth",
+      "Indian Healing Clay"
+    ],
+    "benefits": {
+      "hair": "Cleanses scalp, reduces dandruff, removes excess oil.",
+      "skin": "Controls acne, brightens complexion, removes impurities.",
+      "health": "Used in body wraps to detoxify and improve blood circulation."
+    },
+    "howToUse": {
+      "hair": "Mix with water or aloe vera, apply to scalp, leave for 20 min, and rinse.",
+      "skin": "Mix with rose water or milk, apply as a face mask, leave for 15 min, then rinse.",
+      "health": "Can be used in clay wraps for detoxification."
+    },
+    "ingredientsToUseWith": [
+      "Rose Water",
+      "Aloe Vera",
+      "Honey",
+      "Neem Powder"
+    ],
+    "suitableFor": [
+      "Oily and acne-prone skin",
+      "Oily scalp",
+      "Individuals seeking detoxification"
+    ],
+    "ingredients": [
+      "Montmorillonite clay",
+      "Natural minerals"
+    ],
+    "timePeriod": "Use twice a week for 30 mins on skin | 5 - 30 mins on hair",
+    "notes": [
+      "Avoid using on very dry skin.",
+      "Use once or twice a week for best results."
+    ]
+  },
+  "amlapowder": {
+    "name": "Amla powder",
+    "description": "A nutrient-rich fruit known for its high vitamin C content and rejuvenating properties.",
+    "keywords": "",
+    "scientificName": "Phyllanthus emblica",
+    "category": [],
+    "otherNames": [
+      "Indian Gooseberry"
+    ],
+    "benefits": {
+      "hair": "Strengthens hair roots, reduces dandruff, prevents premature greying.",
+      "skin": "Brightens complexion, boosts collagen production, fights pigmentation.",
+      "health": "Enhances immunity, aids digestion, and promotes overall well-being."
+    },
+    "howToUse": {
+      "hair": "Mix amla powder with water or coconut oil, apply to scalp and hair.",
+      "skin": "Use amla juice as a toner or mix powder in face masks.",
+      "health": "Consume raw, as juice, or in powder form with warm water."
+    },
+    "ingredientsToUseWith": [
+      "Shikakai",
+      "Bhringraj",
+      "Honey",
+      "Turmeric"
+    ],
+    "suitableFor": [
+      "Weak or thinning hair",
+      "Dull or pigmented skin",
+      "Individuals with low immunity"
+    ],
+    "ingredients": [
+      "Vitamin C",
+      "Antioxidants",
+      "Phyllanthus emblica extract"
+    ],
+    "timePeriod": "Use twice a week for 30 mins on skin | 5 - 30 mins on hair",
+    "notes": [
+      "Avoid excessive consumption as it may cause acidity."
+    ]
+  },
+  "indigopowder": {
+    "name": "Indigo powder",
+    "description": "A natural dye used for hair coloring and strengthening.",
+    "keywords": "",
+    "scientificName": "Indigofera tinctoria",
+    "category": [],
+    "otherNames": [
+      "True Indigo"
+    ],
+    "benefits": {
+      "hair": "Provides natural black/blue dye, promotes hair growth, reduces scalp infections.",
+      "skin": "Used in herbal medicine for its anti-inflammatory properties.",
+      "health": "Traditionally used for wound healing and skin conditions."
+    },
+    "howToUse": {
+      "hair": "Mix with henna for natural black hair dye.",
+      "skin": "Used in medicinal formulations for treating skin disorders.",
+      "health": "Can be used externally for its healing properties."
+    },
+    "ingredientsToUseWith": [
+      "Henna",
+      "Coconut Oil",
+      "Amla"
+    ],
+    "suitableFor": [
+      "Individuals seeking natural hair dye",
+      "People with scalp infections",
+      "Those with skin inflammation"
+    ],
+    "ingredients": [
+      "Indigofera tinctoria extract",
+      "Natural pigments"
+    ],
+    "timePeriod": "",
+    "notes": [
+      "Patch test before applying to hair to check for allergies."
+    ]
+  },
+  "neempowder": {
+    "name": "Neem powder",
+    "description": "A powerful antibacterial and antifungal herb used for skin, hair, and health.",
+    "keywords": "",
+    "scientificName": "Azadirachta indica",
+    "category": [],
+    "otherNames": [
+      "Indian Lilac"
+    ],
+    "benefits": {
+      "hair": "Treats dandruff, strengthens roots, prevents lice.",
+      "skin": "Clears acne, reduces pigmentation, fights bacterial infections.",
+      "health": "Boosts immunity, purifies blood, aids digestion."
+    },
+    "howToUse": {
+      "hair": "Use neem oil or neem powder paste for scalp health.",
+      "skin": "Apply neem paste or neem water as a toner.",
+      "health": "Drink neem tea or use in herbal formulations."
+    },
+    "ingredientsToUseWith": [
+      "Tulsi",
+      "Turmeric",
+      "Aloe Vera"
+    ],
+    "suitableFor": [
+      "Acne-prone skin",
+      "Scalp with dandruff or lice",
+      "Individuals with digestive issues"
+    ],
+    "ingredients": [
+      "Azadirachta indica extract",
+      "Antibacterial compounds"
+    ],
+    "timePeriod": "",
+    "notes": [
+      "Neem oil is very strong, dilute before use."
+    ]
+  },
+  "shikakaipowder": {
+    "name": "Shikakai powder",
+    "description": "A natural hair cleanser known for strengthening and conditioning hair.",
+    "keywords": "",
+    "scientificName": "Acacia concinna",
+    "category": [],
+    "otherNames": [
+      "Hair Fruit"
+    ],
+    "benefits": {
+      "hair": "Gently cleanses, strengthens roots, promotes hair growth.",
+      "skin": "Used in herbal scrubs for exfoliation.",
+      "health": "Traditionally used for treating skin infections."
+    },
+    "howToUse": {
+      "hair": "Make a paste with water, apply as a shampoo.",
+      "skin": "Use in face masks for cleansing.",
+      "health": "Can be used in Ayurvedic remedies."
+    },
+    "ingredientsToUseWith": [
+      "Amla",
+      "Reetha",
+      "Bhringraj"
+    ],
+    "suitableFor": [
+      "Individuals with weak or damaged hair",
+      "People with oily scalp",
+      "Those seeking natural cleansers"
+    ],
+    "ingredients": [
+      "Acacia concinna extract",
+      "Natural saponins"
+    ],
+    "timePeriod": "",
+    "notes": [
+      "Avoid contact with eyes as it can cause irritation."
+    ]
+  },
+  "hennapowder": {
+    "name": "Henna",
+    "description": "A natural dye used for hair and skin conditioning.",
+    "keywords": "",
+    "scientificName": "Lawsonia inermis",
+    "category": [],
+    "otherNames": [
+      "Mehendi"
+    ],
+    "benefits": {
+      "hair": "Conditions hair, strengthens roots, adds shine.",
+      "skin": "Used for body art and cooling effects.",
+      "health": "Has antifungal and antimicrobial properties."
+    },
+    "howToUse": {
+      "hair": "Mix with water and apply as a hair mask.",
+      "skin": "Apply paste for temporary tattoos or cooling effects.",
+      "health": "Used in traditional medicine for wound healing."
+    },
+    "ingredientsToUseWith": [
+      "Indigo",
+      "Amla",
+      "Shikakai"
+    ],
+    "suitableFor": [
+      "Individuals seeking natural hair conditioning",
+      "People with fungal infections",
+      "Those looking for temporary body art"
+    ],
+    "ingredients": [
+      "Lawsonia inermis extract",
+      "Natural dyes"
+    ],
+    "timePeriod": "",
+    "notes": [
+      "Test on a small area before use to check for allergies."
+    ]
+  },
+  "bhringraj": {
+    "name": "Bhringraj",
+    "description": "A medicinal herb known for hair nourishment and scalp health.",
+    "keywords": "",
+    "scientificName": "Eclipta prostrata",
+    "category": [],
+    "otherNames": [
+      "False Daisy"
+    ],
+    "benefits": {
+      "hair": "Promotes hair growth, prevents greying, reduces dandruff.",
+      "skin": "Soothes inflammation and supports skin regeneration.",
+      "health": "Improves liver function, supports digestion."
+    },
+    "howToUse": {
+      "hair": "Use as oil or paste for scalp massage.",
+      "skin": "Use in herbal pastes for skin healing.",
+      "health": "Consume as an herbal supplement."
+    },
+    "ingredientsToUseWith": [
+      "Amla",
+      "Shikakai",
+      "Neem"
+    ],
+    "suitableFor": [
+      "Individuals with hair loss or thinning",
+      "People with scalp issues",
+      "Those with liver or digestive concerns"
+    ],
+    "ingredients": [
+      "Eclipta prostrata extract",
+      "Natural antioxidants"
+    ],
+    "timePeriod": "",
+    "notes": [
+      "Perform a patch test before use."
+    ]
+  },
+  "reetha": {
+    "name": "Reetha",
+    "description": "A natural soap with excellent cleansing properties.",
+    "keywords": "",
+    "scientificName": "Sapindus",
+    "category": [],
+    "otherNames": [
+      "Soapnut"
+    ],
+    "benefits": {
+      "hair": "Cleanses scalp, adds shine, removes excess oil.",
+      "skin": "Natural cleanser, helps with acne.",
+      "health": "Used as an eco-friendly soap alternative."
+    },
+    "howToUse": {
+      "hair": "Boil and use liquid as a shampoo.",
+      "skin": "Use as a natural face wash.",
+      "health": "Use for cleansing household items."
+    },
+    "ingredientsToUseWith": [
+      "Shikakai",
+      "Amla"
+    ],
+    "suitableFor": [
+      "Individuals with oily hair or scalp",
+      "People with acne-prone skin",
+      "Those seeking eco-friendly cleaning solutions"
+    ],
+    "ingredients": [
+      "Sapindus extract",
+      "Natural saponins"
+    ],
+    "timePeriod": "",
+    "notes": [
+      "Avoid contact with eyes as it can be irritating."
+    ]
   }
 }

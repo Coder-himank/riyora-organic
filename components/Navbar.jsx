@@ -77,6 +77,7 @@ export default function Navbar() {
 
 
   useEffect(() => { setChangeNavStyle(scrollY < 20 ? false : true) }, [scrollY])
+  useEffect(() => { setChangeNavStyle(window.scrollY < 20 ? false : true) }, [])
 
   const changeLanguage = (lang) => {
     router.push(router.pathname, router.asPath, { locale: lang });
@@ -88,6 +89,8 @@ export default function Navbar() {
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+
+      {/* aside nav bar for user profile only */}
       {showProfileAside &&
         <aside className="profile_aside" style={asideBars ? { left: "0%", top: "0", height: "100vh", width: "300px" } : {}} ref={profileAside}>
           <button className="profile_aside_bars" onClick={() => setAsideBars((prev) => !prev)} >
@@ -101,8 +104,14 @@ export default function Navbar() {
           <Link href="/help">{t("profilePage.help")}</Link>
         </aside>
       }
+      {/* profile aside ends */}
+
+      {/* Nav bar starts */}
 
       <nav className={`navbar ${toogleNavBar && "navOpen"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
+
+        {/* Nav right Code */}
+
         <div className="nav-left">
           {showProfileAside && <button className="profile_aside_bars" onClick={() => setAsideBars((prev) => !prev)}>
             <FaArrowRight />
@@ -110,7 +119,8 @@ export default function Navbar() {
           <Link href="/"><span className="name-head">{t("welcome")}</span></Link>
           <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}><FaBars /></button>
         </div>
-
+        {/* Nav right Ends */}
+        {/* Nav Left Starts */}
         <div className="nav-right">
 
           <div className={`nav-links ${toogleNavBar ? 'navBarOpen' : ''}`}>
@@ -129,7 +139,10 @@ export default function Navbar() {
           </div>
 
         </div>
+        {/* Nav Left ends */}
       </nav >
+
+      {/* navbar ensds */}
     </>
   );
 }

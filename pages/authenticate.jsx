@@ -24,7 +24,7 @@ export default function AuthPage() {
     const [sentOtp, setSentOtp] = useState(null);
     const [step, setStep] = useState(1);
     const [resendTimer, setResendTimer] = useState(25);
-    const [canResend, setCanResend] = useState(false);
+    const [canResend, setCanResend] = useState(true);
     const [countryCode, setCountryCode] = useState("IN");
 
     const router = useRouter();
@@ -144,8 +144,11 @@ export default function AuthPage() {
                     <input type="email" name="email" placeholder={t("email")} value={formData.email} onChange={handleChange} required />
                     {!isLogin && <input type="password" name="password" placeholder={t("password")} value={formData.password} onChange={handleChange} required />}
                     <PhoneInput country={countryCode.toLowerCase()} value={formData.phone} onChange={handlePhoneChange} inputProps={{ name: "phone", required: true }} />
+
+                    {sentOtp && <p> {sentOtp}</p>}
+
                     {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder={t("authenticate.enter_otp")} required />}
-                    <button type="button" onClick={sendOtp} disabled={!canResend}>{canResend ? t("authenticate.resend_otp") : `${t("authenticate.resend_in")} ${resendTimer}s`}</button>
+                    <button type="button" onClick={sendOtp} disabled={!canResend}>{canResend ? t("authenticate.send_otp") : `${t("authenticate.resend_in")} ${resendTimer}s`}</button>
                     <button type="submit" className={styles.btn} disabled={loading}>{loading ? t("loading") : isLogin ? t("login") : t("sign_up")}</button>
 
                     {!isLogin ?

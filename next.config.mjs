@@ -5,6 +5,14 @@ const nextConfig = {
     locales: ["en", "hi"], // English,hindi
     defaultLocale: "en",
   },
+  async rewrites() {
+    return [
+      {
+        source: "/sitemap.xml",
+        destination: "/api/sitemap",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
