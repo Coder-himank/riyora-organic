@@ -141,10 +141,10 @@ const ProductPage = ({ locale, locales, product, productData }) => {
                 ))}
 
                 {/* Product Schema */}
-                {/* <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} /> */}
-                <script type="application/ld+json">
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+                {/* <script type="application/ld+json">
                     {JSON.stringify(productSchema)}
-                </script>
+                </script> */}
             </Head>
             <div className="navHolder"></div>
 
