@@ -6,7 +6,7 @@ import styles from "@/styles/home.module.css";
 import Image from "next/image";
 import Carousel from "@/components/Carousel";
 import Head from "next/head";
-
+import getConfig from "next/config";
 export default function Home() {
   const { t } = useTranslation("common");
 
@@ -31,12 +31,68 @@ export default function Home() {
     }
   ];
 
+  const { publicRuntimeConfig } = getConfig()
+  const site_url = publicRuntimeConfig.BASE_URL
+
+
   return (
     <>
       <Head>
+        {/* Primary Meta Tags */}
         <title>{t("home.meta.title")}</title>
         <meta name="description" content={t("home.meta.description")} />
+        <meta name="keywords" content={t("home.meta.keywords")} />
+        <meta name="author" content={t("brand_name")} />
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="hi,en" />
+        <link rel="canonical" href={`${site_url}/${locale}`} />
+
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={site_url} />
+        <meta property="og:title" content={t("home.meta.title")} />
+        <meta property="og:description" content={t("home.meta.description")} />
+        <meta property="og:image" content={`${site_url}/images/og-image.jpg`} />
+        <meta property="og:locale" content="hi_IN" />
+        <meta property="og:locale:alternate" content="en_US" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={site_url} />
+        <meta name="twitter:title" content={t("home.meta.title")} />
+        <meta name="twitter:description" content={t("home.meta.description")} />
+        <meta name="twitter:image" content={`${site_url}/images/twitter-image.jpg`} />
+
+        {/* JSON-LD Breadcrumb Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": t("home.breadcrumb.home"),
+                "item": site_url
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": t("home.breadcrumb.products"),
+                "item": `${site_url}/products`
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": t("home.breadcrumb.login"),
+                "item": `${site_url}/authenticate`
+              }
+            ]
+          })}
+        </script>
       </Head>
+
 
       <div className={styles.home_container}>
         {/* Hero Section */}

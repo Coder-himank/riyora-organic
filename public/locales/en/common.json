@@ -151,7 +151,13 @@
   "home": {
     "meta": {
       "title": "Learn And Buy Organic Beauty Products",
-      "description": "Buy organic products derived from Ayurveda for healthy living."
+      "description": "Buy organic products derived from Ayurveda for healthy living.",
+      "keywords": "Organci Robust, healty life, indian, home remady"
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Products",
+      "login": "Login"
     },
     "org_name": "Organic Robust",
     "hero": {

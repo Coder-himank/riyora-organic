@@ -5,11 +5,14 @@ const nextConfig = {
     locales: ["en", "hi"], // English,hindi
     defaultLocale: "en",
   },
+  publicRuntimeConfig: {
+    BASE_URL: "https://organic-robust.vercel.app",
+  },
   async rewrites() {
     return [
       {
         source: "/sitemap.xml",
-        destination: "/api/sitemap",
+        destination: "/api/sitemap.xml",
       },
     ];
   },
