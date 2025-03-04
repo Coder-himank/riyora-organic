@@ -7,8 +7,11 @@ import Image from "next/image";
 import Carousel from "@/components/Carousel";
 import Head from "next/head";
 import getConfig from "next/config";
+import { useRouter } from "next/router";
 export default function Home() {
   const { t } = useTranslation("common");
+
+  const { locale } = useRouter(); // Get the current locale
 
   const products = [
     {
