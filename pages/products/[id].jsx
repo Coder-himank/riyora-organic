@@ -10,6 +10,7 @@ import { onAddToCart, onAddToWishlist, onBuy } from "@/components/ProductAction"
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import productsJson from "@/public/products.json"
+import getConfig from "next/config";
 
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -28,8 +29,9 @@ const ProductPage = ({ locale, locales, product, productData }) => {
     if (!product) {
         return <h1>Product not found</h1>;
     }
+    const { publicRuntimeConfig } = getConfig()
+    const site_url = publicRuntimeConfig.BASE_URL
 
-    const site_url = process.env.BASE_URL;
     const { data: session } = useSession();
     const [notification, setNotification] = useState(null);
     const { t } = useTranslation();
@@ -42,11 +44,11 @@ const ProductPage = ({ locale, locales, product, productData }) => {
     const router = useRouter();
 
     const productSchema = {
-        "@context": site_url,
+        "@context": "https://schema.org",
         "@type": "Product",
         "name": translatedName,
         "image": [
-            `${site_url}/${product.imageUrl}`
+            `${site_url}${product.imageUrl}`
         ],
         "description": translatedDescription,
         "brand": {
@@ -62,11 +64,11 @@ const ProductPage = ({ locale, locales, product, productData }) => {
         },
         "offers": {
             "@type": "Offer",
-            "url": `${site_url}/${product.imageUrl}`,
+            "url": `${site_url}${product.imageUrl}`,
             "priceCurrency": "INR",
             "price": `${product.price}`,
             "priceValidUntil": "2025-12-31",
-            "availability": `${product.stockStatus}`,
+            "availability": "https://schema.org/InStock",
             "itemCondition": "https://schema.org/NewCondition",
             "seller": {
                 "@type": "Organization",
@@ -139,7 +141,10 @@ const ProductPage = ({ locale, locales, product, productData }) => {
                 ))}
 
                 {/* Product Schema */}
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+                {/* <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} /> */}
+                <script type="application/ld+json">
+                    {JSON.stringify(productSchema)}
+                </script>
             </Head>
             <div className="navHolder"></div>
 
