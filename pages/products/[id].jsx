@@ -230,21 +230,53 @@ const ProductPage = ({ locale, locales, product, productData }) => {
         </>
     );
 };
+// export async function getStaticPaths() {
+//     await dbConnect();
+//     const products = await Product.find({}, "_id").lean();
+
+//     const paths = [];
+//     const supportedLocales = ["en", "hi"]; // Add all your supported locales
+
+//     products.map((product) => {
+//         supportedLocales.map((locale) => {
+//             paths.push({
+//                 params: { id: product._id.toString() },
+//                 locale, // Generate paths for each language
+//             });
+//         });
+//     });
+
+//     return {
+//         paths,
+//         fallback: "blocking",
+//     };
+// }
+
 export async function getStaticPaths() {
     await dbConnect();
-    const products = await Product.find({}, "_id").lean();
+    const products = await Product.find({}, "_id"); // Fetch IDs only
+
+    console.log("Fetched Products:", products); // Check structure
 
     const paths = [];
-    const supportedLocales = ["en", "hi"]; // Add all your supported locales
+    const supportedLocales = ["en", "hi"];
 
     products.forEach((product) => {
+        const productId = product._id?.toString(); // Convert ObjectId to String
+        if (!productId) {
+            console.error("❌ Missing Product ID for:", product);
+            return;
+        }
+
         supportedLocales.forEach((locale) => {
             paths.push({
-                params: { id: product._id.toString() },
+                params: { id: productId },
                 locale, // Generate paths for each language
             });
         });
     });
+
+    console.log("Generated Paths:", paths);
 
     return {
         paths,
@@ -263,13 +295,15 @@ export async function getStaticProps({ params, locale, locales }) {
     const replacedProductName = product.name.replace(/\s/g, "").toLowerCase();
     const productData = productsJson?.[replacedProductName] ?? {};
 
+    console.log(replacedProductName);
+
+
     return {
         props: {
-            locale,
-            locales,
+            locale, locales,
             product: JSON.parse(JSON.stringify(product)), // Ensures serializable object
             productData,
-            ...(await serverSideTranslations(locale, ["common"])),
+            ...(await serverSideTranslations(locale, ["common"]))
         },
         revalidate: 600, // Revalidates every 10 minutes
     };

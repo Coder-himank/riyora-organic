@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         const db = client.db();
 
         // Fetch products from MongoDB (only necessary fields)
-        const products = await db.collection("products").find({}, { projection: { _id: 0, slug: 1, updatedAt: 1 } }).toArray();
+        const products = await db.collection("products").find({}, "_id").toArray();
 
         // Close the database connection
         await client.close();
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
                         .map(
                             (locale) => `
                                 <url>
-                                    <loc>${baseUrl}/${locale}/products/${product.slug}</loc>
+                                    <loc>${baseUrl}/${locale}/products/${product._id.toString()}</loc>
                                     <lastmod>${new Date(product.updatedAt || Date.now()).toISOString()}</lastmod>
                                     <changefreq>weekly</changefreq>
                                     <priority>0.8</priority>
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
                                         (altLang) => `<xhtml:link 
                                                     rel="alternate" 
                                                     hreflang="${altLang}" 
-                                                    href="${baseUrl}/${altLang}/products/${product.slug}" />`
+                                                    href="${baseUrl}/${altLang}/products/${product._id.toString()}" />`
                                     )
                                     .join("")}
                                 </url>
