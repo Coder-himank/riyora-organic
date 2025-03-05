@@ -25,7 +25,7 @@ const ExpandableSection = ({ title, children }) => {
     );
 };
 
-const ProductPage = ({ locale, locales, product, productData, seoTitle }) => {
+const ProductPage = ({ locale, locales, product, productData }) => {
     if (!product) {
         return <h1>Product not found</h1>;
     }
@@ -36,8 +36,8 @@ const ProductPage = ({ locale, locales, product, productData, seoTitle }) => {
     const [notification, setNotification] = useState(null);
     const { t } = useTranslation();
 
-    // const translatedName = t(productData?.name);
-    const translatedName = seoTitle;
+    const translatedName = t(productData?.name);
+    // const translatedName = seoTitle;
     const translatedDescription = `${translatedName} : ${t(productData?.description)}`;
     const translatedKeywords = t(productData?.keywords)
     const brand_name = t("brand_name")
@@ -308,7 +308,7 @@ export async function getStaticProps({ params, locale, locales }) {
             product: JSON.parse(JSON.stringify(product)), // Ensures serializable object
             productData,
             ...translations,
-            seoTitle: translations._nextI18Next.initialI18nStore[locale].common[replacedProductName].name,
+            // seoTitle: translations._nextI18Next.initialI18nStore[locale].common[replacedProductName].name,
 
         },
         revalidate: 600, // Revalidates every 10 minutes
