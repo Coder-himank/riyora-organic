@@ -64,7 +64,8 @@ const ProductPage = ({ locale, locales, product, productData }) => {
         },
         "offers": {
             "@type": "Offer",
-            "url": `${site_url}${product.imageUrl}`,
+            "url": `${site_url}/products/${product._id}`,
+
             "priceCurrency": "INR",
             "price": `${product.price}`,
             "priceValidUntil": "2025-12-31",
@@ -128,7 +129,8 @@ const ProductPage = ({ locale, locales, product, productData }) => {
                 <meta name="twitter:site" content={brand_name} />
 
                 {/* Canonical URL (Language-Specific) */}
-                <link rel="canonical" href={`${site_url}/${locale}/products/${product._id}`} />
+                <link rel="canonical" href={`${site_url}/products/${product._id}`} />
+
 
                 {/* Multilanguage Support with hreflang */}
                 {locales.map((lang) => (
@@ -141,7 +143,7 @@ const ProductPage = ({ locale, locales, product, productData }) => {
                 ))}
 
                 {/* Product Schema */}
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ ...productSchema, inLanguage: locale }) }} />
                 {/* <script type="application/ld+json">
                     {JSON.stringify(productSchema)}
                 </script> */}
@@ -228,14 +230,21 @@ const ProductPage = ({ locale, locales, product, productData }) => {
         </>
     );
 };
-
 export async function getStaticPaths() {
     await dbConnect();
     const products = await Product.find({}, "_id").lean();
 
-    const paths = products?.map((product) => ({
-        params: { id: product._id.toString() },
-    }));
+    const paths = [];
+    const supportedLocales = ["en", "hi"]; // Add all your supported locales
+
+    products.forEach((product) => {
+        supportedLocales.forEach((locale) => {
+            paths.push({
+                params: { id: product._id.toString() },
+                locale, // Generate paths for each language
+            });
+        });
+    });
 
     return {
         paths,
@@ -254,15 +263,13 @@ export async function getStaticProps({ params, locale, locales }) {
     const replacedProductName = product.name.replace(/\s/g, "").toLowerCase();
     const productData = productsJson?.[replacedProductName] ?? {};
 
-    console.log(replacedProductName);
-
-
     return {
         props: {
-            locale, locales,
+            locale,
+            locales,
             product: JSON.parse(JSON.stringify(product)), // Ensures serializable object
             productData,
-            ...(await serverSideTranslations(locale, ["common"]))
+            ...(await serverSideTranslations(locale, ["common"])),
         },
         revalidate: 600, // Revalidates every 10 minutes
     };
