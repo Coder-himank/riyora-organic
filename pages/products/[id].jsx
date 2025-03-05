@@ -34,7 +34,7 @@ const ProductPage = ({ locale, locales, product, productData }) => {
 
     const { data: session } = useSession();
     const [notification, setNotification] = useState(null);
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const translatedName = t(productData?.name);
     // const translatedName = seoTitle;
