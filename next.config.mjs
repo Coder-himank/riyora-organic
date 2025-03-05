@@ -2,9 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   i18n: {
-    locales: ["en", "hi"], // English,hindi
+    locales: ["en", "hi"],
     defaultLocale: "en",
+    localeDetection: false, // Disable auto-detection
   },
+
   publicRuntimeConfig: {
     BASE_URL: "https://organic-robust.vercel.app",
   },
