@@ -15,6 +15,8 @@ import getConfig from "next/config";
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
 
+
+
     return (
         <div className={styles.expandable_section}>
             <h2 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
@@ -35,6 +37,8 @@ const ProductPage = ({ locale, locales, product, productData }) => {
     const { data: session } = useSession();
     const [notification, setNotification] = useState(null);
     const { t } = useTranslation("common");
+
+    console.log(locale, locales, t)
 
     const translatedName = t(productData?.name);
     // const translatedName = seoTitle;
@@ -108,7 +112,7 @@ const ProductPage = ({ locale, locales, product, productData }) => {
     return (
         <>
             <Head>
-                <title>{translatedName} | Organic Store</title>
+                <title>`${translatedName} | Organic Store`</title>
                 <meta name="description" content={translatedDescription} />
                 <meta name="keywords" content={translatedKeywords} />
                 <meta name="author" content={brand_name} />
