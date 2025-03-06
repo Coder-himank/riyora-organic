@@ -27,7 +27,7 @@ const ExpandableSection = ({ title, children }) => {
     );
 };
 
-const ProductPage = ({ locale, locales, product, productData }) => {
+const ProductPage = ({ locale, locales, product, translatedData }) => {
     if (!product) {
         return <h1>Product not found</h1>;
     }
@@ -38,12 +38,10 @@ const ProductPage = ({ locale, locales, product, productData }) => {
     const [notification, setNotification] = useState(null);
     const { t } = useTranslation("common");
 
-    console.log(locale, locales, t)
-
-    const translatedName = t("home.meta.title") || t(productData?.name);
+    const translatedName = translatedData.name;
     // const translatedName = seoTitle;
-    const translatedDescription = `${translatedName} : ${t(productData?.description)}`;
-    const translatedKeywords = t(productData?.keywords)
+    const translatedDescription = `${translatedName} : ${translatedData.description}`;
+    const translatedKeywords = translatedData.keywords
     const brand_name = t("brand_name")
 
     const router = useRouter();
@@ -162,7 +160,7 @@ const ProductPage = ({ locale, locales, product, productData }) => {
                     <Image src={product.imageUrl} width={350} height={400} alt={translatedName} />
 
                     <div className={styles.details}>
-                        <div className={styles.sci_name}>{t(productData?.scientificName)}</div>
+                        <div className={styles.sci_name}>{translatedData.scientificName}</div>
                         <div className={styles.oth_name}>
                             {/* {t(`${productName}.otherNames`)} */}
                         </div>
@@ -186,25 +184,25 @@ const ProductPage = ({ locale, locales, product, productData }) => {
                         <section className={styles.other_details}>
                             <div>
                                 <strong>{t("product_page.ingredients")}</strong>  {
-                                    productData?.ingredients?.map((item) => { return t(item) }).join(" | ")
+                                    translatedData.ingredients?.map((item) => { return item }).join(" | ")
                                 }
                             </div>
                             <div>
-                                <strong>{t("product_page.suitable_for")}</strong>  {productData?.suitableFor?.map((item) => { return t(item) }).join(" | ")}
+                                <strong>{t("product_page.suitable_for")}</strong>  {translatedData.suitableFor?.map((item) => { return item }).join(" | ")}
                             </div>
                             <div>
-                                <strong>{t("product_page.use_with")}</strong> {productData?.ingredientsToUseWith?.map((item) => { return t(item) }).join(" | ")}
+                                <strong>{t("product_page.use_with")}</strong> {translatedData.ingredientsToUseWith?.map((item) => { return item }).join(" | ")}
                             </div>
                             <div>
-                                <strong>{t("product_page.category")}</strong> {productData?.category?.map((item) => { return t(item) }).join(" | ")}
+                                <strong>{t("product_page.category")}</strong> {translatedData.category?.map((item) => { return item }).join(" | ")}
                             </div>
                             <div>
-                                <strong>{t("product_page.timePeriod")}</strong> {t(productData?.timePeriod)}
+                                <strong>{t("product_page.timePeriod")}</strong> {translatedData.timePeriod}
                             </div>
                             <div className={styles.notes}>
                                 <ul>
                                     <strong>{t("product_page.note")}:</strong>
-                                    {productData?.notes?.map((item) => { return t(item) }).join(" | ")}
+                                    {translatedData.notes?.map((item) => { return item }).join(" | ")}
                                 </ul>
                             </div>
                         </section>
@@ -213,22 +211,22 @@ const ProductPage = ({ locale, locales, product, productData }) => {
 
                     <ExpandableSection title={t("product_page.benefits")}>
                         <h3 className={styles.detail_title}>{t("product_page.for_hair")}</h3>
-                        <p className={styles.detail_para}>{t(productData?.benefits?.hair) || "No data available."}</p>
+                        <p className={styles.detail_para}>{translatedData.benefits?.hair || "No data available."}</p>
                         <h3 className={styles.detail_title}>{t("product_page.for_skin")}</h3>
-                        <p className={styles.detail_para}>{t(productData?.benefits?.skin) || "No data available."}</p>
+                        <p className={styles.detail_para}>{translatedData.benefits?.skin || "No data available."}</p>
                         <h3 className={styles.detail_title}>{t("product_page.for_health")}</h3>
-                        <p className={styles.detail_para}>{t(productData?.benefits?.health) || "No data available."}</p>
+                        <p className={styles.detail_para}>{translatedData.benefits?.health || "No data available."}</p>
                     </ExpandableSection>
                 </section>
                 <hr />
                 <section className="sec sec-2">
                     <ExpandableSection title={t("product_page.how_to_use")}>
                         <h3 className={styles.detail_title}>{t("product_page.for_hair")}</h3>
-                        <p className={styles.detail_para}>{t(productData?.howToUse?.hair) || "No data available."}</p>
+                        <p className={styles.detail_para}>{translatedData.howToUse?.hair || "No data available."}</p>
                         <h3 className={styles.detail_title}>{t("product_page.for_skin")}</h3>
-                        <p className={styles.detail_para}>{t(productData?.howToUse?.skin) || "No data available."}</p>
+                        <p className={styles.detail_para}>{translatedData.howToUse?.skin || "No data available."}</p>
                         <h3 className={styles.detail_title}>{t("product_page.for_health")}</h3>
-                        <p className={styles.detail_para}>{t(productData?.howToUse?.health) || "No data available."}</p>
+                        <p className={styles.detail_para}>{translatedData.howToUse?.health || "No data available."}</p>
                     </ExpandableSection>
                 </section>
             </div>
@@ -305,14 +303,14 @@ export async function getStaticProps({ params, locale, locales }) {
 
     const translations = await serverSideTranslations(locale, ["common"])
 
-
+    const translatedData = translations._nextI18Next.initialI18nStore[locale].common[replacedProductName]
+    console.log(translations)
     return {
         props: {
             locale, locales,
             product: JSON.parse(JSON.stringify(product)), // Ensures serializable object
-            productData,
-            ...translations,
-            // seoTitle: translations._nextI18Next.initialI18nStore[locale].common[replacedProductName].name,
+            translatedData,
+            ...translations
 
         },
         revalidate: 600, // Revalidates every 10 minutes
