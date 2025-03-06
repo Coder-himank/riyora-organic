@@ -40,7 +40,7 @@ const ProductPage = ({ locale, locales, product, productData }) => {
 
     console.log(locale, locales, t)
 
-    const translatedName = t(productData?.name);
+    const translatedName = t("home.meta.title") || t(productData?.name);
     // const translatedName = seoTitle;
     const translatedDescription = `${translatedName} : ${t(productData?.description)}`;
     const translatedKeywords = t(productData?.keywords)
