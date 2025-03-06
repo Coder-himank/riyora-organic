@@ -313,7 +313,7 @@ export async function getStaticProps({ params, locale, locales }) {
             ...translations
 
         },
-        revalidate: 600, // Revalidates every 10 minutes
+        revalidate: 10, // Revalidates every 10 minutes
     };
 }
 
