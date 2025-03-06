@@ -112,7 +112,7 @@ const ProductPage = ({ locale, locales, product, productData }) => {
     return (
         <>
             <Head>
-                <title>`${translatedName} | Organic Store`</title>
+                <title>{`${translatedName} | Organic Store`}</title>
                 <meta name="description" content={translatedDescription} />
                 <meta name="keywords" content={translatedKeywords} />
                 <meta name="author" content={brand_name} />
