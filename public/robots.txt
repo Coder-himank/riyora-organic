@@ -1,4 +1,35 @@
 User-agent: *
 Allow: /
+Allow: /products/
 
+# Block unnecessary pages from indexing
+Disallow: /api/
+Disallow: /checkout/
+Disallow: /order-success/
+Disallow: /orders/
+Disallow: /privacy-policy/
+Disallow: /track-order/
+Disallow: /wishlist/
+Disallow: /cart/
+Disallow: /user-profile/
+Disallow: /login/
+Disallow: /signup/
+Disallow: /search/
+Disallow: /*?sort=
+Disallow: /*?filter=
+
+# Sitemap Location
 Sitemap: https://organic-robust.vercel.app/api/sitemap.xml
+
+# Block aggressive bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Optional: Add Crawl Delay (reduces server load)
+Crawl-delay: 10

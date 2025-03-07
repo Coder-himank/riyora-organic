@@ -200,9 +200,9 @@ const ProductPage = ({ locale, locales, product, translatedData }) => {
                                 <strong>{t("product_page.timePeriod")}</strong> {translatedData.timePeriod}
                             </div>
                             <div className={styles.notes}>
+                                <strong>{t("product_page.note")}:</strong>
                                 <ul>
-                                    <strong>{t("product_page.note")}:</strong>
-                                    {translatedData.notes?.map((item) => { return item }).join(" | ")}
+                                    {translatedData.notes?.map((item) => { return <li>{item}</li> })}
                                 </ul>
                             </div>
                         </section>
