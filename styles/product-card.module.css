@@ -1,5 +1,5 @@
 .product_card {
-  background: #ffffff;
+  background: var(--card-background);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -25,7 +25,23 @@
 /* Product Info */
 .product_info {
   padding: 15px;
-  text-align: center;
+  width: 100%;
+  height: 120px;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_info a {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.product_info a span:nth-child(2) {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
 }
 
 /* Product Name */
@@ -34,7 +50,6 @@
   font-weight: bold;
   color: #333;
   margin-bottom: 8px;
-  height: 40px;
 }
 
 /* Product Price */
@@ -48,6 +63,7 @@
 /* Action Buttons */
 .product_actions {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-top: 10px;
 }
@@ -56,45 +72,28 @@
   flex: 1;
   margin: 5px;
   padding: 10px;
+  height: 30px;
   border: none;
   border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
+  border-radius: 20px;
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Buy Button */
-.btn_buy {
-  background: linear-gradient(135deg, #27ae60, #2ecc71);
-  color: white;
-}
-
-.btn_buy:hover {
-  background: linear-gradient(135deg, #219150, #1e9a5a);
-  transform: translateY(-2px);
-}
-
-/* Add to Cart Button */
-.btn_cart {
-  background: #f39c12;
-  color: white;
-}
-
-.btn_cart:hover {
-  background: #e67e22;
-  transform: translateY(-2px);
-}
-
-/* Add to Wishlist Button */
 .btn_wishlist {
-  background: #e74c3c;
-  color: white;
+
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  display: flex;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  top: 0px;
 }
 
-.btn_wishlist:hover {
-  background: #c0392b;
-  /* transform: translateY(-2px); */
-}
 
 .skeleton_image {
   width: 95%;
@@ -102,12 +101,6 @@
   height: 70%;
   background-color: var(--loading-color);
   animation: skeleton 0.2s linear infinite;
-}
-
-.skeleton_btn {
-  height: 30px;
-  animation: skeleton 0.2s linear infinite;
-  background-color: var(--loading-color) !important;
 }
 
 .skeleton_card {
@@ -157,21 +150,6 @@
     max-height: 70px;
   }
 
-  .product_btn {
-    font-size: 0.7rem;
-    display: none;
-  }
-
-  .btn_wishlist {
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    right: 0;
-    top: 0px;
-  }
 
   .product_name {
     font-size: 3.2vw;

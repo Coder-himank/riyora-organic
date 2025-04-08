@@ -8,6 +8,9 @@ import Carousel from "@/components/Carousel";
 import Head from "next/head";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
+import { FaArrowRight } from "react-icons/fa";
+import { FaRegStar, FaStar } from "react-icons/fa";
+
 export default function Home() {
   const { t } = useTranslation("common");
 
@@ -99,53 +102,79 @@ export default function Home() {
 
       <div className={styles.home_container}>
         {/* Hero Section */}
-        <motion.div className={styles.hero_section} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+        <motion.div className={styles.hero_section} >
+
+          <motion.section className={styles.hero_section_in1} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+
+            <div className={styles.hero_text}>
+              <div>
+
+                <h1 className={styles.glow_text}>{t("home.hero.title")}</h1>
+                <p className={styles.subtext}>{t("home.hero.subtitle")}</p>
+              </div>
 
 
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className={styles.shop_btn}>
+                <Link href="/products">{t("home.shop_now")}</Link>
+              </motion.div>
+            </div>
 
-          <motion.div className={styles.hero_text_1} initial={{ opacity: 0, y: 200 }} animate={{ opacity: 1, y: 150 }} transition={{ duration: 1.2 }}>
+          </motion.section>
+          <motion.section className={styles.hero_section_in2} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+          </motion.section>
 
-            <h1 className={styles.glow_text}>{t("home.hero.title")}</h1>
-            <p className="subtext">{t("home.hero.subtitle")}</p>
-          </motion.div>
-
-          {/* tree */}
-          <motion.div className={styles.tree}>
-            <Image src={"/images/tree.png"} width={500} height={500} alt="Tree Of Fruits" />
-          </motion.div>
-
-          <motion.div className={styles.hero_text} initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className={styles.shop_btn}>
-              <Link href="/products">{t("home.shop_now")}</Link>
-            </motion.div>
-          </motion.div>
         </motion.div>
 
         {/* Benefits Section */}
-        <motion.section className={styles.benefits_section} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3 }}>
-          <h2 className={styles.home_h2}>{t("home.benefits.title")}</h2>
-          <Carousel>
+        <motion.section className={styles.benefits_section}>
+
+          {/* <h2 className={styles.home_h2}>{t("home.benefits.title")}</h2> */}
+
+          <div className={styles.benefit_card_holder}>
+
             <div className={styles.benefit_card}>
               <Image src={"/images/plant.png"} width={200} height={200} alt="No Chemicals" />
-              {t("home.benefits.no_chemicals")}
+              <span>{t("home.benefits.no_chemicals")}</span>
             </div>
             <div className={styles.benefit_card}>
               <Image src={"/images/nutrition.png"} width={200} height={200} alt="Rich in Nutrients" />
-              {t("home.benefits.nutrients")}
+              <span>{t("home.benefits.nutrients")}</span>
             </div>
             <div className={styles.benefit_card}>
               <Image src={"/images/enviornment.png"} width={200} height={200} alt="Environment Friendly" />
-              {t("home.benefits.environment")}
+              <span>{t("home.benefits.environment")}</span>
             </div>
             <div className={styles.benefit_card}>
               <Image src={"/images/muscle.png"} width={200} height={200} alt="Better for Health" />
-              {t("home.benefits.health")}
+              <span>{t("home.benefits.health")}</span>
             </div>
-          </Carousel>
+          </div>
+
         </motion.section>
 
+
+        {/* Trending Products Section */}
+        <motion.section className={styles.trending_product}>
+          <h2 className={styles.home_h2}>{t("home.products.best_selling")}</h2>
+          <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
+            <Carousel>
+              {products.map((product, index) => (
+                <div key={index} className={styles.productCard}>
+                  <Image src={product.image} alt={product.name} width={300} height={300} />
+                  <section className={styles.product_info}>
+                    <h3>{product.name}</h3>
+                    {/* {t("home.read_more")} */}
+                    <Link href={`/products`}><FaArrowRight /></Link>
+                  </section>
+                </div>
+              ))}
+            </Carousel>
+          </motion.section>
+        </motion.section>
+
+
         {/* About Section */}
-        <motion.section className={styles.about_section} initial={{ y: 20, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} transition={{ duration: 1.8, delay: 0.3 }}>
+        <motion.section className={styles.about_section}>
           <h2 className={styles.home_h2}>{t("home.about.title")}</h2>
           <div className={styles.about_in}>
             <motion.div
@@ -160,47 +189,92 @@ export default function Home() {
               whileInView={{ x: 0, y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 1.5 }}
             >
-              <p>{t("home.about.description")}</p>
+              {/* <p>{t("home.about.description")}</p> */}
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque aliquam quidem voluptatibus vitae sequi in sunt nostrum nesciunt ad accusamus adipisci voluptates, omnis cupiditate, sint rem pariatur quasi aliquid enim consequatur rerum temporibus perferendis. Et natus itaque cupiditate dolore voluptas officiis, totam voluptate, ipsa laudantium fugiat fugit doloribus praesentium. Iste, aliquam iusto, tempore distinctio deserunt officia in cupiditate autem beatae quam ipsum, illum nobis? Odit sequi atque doloremque deserunt, cumque aspernatur perspiciatis provident, magni voluptatem eligendi recusandae ullam exercitationem id voluptatibus officiis! Rem maiores repudiandae ducimus dicta excepturi ratione praesentium asperiores minima aperiam, officia quae nostrum quas optio quis quidem!</p>
             </motion.div>
+
+          </div>
+          <div className={styles.custom_shape_divider_bottom_1743796481}>
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className={styles.shape_fill}></path>
+            </svg>
           </div>
         </motion.section>
 
-        {/* Trending Products Section */}
-        <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
-          <h2 className={styles.home_h2}>{t("home.products.best_selling")}</h2>
-          <Carousel>
-            {products.map((product, index) => (
-              <div key={index} className={styles.productCard}>
-                <Image src={product.image} alt={product.name} width={300} height={300} style={{ background: product.theme }} />
-                <section className={styles.product_info}>
-                  <h3>{product.name}</h3>
-                  <Link href={`/products`}>{t("home.read_more")}</Link>
-                </section>
-              </div>
-            ))}
-          </Carousel>
+
+
+        {/* effectivenesss section */}
+
+        <motion.section className={styles.effects}>
+          <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
+          <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
         </motion.section>
+
+
 
         {/* Reviews Section */}
-        <motion.section className={styles.reviews_section} initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
-          <h2 className={styles.home_h2}>{t("home.reviews.title")}</h2>
-          <Carousel>
-            <div className={styles.review_card}>
-              <p>{t("home.reviews.review1")}</p>
+
+        <motion.section className={styles.reviews_section}>
+          <motion.section initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }}>
+            <h2 className={styles.home_h2}>{t("home.reviews.title")}</h2>
+            <div className={styles.review_in}>
+
+              <div className={styles.review_card}>
+                <div>
+                  <Image src={"/images/person1.jpg"} alt="Person face" width={200} height={200} />
+                </div>
+                <div className={styles.review_info}>
+                  <section>
+                    HImank Jain
+                  </section>
+                  <section><FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaRegStar /></section>
+                  <section>
+                    <p>Best Products.</p>
+                  </section>
+                </div>
+              </div>
+
+
             </div>
-            <div className={styles.review_card}>
-              <p>{t("home.reviews.review2")}</p>
-            </div>
-          </Carousel>
+          </motion.section>
         </motion.section>
 
+        {/* services section */}
+
+        <div className={styles.services}>
+          <div className={styles.service_banner}>
+            <h3>Customise your Product  <span><FaArrowRight /></span></h3>
+            <Image src={"/images/ayurveda-utensils.jpg"} alt="Services of organic robust" width={500} height={500} />
+          </div>
+          <div className={styles.service_banner}>
+            <h3>Service name  <span><FaArrowRight /></span></h3>
+            <Image src={"/images/oil_bottel_repat.jpg"} alt="Services of organic robust" width={500} height={500} />
+          </div>
+          <div className={styles.service_banner}>
+            <h3>Service name  <span><FaArrowRight /></span></h3>
+            <Image src={"/images/oil_bottle_black.jpg"} alt="Services of organic robust" width={500} height={500} />
+          </div>
+          <div className={styles.service_banner}>
+            <h3>Service name  <span><FaArrowRight /></span></h3>
+            <Image src={"/images/oil-banner.jpg"} alt="Services of organic robust" width={500} height={500} />
+          </div>
+        </div>
+
         {/* Subscription Section */}
-        <motion.section className={styles.subscribe_section} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
-          <h2 className={styles.home_h2}>{t("home.subscribe.title")}</h2>
-          <input type="email" placeholder={t("home.subscribe.placeholder")} />
-          <button className={styles.subscribe_btn}>{t("home.subscribe.button")}</button>
+        <motion.section className={styles.subscribe_section}>
+          <div className={styles.subscribe_bg}>
+          </div>
+          <motion.section initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
+            <h2 className={styles.home_h2}>{t("home.subscribe.title")}</h2>
+            <input type="email" placeholder={t("home.subscribe.placeholder")} />
+            <button className={styles.subscribe_btn}>{t("home.subscribe.button")}</button>
+          </motion.section>
         </motion.section>
-      </div>
+      </div >
     </>
   );
 }

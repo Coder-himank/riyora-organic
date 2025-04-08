@@ -3,6 +3,9 @@
     background: #ffffff;
     border-radius: 10px;
     min-height: 50vh;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
 
 }
 

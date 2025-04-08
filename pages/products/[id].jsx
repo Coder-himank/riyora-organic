@@ -1,7 +1,7 @@
 import Head from "next/head";
 import dbConnect from "@/server/db";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Product from "@/server/models/Product";
 import styles from "@/styles/productPage.module.css";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -11,10 +11,12 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import productsJson from "@/public/products.json"
 import getConfig from "next/config";
+import Carousel from "@/components/Carousel";
+import ProductCard from "@/components/ProductCard";
+import axios from "axios";
 
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
-
 
 
     return (
@@ -45,6 +47,31 @@ const ProductPage = ({ locale, locales, product, translatedData }) => {
     const brand_name = t("brand_name")
 
     const router = useRouter();
+
+    const [uMayLikeProducts, setUMayLikeProducts] = useState([])
+    useEffect(() => {
+        const fetchRecommendedProducts = async () => {
+            try {
+                const resposne = await axios.get("/api/products")
+                console.log(resposne);
+                if (resposne.status == 200) {
+                    setUMayLikeProducts(resposne.data)
+                    console.log(resposne.data);
+                } else {
+                    setUMayLikeProducts([])
+
+                }
+            } catch (e) {
+
+                console.log(e)
+
+            }
+
+        }
+
+        fetchRecommendedProducts()
+    }, [])
+
 
     const productSchema = {
         "@context": "https://schema.org",
@@ -229,31 +256,29 @@ const ProductPage = ({ locale, locales, product, translatedData }) => {
                         <p className={styles.detail_para}>{translatedData.howToUse?.health || "No data available."}</p>
                     </ExpandableSection>
                 </section>
+
+                <section className={styles.reviews}>
+                    <div className={styles.review}>
+                        <span>Name</span>
+                        <span>review</span>
+                    </div>
+                </section>
+
+                <section className={styles.more_products}>
+                    <Carousel>
+                        {uMayLikeProducts.length !== 0 &&
+                            uMayLikeProducts.map((product) =>
+                                <div className={styles.productcard}>
+
+                                    <ProductCard product={product} />
+                                </div>
+                            )}
+                    </Carousel>
+                </section>
             </div>
         </>
     );
 };
-// export async function getStaticPaths() {
-//     await dbConnect();
-//     const products = await Product.find({}, "_id").lean();
-
-//     const paths = [];
-//     const supportedLocales = ["en", "hi"]; // Add all your supported locales
-
-//     products.map((product) => {
-//         supportedLocales.map((locale) => {
-//             paths.push({
-//                 params: { id: product._id.toString() },
-//                 locale, // Generate paths for each language
-//             });
-//         });
-//     });
-
-//     return {
-//         paths,
-//         fallback: "blocking",
-//     };
-// }
 
 export async function getStaticPaths() {
     await dbConnect();

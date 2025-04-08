@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaHeart, FaUser, FaShoppingCart } from "react-icons/fa";
 
-
+import ThemeSwitcher from "./themeSwitcher";
 
 export default function Navbar() {
   const { t } = useTranslation("common");
@@ -32,7 +32,7 @@ export default function Navbar() {
     backgroundColor: "white",
     paddingTop: "20px",
     boxShadow: "0 2px 20px -5px rgba(0,0,0,0.2)",
-    color: "green"
+    color: "var(--navbar-text-color)"
   }
 
 
@@ -124,18 +124,19 @@ export default function Navbar() {
         <div className="nav-right">
 
           <div className={`nav-links ${toogleNavBar ? 'navBarOpen' : ''}`}>
-            <Link href="/products">{t("our_products")}</Link>
-            <Link href="/cart">{t("cart")}</Link>
-            <Link href="/wishlist">{t("wishlist")}</Link>
-
-            {!session ? <><Link href="/authenticate">{t("signin")}</Link>
-            </> : <Link href="/profile">{t("profile")}</Link>}
-
-            <select onChange={(e) => changeLanguage(e.target.value)} defaultValue={locale}>
+            {/* <Link href="/products">{t("our_products")}</Link> */}
+            <select onChange={(e) => changeLanguage(e.target.value)} defaultValue={locale} className="lang_switcher">
               <option value={"en"}>EN</option>
               <option value={"hi"}>HI</option>
 
             </select>
+            <Link href="/cart"><FaShoppingCart /></Link>
+            <Link href="/wishlist"><FaHeart /></Link>
+
+            {!session ? <><Link href="/authenticate">{t("signin")}</Link>
+            </> : <Link href="/profile"><FaUser /></Link>}
+
+            {/* <ThemeSwitcher /> */}
           </div>
 
         </div>

@@ -6,19 +6,24 @@ import { SessionProvider } from "next-auth/react";
 import i18nConfig from "../next-i18next.config";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { ThemeProvider } from "@/components/themeContext";
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   return (
     <>
-      <Head>
-        <html lang={router.locale} />
-      </Head>
-      <SessionProvider>
-        <Navbar />
+      <ThemeProvider>
 
-        <Component {...pageProps} />
-        <Footer />
-      </SessionProvider>
+        <Head>
+          <html lang={router.locale} />
+        </Head>
+        <SessionProvider>
+          <Navbar />
+
+          <Component {...pageProps} />
+          <Footer />
+        </SessionProvider>
+      </ThemeProvider>
     </>
   )
 }

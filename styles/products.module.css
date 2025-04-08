@@ -13,6 +13,33 @@
 
 }
 
+.banner {
+  width: 100%;
+  height: 60vh;
+  background: url("/images/farm.webp");
+  /* background: url("/images/sale.jpg"); */
+  /* background-position: center; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.banner::after {
+  content: 'Banner';
+  display: block;
+  font-size: 9rem;
+  font-weight: bold;
+  text-align: end;
+  padding: 200px 100px 0 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  color: var(--background-color);
+  top: 0;
+  left: 0;
+  background: linear-gradient(45deg, transparent, var(--background-color));
+}
+
 .product_container h1 {
   padding-left: 100px;
   line-height: 90px;

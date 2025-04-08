@@ -44,7 +44,8 @@ export default function Products() {
 
   return (
     <div className={styles.product_container}>
-      <div className="navHolder"></div>
+      <div className={styles.banner}>
+      </div>
       <h1>{t("our_products")}</h1>
       <div className={styles.product_list}>
         {products.map((product) => (

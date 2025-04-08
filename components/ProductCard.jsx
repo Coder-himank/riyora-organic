@@ -6,7 +6,8 @@ import styles from "@/styles/product-card.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { onBuy, onAddToCart, onAddToWishlist } from "@/components/ProductAction";
+import { onAddToWishlist } from "@/components/ProductAction";
+import { FaArrowRight } from "react-icons/fa";
 
 export const SkeletonCard = () => {
   return (
@@ -59,34 +60,27 @@ const ProductCard = ({ product }) => {
 
       <div className={styles.product_info}>
         <Link href={`/products/${productData._id}`}>
-          <h3 className={styles.product_name}>{productData.name}</h3>
-          <p className={styles.product_price}>${productData.price}</p>
+          <span>
+
+            <h3 className={styles.product_name}>{productData.name}</h3>
+            <p className={styles.product_price}>${productData.price}</p>
+          </span>
+          <span>
+            <FaArrowRight />
+          </span>
         </Link>
 
-        <div className={styles.product_actions}>
-          <motion.button
-            className={`${styles.product_btn} ${styles.btn_buy}`}
-            onClick={() => onBuy(router, productData._id, session)}
-            whileTap={{ scale: 0.9 }}
-          >
-            {t("product.buy_now")}
-          </motion.button>
-          <motion.button
-            className={`${styles.product_btn} ${styles.btn_cart}`}
-            onClick={() => onAddToCart(router, productData._id, session)}
-            whileTap={{ scale: 0.9 }}
-          >
-            {t("product.add_to_cart")}
-          </motion.button>
-          <motion.button
-            className={`${styles.product_btn} ${styles.btn_wishlist}`}
-            onClick={() => onAddToWishlist(router, productData._id, session)}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Add to Wishlist"
-          >
-            ♥
-          </motion.button>
-        </div>
+      </div>
+
+      <div className={styles.product_actions}>
+        <motion.button
+          className={`${styles.product_btn} ${styles.btn_wishlist}`}
+          onClick={() => onAddToWishlist(router, productData._id, session)}
+          whileTap={{ scale: 0.9 }}
+          aria-label="Add to Wishlist"
+        >
+          ♥
+        </motion.button>
       </div>
     </motion.div>
   );
