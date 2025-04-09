@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { FaArrowLeft, FaArrowRight, FaHeart, FaUser, FaShoppingCart } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaHeart, FaUser, FaShoppingCart, FaGlobe } from "react-icons/fa";
 
 import ThemeSwitcher from "./themeSwitcher";
 
@@ -125,16 +125,19 @@ export default function Navbar() {
 
           <div className={`nav-links ${toogleNavBar ? 'navBarOpen' : ''}`}>
             {/* <Link href="/products">{t("our_products")}</Link> */}
-            <select onChange={(e) => changeLanguage(e.target.value)} defaultValue={locale} className="lang_switcher">
-              <option value={"en"}>EN</option>
-              <option value={"hi"}>HI</option>
+            <span className="language">
 
-            </select>
-            <Link href="/cart"><FaShoppingCart /></Link>
-            <Link href="/wishlist"><FaHeart /></Link>
+              <FaGlobe /> <select onChange={(e) => changeLanguage(e.target.value)} defaultValue={locale} className="lang_switcher">
+                <option value={"en"}>EN</option>
+                <option value={"hi"}>HI</option>
+
+              </select>
+            </span>
+            <Link href="/cart"><FaShoppingCart /> <span className="icon_label">{t("cart")}</span> </Link>
+            <Link href="/wishlist"><FaHeart /><span className="icon_label"> {t("wishlist")}</span></Link>
 
             {!session ? <><Link href="/authenticate">{t("signin")}</Link>
-            </> : <Link href="/profile"><FaUser /></Link>}
+            </> : <Link href="/profile"><FaUser /><span className="icon_label">{t("profile")}</span></Link>}
 
             {/* <ThemeSwitcher /> */}
           </div>

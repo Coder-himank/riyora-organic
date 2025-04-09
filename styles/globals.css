@@ -250,6 +250,16 @@ button:disabled {
   background-color: white;
 }
 
+.nav-links .language {
+  /* height: fit-content; */
+  display: inline-block;
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: var(--spacing);
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -265,10 +275,17 @@ button:disabled {
   font-size: var(--base-font-size);
 }
 
+.icon_label {
+  padding: 0 0 0 5px;
+  width: fit-content;
+  height: fit-content;
+  font-size: 0.9rem;
+  display: none;
+}
+
 .nav-links select {
   border-radius: 20px;
-  width: fit-content;
-  margin: 0 10px;
+  /* width: fit-content; */
   background-color: transparent;
   border: none;
   outline: none;
@@ -415,14 +432,16 @@ footer {
 
   .nav-links a,
   .nav-links select {
-    display: block;
+    display: flex;
     align-items: center;
     padding: var(--spacing);
   }
 
-  .nav-links select {
-    margin: var(--spacing);
+  .icon_label {
+    display: block;
   }
+
+
 
   .profile_aside {
     left: -100%;

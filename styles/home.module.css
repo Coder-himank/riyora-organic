@@ -326,14 +326,14 @@
 }
 
 .review_card {
-  width: 250px;
-  min-width: 400px;
+  width: 400px;
   height: fit-content;
   display: flex;
-  align-items: top;
+  align-items: center;
   justify-content: center;
-  background-color: black;
-  padding: 30px 10px;
+  background-color: rgb(37, 35, 35);
+  box-shadow: var(--shadow-light);
+  padding: 30px;
 }
 
 .review_card img {
@@ -345,11 +345,12 @@
 .review_card .review_info {
   width: 100%;
   height: 100%;
-  color: whitesmoke;
+  color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 0 10px;
 }
 
 .review_card .review_info section {
@@ -371,8 +372,8 @@
 }
 
 .review_info section:nth-child(3) {
-
-  color: rgb(219, 211, 211);
+  font-size: 14px;
+  color: rgb(145, 137, 137);
 }
 
 .services {
@@ -380,17 +381,21 @@
   /* background: var(--primary-color); */
   width: 100%;
   height: fit-content;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(calc(50% - 20px), 1fr));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* grid-template-columns: repeat(auto-fit, minmax(calc(50% - 20px), 1fr)); */
   gap: 20px;
 }
 
 .services .service_banner {
-  width: 100%;
+  width: calc(50% - 10px);
   position: relative;
   height: 400px;
   box-shadow: var(--shadow-light);
 }
+
 
 .services .service_banner::after {
   content: '';
@@ -457,18 +462,63 @@
   .about_in {
     flex-direction: column;
   }
+
+  .hero_text {
+    scale: 0.9;
+  }
+
+
 }
 
-@media screen and (max-width: 900px) {
-  .tree {
-    width: 400px;
-    height: 600px;
-    object-fit: contain;
+@media screen and (max-width: 1100px) {
+  .review_card {
+    width: 170px;
+    height: fit-content;
+    flex-direction: column;
+    padding: 20px 10px;
+
+  }
+
+  .review_card .review_info section {
+    border-bottom: 1px solid rgba(116, 112, 112, 0.21);
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-self: center;
-    margin: 30px 0 0 0;
   }
+}
+
+@media screen and (max-width: 900px) {
+  .home_container .hero_section_in1 {
+    height: 80vh;
+    background-position: center 50;
+    justify-items: center;
+  }
+
+  .home_container .hero_section_in2 {
+    height: 120vh;
+  }
+
+  .hero_head {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-self: center;
+
+  }
+
+  .service_banner h3 {
+    scale: 0.8;
+    font-size: 1.4rem;
+  }
+
+  .services .service_banner:nth-child(3),
+  .service_banner:nth-child(4) {
+    flex-shrink: 0;
+    width: 100%;
+    height: 200px;
+  }
+
 }
 
 @media screen and (max-width: 750px) {
