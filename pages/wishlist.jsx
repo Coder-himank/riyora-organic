@@ -123,7 +123,7 @@ export default function Wishlist() {
                   </ul>
                 </Link>
               </div>
-              <button className={wislistStyles.remove_btn} onClick={() => removeFromWishlist(item._id)}>🗑️</button>
+              <button className={wislistStyles.remove_btn} onClick={() => removeFromWishlist(item._id)}>x</button>
             </div>
           ))
         )}

@@ -124,8 +124,16 @@ export default function UserProfile() {
               <Link href="/orders?status=canceled">{t("profilePage.canceled_orders")}</Link>
               <Link href="/orders">{t("profilePage.all_orders")}</Link>
             </section>
+            <section className={styles.customer_services}>
+              <h3>More Services</h3>
+              <Link href="/refund">{t("profilePage.refund")}</Link>
+              <Link href="/payment-history">{t("profilePage.payment_history")}</Link>
+              <Link href="/customer-care">{t("profilePage.customer_care")}</Link>
+              <Link href="/help">{t("profilePage.help")}</Link>
+
+            </section>
             <section>
-              <button onClick={() => UserLogOut()}>{t("profilePage.sign_out")}</button>
+              <button onClick={() => UserLogOut()} style={{ background: "var(--danger)" }}>{t("profilePage.sign_out")}</button>
             </section>
           </div>
         ) : (

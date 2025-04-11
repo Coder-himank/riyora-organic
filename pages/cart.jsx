@@ -193,7 +193,7 @@ export default function Cart() {
                     <button onClick={() => debouncedUpdateQuantity(item.productId, item.quantity_demanded - 1)}>-</button>
                   </span>
                 </div>
-                <button className={styles.remove_btn} onClick={() => removeFromCart(item.productId)}>🗑️</button>
+                <button className={styles.remove_btn} onClick={() => removeFromCart(item.productId)}>x</button>
               </div>
             ))}
 

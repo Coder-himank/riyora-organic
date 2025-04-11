@@ -68,6 +68,15 @@
     opacity: 0.5;
 }
 
+.remove_btn {
+    width: 20px;
+    height: 20px;
+    align-self: self-start;
+    border-radius: 100%;
+    padding: 0;
+    background-color: var(--danger);
+}
+
 .cart_total {
     font-size: 20px;
     font-weight: bold;
@@ -85,6 +94,13 @@
     background: #f6f7f8;
 
     /* min-height: 176px; */
+}
+
+.quantity_controls button {
+    width: 20px;
+    height: fit-content;
+    padding: 2px;
+    border-radius: 100%;
 }
 
 .skeleton_image {

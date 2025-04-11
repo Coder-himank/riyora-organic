@@ -63,6 +63,15 @@
     margin-left: 15px;
 }
 
+.remove_btn {
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    align-self: self-start;
+    border-radius: 100%;    
+    background-color: var(--danger);
+}
+
 .loading {
     min-height: 176px;
 }

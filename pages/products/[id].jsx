@@ -12,8 +12,9 @@ import { useSession } from "next-auth/react";
 import productsJson from "@/public/products.json"
 import getConfig from "next/config";
 import Carousel from "@/components/Carousel";
-import ProductCard from "@/components/ProductCard";
+import Link from "next/link";
 import axios from "axios";
+import { FaArrowRight } from "react-icons/fa";
 
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -258,7 +259,7 @@ const ProductPage = ({ locale, locales, product, translatedData }) => {
                 </section>
 
                 <section className={styles.reviews}>
-                    <div className={styles.review}>
+                    <div className={styles.review_card}>
                         <span>Name</span>
                         <span>review</span>
                     </div>
@@ -267,10 +268,14 @@ const ProductPage = ({ locale, locales, product, translatedData }) => {
                 <section className={styles.more_products}>
                     <Carousel>
                         {uMayLikeProducts.length !== 0 &&
-                            uMayLikeProducts.map((product) =>
-                                <div className={styles.productcard}>
-
-                                    <ProductCard product={product} />
+                            uMayLikeProducts.map((product, index) =>
+                                <div key={index} className={styles.productCard}>
+                                    <Image src={product.imageUrl} alt={product.name} width={300} height={300} />
+                                    <section className={styles.product_info}>
+                                        <h3>{product.name}</h3>
+                                        {/* {t("home.read_more")} */}
+                                        <Link href={`/products`}><FaArrowRight /></Link>
+                                    </section>
                                 </div>
                             )}
                     </Carousel>
