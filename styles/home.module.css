@@ -17,7 +17,7 @@
 .home_container .hero_section_in1 {
   width: 100%;
   height: fit-content;
-  min-height: 60vh;
+  min-height: 80vh;
   display: flex;
   align-items: end;
   justify-content: flex-start;
@@ -51,7 +51,7 @@
 .home_container .hero_section_in2 {
   padding: var(--home-section-padding);
   width: 100%;
-  height: 200vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -61,7 +61,7 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-
+  display: none;
 }
 
 
@@ -179,6 +179,8 @@
   box-shadow: var(--box-shadow);
   margin: 0 3px;
   background-color: var(--card-background);
+  cursor: pointer;
+  position: relative;
   /* scale: 0.8; */
 }
 
@@ -191,6 +193,8 @@
   align-self: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  z-index: 2;
+  position: relative;
 
 }
 
@@ -204,7 +208,42 @@
   width: 100%;
   object-fit: contain;
   height: 400px;
+  transition: all 0.4s;
+
 }
+
+.productCard:hover img {
+  scale: 0.8;
+}
+
+.action_btn {
+  display: none;
+  position: absolute;
+  background: linear-gradient(180deg, transparent, var(--card-background));
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: all 0.4s;
+  top: 0;
+  left: 0;
+
+}
+
+.productCard:hover .action_btn {
+  display: flex;
+
+}
+
+.action_btn button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 100%;
+  padding: 8px;
+
+}
+
 
 .productCard a {
   padding: 10px 15px;
@@ -218,6 +257,12 @@
   scale: 1;
 }
 
+.blogs {
+  width: 100%;
+  max-width: 1100px;
+  padding: 20px 5px;
+  margin: auto;
+}
 
 /* About Section */
 

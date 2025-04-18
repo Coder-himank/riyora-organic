@@ -8,8 +8,10 @@ import Carousel from "@/components/Carousel";
 import Head from "next/head";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaHeart, FaShoppingCart } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import ProductCard from "@/components/ProductCard";
+import Blog from "@/components/blog";
 
 export default function Home() {
   const { t } = useTranslation("common");
@@ -19,23 +21,43 @@ export default function Home() {
   const products = [
     {
       theme: "#164c3e",
-      image: "/products/indigo-powder.png",
+      imageUrl: "/products/indigo-powder.png",
       name: t("home.product.indigo"),
       price: 90.43
     },
     {
       theme: "#a1b512",
-      image: "/products/amla-powder.png",
+      imageUrl: "/products/amla-powder.png",
       name: t("home.product.amla"),
       price: 90.43
     },
     {
       theme: "#f0c08c",
-      image: "/products/multani-mitti.png",
+      imageUrl: "/products/multani-mitti.png",
       name: t("home.product.multani"),
       price: 90.43
     }
   ];
+
+  const blogs = [
+    {
+      title: "Blog 1",
+      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
+      url: "/blogs/blog1",
+      imgUrl: "/images/ayurveda-utensils.jpg"
+    },
+    {
+      title: "Blog 2",
+      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
+      url: "/blogs/blog2",
+      imgUrl: "/images/oil_bottel_repat.jpg"
+    }, {
+      title: "Blog 3",
+      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
+      url: "/blogs/blog3",
+      imgUrl: "/images/oil_bottle_black.jpg"
+    }
+  ]
 
   const { publicRuntimeConfig } = getConfig()
   const site_url = publicRuntimeConfig.BASE_URL
@@ -159,20 +181,31 @@ export default function Home() {
           <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
             <Carousel>
               {products.map((product, index) => (
-                <div key={index} className={styles.productCard}>
-                  <Image src={product.image} alt={product.name} width={300} height={300} />
-                  <section className={styles.product_info}>
-
-                    <h3>{product.name}</h3>
-                    {/* {t("home.read_more")} */}
-                    
-                    <Link href={`/products`}><FaArrowRight /></Link>
-                  </section>
-                </div>
+                <ProductCard product={product} />
               ))}
             </Carousel>
           </motion.section>
         </motion.section>
+        <motion.section className={styles.trending_product} viewport={{ once: true }}>
+          <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
+            <Carousel>
+              {products.map((product, index) => (
+                <ProductCard product={product} />
+              ))}
+            </Carousel>
+          </motion.section>
+        </motion.section>
+
+        {/* Blogs Section */}
+        <motion.section className={styles.blogs} viewport={{ once: true }}>
+          <h2>Enchant Yourself</h2>
+          {blogs.map((blog, index) => (
+            <Blog key={blog.url} {...blog} />
+          ))}
+
+          <Link href={"/blogs"}>Load More</Link>
+        </motion.section>
+
 
 
         {/* About Section */}

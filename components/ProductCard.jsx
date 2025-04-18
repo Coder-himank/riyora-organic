@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { onAddToWishlist } from "@/components/ProductAction";
 import { FaArrowRight } from "react-icons/fa";
+import { FaShoppingCart, FaHeart } from "react-icons/fa";
 
 export const SkeletonCard = () => {
   return (
@@ -27,6 +28,7 @@ export const SkeletonCard = () => {
           <div className={`${styles.product_btn} ${styles.skeleton_btn}`}></div>
         </div>
       </div>
+
     </motion.div>
   );
 };
@@ -34,55 +36,29 @@ export const SkeletonCard = () => {
 const ProductCard = ({ product }) => {
   const { t } = useTranslation("common");
   const { data: session } = useSession();
-  const router = useRouter();
-  const userId = session?.user?.id;
   const [productData, setProductData] = useState({ ...product });
+  console.log(product);
+
 
   return (
-    <motion.div
-      className={styles.product_card}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.15)" }}
-      transition={{ duration: 0.3 }}
-    >
-      <Link href={`/products/${productData._id}`}>
-        <Image
-          src={productData.imageUrl || "/products/hoodie.jpg"}
-          alt={productData.name}
-          width={300}
-          height={300}
-          layout="responsive"
-          objectFit="cover"
-          className={styles.product_image}
-        />
-      </Link>
 
-      <div className={styles.product_info}>
-        <Link href={`/products/${productData._id}`}>
-          <span>
+    <div className={styles.productCard}>
+      <Image src={productData.imageUrl} alt={productData.name} width={300} height={300} />
+      <section className={styles.product_info}>
 
-            <h3 className={styles.product_name}>{productData.name}</h3>
-            <p className={styles.product_price}>${productData.price}</p>
-          </span>
-          <span>
-            <FaArrowRight />
-          </span>
-        </Link>
+        <h3>{productData.name}</h3>
+        {/* {t("home.read_more")} */}
 
-      </div>
+        <Link href={`/products`}><FaArrowRight /></Link>
+      </section>
 
-      <div className={styles.product_actions}>
-        <motion.button
-          className={`${styles.product_btn} ${styles.btn_wishlist}`}
-          onClick={() => onAddToWishlist(router, productData._id, session)}
-          whileTap={{ scale: 0.9 }}
-          aria-label="Add to Wishlist"
-        >
-          ♥
-        </motion.button>
-      </div>
-    </motion.div>
+      <section className={styles.action_btn}>
+        <button><FaShoppingCart /></button>
+        <button><FaHeart /></button>
+      </section>
+    </div>
+
+
   );
 };
 

@@ -2,11 +2,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useEffect, useRef, useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaBlog, FaHome, FaProductHunt, FaServicestack } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { FaArrowLeft, FaArrowRight, FaHeart, FaUser, FaShoppingCart, FaGlobe } from "react-icons/fa";
-
+import { FaHeart, FaUser, FaShoppingCart, FaGlobe } from "react-icons/fa";
+import Image from "next/image";
 import ThemeSwitcher from "./themeSwitcher";
 
 export default function Navbar() {
@@ -23,9 +23,8 @@ export default function Navbar() {
   const [resizeWidth, setResizeWidth] = useState(0);
 
   const navStyle = {
-    height: "70px",
+    height: "fit-content",
     backgroundColor: "white",
-    paddingTop: "20px",
     boxShadow: "0 2px 20px -5px rgba(0,0,0,0.2)",
     color: "var(--navbar-text-color)"
   }
@@ -84,18 +83,21 @@ export default function Navbar() {
 
       <nav className={`navbar ${toogleNavBar && "navOpen"} ${changeNavStyle && "navFixed"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
 
-        {/* Nav right Code */}
+        {/* Nav left Code */}
 
         <div className="nav-left">
-          <Link href="/"><span className="name-head">{t("welcome")}</span></Link>
-          <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}><FaBars /></button>
-        </div>
-        {/* Nav right Ends */}
-        {/* Nav Left Starts */}
-        <div className="nav-right">
+          <Link href="/"><span className="name-head"><Image src="/images/logo.png" alt="Logo" width={200} height={100} /></span></Link>
 
-          <div className={`nav-links ${toogleNavBar ? 'navBarOpen' : ''}`}>
-            {/* <Link href="/products">{t("our_products")}</Link> */}
+        </div>
+        {/* Nav left Ends */}
+        <div className={`nav-mid ${toogleNavBar ? 'navBarOpen' : ''}`}>
+          <div className={`nav-links`}>
+
+
+            <Link href="/"><span className="icon_label"><FaHome /> </span> {t("home_text")}  </Link>
+            <Link href="/products"><span className="icon_label"><FaProductHunt /></span> {t("product_text")} </Link>
+            <Link href="/blogs"><span className="icon_label"><FaBlog /> </span>{t("blogs")} </Link>
+            <Link href="/services"><span className="icon_label"><FaServicestack /></span> {t("services")} </Link>
             <span className="language">
 
               <FaGlobe /> <select onChange={(e) => changeLanguage(e.target.value)} defaultValue={locale} className="lang_switcher">
@@ -104,17 +106,28 @@ export default function Navbar() {
 
               </select>
             </span>
-            <Link href="/cart"><FaShoppingCart /> <span className="icon_label">{t("cart")}</span> </Link>
-            <Link href="/wishlist"><FaHeart /><span className="icon_label"> {t("wishlist")}</span></Link>
+          </div>
+
+        </div>
+        {/* Nav right Starts */}
+        <div className="nav-right">
+
+          <div className={`nav-user-option`}>
+            {/* <Link href="/products">{t("our_products")}</Link> */}
+
+            <Link href="/cart"><FaShoppingCart />  </Link>
+            <Link href="/wishlist"><FaHeart /></Link>
 
             {!session ? <><Link href="/authenticate">{t("signin")}</Link>
-            </> : <Link href="/profile"><FaUser /><span className="icon_label">{t("profile")}</span></Link>}
+            </> : <Link href="/profile"><FaUser /></Link>}
+
+            <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}><FaBars /></button>
 
             {/* <ThemeSwitcher /> */}
           </div>
 
         </div>
-        {/* Nav Left ends */}
+        {/* Nav right ends */}
       </nav >
 
       {/* navbar ensds */}
