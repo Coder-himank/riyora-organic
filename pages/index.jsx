@@ -12,53 +12,49 @@ import { FaArrowRight, FaHeart, FaShoppingCart } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import Blog from "@/components/blog";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const { t } = useTranslation("common");
 
   const { locale } = useRouter(); // Get the current locale
 
-  const products = [
-    {
-      theme: "#164c3e",
-      imageUrl: "/products/indigo-powder.png",
-      name: t("home.product.indigo"),
-      price: 90.43
-    },
-    {
-      theme: "#a1b512",
-      imageUrl: "/products/amla-powder.png",
-      name: t("home.product.amla"),
-      price: 90.43
-    },
-    {
-      theme: "#f0c08c",
-      imageUrl: "/products/multani-mitti.png",
-      name: t("home.product.multani"),
-      price: 90.43
-    }
-  ];
 
-  const blogs = [
-    {
-      title: "Blog 1",
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
-      url: "/blogs/blog1",
-      imgUrl: "/images/ayurveda-utensils.jpg"
-    },
-    {
-      title: "Blog 2",
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
-      url: "/blogs/blog2",
-      imgUrl: "/images/oil_bottel_repat.jpg"
-    }, {
-      title: "Blog 3",
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
-      url: "/blogs/blog3",
-      imgUrl: "/images/oil_bottle_black.jpg"
-    }
-  ]
+  const [products, setProducts] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [blogsLoading, setBlogsLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/api/products?type=trending"); // Replace with your API endpoint
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setProductsLoading(false);
+      }
+    }
+
+    const fetchBlogs = async () => {
+      try {
+
+        const res = await fetch("/api/blogs"); // Replace with your API endpoint
+        const data = await res.json();
+        setBlogs(data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setBlogsLoading(false);
+      }
+    }
+
+    fetchBlogs()
+    fetchProducts()
+
+  }, [])
   const { publicRuntimeConfig } = getConfig()
   const site_url = publicRuntimeConfig.BASE_URL
 
@@ -179,20 +175,34 @@ export default function Home() {
         <motion.section className={styles.trending_product} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>{t("home.products.best_selling")}</h2>
           <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            <Carousel>
-              {products.map((product, index) => (
-                <ProductCard product={product} />
-              ))}
-            </Carousel>
+            {productsLoading ? (
+              <>Loading</>
+            ) : products.length === 0 ? (<></>) :
+              (
+
+                <Carousel>
+                  {products.map((product, index) => (
+                    <ProductCard product={product} />
+                  ))}
+                </Carousel>
+              )
+            }
           </motion.section>
         </motion.section>
         <motion.section className={styles.trending_product} viewport={{ once: true }}>
           <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            <Carousel>
-              {products.map((product, index) => (
-                <ProductCard product={product} />
-              ))}
-            </Carousel>
+            {productsLoading ? (
+              <>Loading</>
+            ) : products.length === 0 ? (<></>) :
+              (
+
+                <Carousel>
+                  {products.map((product, index) => (
+                    <ProductCard product={product} />
+                  ))}
+                </Carousel>
+              )
+            }
           </motion.section>
         </motion.section>
 

@@ -6,7 +6,7 @@ import styles from "@/styles/product-card.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { onAddToWishlist } from "@/components/ProductAction";
+import { onAddToWishlist, onAddToCart } from "@/components/ProductAction";
 import { FaArrowRight } from "react-icons/fa";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 
@@ -36,6 +36,7 @@ export const SkeletonCard = () => {
 const ProductCard = ({ product }) => {
   const { t } = useTranslation("common");
   const { data: session } = useSession();
+  const router = useRouter();
   const [productData, setProductData] = useState({ ...product });
   console.log(product);
 
@@ -53,8 +54,8 @@ const ProductCard = ({ product }) => {
       </section>
 
       <section className={styles.action_btn}>
-        <button><FaShoppingCart /></button>
-        <button><FaHeart /></button>
+        <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
+        <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
       </section>
     </div>
 

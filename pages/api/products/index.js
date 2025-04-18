@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const { ids } = req.query;
+      const { ids, type } = req.query;
       let products = [];
 
       if (ids) {
@@ -20,6 +20,13 @@ export default async function handler(req, res) {
         products = await Product.find({ _id: { $in: idsArray } });
       } else {
         products = await Product.find();
+      }
+
+      if (type) {
+        if (type === "featured") {
+          products = products.filter(product => product.isFeatured);
+        }
+        products = products.slice(0, 3);
       }
 
       return res.status(200).json(products);
