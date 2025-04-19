@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { FaEnvelope, FaInstagram, FaLandmark, FaLocationArrow, FaMailBulk, FaPhone, FaYoutube } from "react-icons/fa";
+import { FaEnvelope, FaFacebook, FaInstagram, FaLandmark, FaLocationArrow, FaMailBulk, FaPhone, FaYoutube } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { RiCustomerService2Line } from "react-icons/ri";
 import { TbTruckReturn } from "react-icons/tb";
@@ -20,21 +20,21 @@ export default function Footer() {
         <div className="footer-section">
           <ul>
             <h2>{t("footer.contact.title")}</h2>
-            <li><span className="footer_icons"><FaEnvelope /></span> {t("contact.email")}</li>
-            <li><span className="footer_icons"><FaPhone /> </span>{t("contact.phone")}</li>
-            <li><span className="footer_icons"> <FaLocationDot /> </span>Address</li>
+            <li><span className="footer_icons"><FaEnvelope /></span> {t("footer.contact.email")}</li>
+            <li><span className="footer_icons"><FaPhone /> </span>{t("footer.contact.phone")}</li>
+            <li><span className="footer_icons"> <FaLocationDot /> </span>01, Mahaveer Colony, Kherwara, Badla, Udaipur, Rajasthan</li>
           </ul>
         </div>
         <div className="footer-section">
           <ul>
-            <h2>{t("footer.supprt.title")}</h2>
-            <li><span className="footer_icons"><RiCustomerService2Line /> </span>{t("customer_care")}</li>
+            <h2>{t("footer.support.title")}</h2>
+            <li><span className="footer_icons"><RiCustomerService2Line /> </span>{t("footer.support.customer_care")}</li>
             <li><span className="footer_icons"><TbTruckReturn /></span>
-              {t("return")}</li>
+              {t("footer.support.return_policy")}</li>
             <li><span className="footer_icons"><IoShieldSharp /></span>
-              {t("privacy_policy")}</li>
+              {t("footer.support.privacy_policy")}</li>
             <li><span className="footer_icons"> <IoMdHelpCircle /></span>
-              {t("help")}</li>
+              {t("footer.support.help")}</li>
           </ul>
         </div>
         <div className="footer-section">
@@ -42,6 +42,7 @@ export default function Footer() {
             <h2>{t("footer.social.title")}</h2>
             <li><span className="footer_icons"><FaInstagram /></span> Instagarm</li>
             <li><span className="footer_icons"><FaYoutube /> </span>Youtube</li>
+            <li><span className="footer_icons"><FaFacebook /> </span>FaceBook</li>
           </ul>
         </div>
       </div>

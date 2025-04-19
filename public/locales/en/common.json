@@ -65,7 +65,22 @@
     "add_to_wishlist": "Add to Wishlist"
   },
   "footer": {
-    "copyright": "© 2025 Organic Store. All rights reserved."
+    "copyright": "© 2025 Organic Store. All rights reserved.",
+    "contact": {
+      "title": "Contact Us",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "support": {
+      "title": "Support",
+      "customer_care": "Customer Care",
+      "help": "Help",
+      "privacy_policy": "Privacy Policy",
+      "return_policy": "Return Policy"
+    },
+    "social": {
+      "title": "Connect Us"
+    }
   },
   "carousel": {
     "prev": "Previous",

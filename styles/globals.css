@@ -18,7 +18,7 @@
   /* 🌿 Backgrounds */
   --background-color: #f4f4f2;
   /* Light ivory – overall page background */
-  --footer-background: #d6e4d1;
+  --footer-background: var(--primary-color);
   /* Subtle natural green – footer bg */
   --navbar-background: rgba(255, 255, 255, 0.75);
   /* Semi-transparent for organic feel */
@@ -385,13 +385,14 @@ footer {
   background: linear-gradient(180deg, var(--background-color) 20%, var(--footer-background) 20%);
   padding: var(--spacing);
   text-align: center;
+  color: var(--background-color);
 }
 
 .footer .banner {
   width: 80%;
   min-height: 20%;
   border-radius: 20px;
-  background-color: rgb(50, 50, 49);
+  background-color: var(--card-background);
   margin: auto;
   padding: 20px;
   display: flex;
@@ -399,7 +400,11 @@ footer {
   justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 10px;
-  box-shadow: 2px 0 20px -1px black;
+  box-shadow: 2px 0 20px -8px black;
+}
+
+footer h2 {
+  color: var(--background-color);
 }
 
 .footer .banner .option {
@@ -408,7 +413,7 @@ footer {
   border-radius: 100%;
   max-width: 200px;
   max-height: 200px;
-  background-color: rgb(197, 200, 190);
+  background-color: rgb(255, 255, 255);
 }
 
 .footer-content {
@@ -448,51 +453,6 @@ footer {
 .footer_icons {
   padding: 0 10px;
   font-size: 20px;
-}
-
-.profile_aside {
-  max-width: 25%;
-  max-width: 200px;
-  height: calc(100vh - 100px);
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--background-color);
-  gap: 8px;
-  padding: 10px 10px 0 0;
-  border-radius: 8px;
-  box-shadow: -3px 10px 20px -6px rgba(0, 0, 0, 0.168);
-  position: fixed;
-  left: 0;
-  top: 100px;
-  z-index: 11;
-  padding: 20px 20px 0 0;
-
-}
-
-.profile_aside_bars {
-  width: 30px;
-  height: 30px;
-  font-size: 1.2rem;
-  padding: 5px;
-  color: white;
-  display: none;
-  margin: 4px;
-  position: sticky;
-  left: -100%;
-}
-
-.profile_aside a {
-  width: 100%;
-  padding: 20px 20px;
-  border-radius: 9px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.profile_aside a:hover {
-  /* background-color: rgb(132, 192, 132); */
-  background-color: var(--list-hover-bg);
 }
 
 
@@ -641,6 +601,7 @@ footer {
     justify-content: left;
     align-items: center;
     padding: var(--spacing);
+    font-size: 1.1rem;
   }
 
   .nav-links select {
@@ -649,20 +610,15 @@ footer {
   }
 
   .icon_label {
+    font-size: 1rem;
     display: block;
   }
 
-  .footer .banner {
-    flex-direction: column;
-    gap: 20px;
-  }
 
-  .footer .banner .option {
-    width: 70vw;
-    ;
-    height: 70vw;
-  }
+  footer {
 
+    background: linear-gradient(180deg, var(--background-color) 10%, var(--footer-background) 10%);
+  }
 
   .footer-content {
     padding: 20px 0;
@@ -676,4 +632,18 @@ footer {
     border: none;
   }
 
+}
+
+@media screen and (max-width: 600px) {
+
+  .footer .banner {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer .banner .option {
+    width: 70vw;
+    ;
+    height: 70vw;
+  }
 }
