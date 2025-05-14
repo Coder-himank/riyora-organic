@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import styles from "@/styles/product-card.module.css";
 import { useSession } from "next-auth/react";
@@ -34,7 +33,6 @@ export const SkeletonCard = () => {
 };
 
 const ProductCard = ({ product }) => {
-  const { t } = useTranslation("common");
   const { data: session } = useSession();
   const router = useRouter();
   const [productData, setProductData] = useState({ ...product });
@@ -50,7 +48,7 @@ const ProductCard = ({ product }) => {
         <h3>{productData.name}</h3>
         {/* {t("home.read_more")} */}
 
-        <Link href={`/products`}><FaArrowRight /></Link>
+        <Link href={`/products/${productData._id}`}><FaArrowRight /></Link>
       </section>
 
       <section className={styles.action_btn}>

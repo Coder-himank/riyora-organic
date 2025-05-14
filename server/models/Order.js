@@ -1,60 +1,47 @@
-import { models, model, Schema } from "mongoose";
+// models/Order.js
+import mongoose from 'mongoose';
+import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
 
-const orderSchema = new Schema({
-    orderId: { type: String, required: true },
-    placedOn: { type: Date, required: true, default: () => new Date() },
-    expectedDelivery: {
-        type: Date,
-        required: true,
-        default: () => new Date(Date.now() + 8 * 24 * 60 * 60 * 1000) // Adds 8 days
-    },
-    paymentStatus: { type: String, enum: ['paid', 'unpaid', 'pending'], required: true, default: "pending" },
+const orderSchema = new mongoose.Schema({
     userId: { type: String, required: true },
-    paymentType: { type: String, required: true, default: "not_set" },
-    amount: { type: Number, required: true },
-    customerName: { type: String, required: true },
-    customerPhone: { type: String, required: true },
-    customerEmail: { type: String, required: true },
     products: [
         {
-            imageUrl: { type: String, default: "/images/placeholderProduct.png" },
-            productId: { type: String, required: true },
-            quantity_demanded: { type: Number, required: true },
-            price: { type: Number, required: true }
-        }
+            productId: { type: String, ref: 'Product' },
+            imageUrl: { type: String },
+            quantity: Number,
+            price: Number,
+        },
     ],
-    discountCode: { type: String, default: "None" },
-    discountAmount: { type: Number, default: 0 },
-    notes: { type: String },
-    shippingInfo: {
-        trackingNumber: { type: String },
-        carrier: { type: String },
-        shippingMethod: { type: String },
-        shippingCost: { type: Number }
+    promoCode: { type: String, default: null },
+    amountBreakDown: {
+        subtotal: Number,
+        shipping: Number,
+        tax: Number,
+        total: Number,
+        discount: Number
     },
-    refundStatus: { type: String, enum: ['none', 'partially_refunded', 'fully_refunded'], default: "none" },
-    refundAmount: { type: Number, default: 0 },
-    cancellationReason: { type: String, default: "none" },
+    address: { label: String, city: String, state: String, country: String, pincode: String, address: String },
+    amount: Number,
+    currency: { type: String, default: 'INR' },
+    paymentId: String,
+    signature: String,
+    razorpayOrderId: { type: String, required: true, unique: true },
+    paymentStatus: { type: String, enum: ['pending', 'paid', 'failed', 'COD'], default: 'pending' },
     paymentDetails: {
-        transactionId: { type: String },
-        paymentGateway: { type: String },
-        paymentDate: { type: Date }
+        transactionId: String,
+        paymentGateway: String,
+        paymentDate: Date,
     },
-    shippingAddress: {
-        label: { type: String },
-        address: { type: String },
-        city: { type: String },
-        country: { type: String },
-        pincode: { type: String }
-    },
-    statusHistory: [
-        {
-            status: { type: String, enum: ['pending', 'shipped', 'delivered', 'cancelled'], required: true, default: 'pending' },
-            updatedAt: { type: Date, required: true, default: () => new Date() }
-        }
-    ]
-}, { timestamps: true });
+    status: { type: String, enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled', 'payment_failed'], default: 'pending' },
 
-// Create and export the model
-const Order = models.Order || model('Order', orderSchema);
-export default Order;
+    // dates
+    placedOn: { type: Date, default: Date.now },
+    expectedDelivery: { type: Date, default: Date.now },
+    deliveredOn: { type: Date, default: null },
+    cancelledOn: { type: Date, default: null },
+
+
+    updatedAt: { type: Date, default: Date.now },
+});
+
+export default mongoose.models.Order || mongoose.model('Order', orderSchema);

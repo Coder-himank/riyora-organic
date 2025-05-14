@@ -1,14 +1,11 @@
 import styles from "@/styles/order-page.module.css";
 import { useSession } from "next-auth/react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 
 export const Orders = () => {
-    const { t } = useTranslation("common");
     const { data: session } = useSession();
     const [ordersData, setOrdersData] = useState(null);
     const [error, setError] = useState(null);
@@ -18,7 +15,7 @@ export const Orders = () => {
         async function fetchOrdersData(userId = session?.user?.id) {
             if (!userId) return;
             try {
-                const response = await axios.get(`/api/orders?userId=${userId}&status=${query.status || undefined}`);
+                const response = await axios.get(`/api/secure/orders?userId=${userId}&status=${query.status || undefined}`);
                 setOrdersData(response.data.orderDetails);
             } catch (error) {
                 setOrdersData([]);
@@ -35,13 +32,13 @@ export const Orders = () => {
     return (
         <div className={styles.orders_container}>
             <div className="navHolder"></div>
-            <h1>{t("ordersPage.orders.title")}</h1>
+            <h1>Orders</h1>
 
             <div className={styles.orders_list}>
                 {ordersData === null ? (
                     <SkeletonLoading />
                 ) : ordersData.length === 0 ? (
-                    <p>{t("ordersPage.orders.no_orders")}</p>
+                    <p>No orders found.</p>
                 ) : (
                     ordersData.map((order) => (
                         <div key={order._id} className={styles.order_item}>
@@ -54,25 +51,26 @@ export const Orders = () => {
                                             src={product.imageUrl || "/images/placeholderProduct.png"}
                                             width={100}
                                             height={100}
-                                            alt={t("ordersPage.orders.product_alt", { index: index + 1 })}
+                                            alt={`Product ${index + 1}`}
                                         />
-                                        <span>{t("ordersPage.orders.quantity")}: {product.quantity_demanded}</span>
-                                        <span>₹{product.price}</span>
+                                        <span>Quantity: {product.quantity}</span>
+                                        <span>Price : ₹{product.price}</span>
                                     </div>
                                 ))}
                             </div>
 
                             <div className={styles.order_details}>
-                                <span>{t("ordersPage.orders.payment")}: {order.paymentStatus}</span>
-                                <span>{t("ordersPage.orders.placed_on")}: {new Date(order.placedOn).toLocaleDateString()}</span>
-                                <span>{t("ordersPage.orders.expected")}: {new Date(order.expectedDelivery).toLocaleDateString()}</span>
-                                <span>{t("ordersPage.orders.status")}: {order.statusHistory?.[order.statusHistory.length - 1]?.status || t("ordersPage.orders.unknown")}</span>
+                                <span>Payment Status: {order.paymentStatus}</span>
+                                <span>Placed on: {new Date(order.placedOn).toLocaleDateString()}</span>
+                                <span>Expected Delivery: {new Date(order.expectedDelivery).toLocaleDateString()}</span>
+                                <span>Status: {order.statusHistory?.[order.statusHistory.length - 1]?.status || "Unknown"}</span>
                             </div>
                         </div>
                     ))
                 )}
             </div>
         </div>
+
     );
 };
 
@@ -103,9 +101,5 @@ const SkeletonLoading = () => {
     );
 };
 
-// i18n Support
-export async function getStaticProps({ locale }) {
-    return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
-}
 
 export default Orders;

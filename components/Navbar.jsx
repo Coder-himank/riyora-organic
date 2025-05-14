@@ -1,24 +1,21 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBars, FaBlog, FaHome, FaProductHunt, FaServicestack } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { FaHeart, FaUser, FaShoppingCart, FaGlobe } from "react-icons/fa";
+import { FaHeart, FaUser, FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
-import ThemeSwitcher from "./themeSwitcher";
 
 export default function Navbar() {
-  const { t } = useTranslation("common");
   const router = useRouter();
-  const { locale } = router;
   const [toogleNavBar, setToogleNavBar] = useState(false) // to check if the nav baar is toogled
 
   const [changeNavStyle, setChangeNavStyle] = useState(false) // to detetc change in scrolling of y axis
 
   const { data: session } = useSession();
   const [scrollY, setScrollY] = useState(0);
+  const userId = session?.user?.id;
 
   const [resizeWidth, setResizeWidth] = useState(0);
 
@@ -91,42 +88,36 @@ export default function Navbar() {
         </div>
         {/* Nav left Ends */}
         <div className={`nav-mid ${toogleNavBar ? 'navBarOpen' : ''}`}>
-          <div className={`nav-links`}>
+          <div className="nav-links">
 
+            <Link href="/"><span className="icon_label"><FaHome /></span> Home</Link>
+            <Link href="/products"><span className="icon_label"><FaProductHunt /></span> Products</Link>
+            <Link href="/blogs"><span className="icon_label"><FaBlog /></span> Blogs</Link>
+            <Link href="/services"><span className="icon_label"><FaServicestack /></span> Services</Link>
 
-            <Link href="/"><span className="icon_label"><FaHome /> </span> {t("home_text")}  </Link>
-            <Link href="/products"><span className="icon_label"><FaProductHunt /></span> {t("product_text")} </Link>
-            <Link href="/blogs"><span className="icon_label"><FaBlog /> </span>{t("blogs")} </Link>
-            <Link href="/services"><span className="icon_label"><FaServicestack /></span> {t("services")} </Link>
-            <span className="language">
-
-              <FaGlobe /> <select onChange={(e) => changeLanguage(e.target.value)} defaultValue={locale} className="lang_switcher">
-                <option value={"en"}>EN</option>
-                <option value={"hi"}>HI</option>
-
-              </select>
-            </span>
           </div>
-
         </div>
+
         {/* Nav right Starts */}
         <div className="nav-right">
+          <div className="nav-user-option">
+            <Link href={`/${userId}/cart`}><FaShoppingCart /></Link>
+            <Link href={`/${userId}/wishlist`}><FaHeart /></Link>
 
-          <div className={`nav-user-option`}>
-            {/* <Link href="/products">{t("our_products")}</Link> */}
+            {!session ? (
+              <Link href="/authenticate">Sign In</Link>
+            ) : (
+              <Link href={`/${userId}/dashboard`}><FaUser /></Link>
+            )}
 
-            <Link href="/cart"><FaShoppingCart />  </Link>
-            <Link href="/wishlist"><FaHeart /></Link>
-
-            {!session ? <><Link href="/authenticate">{t("signin")}</Link>
-            </> : <Link href="/profile"><FaUser /></Link>}
-
-            <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}><FaBars /></button>
+            <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}>
+              <FaBars />
+            </button>
 
             {/* <ThemeSwitcher /> */}
           </div>
-
         </div>
+
         {/* Nav right ends */}
       </nav >
 

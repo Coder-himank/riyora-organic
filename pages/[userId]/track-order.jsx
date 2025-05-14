@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import styles from "@/styles/track-order.module.css";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function TrackOrder() {
-    const { t } = useTranslation("common");
     const router = useRouter();
     const { orderId } = router.query;
     const { data: session } = useSession();
@@ -25,7 +23,7 @@ export default function TrackOrder() {
     const fetchOrderDetails = async (id, userId) => {
         try {
             setLoading(true);
-            const { data } = await axios.get(`/api/orders?orderId=${id === "all" ? "" : id}&userId=${userId}`);
+            const { data } = await axios.get(`/api/secure/orders?orderId=${id === "all" ? "" : id}&userId=${userId}`);
             setOrderDetails(data.orderDetails);
         } catch (err) {
             setError(t("error_fetching_order"));
@@ -43,7 +41,7 @@ export default function TrackOrder() {
         <>
             <div className="navHolder"></div>
             <div className={styles.track_order_container}>
-                <h1>{t("track_order")}</h1>
+                <h1>Track Your Order</h1>
 
                 {loading ? (
                     <div className={styles.order_skeleton}>
@@ -54,34 +52,41 @@ export default function TrackOrder() {
                         ))}
                     </div>
                 ) : orderDetails.length === 0 ? (
-                    <p>{t("no_orders_to_track")}</p>
+                    <p>No orders to track</p>
                 ) : (
                     orderDetails.map((order) => (
                         <div className={styles.order_detail} key={order.orderId}>
-                            <div className={styles.order_item}>
-                                <strong>{t("order_id")}:</strong> <span>{order.orderId}</span>
-                            </div>
-                            <div className={styles.order_item}>
-                                <strong>{t("placed_on")}:</strong> <span>{new Date(order.placedOn).toLocaleDateString()}</span>
-                            </div>
-                            <div className={styles.order_item}>
-                                <strong>{t("expected_delivery")}:</strong> <span>{new Date(order.expectedDelivery).toLocaleDateString()}</span>
-                            </div>
-                            <div className={styles.order_item}>
-                                <strong>{t("payment_status")}:</strong> <span>{t(order.paymentStatus)}</span>
-                            </div>
-                            <div className={styles.order_item_status}>
-                                <strong>{t("order_status")}:</strong> <span>{t(order.statusHistory.status)}</span>
-                            </div>
+
+                            <section className={styles.order_images}>
+                                {/* Images */}
+
+                                {order?.products?.map((product, index) => <>
+                                    <Image src={product.imageUrl} width={100} height={100} style={{ "--i": index }} />
+                                </>)}
+                            </section>
+                            <section className={styles.details}>
+                                {/* order Details */}
+                                <div className={styles.order_item}>
+                                    <strong>Order ID:</strong> <span>{order.razorpayOrderId}</span>
+                                </div>
+                                <div className={styles.order_item}>
+                                    <strong>Placed on:</strong> <span>{new Date(order.createdAt).toLocaleDateString()}</span>
+                                </div>
+                                <div className={styles.order_item}>
+                                    <strong>Expected delivery:</strong> <span>{new Date(order.deliveredOn || order.expectedDelivery).toLocaleDateString()}</span>
+                                </div>
+                                <div className={styles.order_item}>
+                                    <strong>Payment status:</strong> <span>{order?.paymentStatus}</span>
+                                </div>
+                                <div className={styles.order_item}>
+                                    <strong>Order status:</strong> <span>{order?.status}</span>
+                                </div>
+                            </section>
                         </div>
                     ))
                 )}
             </div>
         </>
-    );
-}
 
-// Use getServerSideProps for dynamic data fetching
-export async function getServerSideProps({ locale }) {
-    return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
+    );
 }

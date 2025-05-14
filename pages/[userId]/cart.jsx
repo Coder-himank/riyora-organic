@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useSWR from "swr";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
@@ -32,12 +31,11 @@ const SkeletonCart = () => (
 );
 
 export default function Cart() {
-  const { t } = useTranslation("common");
   const { data: session, status: sessionStatus } = useSession();
   const userId = session?.user?.id;
 
   const { data: cartItems, error, mutate } = useSWR(
-    userId ? `/api/cart?userId=${userId}` : null,
+    userId ? `/api/secure/cart?userId=${userId}` : null,
     fetcher
   );
 
@@ -64,7 +62,7 @@ export default function Cart() {
         setLoading(true);
 
         const productIds = cartItems.map((item) => item.productId);
-        const { data: products } = await axios.get(`/api/products?ids=${productIds.join(",")}`);
+        const { data: products } = await axios.get(`/api/getProducts?ids=${productIds.join(",")}`);
 
         const mergedCart = cartItems.map((item) => ({
           ...item,
@@ -73,7 +71,7 @@ export default function Cart() {
 
         setCart(mergedCart);
       } catch (error) {
-        console.error(t("error_fetching_cart"), error);
+        console.error("Error fetching Cart Data", error);
       }
       setLoading(false);
     };
@@ -92,11 +90,11 @@ export default function Cart() {
 
   const removeFromCart = async (productId) => {
     try {
-      await axios.delete(`/api/cart?userId=${userId}`, { data: { productId, userId } });
+      await axios.delete(`/api/secure/cart?userId=${userId}`, { data: { productId, userId } });
       mutate();
-      showNotification(t("removed_from_cart"));
+      showNotification("Item Removed From Cart Successfully");
     } catch (error) {
-      console.error(t("error_removing_cart_item"), error);
+      console.error("Error Removing Item", error);
     }
   };
 
@@ -107,11 +105,11 @@ export default function Cart() {
     }
 
     try {
-      await axios.put(`/api/cart`, { userId, productId, quantity });
+      await axios.put(`/api/secure/cart`, { userId, productId, quantity });
       mutate();
-      showNotification(t("cart_updated"));
+      showNotification("Cart Updated Successfully");
     } catch (error) {
-      console.error(t("error_updating_cart"), error);
+      console.error("Error Updating Cart", error);
     }
   }, 500);
 
@@ -146,7 +144,7 @@ export default function Cart() {
     return (
       <>
         <div className="navHolder"></div>
-        <div className={styles.cart_loading}><p>{t("error_loading_cart")}</p></div>
+        <div className={styles.cart_loading}><p>Loading...</p></div>
       </>
     );
   }
@@ -155,15 +153,15 @@ export default function Cart() {
     <>
       <div className="navHolder"></div>
       <div className={styles.cart_container}>
-        <h1 className={styles.cart_head}>{t("cart")}</h1>
+        <h1 className={styles.cart_head}>Your Cart</h1>
 
         {notification && <div className="notification">{notification}</div>}
 
         {cart.length === 0 ? (
           <div className={styles.empty_cart}>
-            <p>{t("cart_empty")}</p>
+            <p>Your cart is empty</p>
             <Link href="/products">
-              <button className="shop-now">{t("shop_now")}</button>
+              <button className="shop-now">Shop Now</button>
             </Link>
           </div>
         ) : (
@@ -199,15 +197,16 @@ export default function Cart() {
 
             <div className={styles.cart_billing}>
               <div className={styles.cart_total}>
-                {t("total")}: ${cartTotal.toFixed(2)}
+                Total: ₹{cartTotal.toFixed(2)}
               </div>
-              <Link href="/checkout">
-                <button>{t("checkout")}</button>
+              <Link href={`/${userId}/checkout`}>
+                <button>Checkout</button>
               </Link>
             </div>
           </>
         )}
       </div>
+
     </>
   );
 }
@@ -218,8 +217,4 @@ function debounce(func, delay) {
     clearTimeout(timer);
     timer = setTimeout(() => func(...args), delay);
   };
-}
-
-export async function getStaticProps({ locale }) {
-  return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
 }

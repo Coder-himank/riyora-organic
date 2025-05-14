@@ -4,7 +4,6 @@
     border-radius: 10px;
     width: 100%;
     max-width: 900px;
-    min-height: 50vh;
     margin: auto;
 }
 
@@ -68,7 +67,7 @@
     height: 20px;
     padding: 5px;
     align-self: self-start;
-    border-radius: 100%;    
+    border-radius: 100%;
     background-color: var(--danger);
 }
 

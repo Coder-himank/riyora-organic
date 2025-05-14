@@ -1,5 +1,5 @@
-import connectDB from "../../server/db";
-import User from "../../server/models/User";
+import connectDB from "@/server/db";
+import User from "@/server/models/User";
 // import { authMiddleware } from "@/server/authMiddleware"
 export default async function handler(req, res) {
     await connectDB();

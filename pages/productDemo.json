@@ -1,0 +1,485 @@
+[
+    {
+        "name": "Amla Powder",
+        "price": 120,
+        "ingredients": [
+            "Amla fruit"
+        ],
+        "suitableFor": [
+            "All Hair Types",
+            "Oily Skin"
+        ],
+        "bestFor": [
+            "Hair Growth",
+            "Scalp Health"
+        ],
+        "scientificName": "Phyllanthus emblica",
+        "otherNames": [
+            "Indian Gooseberry",
+            "Nellikai"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Shikakai",
+            "Reetha"
+        ],
+        "note": [
+            "Use weekly",
+            "Do not mix with lemon for dry scalp"
+        ],
+        "timeperiod": "4 weeks",
+        "howToUse": {
+            "hair": "Mix with water to form a paste, apply and rinse after 30 mins.",
+            "skin": "Use as face pack with honey.",
+            "health": "Take 1 tsp daily with warm water."
+        },
+        "benefits": {
+            "hair": "Boosts growth, reduces dandruff.",
+            "skin": "Brightens complexion.",
+            "health": "Improves digestion."
+        },
+        "availableQuantity": 100,
+        "category": [
+            "Hair",
+            "Skin",
+            "Health"
+        ],
+        "imageUrl": "/products/amla-powder.png",
+        "discountPercentage": 10,
+        "promotionCode": "AMLA10",
+        "stockStatus": "in stock",
+        "tags": [
+            "natural",
+            "ayurveda",
+            "vitamin C"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f11",
+        "lastModifiedAt": "2024-05-01T10:00:00.000Z"
+    },
+    {
+        "name": "Neem Powder",
+        "price": 90,
+        "ingredients": [
+            "Neem leaves"
+        ],
+        "suitableFor": [
+            "Acne-Prone Skin"
+        ],
+        "bestFor": [
+            "Skin Purification"
+        ],
+        "scientificName": "Azadirachta indica",
+        "otherNames": [
+            "Margosa",
+            "Indian Lilac"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Multani Mitti",
+            "Rose Water"
+        ],
+        "note": [
+            "Avoid eyes",
+            "Patch test recommended"
+        ],
+        "timeperiod": "3 weeks",
+        "howToUse": {
+            "hair": "Mix with water and apply on scalp for dandruff.",
+            "skin": "Apply as face mask.",
+            "health": "Consume under supervision only."
+        },
+        "benefits": {
+            "hair": "Fights dandruff.",
+            "skin": "Cleanses pores.",
+            "health": "Supports immunity."
+        },
+        "availableQuantity": 50,
+        "category": [
+            "Skin",
+            "Hair"
+        ],
+        "imageUrl": "/products/neem-powder.png",
+        "discountPercentage": 5,
+        "promotionCode": "NEEM5",
+        "stockStatus": "in stock",
+        "tags": [
+            "herbal",
+            "antibacterial"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f12",
+        "lastModifiedAt": "2024-05-02T14:00:00.000Z"
+    },
+    {
+        "name": "Shikakai Powder",
+        "price": 110,
+        "ingredients": [
+            "Shikakai pods"
+        ],
+        "suitableFor": [
+            "Dry Hair",
+            "Normal Hair"
+        ],
+        "bestFor": [
+            "Hair Cleansing"
+        ],
+        "scientificName": "Acacia concinna",
+        "otherNames": [
+            "Soap Pod",
+            "Seekaikai"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Amla",
+            "Brahmi"
+        ],
+        "note": [
+            "Avoid daily use",
+            "May darken hair"
+        ],
+        "timeperiod": "1 month",
+        "howToUse": {
+            "hair": "Use as natural shampoo.",
+            "skin": "Not recommended.",
+            "health": "Not applicable."
+        },
+        "benefits": {
+            "hair": "Natural cleanser.",
+            "skin": "N/A",
+            "health": "N/A"
+        },
+        "availableQuantity": 75,
+        "category": [
+            "Hair"
+        ],
+        "imageUrl": "/products/shi.png",
+        "discountPercentage": 0,
+        "promotionCode": "",
+        "stockStatus": "in stock",
+        "tags": [
+            "cleanser",
+            "sulfate-free"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f13",
+        "lastModifiedAt": "2024-05-03T08:30:00.000Z"
+    },
+    {
+        "name": "Multani Mitti",
+        "price": 80,
+        "ingredients": [
+            "Fuller's Earth"
+        ],
+        "suitableFor": [
+            "Oily Skin"
+        ],
+        "bestFor": [
+            "Skin Brightening",
+            "Oil Control"
+        ],
+        "scientificName": "",
+        "otherNames": [
+            "Fuller's Earth"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Rose Water",
+            "Neem Powder"
+        ],
+        "note": [
+            "Avoid for dry skin"
+        ],
+        "timeperiod": "2-3 weeks",
+        "howToUse": {
+            "hair": "Can be used as scalp cleanser.",
+            "skin": "Make a paste with rose water and apply.",
+            "health": "Not for consumption."
+        },
+        "benefits": {
+            "hair": "Cleanses scalp.",
+            "skin": "Removes excess oil.",
+            "health": "N/A"
+        },
+        "availableQuantity": 120,
+        "category": [
+            "Skin",
+            "Hair"
+        ],
+        "imageUrl": "https://example.com/multani.jpg",
+        "discountPercentage": 15,
+        "promotionCode": "GLOW15",
+        "stockStatus": "in stock",
+        "tags": [
+            "clay",
+            "natural",
+            "detox"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f14",
+        "lastModifiedAt": "2024-05-04T12:00:00.000Z"
+    },
+    {
+        "name": "Ashwagandha Powder",
+        "price": 150,
+        "ingredients": [
+            "Ashwagandha root"
+        ],
+        "suitableFor": [
+            "Adults",
+            "Stress Management"
+        ],
+        "bestFor": [
+            "Energy",
+            "Immunity"
+        ],
+        "scientificName": "Withania somnifera",
+        "otherNames": [
+            "Indian Ginseng"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Milk",
+            "Honey"
+        ],
+        "note": [
+            "Avoid during pregnancy",
+            "Consult doctor"
+        ],
+        "timeperiod": "6 weeks",
+        "howToUse": {
+            "hair": "Can strengthen hair roots.",
+            "skin": "Use as a mask with honey.",
+            "health": "Consume with warm milk daily."
+        },
+        "benefits": {
+            "hair": "Strengthens roots.",
+            "skin": "Reduces wrinkles.",
+            "health": "Boosts stamina."
+        },
+        "availableQuantity": 60,
+        "category": [
+            "Health",
+            "Hair",
+            "Skin"
+        ],
+        "imageUrl": "https://example.com/ashwagandha.jpg",
+        "discountPercentage": 20,
+        "promotionCode": "ASHWA20",
+        "stockStatus": "in stock",
+        "tags": [
+            "adaptogen",
+            "energy"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f15",
+        "lastModifiedAt": "2024-05-05T10:00:00.000Z"
+    },
+    {
+        "name": "Reetha Powder",
+        "price": 95,
+        "ingredients": [
+            "Soapnut"
+        ],
+        "suitableFor": [
+            "All Hair Types"
+        ],
+        "bestFor": [
+            "Hair Cleansing"
+        ],
+        "scientificName": "Sapindus mukorossi",
+        "otherNames": [
+            "Soapnut",
+            "Aritha"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Amla",
+            "Shikakai"
+        ],
+        "note": [
+            "Avoid eye contact"
+        ],
+        "timeperiod": "1 month",
+        "howToUse": {
+            "hair": "Use as shampoo base.",
+            "skin": "Use with caution.",
+            "health": "Not edible."
+        },
+        "benefits": {
+            "hair": "Removes dirt, natural cleanser.",
+            "skin": "May irritate sensitive skin.",
+            "health": "N/A"
+        },
+        "availableQuantity": 85,
+        "category": [
+            "Hair"
+        ],
+        "imageUrl": "https://example.com/reetha.jpg",
+        "discountPercentage": 0,
+        "promotionCode": "",
+        "stockStatus": "in stock",
+        "tags": [
+            "eco-friendly",
+            "sulfate-free"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f16",
+        "lastModifiedAt": "2024-05-06T11:00:00.000Z"
+    },
+    {
+        "name": "Tulsi Powder",
+        "price": 100,
+        "ingredients": [
+            "Holy Basil"
+        ],
+        "suitableFor": [
+            "All Skin Types"
+        ],
+        "bestFor": [
+            "Skin Detox",
+            "Immunity"
+        ],
+        "scientificName": "Ocimum sanctum",
+        "otherNames": [
+            "Holy Basil"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Neem",
+            "Rose Water"
+        ],
+        "note": [
+            "Store in cool place"
+        ],
+        "timeperiod": "4 weeks",
+        "howToUse": {
+            "hair": "Mix with oil for scalp massage.",
+            "skin": "Apply as mask.",
+            "health": "Drink with water daily."
+        },
+        "benefits": {
+            "hair": "Cleanses scalp.",
+            "skin": "Detoxifies skin.",
+            "health": "Boosts immunity."
+        },
+        "availableQuantity": 70,
+        "category": [
+            "Skin",
+            "Hair",
+            "Health"
+        ],
+        "imageUrl": "https://example.com/tulsi.jpg",
+        "discountPercentage": 5,
+        "promotionCode": "TULSI5",
+        "stockStatus": "in stock",
+        "tags": [
+            "herbal",
+            "detox"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f17",
+        "lastModifiedAt": "2024-05-06T13:00:00.000Z"
+    },
+    {
+        "name": "Brahmi Powder",
+        "price": 130,
+        "ingredients": [
+            "Brahmi leaves"
+        ],
+        "suitableFor": [
+            "Students",
+            "Professionals"
+        ],
+        "bestFor": [
+            "Memory",
+            "Hair Strength"
+        ],
+        "scientificName": "Bacopa monnieri",
+        "otherNames": [
+            "Water Hyssop"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Amla",
+            "Ashwagandha"
+        ],
+        "note": [
+            "Start with small dose"
+        ],
+        "timeperiod": "5 weeks",
+        "howToUse": {
+            "hair": "Apply as paste to roots.",
+            "skin": "Can be used in face packs.",
+            "health": "Mix with warm milk or ghee."
+        },
+        "benefits": {
+            "hair": "Strengthens and nourishes hair.",
+            "skin": "Improves texture.",
+            "health": "Enhances focus and memory."
+        },
+        "availableQuantity": 40,
+        "category": [
+            "Health",
+            "Hair"
+        ],
+        "imageUrl": "https://example.com/brahmi.jpg",
+        "discountPercentage": 0,
+        "promotionCode": "",
+        "stockStatus": "in stock",
+        "tags": [
+            "brain tonic",
+            "natural"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f18",
+        "lastModifiedAt": "2024-05-07T16:00:00.000Z"
+    },
+    {
+        "name": "Fenugreek Powder",
+        "price": 85,
+        "ingredients": [
+            "Fenugreek seeds"
+        ],
+        "suitableFor": [
+            "Hair Fall",
+            "Acne Skin"
+        ],
+        "bestFor": [
+            "Hair Growth",
+            "Oil Control"
+        ],
+        "scientificName": "Trigonella foenum-graecum",
+        "otherNames": [
+            "Methi"
+        ],
+        "reviews": [],
+        "ingredientsToUseWith": [
+            "Curd",
+            "Amla"
+        ],
+        "note": [
+            "Can be sticky",
+            "Use fresh mix"
+        ],
+        "timeperiod": "3 weeks",
+        "howToUse": {
+            "hair": "Mix with curd and apply.",
+            "skin": "Apply with honey or rose water.",
+            "health": "Consume as capsule or mix in food."
+        },
+        "benefits": {
+            "hair": "Promotes hair growth.",
+            "skin": "Reduces pimples.",
+            "health": "Improves metabolism."
+        },
+        "availableQuantity": 90,
+        "category": [
+            "Hair",
+            "Skin",
+            "Health"
+        ],
+        "imageUrl": "https://example.com/fenugreek.jpg",
+        "discountPercentage": 10,
+        "promotionCode": "METHI10",
+        "stockStatus": "in stock",
+        "tags": [
+            "natural",
+            "protein-rich"
+        ],
+        "lastModifiedBy": "663b9f88721d2b1f6a1c3f19",
+        "lastModifiedAt": "2024-05-08T09:00:00.000Z"
+    }
+]

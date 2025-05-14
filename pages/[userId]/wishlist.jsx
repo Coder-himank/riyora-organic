@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import wislistStyles from "@/styles/wishlist.module.css";
@@ -9,7 +7,6 @@ import { useSession } from "next-auth/react";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
 
 export default function Wishlist() {
-  const { t } = useTranslation("common");
   const { data: session, status: sessionStatus } = useSession();
   const [wishProductData, setWishProductData] = useState([]);
   const [notification, setNotification] = useState(null);
@@ -30,10 +27,10 @@ export default function Wishlist() {
 
     try {
       const productIds = wishlistItems.map((item) => item.productId);
-      const { data: products } = await axios.get(`/api/products?ids=${productIds.join(",")}`);
+      const { data: products } = await axios.get(`/api/getProducts?ids=${productIds.join(",")}`);
       setWishProductData(products);
     } catch (error) {
-      console.error(t("error_fetching_wishlist"), error);
+      console.error("Error Fetching Wishlist Item", error);
       setWishProductData([]);
     } finally {
       setIsLoading(false);
@@ -42,12 +39,12 @@ export default function Wishlist() {
 
   const fetchWishlist = async () => {
     try {
-      const { data } = await axios.get("/api/wishlist", {
+      const { data } = await axios.get("/api/secure/wishlist", {
         params: { userId: session.user.id },
       });
       fetchWishlistData(data.wishlist);
     } catch (error) {
-      console.error(t("error_fetching_wishlist"), error);
+      console.error("Error Fetching Whishlist Items", error);
       setWishProductData([]);
       setIsLoading(false);
     }
@@ -55,12 +52,12 @@ export default function Wishlist() {
 
   const removeFromWishlist = async (productId) => {
     try {
-      await axios.delete("/api/wishlist", { data: { userId: session.user.id, productId } });
+      await axios.delete("/api/secure/wishlist", { data: { userId: session.user.id, productId } });
       setWishProductData((prev) => prev.filter((item) => item._id !== productId));
-      showNotification(t("removed_from_wishlist"));
+      showNotification(t("Item Removed From Wishlist"));
     } catch (error) {
-      console.error(t("error_removing_wishlist"), error);
-      showNotification(t("unable_to_remove"));
+      console.error("Error Removing Item from Wishlist", error);
+      showNotification("Unable to remove item from wishlist.");
     }
   };
 
@@ -73,7 +70,7 @@ export default function Wishlist() {
     return (
       <div className={wislistStyles.wishlist_container}>
         <div className="navHolder"></div>
-        <p>{t("loading")}</p>
+        <p>loading</p>
       </div>
     );
   }
@@ -91,14 +88,14 @@ export default function Wishlist() {
     <>
       <div className="navHolder"></div>
       <div className={wislistStyles.wishlist_container}>
-        <h1 className={wislistStyles.wishlist_head}>{t("wishlist")}</h1>
+        <h1 className={wislistStyles.wishlist_head}>Wishlist</h1>
 
-        {notification && <div className="notification">{notification}</div>}
+        {notification && <div className="notification">You have a new notification!</div>}
 
         {isLoading ? (
-          <WishlistSkeleton t={t} />
+          <WishlistSkeleton />
         ) : wishProductData.length === 0 ? (
-          <EmptyWishlist t={t} />
+          <EmptyWishlist />
         ) : (
           wishProductData.map((item) => (
             <div key={item._id} className={wislistStyles.wishlist_item}>
@@ -129,10 +126,11 @@ export default function Wishlist() {
         )}
       </div>
     </>
+
   );
 }
 
-const WishlistSkeleton = ({ t }) => (
+const WishlistSkeleton = () => (
   <div className={wislistStyles.wishlist_container}>
     {[...Array(3)].map((_, index) => (
       <div key={index} className={`${wislistStyles.wishlist_item} ${wislistStyles.loading}`}>
@@ -152,15 +150,11 @@ const WishlistSkeleton = ({ t }) => (
   </div>
 );
 
-const EmptyWishlist = ({ t }) => (
+const EmptyWishlist = () => (
   <div className={wislistStyles.empty_wishlist}>
-    <p>{t("wishlist_empty")}</p>
+    <p>Your Wishlist Is Empty</p>
     <Link href="/products">
-      <button className="shop-now">{t("shop_now")}</button>
+      <button className="shop-now">Shop Now</button>
     </Link>
   </div>
 );
-
-export async function getStaticProps({ locale }) {
-  return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
-}

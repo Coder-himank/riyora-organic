@@ -1,31 +1,53 @@
 import { useRouter } from 'next/router';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
 import axios from 'axios';
 import styles from '@/styles/blogPage.module.css'; // Adjust the path as necessary
-const BlogPage = ({ blog, locale, locales }) => {
-    const router = useRouter();
-    const { t } = useTranslation('common');
+import { useEffect, useState } from 'react';
+const BlogPage = ({ blogId }) => {
+    const [blog, setBlog] = useState(null)
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const fetchBlogdata = async () => {
+            setLoading(true)
+            try {
+                const res = await axios.get(`/api/getblogs?blogId=${blogId}`);
+                const blog = res.data;
+                if (!blog) {
+                    setError("Blog Not Found : Invalid Blog Id")
+                } else {
+                    setBlog(blog)
+                    setError(null)
+                }
+            } catch (error) {
+                setError("Error Fetching Blog Data")
+            } finally {
+                setLoading(false)
+            }
 
-    if (router.isFallback) {
-        return <div>{t('loading', 'Loading...')}</div>;
-    }
+        }
+        fetchBlogdata();
+    }, [])
+
 
     return (
         <div>
             <div className="navHolder"></div>
-            <div className={styles.blog_container}>
+            {loading ? (<center> <h1>loading</h1> </center>) : error ? <h1>{error}</h1> : (
 
-                <h1>{blog.title}</h1>
-                <p>{blog.content}</p>
-            </div>
+                <div className={styles.blog_container}>
+
+                    <h1>{blog.title}</h1>
+                    <p>{blog.content}</p>
+
+                </div>
+            )}
         </div>
     );
 };
 
 export async function getStaticPaths() {
     try {
-        const res = await axios.get(`${process.env.BASE_URL}/api/blogs`);
+        const res = await axios.get(`${process.env.BASE_URL}/api/getblogs`);
         const blogs = res.data;
 
         const paths = blogs.map((blog) => ({
@@ -46,34 +68,8 @@ export async function getStaticPaths() {
     }
 }
 
-export async function getStaticProps({ params, locale, locales }) {
-    try {
-        const res = await axios.get(`${process.env.BASE_URL}/api/blogs?blogId=${params.blogId}`);
-        const blog = res.data;
-        console.log(blog);
-
-
-        if (!blog) {
-            return {
-                notFound: true,
-            };
-        }
-
-        return {
-            props: {
-                blog,
-                locale,
-                locales,
-                ...(await serverSideTranslations(locale, ['common'])),
-            },
-            revalidate: 10,
-        };
-    } catch (error) {
-        console.error(`Error fetching blog with ID ${params.blogId}:`, error);
-        return {
-            notFound: true,
-        };
-    }
+export async function getStaticProps({ params }) {
+    return { props: { blogId: params.blogId } }
 }
 
 export default BlogPage;

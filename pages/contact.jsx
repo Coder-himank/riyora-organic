@@ -1,25 +1,14 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import "@/styles/contact.module.css";
 
 export default function Contact() {
-  const { t } = useTranslation("common");
-
   return (
     <div>
-
       <div className="container">
-        <h1>{t("contact")}</h1>
-        <p>{t("contact_text")}</p>
+        <h1>Contact Us</h1>
+        <p>We would love to hear from you. Please reach out to us for any inquiries or support.</p>
       </div>
-
     </div>
   );
 }
 
-// i18n Support
-export async function getStaticProps({ locale }) {
-  return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
-}

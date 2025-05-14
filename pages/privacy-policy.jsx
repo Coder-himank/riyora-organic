@@ -1,25 +1,15 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import "@/styles/privacy-policy.module.css";
 
 export default function PrivacyPolicy() {
-  const { t } = useTranslation("common");
 
   return (
     <div>
-
       <div className="container">
-        <h1>{t("privacy_policy")}</h1>
-        <p>{t("privacy_policy_text")}</p>
+        <h1>Privacy Policy</h1>
+        <p>This Privacy Policy explains how we collect, use, and protect your personal information. By using our services, you consent to the collection and use of your data in accordance with this policy. We are committed to maintaining the privacy and security of your personal information.</p>
       </div>
-
     </div>
-  );
-}
 
-// i18n Support
-export async function getStaticProps({ locale }) {
-  return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
+  );
 }

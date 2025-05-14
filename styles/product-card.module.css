@@ -7,9 +7,9 @@
   min-height: 300px;
   height: fit-content;
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
   margin: 0 3px;
-  background-color: var(--card-background);
+  /* box-shadow: var(--box-shadow); */
+  /* background-color: var(--card-background); */
   cursor: pointer;
   position: relative;
   /* scale: 0.8; */

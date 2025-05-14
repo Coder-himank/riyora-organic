@@ -80,6 +80,12 @@
   --loading-animation: loading 2s infinite linear;
 
   --list-hover-bg: rgba(143, 151, 143, 0.114);
+
+  --heading-font-family: "Poppins";
+  --normal-font-family: Roboto;
+
+  --heading-font-family: Quicksand;
+  --normal-font-family: Nunito;
 }
 
 
@@ -96,6 +102,7 @@ body {
   overflow-x: hidden;
   width: 100%;
   height: fit-content;
+  font-family: var(--normal-font-family);
 }
 
 * {
@@ -122,6 +129,7 @@ h2,
 h3 {
   font-weight: var(--heading-font-weight);
   color: var(--heading-color);
+  font-family: var(--heading-font-family);
 }
 
 /* ========== Buttons ========== */
@@ -386,6 +394,7 @@ footer {
   padding: var(--spacing);
   text-align: center;
   color: var(--background-color);
+
 }
 
 .footer .banner {
@@ -448,6 +457,7 @@ footer h2 {
   border-bottom: 1px solid rgba(128, 128, 128, 0.153);
   display: flex;
   align-items: center;
+  font-weight: 400;
 }
 
 .footer_icons {

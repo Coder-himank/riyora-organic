@@ -1,4 +1,4 @@
-import connectDB from "../../server/db";
+import connectDB from "@/server/db";
 import Order from "@/server/models/Order";
 
 export default async function handler(req, res) {
@@ -13,16 +13,23 @@ export default async function handler(req, res) {
             }
 
             let orderDetails;
+            console.log(status);
 
-            if (status !== undefined & status !== "undefined") {
+
+            if (status && status != "undefined") { // Check if status is provided
+                //chck order according to status
                 orderDetails = await Order.find({
                     userId,
                     "statusHistory.status": status  // Correct way to filter nested arrays
                 });
-            } else if (orderId & orderId !== undefined) {
-                orderDetails = await Order.findOne({ userId, _id: orderId });
+            } else if (orderId & orderId !== undefined) { // Check if orderId is provided
+                // Validate if orderId is a valid ObjectId
+
+                //check order according to orderId
+                orderDetails = await Order.findOne({ userId, razorpayOrderId: orderId.toString() });
                 orderDetails = orderDetails ? [orderDetails] : [];
             } else {
+                // Fetch all orders for the user
                 orderDetails = await Order.find({ userId });
             }
             return res.status(200).json({ orderDetails });

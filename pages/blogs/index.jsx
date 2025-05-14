@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
 
 import { motion } from 'framer-motion';
 import Blog from '@/components/blog';
@@ -9,14 +7,12 @@ import axios from 'axios';
 const Blogs = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { t } = useTranslation('common');
-
 
 
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get(`/api/blogs`);
+                const response = await axios.get(`/api/getblogs`);
                 console.log(response);
 
                 const data = await response.data;
@@ -33,13 +29,16 @@ const Blogs = () => {
 
     return (
         <>
-            <div className="navHolder"></div>
+            {/* <div className="navHolder"></div> */}
+            <div className={styles.banner}>
+                
+            </div>
             <div>
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
 
-                    <motion.section className={styles.blogs} viewport={{ once: true }}>
+                    <motion.section className={styles.blog_container} viewport={{ once: true }}>
                         <h1>Blogs</h1>
                         {blogs.map((blog, index) => (
                             <Blog key={index} {...blog} />
@@ -53,10 +52,5 @@ const Blogs = () => {
 
 };
 
-
-// i18n Support
-export async function getStaticProps({ locale }) {
-    return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
-}
 
 export default Blogs;

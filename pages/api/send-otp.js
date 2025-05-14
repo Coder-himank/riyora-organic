@@ -1,5 +1,7 @@
 import twilio from "twilio";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { createClient } from "redis";
+
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -12,39 +14,47 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
 
-    let { phone, countryCode } = req.body;
+    const redis = createClient({
+        url: process.env.REDIS_URL,
+    });
 
-    if (!phone) {
-        return res.status(400).json({ error: "Phone number is required" });
+    await redis.connect();
 
+    const { phone, countryCode } = req.body;
 
+    if (!phone || !countryCode) {
+        return res.status(400).json({ error: "Phone and countryCode required" });
     }
 
-    // Validate and format phone number
     const parsedPhone = parsePhoneNumberFromString(phone, countryCode);
-
-    if (!parsedPhone || !parsedPhone.isValid()) {
+    if (!parsedPhone?.isValid()) {
         return res.status(400).json({ error: "Invalid phone number" });
     }
 
-    phone = parsedPhone.format("E.164"); // Standardize to +<CountryCode><Number>
-    try {
-        const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
-        console.log("OTP : ", otp);
+    const formattedPhone = parsedPhone.format("E.164");
 
-        // Send OTP via Twilio SMS
-        // const message = await client.messages.create({
+    // Rate limiting: Max 3 OTPs per hour
+    const requestCountKey = `otp:count:${formattedPhone}`;
+    const count = await redis.incr(requestCountKey);
+    if (count === 1) await redis.expire(requestCountKey, 3600); // 1 hour
+
+    if (count > 3) {
+        return res.status(429).json({ error: "Too many OTP requests. Try later." });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+
+    await redis.set(`otp:${formattedPhone}`, otp, { EX: 300 }); // 5 mins
+
+    try {
+        // await client.messages.create({
         //     body: `Your verification code is ${otp}`,
         //     from: twilioPhone,
-        //     to: phone,
+        //     to: formattedPhone,
         // });
 
-        // console.log("Twilio Message Sent:", message.sid);
+        return res.status(200).json({ success: true, message: "OTP sent!", otp });
 
-        // Store OTP in database or cache (e.g., Redis)
-        // Example: await redis.set(phone, otp, "EX", 300); // Expires in 5 minutes
-
-        res.status(200).json({ success: true, message: "OTP sent successfully!", otp });
     } catch (error) {
         console.error("Twilio Error:", error);
 

@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+
 import styles from "@/styles/userProfile.module.css";
 import axios from "axios";
 import { signOut } from "next-auth/react";
@@ -13,7 +12,6 @@ import { useRouter } from "next/router";
 
 export default function UserProfile() {
   const { data: session } = useSession();
-  const { t } = useTranslation("common");
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
@@ -37,7 +35,7 @@ export default function UserProfile() {
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/userProfile?userId=${session.user.id}`);
+        const res = await axios.get(`/api/secure/userProfile?userId=${session.user.id}`);
         if (res.status !== 200) {
           throw new Error(t("profilePage.fetch_error"));
         }
@@ -71,7 +69,6 @@ export default function UserProfile() {
           <div className={styles.profile_card}>
             <div className={styles.top_name}>
               <div className={styles.top_name_left}>
-
                 <span className={styles.username}>{user?.name}</span>
               </div>
               <div>
@@ -80,28 +77,28 @@ export default function UserProfile() {
             </div>
             <table className={styles.user_detail}>
               <tr>
-                <td>{t("profilePage.userId")}</td>
+                <td>User ID</td>
                 <td>{user?._id}</td>
               </tr>
               <tr>
-                <td>{t("profilePage.email")}</td>
+                <td>Email</td>
                 <td>{user?.email}</td>
               </tr>
               <tr>
-                <td>{t("profilePage.phone")}</td>
+                <td>Phone</td>
                 <td>{user?.phone}</td>
               </tr>
             </table>
             <section>
-              <h3>{t("profilePage.addresses")}</h3>
+              <h3>Addresses</h3>
               <table className={styles.address_plate}>
                 <tr>
-                  <th>{t("profilePage.address")}</th>
-                  <th>{t("profilePage.city")}</th>
-                  <th>{t("profilePage.country")}</th>
-                  <th>{t("profilePage.label")}</th>
-                  <th>{t("profilePage.pincode")}</th>
-                  <th>{t("profilePage.action")}</th>
+                  <th>Address</th>
+                  <th>City</th>
+                  <th>Country</th>
+                  <th>Label</th>
+                  <th>Pincode</th>
+                  <th>Action</th>
                 </tr>
                 {user?.addresses.map((item, index) => (
                   <tr key={index}>
@@ -119,21 +116,20 @@ export default function UserProfile() {
               </table>
             </section>
             <section className={styles.orders}>
-              <h3>{t("profilePage.orders")}</h3>
-              <Link href={`/track-order?orderId=all&userId=${user?._id}`}>{t("profilePage.track_orders")}</Link>
-              <Link href="/orders?status=canceled">{t("profilePage.canceled_orders")}</Link>
-              <Link href="/orders">{t("profilePage.all_orders")}</Link>
+              <h3>Orders</h3>
+              <Link href={`/${user._id}/track-order?orderId=all&userId=${user?._id}`}>Track Orders</Link>
+              <Link href={`/${user._id}/orders?status=canceled`}>Canceled Orders</Link>
+              <Link href={`/${user._id}/orders`}>All Orders</Link>
             </section>
             <section className={styles.customer_services}>
               <h3>More Services</h3>
-              <Link href="/refund">{t("profilePage.refund")}</Link>
-              <Link href="/payment-history">{t("profilePage.payment_history")}</Link>
-              <Link href="/customer-care">{t("profilePage.customer_care")}</Link>
-              <Link href="/help">{t("profilePage.help")}</Link>
-
+              <Link href="/refund">Refund</Link>
+              <Link href="/payment-history">Payment History</Link>
+              <Link href="/customer-care">Customer Care</Link>
+              <Link href="/help">Help</Link>
             </section>
             <section>
-              <button onClick={() => UserLogOut()} style={{ background: "var(--danger)" }}>{t("profilePage.sign_out")}</button>
+              <button onClick={() => UserLogOut()} style={{ background: "var(--danger)" }}>Sign Out</button>
             </section>
           </div>
         ) : (
@@ -141,6 +137,7 @@ export default function UserProfile() {
         )}
       </div>
     </>
+
   );
 }
 
@@ -173,7 +170,3 @@ function SkeletonLoader() {
   );
 }
 
-// i18n Support
-export async function getStaticProps({ locale }) {
-  return { props: { ...(await serverSideTranslations(locale, ["common"])) } };
-}

@@ -7,7 +7,7 @@ export async function onAddToCart(router, productId, session) {
     }
 
     try {
-        const response = await fetch(`/api/cart?userId=${session.user.id}`, {
+        const response = await fetch(`/api/secure/cart?userId=${session.user.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId: session?.user?.id, productId, quantity: 1 })
@@ -25,7 +25,7 @@ export async function onAddToWishlist(router, productId, session) {
         return
     }
     try {
-        const response = await fetch("/api/wishlist", {
+        const response = await fetch("/api/secure/wishlist", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId: session?.user?.id, productId })
@@ -39,6 +39,6 @@ export async function onAddToWishlist(router, productId, session) {
     }
 }
 
-export const onBuy = (router, productId, session) => {
-    router.push({ pathname: `/checkout`, query: { productId } })
+export const onBuy = (router, productId, quantity_demanded, session) => {
+    router.push({ pathname: `/${session?.user?.id}/checkout`, query: { productId, quantity_demanded } })
 }
