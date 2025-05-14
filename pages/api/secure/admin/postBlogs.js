@@ -1,4 +1,4 @@
-import { dbConnect } from '@/server/dbConnect';
+import { dbConnect } from '@/server/db';
 import Blog from '@/server/models/Blogs';
 
 export default async function handler(req, res) {
