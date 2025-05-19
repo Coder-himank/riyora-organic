@@ -31,7 +31,7 @@ const Blogs = () => {
         <>
             {/* <div className="navHolder"></div> */}
             <div className={styles.banner}>
-                
+
             </div>
             <div>
                 {loading ? (
@@ -39,10 +39,12 @@ const Blogs = () => {
                 ) : (
 
                     <motion.section className={styles.blog_container} viewport={{ once: true }}>
-                        <h1>Blogs</h1>
-                        {blogs.map((blog, index) => (
-                            <Blog key={index} {...blog} />
-                        ))}
+                        <div className={styles.blogs_wrap}>
+
+                            {blogs.map((blog, index) => (
+                                <Blog key={index} {...blog} />
+                            ))}
+                        </div>
                     </motion.section>
 
                 )}

@@ -137,30 +137,6 @@ export default function Home() {
 
         </motion.div>
 
-        {/* Benefits Section */}
-        <motion.section className={styles.benefits_section} viewport={{ once: true }}>
-
-          <div className={styles.benefit_card_holder}>
-
-            <div className={styles.benefit_card}>
-              <Image src={"/images/plant.png"} width={200} height={200} alt="No Chemicals" />
-              <span>No Chemicals</span>
-            </div>
-            <div className={styles.benefit_card}>
-              <Image src={"/images/nutrition.png"} width={200} height={200} alt="Rich in Nutrients" />
-              <span>Rich in Nutrients</span>
-            </div>
-            <div className={styles.benefit_card}>
-              <Image src={"/images/enviornment.png"} width={200} height={200} alt="Environment Friendly" />
-              <span>Environment Friendly</span>
-            </div>
-            <div className={styles.benefit_card}>
-              <Image src={"/images/muscle.png"} width={200} height={200} alt="Better for Health" />
-              <span>Better for Health</span>
-            </div>
-          </div>
-
-        </motion.section>
 
         {/* Trending Products Section */}
         <motion.section className={styles.trending_product} viewport={{ once: true }}>
@@ -197,40 +173,57 @@ export default function Home() {
           </motion.section>
         </motion.section>
 
+        {/* Benefits Section */}
+        <motion.section className={styles.benefits_section} viewport={{ once: true }}>
+
+          <div className={styles.benefit_card_holder}>
+
+            <div className={styles.benefit_card}>
+              <Image src={"/images/plant.png"} width={200} height={200} alt="No Chemicals" />
+              <span>No Chemicals</span>
+            </div>
+            <div className={styles.benefit_card}>
+              <Image src={"/images/nutrition.png"} width={200} height={200} alt="Rich in Nutrients" />
+              <span>Rich in Nutrients</span>
+            </div>
+            <div className={styles.benefit_card}>
+              <Image src={"/images/enviornment.png"} width={200} height={200} alt="Environment Friendly" />
+              <span>Environment Friendly</span>
+            </div>
+            <div className={styles.benefit_card}>
+              <Image src={"/images/muscle.png"} width={200} height={200} alt="Better for Health" />
+              <span>Better for Health</span>
+            </div>
+          </div>
+
+        </motion.section>
         {/* Blogs Section */}
         <motion.section className={styles.blogs} viewport={{ once: true }}>
           <h2>Enchant Yourself</h2>
-          {blogs.map((blog, index) => (
-            <Blog key={blog.url} {...blog} />
-          ))}
+
+          <section className={styles.blog_in}>
+
+            {blogs.map((blog, index) => (
+              <Blog key={blog.url} {...blog} />
+            ))}
+          </section>
 
           <Link href={"/blogs"}>Load More</Link>
         </motion.section>
 
         {/* About Section */}
         <motion.section className={styles.about_section} viewport={{ once: true }}>
-          <h2 className={styles.home_h2}>About Us</h2>
           <div className={styles.about_in}>
-            <motion.div
-              initial={{ x: 0, y: 40, opacity: 0.3 }}
-              whileInView={{ x: 0, y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 1.5 }}
-            >
-              <Image src={"/images/rishi.png"} width={400} height={400} alt="Founder" />
-            </motion.div>
-            <motion.div
-              initial={{ x: 0, y: 40, opacity: 0.3 }}
-              whileInView={{ x: 0, y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 1.5 }}
-            >
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque aliquam quidem voluptatibus vitae sequi in sunt nostrum nesciunt ad accusamus adipisci voluptates, omnis cupiditate, sint rem pariatur quasi aliquid enim consequatur rerum temporibus perferendis. Et natus itaque cupiditate dolore voluptas officiis, totam voluptate, ipsa laudantium fugiat fugit doloribus praesentium. Iste, aliquam iusto, tempore distinctio deserunt officia in cupiditate autem beatae quam ipsum, illum nobis? Odit sequi atque doloremque deserunt, cumque aspernatur perspiciatis provident, magni voluptatem eligendi recusandae ullam exercitationem id voluptatibus officiis! Rem maiores repudiandae ducimus dicta excepturi ratione praesentium asperiores minima aperiam, officia quae nostrum quas optio quis quidem!</p>
-            </motion.div>
 
-          </div>
-          <div className={styles.custom_shape_divider_bottom_1743796481}>
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-              <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className={styles.shape_fill}></path>
-            </svg>
+            <motion.div
+              initial={{ x: 0, y: 40, opacity: 0.3 }}
+              whileInView={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 1.5 }}
+              className={styles.about_text}
+            >
+              <h3>Know About Us</h3>
+              <Link href={"/about"}>Learn More</Link>
+            </motion.div>
 
           </div>
         </motion.section>

@@ -12,6 +12,7 @@ import Carousel from "@/components/Carousel";
 import Link from "next/link";
 import axios from "axios";
 import { FaArrowRight } from "react-icons/fa";
+import ProductCard from "@/components/ProductCard";
 
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -260,24 +261,18 @@ const ProductPage = ({ productId, productData }) => {
                             </div>
                         </section>
 
-                        <section className={styles.more_products}>
-                            <Carousel>
-                                {uMayLikeProducts.length !== 0 &&
-                                    uMayLikeProducts.map((product, index) =>
-                                        <div key={index} className={styles.productCard}>
-                                            <Image src={product.imageUrl} alt={product.name} width={300} height={300} />
-                                            <section className={styles.product_info}>
-                                                <h3>{product.name}</h3>
-                                                {/* {t("home.read_more")} */}
-                                                <Link href={`/products`}><FaArrowRight /></Link>
-                                            </section>
-                                        </div>
-                                    )}
-                            </Carousel>
-                        </section>
                     </>
                 )}
             </div>
+
+            <section className={styles.more_products}>
+                <Carousel>
+                    {uMayLikeProducts.length !== 0 &&
+                        uMayLikeProducts.map((product, index) =>
+                            <ProductCard key={product.name} product={product} />
+                        )}
+                </Carousel>
+            </section>
         </>
     );
 };

@@ -2,17 +2,44 @@
 .productCard {
   flex: 1 1 auto;
   scroll-snap-align: start;
-  width: 20vw;
+  width: 27vw;
   min-width: 300px;
-  min-height: 300px;
+  min-height: 380px;
   height: fit-content;
+  max-height: 500px;
+  max-width: 450px;
   border-radius: var(--border-radius);
   margin: 0 3px;
-  /* box-shadow: var(--box-shadow); */
-  /* background-color: var(--card-background); */
   cursor: pointer;
   position: relative;
-  /* scale: 0.8; */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.productCard::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 100%;
+  left: 100%;
+  background: var(--card-background);
+  z-index: 4;
+  transition: all 0.4s;
+  backdrop-filter: blur(10px);
+}
+
+
+.productCard img {
+  width: 100%;
+  object-fit: contain;
+  height: 330px;
+  transition: all 0.4s;
+
 }
 
 .product_info {
@@ -20,13 +47,36 @@
   width: 90%;
   text-align: left;
   padding: 10px;
+  z-index: 2;
+  position: relative;
+  transition: all 0.4s;
+  height: fit-content;
+  top: 100%;
+}
+
+.productCard:hover .product_info {
+  top: 0;
+  position: absolute;
+  height: 100%;
+  transform: translateY(0);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), var(--card-background), var(--card-background) 90%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+
+.productCard:hover img {
+  scale: 0.8;
+}
+
+.product_name {
   display: flex;
   align-self: center;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  z-index: 2;
-  position: relative;
-
 }
 
 .product_info h3 {
@@ -35,36 +85,28 @@
   color: var(--heading-color);
 }
 
-.productCard img {
+.hidden_details {
+  display: none;
   width: 100%;
-  object-fit: contain;
-  height: 400px;
-  transition: all 0.4s;
-
+  height: fit-content;
 }
 
-.productCard:hover img {
-  scale: 0.8;
+.productCard:hover .hidden_details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .action_btn {
-  display: none;
-  position: absolute;
-  background: linear-gradient(180deg, transparent, var(--card-background));
   width: 100%;
   height: 100%;
   align-items: center;
   justify-content: space-evenly;
-  transition: all 0.4s;
-  top: 0;
-  left: 0;
-
-}
-
-.productCard:hover .action_btn {
   display: flex;
 
 }
+
 
 .action_btn button {
   width: 30px;

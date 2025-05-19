@@ -37,23 +37,32 @@ const ProductCard = ({ product }) => {
   const router = useRouter();
   const [productData, setProductData] = useState({ ...product });
   console.log(product);
+  console.log(product);
 
 
   return (
 
     <div className={styles.productCard}>
+      <div className={styles.circle}></div>
+
       <Image src={productData.imageUrl} alt={productData.name} width={300} height={300} />
       <section className={styles.product_info}>
+        <section className={styles.product_name}>
 
-        <h3>{productData.name}</h3>
-        {/* {t("home.read_more")} */}
+          <h3>{productData.name}</h3>
 
-        <Link href={`/products/${productData._id}`}><FaArrowRight /></Link>
-      </section>
+          <Link href={`/products/${productData._id}`}><FaArrowRight /></Link>
+        </section>
 
-      <section className={styles.action_btn}>
-        <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
-        <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
+        <section className={styles.hidden_details}>
+          <span>{productData.price}</span>
+          <span>{productData.description}</span>
+
+          <section className={styles.action_btn}>
+            <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
+            <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
+          </section>
+        </section>
       </section>
     </div>
 

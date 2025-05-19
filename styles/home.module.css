@@ -17,7 +17,7 @@
 .home_container .hero_section_in1 {
   width: 100%;
   height: fit-content;
-  min-height: 80vh;
+  min-height: 60vh;
   display: flex;
   align-items: end;
   justify-content: flex-start;
@@ -117,8 +117,8 @@
 .home_container .benefits_section {
   width: 100%;
   position: relative;
-  /* background-color: var(--primary-color); */
-  margin: 80px 0;
+  background-color: var(--primary-color);
+  padding: 80px 0;
 
 }
 
@@ -259,82 +259,82 @@
 
 .blogs {
   width: 100%;
-  max-width: 1100px;
   padding: 20px 5px;
-  margin: auto;
+}
+
+.blog_in {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
 }
 
 /* About Section */
 
 .about_in {
-  width: 80%;
-  min-height: 300px;
+  width: 100%;
+  /* max-width: 1100px; */
+  background-color: rgb(35, 33, 33);
+  padding: 0 30px;
+  min-height: 600px;
   height: fit-content;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: right;
   margin: auto;
 
+}
+
+.about_section {
+  padding: 0;
 }
 
 .about_in section {
   width: 100%;
 }
 
-.about_in p {
-  position: relative;
-  text-align: left;
+.about_text {
+
+  width: 40%;
 }
 
-.about_in p::before {
-  content: '"';
-  display: block;
-  color: var(--primary-color);
-  font-size: 5rem;
-  position: absolute;
-  left: 0;
-  top: -40px;
+.about_in h3 {
+  color: white;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  padding: 20px 0;
 }
 
-.custom_shape_divider_bottom_1743796481 {
-  display: none;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  transform: rotate(180deg);
+.about_in a {
+  padding: 10px 15px;
+  border-radius: 20px;
+  background-color: black;
+  color: whitesmoke;
 }
 
-.custom_shape_divider_bottom_1743796481 svg {
-  position: relative;
-  display: block;
-  width: calc(157% + 1.3px);
-  height: 138px;
-  transform: rotateY(180deg);
-}
-
-.custom_shape_divider_bottom_1743796481 .shape_fill {
-  fill: var(--footer-background);
-}
 
 .effects {
   width: 100%;
-  max-width: 900px;
+  /* max-width: 1100px; */
+  padding: 0;
   margin: auto;
   height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  gap: 10px;
+  /* gap: 10px; */
 }
 
 .effects img {
   /* border: 10px solid var(--primary-color); */
   width: 50%;
   height: fit-content;
+  max-height: 500px;
   box-shadow: var(--shadow-light);
 }
 
@@ -520,9 +520,6 @@
 
 /* Responsive Styles */
 @media screen and (max-width: 1300px) {
-  .about_in {
-    flex-direction: column;
-  }
 
   .hero_text {
     scale: 0.9;
