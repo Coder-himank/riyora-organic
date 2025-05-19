@@ -294,14 +294,10 @@
 
 .about_section {
   padding: 0;
-}
-
-.about_in section {
   width: 100%;
 }
 
 .about_text {
-
   width: 40%;
 }
 
@@ -313,10 +309,10 @@
 }
 
 .about_in a {
-  padding: 10px 15px;
+  padding: 10px 25px;
   border-radius: 20px;
-  background-color: black;
-  color: whitesmoke;
+  background-color: white;
+  color: black;
 }
 
 
@@ -538,6 +534,22 @@
     flex-direction: column;
     padding: 20px 10px;
 
+  }
+
+  .about_in {
+    justify-content: left;
+    align-items: flex-end;
+
+    padding: 50px;
+  }
+
+  .about_in .about_text {
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
   }
 
   .review_card .review_info section {
