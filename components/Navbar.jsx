@@ -110,9 +110,9 @@ export default function Navbar() {
               <Link href={`/${userId}/dashboard`}><FaUser /></Link>
             )}
 
-            <button className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}>
+            <span className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}>
               <FaBars />
-            </button>
+            </span>
 
             {/* <ThemeSwitcher /> */}
           </div>

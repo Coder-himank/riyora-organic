@@ -12,6 +12,8 @@
 .home_container .hero_section {
   width: 100%;
   height: fit-content;
+  flex-direction: column;
+
 }
 
 .home_container .hero_section_in1 {
@@ -19,8 +21,8 @@
   height: fit-content;
   min-height: 60vh;
   display: flex;
-  align-items: end;
   justify-content: flex-start;
+  align-items: end;
   flex-wrap: wrap;
   position: relative;
 
@@ -40,6 +42,7 @@
   align-items: start;
   justify-content: center;
   flex-wrap: wrap;
+  flex-direction: column;
 }
 
 
@@ -96,7 +99,7 @@
   transition: var(--transition);
   box-shadow: var(--box-shadow);
   text-decoration: none;
-  margin: 0 20px;
+  /* margin: 0 20px; */
 }
 
 .home_container .shop_btn:hover {
@@ -559,7 +562,7 @@
 
   .hero_head {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     flex-direction: column;
     justify-self: center;
 

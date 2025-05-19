@@ -316,6 +316,16 @@ button:disabled {
 .toogleNavBar {
   display: none;
   margin: 0 10px;
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--navbar-text-color);
+  /* height: 40px; */
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 20px;
 }
 
 .navBarOpen {
@@ -577,11 +587,7 @@ footer h2 {
   }
 
   .toogleNavBar {
-    height: 30px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
   }
 
   .nav-left {
