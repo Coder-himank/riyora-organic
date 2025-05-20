@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { onAddToWishlist, onAddToCart } from "@/components/ProductAction";
 import { FaArrowRight } from "react-icons/fa";
-import { FaShoppingCart, FaHeart } from "react-icons/fa";
+import { FaShoppingCart, FaHeart, FaStar } from "react-icons/fa";
 
 export const SkeletonCard = () => {
   return (
@@ -45,24 +45,46 @@ const ProductCard = ({ product }) => {
     <div className={styles.productCard}>
       <div className={styles.circle}></div>
 
-      <Image src={productData.imageUrl} alt={productData.name} width={300} height={300} />
+      <Image src={productData.imageUrl} alt={productData.name} width={300} height={300} className={styles.product_img} />
+      <section className={styles.product_name}>
+
+        <h3>{productData.name}</h3>
+
+        <Link href={`/products/${productData._id}`} className={styles.link_btn}><FaArrowRight /></Link>
+      </section>
+
+
       <section className={styles.product_info}>
-        <section className={styles.product_name}>
 
-          <h3>{productData.name}</h3>
+        <Link href={`/products/${productData._id}`}>
+          <section className={styles.hidden_details}>
+            <section className={styles.details_sec}>
+              <Image src={productData.imageUrl} alt={productData.name} width={100} height={100} />
+              <section>
+                <span className={styles.hidden_price}>{productData.price}</span>
+                <span className={styles.hidden_name}>{productData.name}</span>
+                <div className={styles.hidden_rating}>
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
 
-          <Link href={`/products/${productData._id}`}><FaArrowRight /></Link>
-        </section>
-
-        <section className={styles.hidden_details}>
-          <span>{productData.price}</span>
-          <span>{productData.description}</span>
-
-          <section className={styles.action_btn}>
-            <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
-            <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
+                </div>
+              </section>
+            </section>
+            <section className={styles.details_sec}>
+              {productData.category.map((cat, index) => (
+                <span key={index} className={styles.hidden_category}>{cat}</span>
+              ))}
+            </section>
+            <section className={styles.details_sec}>
+              <section className={styles.action_btn}>
+                <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
+                <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
+              </section>
+            </section>
           </section>
-        </section>
+        </Link>
       </section>
     </div>
 

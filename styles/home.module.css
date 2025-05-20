@@ -133,6 +133,7 @@
   margin: 2px auto;
   justify-content: center;
   gap: 2vw;
+  flex-wrap: wrap;
 }
 
 .benefit_card {
@@ -141,6 +142,8 @@
   width: 20vw;
   max-height: 200px;
   max-width: 200px;
+  min-width: 170px;
+  min-height: 170px;
   flex-shrink: 1;
   padding: 15px;
   border-radius: 50%;
