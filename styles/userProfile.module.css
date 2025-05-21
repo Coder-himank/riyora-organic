@@ -11,7 +11,6 @@
 .skeleton_card {
   margin: -50px auto 20px;
   width: calc(100% - 260px);
-  /* background: #E6F4EA; */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.13);
@@ -208,7 +207,6 @@
   .profile_container,
   .skeleton_container {
     justify-content: center;
-    padding: 20px;
   }
 
   .profile_card,

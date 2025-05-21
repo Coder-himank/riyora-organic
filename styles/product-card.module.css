@@ -92,6 +92,7 @@
   flex-direction: column;
   padding: 0 8px;
   max-width: 300px;
+  border: 1px solid #ccc;
 }
 
 

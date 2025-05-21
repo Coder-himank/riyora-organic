@@ -146,12 +146,6 @@ function SkeletonLoader() {
     <>
       <div className="navHolder"></div>
       <div className={styles.skeleton_container}>
-        <div className={styles.skeleton_sidebar}>
-          <div className={styles.skeleton_section}></div>
-          <div className={styles.skeleton_section}></div>
-          <div className={styles.skeleton_section}></div>
-          <div className={styles.skeleton_section}></div>
-        </div>
         <div className={styles.skeleton_card}>
           <div className={styles.skeleton_header}></div>
           <div className={styles.skeleton_section}></div>

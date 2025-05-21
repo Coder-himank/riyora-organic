@@ -10,15 +10,18 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border-bottom: 8px solid rgba(67, 63, 63, 0.199);
+    border-bottom: 3px solid rgba(67, 63, 63, 0.199);
     box-shadow: 0 0 20px -18px black;
     border-radius: 9px;
+    transition: all 0.3s ease-in-out;
 }
 
 .blog:hover {
     box-shadow: 0 0 20px 0px #ccc;
     transition: all 0.3s ease-in-out;
+    border-bottom: 12px solid rgba(67, 63, 63, 0.199);
 }
+
 
 .blog section:nth-child(1) {
     padding: 20px;

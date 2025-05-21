@@ -601,6 +601,7 @@ footer h2 {
 
 
   .nav-links {
+    min-width: 90vw;
     justify-content: start;
     flex-direction: column;
     display: flex;
