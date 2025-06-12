@@ -1,5 +1,6 @@
 /* Product Card */
-.productCard {
+.productCard,
+.productSkeleton {
   flex: 1 1 auto;
   scroll-snap-align: start;
   width: 27vw;
@@ -34,11 +35,13 @@
 }
 
 
-.productCard .product_img {
+.productCard .product_img,
+.imageSkeleton {
   width: 100%;
   object-fit: contain;
   height: 330px;
   transition: all 0.4s;
+  display: block;
 
 }
 
@@ -186,39 +189,37 @@
   scale: 1;
 }
 
-
-
-.skeleton_image {
-  width: 95%;
-  margin: 2px auto;
-  height: 70%;
-  background-color: var(--loading-color);
-  animation: skeleton 0.2s linear infinite;
+.productSkeleton {
+  flex: 1 1 auto;
+  scroll-snap-align: start;
 }
 
-.skeleton_card {
-  min-height: 400px;
+.imageSkeleton {
+  background-color: #ccc;
 }
 
-.skeleton_text_1 {
+.productSkeleton section {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
+.productSkeleton .skeletonText {
   width: 60%;
-  animation: skeleton 0.2s linear infinite;
-  height: 10px;
-  border-radius: 10px;
-  background-color: var(--loading-color);
-  text-align: center;
-  margin: 4px auto;
+  height: 20px;
+  border-radius: 20px;
+  background-color: #ccc;
 
 }
 
-.skeleton_text_2 {
-  text-align: center;
+.skeletonButton {
   width: 50px;
-  animation: skeleton 0.2s linear infinite;
-  background-color: var(--loading-color);
-  height: 7px;
-  border-radius: 10px;
-  margin: 4px auto;
+  height: 40px;
+  border-radius: 100%;
+  background-color: #ccc;
 }
 
 @keyframes skeleton {

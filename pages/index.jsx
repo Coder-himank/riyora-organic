@@ -11,14 +11,15 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import Blog from "@/components/blog";
 import { useEffect, useState } from "react";
-
+import BlogSkeleton from "@/components/BlogSkeleton";
+import ProductSkeleton from "@/components/ProductSkeleton";
 export default function Home() {
 
   const { locale } = useRouter(); // Get the current locale
 
 
-  const [products, setProducts] = useState([]);
-  const [blogs, setBlogs] = useState([]);
+  const [products, setProducts] = useState(null);
+  const [blogs, setBlogs] = useState(null);
   const [productsLoading, setProductsLoading] = useState(true);
   const [blogsLoading, setBlogsLoading] = useState(true);
 
@@ -30,6 +31,7 @@ export default function Home() {
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
+        setProducts([]);
       } finally {
         setProductsLoading(false);
       }
@@ -142,34 +144,43 @@ export default function Home() {
         <motion.section className={styles.trending_product} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>Best Selling Products</h2>
           <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            {productsLoading ? (
-              <>Loading</>
-            ) : products.length === 0 ? (<></>) :
-              (
+            <Carousel>
+              {!products ? (
+                Array.from({ length: 3 }).map((_, index) => (
+                  <ProductSkeleton key={index} />
+                ))
+              ) : products.length === 0 ? (<>No Products</>) :
+                (
 
-                <Carousel>
-                  {products.map((product, index) => (
+
+                  products.map((product, index) => (
                     <ProductCard product={product} />
-                  ))}
-                </Carousel>
-              )
-            }
+                  ))
+
+                )
+              }
+            </Carousel>
           </motion.section>
         </motion.section>
         <motion.section className={styles.trending_product} viewport={{ once: true }}>
           <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            {productsLoading ? (
-              <>Loading</>
-            ) : products.length === 0 ? (<></>) :
-              (
+            <Carousel>
+              {!products ? (
+                Array.from({ length: 3 }).map((_, index) => (
+                  <ProductSkeleton key={index} />
+                ))
 
-                <Carousel>
-                  {products.map((product, index) => (
+              ) : products.length === 0 ? (<>No Products</>) :
+                (
+
+
+                  products.map((product, index) => (
                     <ProductCard product={product} />
-                  ))}
-                </Carousel>
-              )
-            }
+                  ))
+
+                )
+              }
+            </Carousel>
           </motion.section>
         </motion.section>
 
@@ -201,12 +212,21 @@ export default function Home() {
         <motion.section className={styles.blogs} viewport={{ once: true }}>
           <h2>Enchant Yourself</h2>
 
-          <section className={styles.blog_in}>
+          {!blogs ? (<>
+            <section className={styles.blog_in}>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <BlogSkeleton key={index} />
+              ))}
 
-            {blogs.map((blog, index) => (
-              <Blog key={blog.url} {...blog} />
-            ))}
-          </section>
+            </section>
+          </>) : (<>
+            <section className={styles.blog_in}>
+
+              {blogs.map((blog, index) => (
+                <Blog key={index} {...blog} />
+              ))}
+            </section>
+          </>)}
 
           <Link href={"/blogs"}>Load More</Link>
         </motion.section>

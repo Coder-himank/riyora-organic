@@ -21,9 +21,10 @@ export default function Footer() {
         <div className="footer-section">
           <ul>
             <h2>Contact Us</h2>
-            <li><span className="footer_icons"><FaEnvelope /></span> contact@example.com</li>
-            <li><span className="footer_icons"><FaPhone /></span> +91 12345 67890</li>
-            <li><span className="footer_icons"><FaLocationDot /></span> 01, Mahaveer Colony, Kherwara, Badla, Udaipur, Rajasthan</li>
+            <li><span className="footer_icons"><FaEnvelope /></span>Info@robustorganic.com</li>
+            <li><span className="footer_icons"><FaPhone /></span> +91 96808 86889</li>
+            <li><span className="footer_icons"><FaLocationDot /></span> Sajjan Nagar, Jeevantara, Govardhan Villas,
+              Udaipur, Udaipur-313001 Rajasthan</li>
           </ul>
         </div>
         <div className="footer-section">

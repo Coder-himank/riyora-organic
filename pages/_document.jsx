@@ -9,6 +9,7 @@ export default function Document() {
           src="https://checkout.razorpay.com/v1/checkout.js"
           async
         ></script>
+        <link rel="shortcut icon" href="rivora-favicon.ico" type="image/x-icon" />
       </Head>
       <body>
         <Main />

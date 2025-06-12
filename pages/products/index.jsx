@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard, { SkeletonCard } from "@/components/ProductCard";
 import styles from "@/styles/products.module.css";
+import ProductSkeleton from "@/components/ProductSkeleton";
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -48,9 +49,17 @@ export default function Products() {
       </div>
       <div className={styles.product_container}>
         <div className={styles.product_list}>
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+          {
+            !products ? (<>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <ProductSkeleton key={index} />
+              ))}
+            </>) : (<>
+              {products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </>)
+          }
         </div>
       </div>
     </>
