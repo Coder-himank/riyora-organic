@@ -1,0 +1,14 @@
+home page
+ - banner 1280 x 914
+ - product image 415 x 330
+ - blog image 380 x 254
+ - about Image 500 x 500
+ - Effect Images 760 x 500 * 2
+ - Services Image 730 x 400 * 4
+ - Footer Images like Customer Care, Help, etc for footer 200 x 200 
+
+
+Other Images
+ - Product Page Banner
+ - Blog Page Banner
+ - Services Page Banner

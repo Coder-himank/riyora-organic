@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
 
         <Link href={`/products/${productData._id}`}>
           <section className={styles.hidden_details}>
-            <section className={styles.details_sec}>
+            <section className={styles.top_detial_sec}>
               <Image src={productData.imageUrl} alt={productData.name} width={100} height={100} />
               <section>
                 <span className={styles.hidden_price}>{productData.price}</span>
@@ -73,20 +73,32 @@ const ProductCard = ({ product }) => {
               </section>
             </section>
             <section className={styles.details_sec}>
-              {productData.category.map((cat, index) => (
-                <span key={index} className={styles.hidden_category}>{cat}</span>
-              ))}
+              <div className={styles.category}>
+
+                {productData.category.map((cat, index) => (
+                  <span key={index} className={styles.hidden_category}>{cat}</span>
+                ))}
+              </div>
             </section>
             <section className={styles.details_sec}>
-              <section className={styles.action_btn}>
-                <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
-                <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
+              <section className={styles.benefit_image}>
+
+                <Image src={"/images/nutrition.png"} width={30} height={30} />
+                <Image src={"/images/muscle.png"} width={30} height={30} />
+                <Image src={"/images/plant.png"} width={30} height={30} />
+                <Image src={"/images/enviornment.png"} width={30} height={30} />
               </section>
             </section>
           </section>
+          <section className={styles.details_sec}>
+            <section className={styles.action_btn}>
+              <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
+              <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
+            </section>
+          </section>
         </Link>
-      </section>
-    </div>
+      </section >
+    </div >
 
 
   );

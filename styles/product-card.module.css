@@ -113,7 +113,8 @@
   flex-direction: column;
 }
 
-.details_sec {
+.details_sec,
+.top_detial_sec {
   width: 100%;
   height: fit-content;
   padding: 10px;
@@ -123,7 +124,7 @@
   border-bottom: 1px solid #ccc;
 }
 
-.details_sec:nth-child(1) section {
+.top_detial_sec section {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -139,16 +140,16 @@
 }
 
 .details_sec img {
-  width: 100xp;
+  width: 100px;
   height: 100px;
 }
 
 /* category */
-.details_sec:nth-child(2) {
+.category {
   display: flex;
   gap: 5px;
   align-items: flex-start;
-  padding: 10px;
+  padding: 5px;
 }
 
 .hidden_category {
@@ -158,7 +159,6 @@
 }
 
 .action_btn {
-  height: 50px;
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
@@ -168,14 +168,31 @@
 
 
 .action_btn button {
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border-radius: 100%;
-  padding: 8px;
+  width: fit-content;
+  height: fit-content;
+  padding: 8px 28px;
+  border-radius: 8px;
+  /* padding: 8px; */
 
 }
 
+.benefit_image {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+}
+
+.benefit_image img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 100%;
+  background-color: white;
+
+}
 
 .productCard .link_btn {
   padding: 10px 15px;
@@ -212,6 +229,7 @@
   height: 20px;
   border-radius: 20px;
   background-color: #ccc;
+
 
 }
 

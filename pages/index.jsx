@@ -235,11 +235,23 @@ export default function Home() {
         <motion.section className={styles.about_section} viewport={{ once: true }}>
           <div className={styles.about_in}>
 
+
+
+            <motion.div
+              initial={{ x: 0, y: -40, opacity: 0.3 }}
+              whileInView={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 1.5 }}
+              className={styles.about_image}
+              viewport={{ once: true }}
+            >
+              <Image src={"/Riyora-Logo-Favicon.png"} alt="About Rivora" width={500} height={500} />
+            </motion.div>
             <motion.div
               initial={{ x: 0, y: 40, opacity: 0.3 }}
               whileInView={{ x: 0, y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 1.5 }}
               className={styles.about_text}
+              viewport={{ once: true }}
             >
               <h3>Know About Us</h3>
               <Link href={"/about"}>Learn More</Link>

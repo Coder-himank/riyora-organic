@@ -280,8 +280,9 @@ button:disabled {
 }
 
 .nav-left .name-head img {
-  width: 200px;
+  width: 150px;
   height: auto;
+  margin: 1px 5px;
 }
 
 

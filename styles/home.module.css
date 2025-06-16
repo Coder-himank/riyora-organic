@@ -111,7 +111,7 @@
 .home_container section {
   width: 100%;
   text-align: center;
-  padding: 20px 0;
+  /* padding: 20px 0; */
   /* padding: var(--home-padding); */
 }
 
@@ -294,18 +294,27 @@
   height: fit-content;
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: space-evenly;
   margin: auto;
+  flex-wrap: wrap;
 
 }
 
 .about_section {
-  padding: 0;
+  padding: 20px 0;
   width: 100%;
 }
 
 .about_text {
   width: 40%;
+}
+
+.about_image {
+  width: 50%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .about_in h3 {
@@ -333,7 +342,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  /* gap: 10px; */
+  padding: 20px 0;
 }
 
 .effects img {
@@ -546,20 +555,16 @@
 
   }
 
+
   .about_in {
-    justify-content: left;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
 
     padding: 50px;
   }
 
   .about_in .about_text {
-    width: fit-content;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+    width: 100%;
   }
 
   .review_card .review_info section {
