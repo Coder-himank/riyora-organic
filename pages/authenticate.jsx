@@ -78,6 +78,8 @@ export default function AuthPage() {
                 toast.error(response.data.error);
             }
         } catch (error) {
+            console.log("error", error);
+
             toast.error("Failed to send OTP. Please try again.");
         }
     };

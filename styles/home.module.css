@@ -310,6 +310,8 @@
 }
 
 .about_image {
+  max-width: 90vw;
+  height: auto;
   width: 50%;
   height: fit-content;
   display: flex;
@@ -644,8 +646,8 @@
   }
 
   .benefit_card {
-    height: 270px;
-    width: 270px;
+    height: 200px;
+    width: 200px;
   }
 
 }
