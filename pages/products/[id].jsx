@@ -76,6 +76,33 @@ const ProductPage = ({ productId, productData }) => {
             "seller": {
                 "@type": "Organization",
                 "name": brand_name
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "50",
+                    "currency": "INR"
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "IN"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 2,
+                        "unitCode": "d"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 3,
+                        "maxValue": 5,
+                        "unitCode": "d"
+                    }
+                }
             }
         },
         "aggregateRating": {
@@ -98,7 +125,17 @@ const ProductPage = ({ productId, productData }) => {
                 },
                 "reviewBody": "Amazing product! My skin feels so refreshed."
             }
-        ]
+        ],
+        "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IN",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 30,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn",
+
+        }
+
     })
     const [uMayLikeProducts, setUMayLikeProducts] = useState([])
 
