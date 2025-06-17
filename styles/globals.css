@@ -270,8 +270,6 @@ button:disabled {
 }
 
 .name-head {
-  width: 50%;
-  /* max-width: 250px; */
   display: block;
   height: 100%;
   display: flex;
@@ -280,7 +278,7 @@ button:disabled {
 }
 
 .nav-left .name-head img {
-  width: 150px;
+  width: 120px;
   height: auto;
   margin: 1px 5px;
 }
@@ -288,7 +286,7 @@ button:disabled {
 
 .navFixed .name-head img {
   transition: all 0.6s;
-  width: 140px;
+  width: 100px;
 }
 
 .nav-left {
@@ -569,7 +567,7 @@ footer h2 {
 
   .nav-left .name-head img {
     /* scale: 0.9; */
-    width: 150px;
+    width: 120px;
   }
 
   .navFixed .name-head img {
