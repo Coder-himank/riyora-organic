@@ -310,13 +310,17 @@
 }
 
 .about_image {
-  max-width: 90vw;
   height: auto;
   width: 50%;
   height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.about_image img {
+  max-width: 380px;
+  max-height: 380px;
 }
 
 .about_in h3 {
@@ -646,8 +650,8 @@
   }
 
   .benefit_card {
-    height: 200px;
-    width: 200px;
+    width: 150px;
+    height: 150px;
   }
 
 }
