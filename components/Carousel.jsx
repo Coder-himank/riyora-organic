@@ -17,10 +17,21 @@ const Carousel = ({ children }) => {
         if (!firstChild) return;
 
         const itemWidth = firstChild.offsetWidth + 10; // Account for margin
-        const totalWidth = scrollRef.current.scrollWidth;
+        const viewWidth = containerRef.current.offsetWidth;
+        const totalWidth = scrollRef.current.scrollWidth + viewWidth;
+        const totalItems = Math.ceil(totalWidth / itemWidth);
+        const slides = Math.ceil(totalWidth / viewWidth)
+
+        console.log("totalWidth", totalWidth);
+        console.log("totalItems", totalItems);
+        console.log("viewwidth", viewWidth);
+        console.log("width to be", itemWidth * totalItems);
+        console.log("slides", slides);
+
+
 
         setShowActionButton(totalWidth > containerRef.current.clientWidth);
-        setSlideCount(itemWidth > 0 ? Math.ceil(totalWidth / itemWidth) : 1);
+        setSlideCount(slides > 0 ? slides : 1);
     }, []);
 
     useEffect(() => {

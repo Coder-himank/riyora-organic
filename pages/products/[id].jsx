@@ -217,7 +217,14 @@ const ProductPage = ({ productId, productData }) => {
                     <>
                         <h1>{productData.name}</h1>
                         <section className={styles.sec_1}>
-                            <Image src={productData.imageUrl} width={350} height={400} alt={productData.name} />
+                            <section className={styles.carousel}>
+
+                                <Carousel>
+                                    <Image src={productData.imageUrl} width={350} height={400} alt={productData.name} />
+                                    <Image src={productData.imageUrl} width={350} height={400} alt={productData.name} />
+                                    <Image src={productData.imageUrl} width={350} height={400} alt={productData.name} />
+                                </Carousel>
+                            </section>
 
                             <div className={styles.details}>
                                 <div className={styles.sci_name}>{productData.scientificName}</div>

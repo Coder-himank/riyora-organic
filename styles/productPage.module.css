@@ -40,11 +40,17 @@
     font-weight: 500;
 }
 
-.sec_1 img {
+.carousel {
+    height: fit-content;
+    width: 450px;
+}
+
+.sec_1 .carousel img {
+    flex: 1 1 auto;
+    scroll-snap-align: start;
     width: fit-content;
     max-height: 450px;
     object-fit: contain;
-    height: 50vw;
 }
 
 .sec_1 .details {

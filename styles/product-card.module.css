@@ -181,7 +181,8 @@
 
 }
 
-.productCard .link_btn {
+.productCard .link_btn,
+.link_btn_full {
   padding: 10px 15px;
   max-width: fit-content;
   background-color: var(--primary-color);
@@ -191,6 +192,15 @@
   align-items: center;
   justify-content: center;
   scale: 1;
+}
+
+.link_btn_full {
+  background-color: white;
+  color: black;
+  max-width: none;
+  width: 100%;
+  font-family: sans-serif;
+  font-weight: 550;
 }
 
 .productSkeleton {
