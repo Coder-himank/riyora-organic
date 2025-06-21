@@ -115,6 +115,7 @@ export default function Home() {
         </script>
       </Head>
 
+      <div className="navHolder"></div>
       <div className={styles.home_container}>
         {/* Hero Section */}
         <motion.div className={styles.hero_section} viewport={{ once: true }}>
@@ -151,8 +152,6 @@ export default function Home() {
                 ))
               ) : products.length === 0 ? (<>No Products</>) :
                 (
-
-
                   products.map((product, index) => (
                     <ProductCard product={product} />
                   ))
@@ -162,27 +161,7 @@ export default function Home() {
             </Carousel>
           </motion.section>
         </motion.section>
-        <motion.section className={styles.trending_product} viewport={{ once: true }}>
-          <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            <Carousel>
-              {!products ? (
-                Array.from({ length: 3 }).map((_, index) => (
-                  <ProductSkeleton key={index} />
-                ))
 
-              ) : products.length === 0 ? (<>No Products</>) :
-                (
-
-
-                  products.map((product, index) => (
-                    <ProductCard product={product} />
-                  ))
-
-                )
-              }
-            </Carousel>
-          </motion.section>
-        </motion.section>
 
         {/* Benefits Section */}
         <motion.section className={styles.benefits_section} viewport={{ once: true }}>

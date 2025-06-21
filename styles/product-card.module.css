@@ -69,7 +69,8 @@
   transition: all 0.6s;
 }
 
-.productCard:hover .product_info {
+.productCard:hover .product_info,
+.product_info:hover {
   top: 0;
   display: block;
   position: absolute;
@@ -195,12 +196,12 @@
 }
 
 .link_btn_full {
-  background-color: white;
-  color: black;
+  background: linear-gradient(20deg, var(--primary-color), rgba(0, 0, 0, 0.575), var(--primary-color));
   max-width: none;
-  width: 100%;
+  width: 90%;
   font-family: sans-serif;
   font-weight: 550;
+  margin: auto;
 }
 
 .productSkeleton {

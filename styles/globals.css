@@ -20,7 +20,8 @@
   /* Light ivory – overall page background */
   --footer-background: var(--primary-color);
   /* Subtle natural green – footer bg */
-  --navbar-background: rgba(255, 255, 255, 0.75);
+  /* --navbar-background: rgba(255, 255, 255, 0.75); */
+  --navbar-background: rgb(241, 239, 239);
   /* Semi-transparent for organic feel */
   --navbar-text-color: #101010;
   /* Earthy green – navbar text */
@@ -220,6 +221,8 @@ button:disabled {
   color: var(--navbar-text-color);
   backdrop-filter: blur(1px);
   flex-wrap: wrap;
+  /* box-shadow: 0 0 20px -15px black; */
+
 }
 
 .navOpen {
@@ -648,6 +651,12 @@ footer h2 {
     border: none;
   }
 
+}
+
+@media screen and (max-width: 750px) {
+  .navHolder {
+    height: 100px;
+  }
 }
 
 @media screen and (max-width: 600px) {

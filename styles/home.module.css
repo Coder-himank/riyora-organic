@@ -21,16 +21,17 @@
   height: fit-content;
   min-height: 60vh;
   display: flex;
-  justify-content: flex-start;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: center;
   flex-wrap: wrap;
+  /* flex-direction: row-reverse; */
   position: relative;
 
   /* background: linear-gradient(to bottom, rgba(248, 248, 248, 0.9), rgba(240, 240, 240, 0.9)); */
 
   background: var(--hero-banner-color) url("/images/oil_bottle_duble.jpg");
 
-  background-position: right center;
+  background-position: left center;
   background-repeat: no-repeat;
   padding: 20px;
   background-size: contain;
@@ -43,6 +44,7 @@
   justify-content: center;
   flex-wrap: wrap;
   flex-direction: column;
+  margin: 0 50px;
 }
 
 
