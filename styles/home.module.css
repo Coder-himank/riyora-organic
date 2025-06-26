@@ -115,11 +115,12 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 20px 0;
 
 }
 
 .product_display_in {
-  width: 90%;
+  width: 100%;
   max-width: 90%;
   height: fit-content;
   display: grid;
@@ -140,7 +141,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 
   background-color: var(--card-background);
   padding: 20px 0;
@@ -682,6 +683,11 @@
     font-size: 7vw;
   }
 
+  .home_container .hero_section_in1 {
+    max-width: 100%;
+    border-radius: 0px;
+  }
+
   .benefit_card {
     min-height: 100px;
     min-width: 100px;
@@ -690,6 +696,7 @@
   }
 
 }
+
 
 @media screen and (max-width: 700px) {
 
@@ -708,7 +715,17 @@
 }
 
 @media screen and (max-width: 650px) {
+  .product_display {
+    border-radius: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
   .product_display_in {
-    grid-template-columns: repeat(auto-fit, repeat(1, 1fr));
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    grid-template-columns: repeat(auto-fit, calc(100% - 20px));
+    grid-template-rows: repeat(auto-fit, repeat(2, 1fr));
   }
 }
