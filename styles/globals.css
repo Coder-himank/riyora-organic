@@ -657,6 +657,11 @@ footer h2 {
   .navHolder {
     height: 100px;
   }
+
+  footer {
+
+    background: linear-gradient(180deg, var(--background-color) 5%, var(--footer-background) 5%);
+  }
 }
 
 @media screen and (max-width: 600px) {
