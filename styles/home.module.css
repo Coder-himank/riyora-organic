@@ -177,7 +177,7 @@
 
 .product_display_card_text a {
 
-  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+  font-size: clamp(0.75rem, 1.2vw, 1.2rem);
   width: fit-content;
   padding: 10px 20px;
   background-color: black;
