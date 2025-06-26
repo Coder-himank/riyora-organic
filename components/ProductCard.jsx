@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import styles from "@/styles/product-card.module.css";
@@ -36,13 +36,34 @@ const ProductCard = ({ product }) => {
   const { data: session } = useSession();
   const router = useRouter();
   const [productData, setProductData] = useState({ ...product });
-  console.log(product);
-  console.log(product);
+
+  const [isHovered, setIsHovered] = useState(false);
+  const mouseHoverIn = () => {
+    setIsHovered(true);
+
+  }
+  const mouseHoverOut = () => {
+
+    setIsHovered(false);
+  }
+
+  const mouseClick = () => {
+    if (isHovered) {
+      router.push(`/products/${productData._id}`);
+    }
+    else if (!isHovered) {
+      setIsHovered(true);
+    }
+    else {
+
+      setIsHovered(!isHovered);
+    }
+  }
 
 
   return (
 
-    <div className={styles.productCard}>
+    <div className={styles.productCard} onMouseEnter={mouseHoverIn} onMouseLeave={mouseHoverOut} onClick={mouseClick}>
       <div className={styles.circle}></div>
 
       <Image src={productData.imageUrl} alt={productData.name} width={300} height={300} className={styles.product_img} />
@@ -54,7 +75,7 @@ const ProductCard = ({ product }) => {
       </section>
 
 
-      <section className={styles.product_info}>
+      <section className={styles.product_info} style={{ display: isHovered ? "flex" : "none" }}>
 
         {/* <Link href={`/products/${productData._id}`}> */}
         <section className={styles.hidden_details}>

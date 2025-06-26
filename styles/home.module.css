@@ -1,6 +1,14 @@
 /* Define CSS Variables for Easy Customization */
 
 
+/* Sections */
+.home_container section {
+  width: 100%;
+  text-align: center;
+  /* padding: 20px 0; */
+  /* padding: var(--home-padding); */
+}
+
 /* General Page Styling */
 .home_container {
   background: var(--home-bg-color);
@@ -12,30 +20,29 @@
 .home_container .hero_section {
   width: 100%;
   height: fit-content;
-  flex-direction: column;
+  /* flex-direction: column; */
 
 }
 
 .home_container .hero_section_in1 {
   width: 100%;
-  height: fit-content;
-  min-height: 60vh;
+  max-width: 90%;
+  height: 40vw;
+  max-height: 60vh;
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   align-items: center;
   flex-wrap: wrap;
-  /* flex-direction: row-reverse; */
   position: relative;
-
-  /* background: linear-gradient(to bottom, rgba(248, 248, 248, 0.9), rgba(240, 240, 240, 0.9)); */
-
   background: var(--hero-banner-color) url("/images/oil_bottle_duble.jpg");
-
   background-position: left center;
   background-repeat: no-repeat;
-  padding: 20px;
   background-size: contain;
-  padding: 0 0 5vw 2vw;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow-light);
+  text-align: unset;
+
 }
 
 .hero_text {
@@ -44,8 +51,14 @@
   justify-content: center;
   flex-wrap: wrap;
   flex-direction: column;
-  margin: 0 50px;
+  position: absolute;
+  right: 20px;
+  /* margin: 0 50px; */
+  width: fit-content;
+  height: fit-content;
 }
+
+.hero_head {}
 
 
 .home_container h2 {
@@ -53,37 +66,21 @@
 }
 
 
-.home_container .hero_section_in2 {
-  padding: var(--home-section-padding);
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: column;
-  position: relative;
-  background-image: url("/images/oil_bottel_single.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: none;
-}
-
 
 
 /* Hero Text */
 
 .home_container .glow_text {
-  font-size: var(--heading-font-size);
+  font-size: clamp(0.5rem, 3vw, var(--heading-font-size));
   font-weight: 400;
   color: var(--heading-color);
   width: fit-content;
 }
 
 .home_container .subtext {
-  font-size: var(--subtext-font-size);
+  font-size: clamp(8px, 1vw, var(--subtext-font-size));
   color: var(--secondary-color);
-  margin: 10px;
+  margin: 10px 0;
   width: fit-content;
 }
 
@@ -91,8 +88,8 @@
 .home_container .shop_btn {
   max-width: 200px;
   /* margin-top: 20px; */
-  padding: 12px 25px;
-  font-size: var(--button-font-size);
+  padding: 8px 25px;
+  font-size: clamp(8px, 1vw, var(--button-font-size));
   background: var(--primary-color);
   border-radius: 30px;
   color: white;
@@ -109,18 +106,89 @@
   transform: scale(1.05);
 }
 
-/* Sections */
-.home_container section {
-  width: 100%;
-  text-align: center;
-  /* padding: 20px 0; */
-  /* padding: var(--home-padding); */
+
+
+.product_display {
+  width: 90%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
 }
 
+.product_display_in {
+  width: 90%;
+  max-width: 90%;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, calc(50% - 25px)));
+  grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.product_display .product_display_card {
+  width: 100%;
+  height: 100%;
+  min-height: clamp(300px, 30vw, 400px);
+  border-radius: 10px;
+  box-shadow: var(--shadow-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  background-color: var(--card-background);
+  padding: 20px 0;
+}
+
+.product_display .product_display_card img {
+  width: clamp(200px, 25vw, 400px);
+  height: 100%;
+  object-fit: contain;
+}
+
+.product_display_card_text {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.product_display .product_display_card h3 {
+  padding: 10px;
+  font-size: clamp(1.3rem, 1.2vw, 2rem);
+  color: var(--heading-color);
+}
+
+.product_display_card_price {
+  font-size: clamp(2rem, 2vw, 4rem);
+  margin: 20px 0;
+
+}
+
+.product_display_card_text a {
+  width: fit-content;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+  box-shadow: var(--shadow-light);
+}
 
 /* Benefits Section */
 .home_container .benefits_section {
-  width: 100%;
+  width: 90%;
+  margin: auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow-light);
   position: relative;
   background-color: var(--primary-color);
   padding: 80px 0;
@@ -287,9 +355,11 @@
 
 /* About Section */
 
+.about_section {
+  padding: 20px 0;
+}
+
 .about_in {
-  width: 100%;
-  /* max-width: 1100px; */
   background-color: rgb(35, 33, 33);
   padding: 0 30px;
   min-height: 600px;
@@ -297,15 +367,15 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin: auto;
   flex-wrap: wrap;
 
+  width: 90%;
+  margin: auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow-light);
+
 }
 
-.about_section {
-  padding: 20px 0;
-  width: 100%;
-}
 
 .about_text {
   width: 40%;
@@ -341,10 +411,12 @@
 
 
 .effects {
-  width: 100%;
-  /* max-width: 1100px; */
-  padding: 0;
+  width: 90%;
+  max-width: 90%;
   margin: auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow-light);
+
   height: fit-content;
   display: flex;
   align-items: center;
@@ -542,14 +614,7 @@
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 1300px) {
-
-  .hero_text {
-    scale: 0.9;
-  }
-
-
-}
+@media screen and (max-width: 1300px) {}
 
 @media screen and (max-width: 1100px) {
 
@@ -585,23 +650,7 @@
 }
 
 @media screen and (max-width: 900px) {
-  .home_container .hero_section_in1 {
-    height: 80vh;
-    background-position: center 50;
-    justify-items: center;
-  }
 
-  .home_container .hero_section_in2 {
-    height: 120vh;
-  }
-
-  .hero_head {
-    display: flex;
-    /* align-items: center; */
-    flex-direction: column;
-    justify-self: center;
-
-  }
 
   .service_banner h3 {
     scale: 0.8;
@@ -656,4 +705,10 @@
     height: 150px;
   }
 
+}
+
+@media screen and (max-width: 650px) {
+  .product_display_in {
+    grid-template-columns: repeat(auto-fit, repeat(1, 1fr));
+  }
 }

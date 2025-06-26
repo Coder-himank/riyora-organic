@@ -135,14 +135,12 @@ export default function Home() {
             </div>
 
           </motion.section>
-          <motion.section className={styles.hero_section_in2} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}>
-          </motion.section>
 
         </motion.div>
 
 
         {/* Trending Products Section */}
-        <motion.section className={styles.trending_product} viewport={{ once: true }}>
+        {/* <motion.section className={styles.trending_product} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>Best Selling Products</h2>
           <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
             <Carousel>
@@ -160,8 +158,42 @@ export default function Home() {
               }
             </Carousel>
           </motion.section>
-        </motion.section>
+        </motion.section> */}
 
+        {/* product display section */}
+
+        <motion.section className={styles.product_display} viewport={{ once: true }}>
+          <h2>Products</h2>
+          <motion.section className={styles.product_display_in} initial={{ opacity: 0, y: -50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}>
+
+            {!products ? (
+              Array.from({ length: 2 }).map((_, index) => (
+                <>Loading</>
+              ))
+            ) : products.length === 0 ? (<>No Products</>) :
+              (
+                products.slice(0, 2).map((product, index) => (
+                  <>
+                    <motion.section className={styles.product_display_card} initial={{ opacity: 0, y: -50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}
+                      key={index}>
+                      <Image src={product.imageUrl} width={400} height={400} alt={product.name} />
+                      <div className={styles.product_display_card_text}>
+                        <h3>{product.name}</h3>
+                        <p>{product.description}</p>
+                        <div className={styles.product_display_card_price}>
+                          <span>₹{product.price}</span>
+                        </div>
+
+                        <Link href={`/products/${product._id}`}>Explore</Link>
+                      </div>
+                    </motion.section>
+                  </>
+                ))
+
+              )
+            }
+          </motion.section>
+        </motion.section>
 
         {/* Benefits Section */}
         <motion.section className={styles.benefits_section} viewport={{ once: true }}>
