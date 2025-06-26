@@ -661,14 +661,7 @@ footer h2 {
 
 @media screen and (max-width: 600px) {
 
-  .footer .banner {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .footer .banner .option {
-    width: 70vw;
-    ;
-    height: 70vw;
+  footer .banner {
+    min-width: 400px;
   }
 }

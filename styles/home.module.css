@@ -116,6 +116,11 @@
   justify-content: center;
   flex-direction: column;
   padding: 20px 0;
+  background-color: #f8f8f6;
+  margin: 20px auto;
+  border-radius: 20px;
+  max-width: 98%;
+  box-shadow: var(--shadow-light);
 
 }
 
@@ -137,14 +142,15 @@
   height: 100%;
   min-height: clamp(300px, 30vw, 400px);
   border-radius: 10px;
-  box-shadow: var(--shadow-light);
+  box-shadow: 0 0 10px -7px black;
   display: flex;
   align-items: center;
   justify-content: space-between;
   /* flex-wrap: wrap; */
-
-  background-color: var(--card-background);
   padding: 20px 0;
+
+  background: linear-gradient(160deg, var(--card-background) 60%, #e0d7b9);
+  /* background-color: #e0d7b9; */
 }
 
 .product_display .product_display_card img {
@@ -480,6 +486,7 @@
   flex-wrap: wrap;
   width: fit-content;
   max-width: 100%;
+  margin: auto;
   /* padding: 0 50px; */
 
 }
@@ -712,6 +719,15 @@
   .benefit_card {
     width: 150px;
     height: 150px;
+  }
+
+  .hero_head {
+    text-align: center;
+  }
+
+  .shop_btn {
+    position: relative;
+    right: -40px;
   }
 
 }
