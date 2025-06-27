@@ -133,7 +133,7 @@
   grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 50px;
   padding: 20px 0;
 }
 
@@ -142,7 +142,7 @@
   height: 100%;
   min-height: clamp(300px, 30vw, 400px);
   border-radius: 10px;
-  box-shadow: 0 0 10px -7px black;
+  box-shadow: 0 0 20px -10px black;
   display: flex;
   align-items: center;
   justify-content: space-between;
