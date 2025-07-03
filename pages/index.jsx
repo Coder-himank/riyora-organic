@@ -140,8 +140,8 @@ export default function Home() {
 
 
         {/* Trending Products Section */}
-        {/* <motion.section className={styles.trending_product} viewport={{ once: true }}>
-          <h2 className={styles.home_h2}>Best Selling Products</h2>
+        <motion.section className={styles.trending_product} viewport={{ once: true }}>
+          <h2 className={styles.home_h2}>Best <span>Selling Products</span></h2>
           <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
             <Carousel>
               {!products ? (
@@ -157,41 +157,6 @@ export default function Home() {
                 )
               }
             </Carousel>
-          </motion.section>
-        </motion.section> */}
-
-        {/* product display section */}
-
-        <motion.section className={styles.product_display} viewport={{ once: true }}>
-          <h2>Products</h2>
-          <motion.section className={styles.product_display_in} initial={{ opacity: 0, y: -50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}>
-
-            {!products ? (
-              Array.from({ length: 2 }).map((_, index) => (
-                <>Loading</>
-              ))
-            ) : products.length === 0 ? (<>No Products</>) :
-              (
-                products.slice(0, 2).map((product, index) => (
-                  <>
-                    <motion.section className={styles.product_display_card} initial={{ opacity: 0, y: -50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}
-                      key={index}>
-                      <Image src={product.imageUrl} width={400} height={400} alt={product.name} />
-                      <div className={styles.product_display_card_text}>
-                        <h3>{product.name}</h3>
-                        <p>{product.description}</p>
-                        <div className={styles.product_display_card_price}>
-                          <span>₹{product.price}</span>
-                        </div>
-
-                        <Link href={`/products/${product._id}`}>Explore</Link>
-                      </div>
-                    </motion.section>
-                  </>
-                ))
-
-              )
-            }
           </motion.section>
         </motion.section>
 
@@ -221,7 +186,7 @@ export default function Home() {
         </motion.section>
         {/* Blogs Section */}
         <motion.section className={styles.blogs} viewport={{ once: true }}>
-          <h2>Enchant Yourself</h2>
+          <h2 className={styles.home_h2}>Enchant <span>Yourself</span></h2>
 
           {!blogs ? (<>
             <section className={styles.blog_in}>
@@ -255,7 +220,14 @@ export default function Home() {
               className={styles.about_image}
               viewport={{ once: true }}
             >
-              <Image src={"/Riyora-Logo-Favicon.png"} alt="About Rivora" width={500} height={500} />
+              <div className={styles.about_img_1}>
+
+                <Image src={"/Riyora-Logo-Favicon.png"} alt="About Rivora" width={500} height={500} />
+              </div>
+              <div className={styles.about_img_2}>
+                <Image src={"/Riyora-Logo-Favicon.png"} alt="About Rivora" width={500} height={500} />
+
+              </div>
             </motion.div>
             <motion.div
               initial={{ x: 0, y: 40, opacity: 0.3 }}
@@ -273,57 +245,56 @@ export default function Home() {
 
         {/* Effectiveness Section */}
         <motion.section className={styles.effects} viewport={{ once: true }}>
-          <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
-          <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
+          <h2 className={styles.home_h2}>CHanging <span>Lifes</span></h2>
+          <motion.section className={styles.effects_cards} viewport={{ once: true }}>
+            <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
+            <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
+          </motion.section>
+          <motion.section className={styles.effects_cards} viewport={{ once: true }}>
+            <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
+            <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
+          </motion.section>
+          <motion.section className={styles.effects_cards} viewport={{ once: true }}>
+            <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
+            <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
+          </motion.section>
         </motion.section>
 
         {/* Reviews Section */}
         <motion.section className={styles.reviews_section} viewport={{ once: true }}>
           <motion.section initial={{ opacity: 0.5, x: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            <h2 className={styles.home_h2}>Customer Reviews</h2>
+            <h2 className={styles.home_h2}>Customer <span>Reviews</span></h2>
             <div className={styles.review_in}>
-              <div className={styles.review_card}>
-                <div>
-                  <Image src={"/images/person1.jpg"} alt="Person face" width={200} height={200} />
+
+              {Array.from({ length: 3 }).map(g => (
+
+                <div className={styles.review_card}>
+                  <div>
+                    <Image src={"/images/person1.jpg"} alt="Person face" width={200} height={200} />
+                  </div>
+                  <div className={styles.review_info}>
+                    <section>Himank Jain</section>
+                    <section>
+                      <FaStar />
+                      <FaStar />
+                      <FaStar />
+                      <FaStar />
+                      <FaRegStar />
+                    </section>
+                    <section>
+                      <p>Best Products.</p>
+                    </section>
+                  </div>
                 </div>
-                <div className={styles.review_info}>
-                  <section>Himank Jain</section>
-                  <section>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaRegStar />
-                  </section>
-                  <section>
-                    <p>Best Products.</p>
-                  </section>
-                </div>
-              </div>
-              <div className={styles.review_card}>
-                <div>
-                  <Image src={"/images/person1.jpg"} alt="Person face" width={200} height={200} />
-                </div>
-                <div className={styles.review_info}>
-                  <section>Himank Jain</section>
-                  <section>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaRegStar />
-                  </section>
-                  <section>
-                    <p>Best Products.</p>
-                  </section>
-                </div>
-              </div>
+              ))}
             </div>
+
           </motion.section>
         </motion.section>
 
         {/* Services Section */}
         <div className={styles.services}>
+          <h2 className={styles.home_h2}>Our Services</h2>
           <div className={styles.service_banner}>
             <h3>Customize your Product <span><FaArrowRight /></span></h3>
             <Image src={"/images/ayurveda-utensils.jpg"} alt="Services of organic robust" width={500} height={500} />

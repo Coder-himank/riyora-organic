@@ -67,20 +67,14 @@ const ProductCard = ({ product }) => {
       <div className={styles.circle}></div>
 
       <Image src={productData.imageUrl} alt={productData.name} width={300} height={300} className={styles.product_img} />
-      <section className={styles.product_name}>
-
-        <h3>{productData.name}</h3>
-
-        <Link href={`/products/${productData._id}`} className={styles.link_btn}><FaArrowRight /></Link>
-      </section>
 
 
-      <section className={styles.product_info} style={{ display: isHovered ? "flex" : "none" }}>
+
+      <section className={styles.product_info}>
 
         {/* <Link href={`/products/${productData._id}`}> */}
         <section className={styles.hidden_details}>
           <section className={styles.top_detial_sec}>
-            <Image src={productData.imageUrl} alt={productData.name} width={100} height={100} />
             <section>
               <span className={styles.hidden_price}>{productData.price}</span>
               <span className={styles.hidden_name}>{productData.name}</span>
@@ -101,26 +95,12 @@ const ProductCard = ({ product }) => {
               ))}
             </div>
           </section>
-          <section className={styles.details_sec}>
-            <section className={styles.benefit_image}>
-
-              <Image src={"/images/nutrition.png"} width={30} height={30} />
-              <Image src={"/images/muscle.png"} width={30} height={30} />
-              <Image src={"/images/plant.png"} width={30} height={30} />
-              <Image src={"/images/enviornment.png"} width={30} height={30} />
-            </section>
-          </section>
         </section>
         <section className={styles.details_sec}>
           <section className={styles.action_btn}>
             <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
-            <button onClick={() => onAddToWishlist(router, productData._id, session)}><FaHeart /></button>
           </section>
         </section>
-        <section className={styles.details_sec}>
-          <Link href={`/products/${productData._id}`} className={styles.link_btn_full}>View Product<FaArrowRight /></Link>
-        </section>
-        {/* </Link> */}
       </section >
     </div >
 

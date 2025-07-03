@@ -5,18 +5,17 @@ const ProductSchema = new mongoose.Schema({
   ingredients: { type: [String], required: true },
   suitableFor: { type: [String], required: true },
   bestFor: { type: [String], required: true },
-  scientificName: { type: String },
-  otherNames: [{ type: String }],
+  // scientificName: { type: String },
+  // otherNames: [{ type: String }],
   reviews: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     rating: { type: Number, min: 1, max: 5, required: true },
     comment: { type: String }
   }],
 
-  ingredientsToUseWith : [{type : String, required : true}],
+  // ingredientsToUseWith : [{type : String, required : true}],
   note : [{type : String, required : true}],
   timeperiod : {type : String, required : true},
-
 
   howToUse: { hair: { type: String, required: true }, skin: { type: String, required: true }, health: { type: String, required: true } },
 

@@ -26,7 +26,7 @@ export default async function handler(req, res) {
         if (type === "featured") {
           products = products.filter(product => product.isFeatured);
         }
-        products = products.slice(0, 3);
+        products = products.slice(0, 4);
       }
 
       return res.status(200).json(products);

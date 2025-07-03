@@ -76,52 +76,69 @@ export default function Navbar() {
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      {/* Nav bar starts */}
+      <header>
 
-      <nav className={`navbar ${toogleNavBar && "navOpen"} ${changeNavStyle && "navFixed"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
-
-        {/* Nav left Code */}
-
-        <div className="nav-left">
-          <Link href="/"><span className="name-head"><Image src="/images/logo.png" alt="Logo" width={200} height={100} /></span></Link>
-
-        </div>
-        {/* Nav left Ends */}
-        <div className={`nav-mid ${toogleNavBar ? 'navBarOpen' : ''}`}>
-          <div className="nav-links">
-
-            <Link href="/"><span className="icon_label"><FaHome /></span> Home</Link>
-            <Link href="/products"><span className="icon_label"><FaProductHunt /></span> Products</Link>
-            <Link href="/blogs"><span className="icon_label"><FaBlog /></span> Blogs</Link>
-            <Link href="/services"><span className="icon_label"><FaServicestack /></span> Services</Link>
-
-          </div>
+        {/* Nav bar starts */}
+        <div className="offerBanner">
+          <span>10% off on Every Products</span>
         </div>
 
-        {/* Nav right Starts */}
-        <div className="nav-right">
-          <div className="nav-user-option">
-            <Link href={`/${userId}/cart`}><FaShoppingCart /></Link>
-            <Link href={`/${userId}/wishlist`}><FaHeart /></Link>
+        <nav className={`navbar ${toogleNavBar && "navOpen"} ${changeNavStyle && "navFixed"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
 
-            {!session ? (
-              <Link href="/authenticate">Sign In</Link>
-            ) : (
-              <Link href={`/${userId}/dashboard`}><FaUser /></Link>
-            )}
+          {/* Nav left Code */}
+
+          <div className="nav-left">
 
             <span className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}>
               <FaBars />
             </span>
+            <Link href="/"><span className="name-head"><Image src="/images/logo.png" alt="Logo" width={200} height={100} /></span></Link>
 
-            {/* <ThemeSwitcher /> */}
           </div>
+          {/* Nav left Ends */}
+          <div className={`nav-mid ${toogleNavBar ? 'navBarOpen' : ''}`}>
+            <div className="nav-links">
+
+              <Link href="/"><span className="icon_label"><FaHome /></span> Home</Link>
+              <Link href="/products"><span className="icon_label"><FaProductHunt /></span> Products</Link>
+              <Link href="/blogs"><span className="icon_label"><FaBlog /></span> Blogs</Link>
+              <Link href="/services"><span className="icon_label"><FaServicestack /></span> Services</Link>
+
+            </div>
+          </div>
+
+          {/* Nav right Starts */}
+          <div className="nav-right">
+            <div className="nav-user-option">
+              <Link href={`/${userId}/cart`}><FaShoppingCart /></Link>
+              <Link href={`/${userId}/wishlist`}><FaHeart /></Link>
+
+              {!session ? (
+                <Link href="/authenticate">Sign In</Link>
+              ) : (
+                <Link href={`/${userId}/dashboard`}><FaUser /></Link>
+              )}
+
+
+              {/* <ThemeSwitcher /> */}
+            </div>
+          </div>
+
+          {/* Nav right ends */}
+        </nav >
+
+        {/* navbar ensds */}
+
+
+        <div className="subheader">
+          <ul className="subheader-links">
+              <li><Link href={"/services"}>Services</Link></li>
+              <li><Link href={"/services"}>About Us</Link></li>
+              <li><Link href={"/services"}>Career</Link></li>
+              <li><Link href={"/services"}>Career</Link></li>
+          </ul>
         </div>
-
-        {/* Nav right ends */}
-      </nav >
-
-      {/* navbar ensds */}
+      </header>
     </>
   );
 }

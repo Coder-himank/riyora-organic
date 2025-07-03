@@ -26,7 +26,8 @@
   --navbar-text-color: #101010;
   /* Earthy green – navbar text */
 
-  --hero-banner-color: #c1c1a7;
+  /* --hero-banner-color: #126031; */
+  --hero-banner-color: rgb(247, 246, 246);
   --danger: rgba(212, 14, 14, 0.905);
 
   /* 🎨 Buttons */
@@ -43,7 +44,7 @@
 
 
   /* Spacing & Typography */
-  --font-family: "Arial",
+  --font-family: "Aial",
     sans-serif;
   --heading-font-weight: 600;
   --base-font-size: 16px;
@@ -82,11 +83,8 @@
 
   --list-hover-bg: rgba(143, 151, 143, 0.114);
 
-  --heading-font-family: "Poppins";
+  --heading-font-family: Roboto;
   --normal-font-family: Roboto;
-
-  --heading-font-family: Quicksand;
-  --normal-font-family: Nunito;
 }
 
 
@@ -202,13 +200,37 @@ button:disabled {
   cursor: not-allowed;
 }
 
+header {
+  width: 100%;
+  height: fit-content;
+  position: fixed;
+  z-index: 11;
+  /* background-color: rgb(223, 223, 223); */
+  box-shadow: 0 3px 20px -18px black;
+}
+
+
+.offerBanner {
+  width: 100%;
+  height: fit-content;
+  background-color: rgb(215, 218, 12);
+  font-size: 12px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 2px;
+  text-align: center;
+}
+
 /* ========== Navbar ========== */
 .navHolder {
   height: 170px;
 }
 
 .navbar {
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
   height: 130px;
   top: 0;
@@ -305,14 +327,15 @@ button:disabled {
 }
 
 .nav-mid {
-  justify-content: center;
+  width: 60%;
+  justify-content: space-around;
   display: flex;
   align-items: center;
 
 }
 
 .nav-mid .nav-links {
-  font-weight: 400;
+  font-weight: bold;
 }
 
 .toogleNavBar {
@@ -381,6 +404,29 @@ button:disabled {
 
 .nav-links a:hover {
   color: var(--primary-color);
+}
+
+.subheader {
+  width: 100%;
+  height: fit-content;
+  background-color: rgba(197, 209, 24, 0.338);
+  color: black;
+  padding: 5px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  display: none;
+}
+
+.subheader-links {
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  list-style: none;
+  font-size: 12px;
+  font-weight: bold;
+  gap: 30px;
 }
 
 /* ========== Notification ========== */
@@ -580,7 +626,7 @@ footer h2 {
 
   .navbar {
     height: fit-content;
-    position: fixed;
+    /* position: fixed; */
     /* justify-content: space-between; */
   }
 
@@ -596,7 +642,6 @@ footer h2 {
     justify-content: left;
     height: 100%;
     min-height: 70px;
-    padding: 0 20px;
 
   }
 
@@ -655,7 +700,7 @@ footer h2 {
 
 @media screen and (max-width: 750px) {
   .navHolder {
-    height: 100px;
+    height: 130px;
   }
 
   footer {

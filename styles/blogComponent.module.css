@@ -21,7 +21,7 @@
     /* box-sizing: content-box; */
     /* box-shadow: 0 0 20px 0px #ccc; */
     transition: all 0.3s ease-in-out;
-    border-bottom: 12px solid rgba(67, 63, 63, 0.199);
+    background-color: #ffffff69;
 }
 
 
@@ -63,7 +63,7 @@
     background-repeat: no-repeat;
     background-size: 40%;
     background-position: center 40%;
-    opacity: 0.2;
+    opacity: 0.08;
     /* Adjust opacity here */
     z-index: -1;
 }
