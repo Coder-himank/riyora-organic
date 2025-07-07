@@ -131,6 +131,38 @@ h3 {
   font-family: var(--heading-font-family);
 }
 
+
+h2 {
+  font-size: clamp(1.4rem, 8vw, 3rem);
+  text-transform: uppercase;
+  padding: 20px;
+  width: 100%;
+  text-align: left;
+  max-width: 1400px;
+  padding: 40px 30px;
+  /* margin: auto; */
+  font-weight: 100;
+  /* border: 1px solid black; */
+  margin: 30px auto;
+
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: clamp(300px, 50%, 600px);
+  height: 3px;
+  background-color: var(--primary-color);
+  margin-top: 10px;
+  margin-left: 0;
+}
+
+h2 span {
+  color: green;
+}
+
+
+
 /* ========== Buttons ========== */
 button,
 .btn {
@@ -203,23 +235,25 @@ button:disabled {
 header {
   width: 100%;
   height: fit-content;
-  position: fixed;
+  position: sticky;
+  top: 0;
+  left: 0;
   z-index: 11;
   /* background-color: rgb(223, 223, 223); */
-  box-shadow: 0 3px 20px -18px black;
+  /* box-shadow: 0 3px 20px -18px black; */
 }
 
 
 .offerBanner {
   width: 100%;
   height: fit-content;
-  background-color: rgb(215, 218, 12);
+  background-color: #ffd814;
   font-size: 12px;
-  height: 20px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: black;
   padding: 2px;
   text-align: center;
 }
@@ -227,6 +261,7 @@ header {
 /* ========== Navbar ========== */
 .navHolder {
   height: 170px;
+  display: none;
 }
 
 .navbar {
@@ -415,7 +450,7 @@ header {
   height: 35px;
   display: flex;
   align-items: center;
-  display: none;
+  /* display: none; */
 }
 
 .subheader-links {
@@ -470,7 +505,7 @@ footer {
   box-shadow: 2px 0 20px -8px black;
 }
 
-footer h2 {
+footer h3 {
   color: var(--background-color);
 }
 

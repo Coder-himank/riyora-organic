@@ -76,12 +76,12 @@ export default function Navbar() {
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+      <div className="offerBanner">
+        <span>10% off on Every Products</span>
+      </div>
       <header>
 
         {/* Nav bar starts */}
-        <div className="offerBanner">
-          <span>10% off on Every Products</span>
-        </div>
 
         <nav className={`navbar ${toogleNavBar && "navOpen"} ${changeNavStyle && "navFixed"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
 
@@ -130,15 +130,15 @@ export default function Navbar() {
         {/* navbar ensds */}
 
 
-        <div className="subheader">
-          <ul className="subheader-links">
-              <li><Link href={"/services"}>Services</Link></li>
-              <li><Link href={"/services"}>About Us</Link></li>
-              <li><Link href={"/services"}>Career</Link></li>
-              <li><Link href={"/services"}>Career</Link></li>
-          </ul>
-        </div>
       </header>
+      <div className="subheader">
+        <ul className="subheader-links">
+          <li><Link href={"/services"}>Services</Link></li>
+          <li><Link href={"/services"}>About Us</Link></li>
+          <li><Link href={"/services"}>Career</Link></li>
+          <li><Link href={"/services"}>Career</Link></li>
+        </ul>
+      </div>
     </>
   );
 }

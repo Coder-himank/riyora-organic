@@ -11,7 +11,7 @@ import getConfig from "next/config";
 import Carousel from "@/components/Carousel";
 import Link from "next/link";
 import axios from "axios";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaStar, FaRegStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 
 const ExpandableSection = ({ title, children }) => {
@@ -215,7 +215,6 @@ const ProductPage = ({ productId, productData }) => {
                 {notification && <div className="notification">{notification}</div>}
                 {loading ? (<h1>Loading...</h1>) : error ? (<h1>Error : {error}</h1>) : (
                     <>
-                        <h1>{productData.name}</h1>
                         <section className={styles.sec_1}>
                             <section className={styles.carousel}>
 
@@ -227,24 +226,72 @@ const ProductPage = ({ productId, productData }) => {
                             </section>
 
                             <div className={styles.details}>
-                                <div className={styles.sci_name}>{productData.scientificName}</div>
-                                <div className={styles.oth_name}>
-                                    {/* {t(`${productName}.otherNames`)} */}
+
+                                <div className={styles.paths}>
+                                    <Link href={"/"}>Home</Link>
+                                    <span>/</span>
+                                    <Link href={"/products"}>Products</Link>
+                                    <span>/</span>
+                                    <Link href={`/products/${productData._id}`}>{productData.name}</Link>
                                 </div>
-                                <div className={styles.price}><strong>Price:</strong> ₹{productData.price}</div>
-                                <div>Ratings: ⭐⭐⭐⭐☆</div>
-                                <hr />
+                                <div className={styles.product_name}><h1>{productData.name}</h1></div>
+
+                                <div className={styles.ratings}>
+                                    <span><FaStar /></span>
+                                    <span><FaStar /></span>
+                                    <span><FaStar /></span>
+                                    <span><FaStar /></span>
+
+                                    <span><FaRegStar /></span>
+                                    <span>(1470)</span>
+                                </div>
+
                                 <div className={styles.description}>
-                                    <p>{productData.description}</p>
+                                    <p>{productData.description || <><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem, vel a. Deleniti molestiae vitae temporibus deserunt dolor expedita accusantium cupiditate odit. Commodi sed quia modi, sequi ullam officia beatae voluptate!</p></>}</p>
+                                </div>
+
+                                <div className={styles.quick_links}>
+
+                                    <ul>
+                                        <li><Link href={"/"}>Check Suitability</Link></li>
+                                        <li><Link href={"/"}>More Information</Link></li>
+                                        <li><Link href={"/"}>Customer Feedback</Link></li>
+                                        <li><Link href={"/"}>How to Apply</Link></li>
+                                        <li><Link href={"/"}>More details</Link></li>
+                                    </ul>
+                                </div>
+                                <div className={styles.price_quantity}>
+                                    <div className={styles.price}>
+                                        <span className={styles.originalPrice}>₹{productData.price}</span>
+                                        <span className={styles.salePrice}>₹{productData.price}</span>
+                                    </div>
+                                    <div className={styles.quantity}>
+                                        <button onClick={() => setQuantityDemanded((q) => q - 1 !== 0 ? q - 1 : 1)}>-</button>
+                                        <span>{quantity_demanded}</span>
+                                        <button onClick={() => setQuantityDemanded(quantity_demanded + 1)}>+</button>
+                                    </div>
                                 </div>
 
                                 <div className={styles.action_btn}>
-                                    <button onClick={() => onAddToWishlist(router, productId, session).success == false ? newNotify("Unable to Add to Wishlist") : newNotify("Added To Wishlist")} className="button-outline ">Add To Wishlist</button>
+
                                     <button onClick={() => onAddToCart(router, productId, session).success == false ? newNotify("Unable To Add to Cart") : newNotify("Added To Cart")}>Add To Cart</button>
-                                    <button onClick={() => onBuy(router, productId, quantity_demanded, session)}>Buy</button>
+                                    <button onClick={() => onBuy(router, productId, quantity_demanded, session)}>Buy Now</button>
                                 </div>
-                                <hr />
                             </div>
+                        </section>
+
+                        <section>
+                            <h2>Suitable <span>For</span></h2>
+                        </section>
+                        <section>
+                            <h2>More <span>Information</span></h2>
+
+                        </section>
+                        <section>
+                            <h2>Customer <span>Feedback</span></h2>
+                        </section>
+                        <section>
+                            <h2>How <span>to  Apply</span></h2>
                         </section>
                         <section>
                             <ExpandableSection title={"More Details"}>

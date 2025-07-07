@@ -1,11 +1,6 @@
 .product_container {
     width: 100%;
-    max-width: 1000px;
     margin: auto;
-}
-
-.product_container h1 {
-    padding: 10px;
 }
 
 .expandable_section {
@@ -20,24 +15,20 @@
     padding: 10px;
 }
 
+/* section {
+    max-width: 1400px;
+} */
+
 .sec_1 {
     width: 100%;
-    height: 70vh;
     display: flex;
     align-items: center;
+    background-color: rgba(205, 242, 224, 0.381);
     justify-content: space-around;
-}
+    flex-wrap: wrap;
+    height: fit-content;
+    padding: 20px 0;
 
-.sec_1 .details .sci_name {
-    font-size: 2rem;
-    font-weight: 700;
-    color: green;
-}
-
-.sec_1 .details .oth_name {
-    color: rgb(71, 165, 71);
-    font-size: 1rem;
-    font-weight: 500;
 }
 
 .carousel {
@@ -45,7 +36,7 @@
     width: 450px;
 }
 
-.sec_1 .carousel img {
+.carousel img {
     flex: 1 1 auto;
     scroll-snap-align: start;
     width: fit-content;
@@ -53,23 +44,168 @@
     object-fit: contain;
 }
 
+.sec_1 .details div {}
+
+
+.paths {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    /* justify-content: end; */
+    gap: 10px;
+    padding: 20px 0;
+}
+
+.sec_1 .details .product_name {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 700;
+    color: green;
+
+}
+
+
 .sec_1 .details {
-    padding-top: 80px;
-    max-width: 500px;
+    padding: 0 10px;
+    max-width: 600px;
     height: fit-content;
-    /* max-height: 450px; */
+}
+
+.ratings {
+    width: 100%;
+    font-size: 0.6rem;
+    color: rgb(198, 198, 16);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.ratings span:last-child {
+    color: black;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.price_quantity {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.price_quantity div {
+    height: 80px;
 }
 
 .price {
-    font-size: 1.8rem;
+    padding: 20px 0;
+    width: 50%;
+    max-width: 150px;
+    font-size: 2.2rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.price .salePrice {
+    color: rgb(189, 0, 0);
+    font-weight: 700;
+}
+
+.originalPrice {
+    width: fit-content;
+    padding: 20px;
+    color: rgb(84, 81, 81);
+    text-decoration: line-through;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.quantity {
+    width: 50%;
+    max-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.quantity div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 100%;
+    cursor: pointer;
 }
 
 .description {
-    padding: 20px 10px;
+    color: #565353;
+    font-weight: lighter;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 20px 0;
 }
 
-.sec_1 .details div {
-    min-height: 60px;
+
+
+.action_btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    gap: 5px;
+}
+
+.action_btn button {
+    border-radius: 1px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.action_btn button:nth-child(1) {
+    background-image: unset;
+    background-color: unset;
+    color: green;
+    border: 1px solid green;
+}
+
+.action_btn button:nth-child(2) {
+    background-image: unset;
+    background-color: green;
+}
+
+.quick_links {
+    width: 100%;
+    padding: 0 5px;
+}
+
+
+.quick_links ul {
+    /* padding: 0 16px; */
+    list-style: none;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+.quick_links ul li {
+    width: fit-content;
+    height: fit-content;
+    color: black;
+    background-color: #ccc;
+    font-size: 10px;
+    border-radius: 20px;
+    padding: 5px 9px;
+    /* margin: auto; */
 }
 
 .sec {
@@ -100,121 +236,6 @@
     padding: 10px 5px;
 }
 
-.action_btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-    width: 100%;
-    flex-direction: column;
-    gap: 5px;
-    padding: 10px;
-}
-
-.action_btn button {
-    border-radius: 1px;
-    width: 100%;
-    max-width: 600px;
-}
-
-.action_btn button:nth-child(1) {
-    /* background-image: unset; */
-}
-
-.action_btn button:nth-child(2) {
-    background-image: unset;
-    background-color: rgb(183, 183, 44);
-}
-
 .more_products {
     width: 100%;
-}
-
-/* Product Card */
-.productCard {
-    flex: 1 1 auto;
-    scroll-snap-align: start;
-    width: 25vw;
-    min-width: 280px;
-    min-height: 300px;
-    height: fit-content;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    margin: 0 3px;
-    background-color: var(--card-background);
-    /* scale: 0.8; */
-}
-
-.product_info {
-    height: fit-content;
-    width: 90%;
-    text-align: left;
-    padding: 10px;
-    display: flex;
-    align-self: center;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-
-}
-
-.product_info h3 {
-    font-size: 18px;
-    padding: 10px 20px;
-    color: var(--heading-color);
-}
-
-.productCard img {
-    width: 100%;
-    object-fit: contain;
-    height: 400px;
-}
-
-.productCard a {
-    padding: 10px 15px;
-    max-width: fit-content;
-    background-color: var(--primary-color);
-    border-radius: 30px;
-    color: var(--background-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    scale: 1;
-}
-
-@media screen and (max-width:900px) {
-    .sec_1 {
-        flex-direction: column;
-        height: fit-content;
-    }
-
-    .sec_1 img {
-        padding: 40px;
-        width: 100%;
-        height: fit-content;
-        max-height: 700px;
-    }
-
-    .sec_1 .details {
-        padding: 10px;
-        max-width: none;
-        width: 100%;
-    }
-
-    .sec_1 .details div {
-
-        min-height: 20px;
-        padding: 8px;
-    }
-
-    .sec {
-        padding: 10px;
-    }
-
-
-    .action_btn button {
-        width: 100%;
-        font-size: 0.8rem;
-    }
-
-
 }

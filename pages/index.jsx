@@ -262,18 +262,20 @@ export default function Home() {
 
         {/* Reviews Section */}
         <motion.section className={styles.reviews_section} viewport={{ once: true }}>
+          <h2 className={styles.home_h2}>Customer <span>Reviews</span></h2>
           <motion.section initial={{ opacity: 0.5, x: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            <h2 className={styles.home_h2}>Customer <span>Reviews</span></h2>
             <div className={styles.review_in}>
+              {/* <Carousel showControls={false} autoScroll={true}> */}
 
-              {Array.from({ length: 3 }).map(g => (
+
+              {Array.from({ length: 4 }).map((_, index) => (
 
                 <div className={styles.review_card}>
                   <div>
                     <Image src={"/images/person1.jpg"} alt="Person face" width={200} height={200} />
                   </div>
                   <div className={styles.review_info}>
-                    <section>Himank Jain</section>
+                    <section>Himank Jain {index}</section>
                     <section>
                       <FaStar />
                       <FaStar />
@@ -287,6 +289,7 @@ export default function Home() {
                   </div>
                 </div>
               ))}
+              {/* </Carousel> */}
             </div>
 
           </motion.section>
@@ -294,7 +297,7 @@ export default function Home() {
 
         {/* Services Section */}
         <div className={styles.services}>
-          <h2 className={styles.home_h2}>Our Services</h2>
+          <h2 className={styles.home_h2}>Our <span>Services</span></h2>
           <div className={styles.service_banner}>
             <h3>Customize your Product <span><FaArrowRight /></span></h3>
             <Image src={"/images/ayurveda-utensils.jpg"} alt="Services of organic robust" width={500} height={500} />

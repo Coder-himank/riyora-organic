@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import styles from "@/styles/Carousel.module.css"; // Ensure this CSS file exists
 
-const Carousel = ({ children }) => {
+const Carousel = ({ children, showControls = true, autoScroll = true }) => {
     const scrollRef = useRef(null);
     const containerRef = useRef(null);
 
@@ -13,26 +13,14 @@ const Carousel = ({ children }) => {
     const checkOverflow = useCallback(() => {
         if (!scrollRef.current || !containerRef.current || !scrollRef.current.children.length) return;
 
-        const firstChild = scrollRef.current.children[0];
-        if (!firstChild) return;
-
-        const itemWidth = firstChild.offsetWidth + 10; // Account for margin
+        const totalWidth = scrollRef.current.scrollWidth;
         const viewWidth = containerRef.current.offsetWidth;
-        const totalWidth = scrollRef.current.scrollWidth + viewWidth;
-        const totalItems = Math.ceil(totalWidth / itemWidth);
-        const slides = Math.ceil(totalWidth / viewWidth)
 
-        console.log("totalWidth", totalWidth);
-        console.log("totalItems", totalItems);
-        console.log("viewwidth", viewWidth);
-        console.log("width to be", itemWidth * totalItems);
-        console.log("slides", slides);
-
-
-
-        setShowActionButton(totalWidth > containerRef.current.clientWidth);
+        const slides = Math.ceil(totalWidth / viewWidth);
+        showControls && setShowActionButton(slides > 1);
         setSlideCount(slides > 0 ? slides : 1);
     }, []);
+
 
     useEffect(() => {
         checkOverflow();
@@ -42,41 +30,60 @@ const Carousel = ({ children }) => {
 
     // Function to update the current slide index
     const updateIndex = useCallback(() => {
-        if (!scrollRef.current || !scrollRef.current.children.length) return;
+        if (!scrollRef.current || !containerRef.current) return;
 
-        const firstChild = scrollRef.current.children[0];
-        if (!firstChild) return;
-
-        const itemWidth = firstChild.offsetWidth + 10; // Account for margin
         const scrollLeft = scrollRef.current.scrollLeft;
+        const containerWidth = containerRef.current.offsetWidth;
 
-        setCurrentIndex(itemWidth > 0 ? Math.round(scrollLeft / itemWidth) + 1 : 1);
+        // Use container width to calculate which "page" you're on
+        const index = Math.round(scrollLeft / containerWidth) + 1;
+
+        setCurrentIndex(index > 0 ? index : 1);
     }, []);
+
 
     // Scroll function
     const scroll = (direction) => {
-        if (!scrollRef.current || !scrollRef.current.children.length) return;
+        if (!scrollRef.current || !containerRef.current) return;
 
-        const firstChild = scrollRef.current.children[0];
-        if (!firstChild) return;
-
-        const scrollLeft = scrollRef.current.scrollLeft;
-        const scrollWidth = scrollRef.current.scrollWidth;
-        const clientWidth = scrollRef.current.clientWidth;
-        const scrollAmount = firstChild.offsetWidth + 10; // Width of one card + margin
-
-        if ((direction === "left" && scrollLeft === 0) ||
-            (direction === "right" && scrollLeft + clientWidth >= scrollWidth)) {
-            return;
-        }
+        const scrollAmount = containerRef.current.offsetWidth;
 
         scrollRef.current.scrollBy({
             left: direction === "left" ? -scrollAmount : scrollAmount,
             behavior: "smooth",
         });
 
-        setTimeout(updateIndex, 300); // Allow some time for smooth scrolling before updating index
+        setTimeout(updateIndex, 300); // Allow time for smooth scroll to finish
     };
+
+
+    useEffect(() => {
+        if (!autoScroll || !scrollRef.current) return;
+
+        let direction = "right"; // initial scroll direction
+        const scrollInterval = setInterval(() => {
+            const scrollElement = scrollRef.current;
+            const scrollLeft = scrollElement.scrollLeft;
+            const scrollWidth = scrollElement.scrollWidth;
+            const clientWidth = scrollElement.clientWidth;
+
+            if (direction === "right") {
+                if (scrollLeft + clientWidth >= scrollWidth - 1) {
+                    direction = "left";
+                } else {
+                    scroll("right");
+                }
+            } else {
+                if (scrollLeft <= 0) {
+                    direction = "right";
+                } else {
+                    scroll("left");
+                }
+            }
+        }, 3000); // Change slide every 3 seconds
+
+        return () => clearInterval(scrollInterval); // Clean up on unmount
+    }, [autoScroll, updateIndex]); // Add dependencies
 
     return (
         <div className={styles.carouselContainer} ref={containerRef}>
