@@ -13,6 +13,7 @@ import Link from "next/link";
 import axios from "axios";
 import { FaArrowRight, FaStar, FaRegStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
+import ReviewCard from "@/components/ReviewCard";
 
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -247,7 +248,7 @@ const ProductPage = ({ productId, productData }) => {
                                 </div>
 
                                 <div className={styles.description}>
-                                    <p>{productData.description || <><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem, vel a. Deleniti molestiae vitae temporibus deserunt dolor expedita accusantium cupiditate odit. Commodi sed quia modi, sequi ullam officia beatae voluptate!</p></>}</p>
+                                    <p>{productData.description || "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem, vel a. Deleniti molestiae vitae temporibus deserunt dolor expedita accusantium cupiditate odit. Commodi sed quia modi, sequi ullam officia beatae voluptate!"}</p>
                                 </div>
 
                                 <div className={styles.quick_links}>
@@ -277,21 +278,104 @@ const ProductPage = ({ productId, productData }) => {
                                     <button onClick={() => onAddToCart(router, productId, session).success == false ? newNotify("Unable To Add to Cart") : newNotify("Added To Cart")}>Add To Cart</button>
                                     <button onClick={() => onBuy(router, productId, quantity_demanded, session)}>Buy Now</button>
                                 </div>
+
+                                <div className={styles.variants}>
+                                    <Link href={"/"} className={styles.variant_card}>
+                                        <Image src={productData.imageUrl} width={70} height={70} alt={productData.name} />
+                                        <div className={styles.variant_text}>
+                                            <span>100ml for</span>
+                                            <span className={styles.variant_price}>₹800</span>
+                                        </div>
+                                    </Link>
+                                    <Link href={"/"} className={styles.variant_card}>
+                                        <Image src={productData.imageUrl} width={70} height={70} alt={productData.name} />
+                                        <div className={styles.variant_text}>
+                                            <span>200ml for</span>
+                                            <span className={styles.variant_price}>₹1500</span>
+                                        </div>
+                                    </Link>
+                                </div>
                             </div>
                         </section>
 
                         <section>
                             <h2>Suitable <span>For</span></h2>
+                            <div className={styles.suitable_cards}>
+                                {Array.from({ length: 6 }).map((_, index) => (<>
+                                    <div className={styles.suitable_images}>
+                                        <Image src={"/"} width={300} height={300} alt="Suitable 1" />
+                                        <span>Problem</span>
+                                    </div>
+                                </>))}
+                            </div>
                         </section>
                         <section>
                             <h2>More <span>Information</span></h2>
+                            <div className={styles.more_information}>
+
+                                {Array.from({ length: 6 }).map((_, index) => (
+                                    <div>
+                                        <span>key</span>
+                                        <p>Value</p>
+                                    </div>
+                                ))}
+                            </div>
 
                         </section>
                         <section>
                             <h2>Customer <span>Feedback</span></h2>
+                            <div className={styles.customer_feedback}>
+                                <div className={styles.rating_div_1}>
+                                    <div className={styles.rate_score}>
+                                        4.8 / 5
+                                    </div>
+                                    <div className={styles.rate_stars}>
+                                        <span><FaStar /></span>
+                                        <span><FaStar /></span>
+                                        <span><FaStar /></span>
+                                        <span><FaStar /></span>
+                                        <span><FaRegStar /></span>
+                                    </div>
+                                </div>
+                                <div className={styles.rating_div_2}>
+                                    <div className={styles.rating_div_2_in}>
+
+
+                                        {Array.from({ length: 5 }).map((_, index) => (
+                                            <ReviewCard />
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className={styles.rating_div_3}>
+
+                                    <input type="text" placeholder="Write Your Feed Back...." />
+                                    <button>Submit</button>
+                                </div>
+                            </div>
                         </section>
                         <section>
                             <h2>How <span>to  Apply</span></h2>
+                            <div className={styles.apply_section}>
+
+                                <div className={styles.apply_box}>
+                                    <Image src={"/"} width={300} height={300} />
+                                    <div>
+                                        <h4>Step {0}</h4>
+
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus reprehenderit corrupti alias eos quo, inventore, possimus iure explicabo illum ratione temporibus atque soluta culpa excepturi facere! Ut quas asperiores magnam.</p>
+                                    </div>
+                                </div>
+                                {Array.from({ lenght: 3 }).map((_, index) => (
+                                    <div className={styles.apply_box}>
+                                        <Image src={"/"} width={300} height={300} />
+                                        <div>
+                                            <h4>Step {index}</h4>
+
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus reprehenderit corrupti alias eos quo, inventore, possimus iure explicabo illum ratione temporibus atque soluta culpa excepturi facere! Ut quas asperiores magnam.</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </section>
                         <section>
                             <ExpandableSection title={"More Details"}>

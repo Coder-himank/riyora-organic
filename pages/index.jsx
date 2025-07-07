@@ -13,6 +13,7 @@ import Blog from "@/components/blog";
 import { useEffect, useState } from "react";
 import BlogSkeleton from "@/components/BlogSkeleton";
 import ProductSkeleton from "@/components/ProductSkeleton";
+import ReviewCard from "@/components/ReviewCard";
 export default function Home() {
 
   const { locale } = useRouter(); // Get the current locale
@@ -269,25 +270,7 @@ export default function Home() {
 
 
               {Array.from({ length: 4 }).map((_, index) => (
-
-                <div className={styles.review_card}>
-                  <div>
-                    <Image src={"/images/person1.jpg"} alt="Person face" width={200} height={200} />
-                  </div>
-                  <div className={styles.review_info}>
-                    <section>Himank Jain {index}</section>
-                    <section>
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaRegStar />
-                    </section>
-                    <section>
-                      <p>Best Products.</p>
-                    </section>
-                  </div>
-                </div>
+                <ReviewCard />
               ))}
               {/* </Carousel> */}
             </div>
