@@ -51,7 +51,7 @@ const ProductPage = ({ productId, productData }) => {
         "@type": "Product",
         "name": productData.name,
         "image": [
-            `${site_url}${productData.imageUrl}`
+            `${site_url}${productData.imageUrl[0]}`
         ],
         "description": productData.description,
         "brand": {
@@ -185,7 +185,7 @@ const ProductPage = ({ productId, productData }) => {
                 <meta property="og:type" content="product" />
                 <meta property="og:title" content={productData.name} />
                 <meta property="og:description" content={productData.description} />
-                <meta property="og:image" content={`${site_url}/${productData.imageUrl}`} />
+                <meta property="og:image" content={`${site_url}/${productData.imageUrl[0]}`} />
                 <meta property="og:url" content={site_url + "/products/" + productId} />
                 <meta property="og:site_name" content={brand_name} />
 
@@ -193,7 +193,7 @@ const ProductPage = ({ productId, productData }) => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={productData.name} />
                 <meta name="twitter:description" content={productData.description} />
-                <meta name="twitter:image" content={`${site_url}/${productData.imageUrl}`} />
+                <meta name="twitter:image" content={`${site_url}/${productData.imageUrl[0]}`} />
                 <meta name="twitter:site" content={brand_name} />
 
                 {/* Canonical URL (Language-Specific) */}
@@ -215,14 +215,14 @@ const ProductPage = ({ productId, productData }) => {
             <div className={styles.product_container}>
                 {notification && <div className="notification">{notification}</div>}
                 {loading ? (<h1>Loading...</h1>) : error ? (<h1>Error : {error}</h1>) : (
-                    <>
+                    <div>
                         <section className={styles.sec_1}>
                             <section className={styles.carousel}>
 
                                 <Carousel>
-                                    <Image src={productData.imageUrl} width={350} height={400} alt={productData.name} />
-                                    <Image src={productData.imageUrl} width={350} height={400} alt={productData.name} />
-                                    <Image src={productData.imageUrl} width={350} height={400} alt={productData.name} />
+                                    {productData.imageUrl.map((image, index) => (
+                                        <Image key={index} src={image} width={350} height={400} alt={productData.name} />
+                                    ))}
                                 </Carousel>
                             </section>
 
@@ -244,7 +244,7 @@ const ProductPage = ({ productId, productData }) => {
                                     <span><FaStar /></span>
 
                                     <span><FaRegStar /></span>
-                                    <span>(1470)</span>
+                                    <span>({productData.numReviews})</span>
                                 </div>
 
                                 <div className={styles.description}>
@@ -280,20 +280,14 @@ const ProductPage = ({ productId, productData }) => {
                                 </div>
 
                                 <div className={styles.variants}>
-                                    <Link href={"/"} className={styles.variant_card}>
-                                        <Image src={productData.imageUrl} width={70} height={70} alt={productData.name} />
+                                    {productData.variants.map((variant, index) => (<Link href={"/"} className={styles.variant_card}>
+                                        <Image src={variant.imageUrl} width={100} height={100} />
                                         <div className={styles.variant_text}>
-                                            <span>100ml for</span>
-                                            <span className={styles.variant_price}>₹800</span>
+                                            <span>{variant.name}</span>
+                                            <span className={styles.variant_price}>₹{variant.price}</span>
                                         </div>
                                     </Link>
-                                    <Link href={"/"} className={styles.variant_card}>
-                                        <Image src={productData.imageUrl} width={70} height={70} alt={productData.name} />
-                                        <div className={styles.variant_text}>
-                                            <span>200ml for</span>
-                                            <span className={styles.variant_price}>₹1500</span>
-                                        </div>
-                                    </Link>
+                                    ))}
                                 </div>
                             </div>
                         </section>
@@ -327,7 +321,7 @@ const ProductPage = ({ productId, productData }) => {
                             <div className={styles.customer_feedback}>
                                 <div className={styles.rating_div_1}>
                                     <div className={styles.rate_score}>
-                                        4.8 / 5
+                                        {productData.averageRating} / 5
                                     </div>
                                     <div className={styles.rate_stars}>
                                         <span><FaStar /></span>
@@ -341,8 +335,27 @@ const ProductPage = ({ productId, productData }) => {
                                     <div className={styles.rating_div_2_in}>
 
 
-                                        {Array.from({ length: 5 }).map((_, index) => (
-                                            <ReviewCard />
+                                        {productData.reviews.map((review, index) => (
+
+                                            <div className={styles.review_card}>
+                                                <div>
+                                                    <Image src={review?.imageUrl || "/images/person1.jpg"} alt="Person face" width={200} height={200} />
+                                                </div>
+                                                <div className={styles.review_info}>
+                                                    <section>{review?.name || "Customer"}</section>
+                                                    <section>
+                                                        <FaStar />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                        <FaRegStar />
+                                                    </section>
+
+                                                    <section>
+                                                        <p>{review?.comment || "Best Products"}</p>
+                                                    </section>
+                                                </div>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
@@ -356,17 +369,8 @@ const ProductPage = ({ productId, productData }) => {
                         <section>
                             <h2>How <span>to  Apply</span></h2>
                             <div className={styles.apply_section}>
-
-                                <div className={styles.apply_box}>
-                                    <Image src={"/"} width={300} height={300} />
-                                    <div>
-                                        <h4>Step {0}</h4>
-
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus reprehenderit corrupti alias eos quo, inventore, possimus iure explicabo illum ratione temporibus atque soluta culpa excepturi facere! Ut quas asperiores magnam.</p>
-                                    </div>
-                                </div>
-                                {Array.from({ lenght: 3 }).map((_, index) => (
-                                    <div className={styles.apply_box}>
+                                {Array.from({ length: 5 }).map((_, index) => (
+                                    <div className={styles.apply_box} style={{ flexDirection: index % 2 === 0 ? "row-reverse" : "row" }}>
                                         <Image src={"/"} width={300} height={300} />
                                         <div>
                                             <h4>Step {index}</h4>
@@ -377,77 +381,19 @@ const ProductPage = ({ productId, productData }) => {
                                 ))}
                             </div>
                         </section>
-                        <section>
-                            <ExpandableSection title={"More Details"}>
-                                <section className={styles.other_details}>
-                                    <div>
-                                        <strong>Ingredients</strong>  {
-                                            productData.ingredients?.map((item) => { return item }).join(" | ")
-                                        }
-                                    </div>
-                                    <div>
-                                        <strong>Suitable For</strong>  {productData.suitableFor?.map((item) => { return item }).join(" | ")}
-                                    </div>
-                                    <div>
-                                        <strong>Use With</strong> {productData.ingredientsToUseWith?.map((item) => { return item }).join(" | ")}
-                                    </div>
-                                    <div>
-                                        {/* <strong>Category</strong> {productData.category?.map((item) => { return item }).join(" | ")} */}
-                                        <strong>Category</strong> {productData.category}
-                                    </div>
-                                    <div>
-                                        <strong>Time Period</strong> {productData.timeperiod}
-                                    </div>
-                                    <div className={styles.notes}>
-                                        <strong>Note:</strong>
-                                        <ul>
-                                            {productData.note?.map((item) => { return <li>{item}</li> })}
-                                        </ul>
-                                    </div>
-                                </section>
-                            </ExpandableSection>
-                            <hr />
 
-                            <ExpandableSection title={"Benefits"}>
-                                <h3 className={styles.detail_title}>For Hair</h3>
-                                <p className={styles.detail_para}>{productData.benefits?.hair || "No data available."}</p>
-                                <h3 className={styles.detail_title}>For Skin</h3>
-                                <p className={styles.detail_para}>{productData.benefits?.skin || "No data available."}</p>
-                                <h3 className={styles.detail_title}>For Health</h3>
-                                <p className={styles.detail_para}>{productData.benefits?.health || "No data available."}</p>
-                            </ExpandableSection>
-                        </section>
-                        <hr />
-                        <section className="sec sec-2">
-                            <ExpandableSection title={"How To Use"}>
-                                <h3 className={styles.detail_title}>For Hair</h3>
-                                <p className={styles.detail_para}>{productData.howToUse?.hair || "No data available."}</p>
-                                <h3 className={styles.detail_title}>For Skin</h3>
-                                <p className={styles.detail_para}>{productData.howToUse?.skin || "No data available."}</p>
-                                <h3 className={styles.detail_title}>For Health</h3>
-                                <p className={styles.detail_para}>{productData.howToUse?.health || "No data available."}</p>
-                            </ExpandableSection>
-                        </section>
 
-                        <section className={styles.reviews}>
-                            <div className={styles.review_card}>
-                                <span>Name</span>
-                                <span>review</span>
-                            </div>
+                        <section className={styles.more_products}>
+                            <Carousel>
+                                {uMayLikeProducts.length !== 0 &&
+                                    uMayLikeProducts.map((product, index) =>
+                                        <ProductCard key={product.name} product={product} />
+                                    )}
+                            </Carousel>
                         </section>
-
-                    </>
+                    </div>
                 )}
             </div>
-
-            <section className={styles.more_products}>
-                <Carousel>
-                    {uMayLikeProducts.length !== 0 &&
-                        uMayLikeProducts.map((product, index) =>
-                            <ProductCard key={product.name} product={product} />
-                        )}
-                </Carousel>
-            </section>
         </>
     );
 };

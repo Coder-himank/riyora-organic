@@ -1,36 +1,88 @@
 import mongoose from "mongoose";
-const ProductSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  ingredients: { type: [String], required: true },
-  suitableFor: { type: [String], required: true },
-  bestFor: { type: [String], required: true },
-  // scientificName: { type: String },
-  // otherNames: [{ type: String }],
-  reviews: [{
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    rating: { type: Number, min: 1, max: 5, required: true },
-    comment: { type: String }
-  }],
 
-  // ingredientsToUseWith : [{type : String, required : true}],
-  note : [{type : String, required : true}],
-  timeperiod : {type : String, required : true},
+const reviewSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  imageUrl: String,
+  name: String,
+  rating: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 5,
+  },
+  comment: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-  howToUse: { hair: { type: String, required: true }, skin: { type: String, required: true }, health: { type: String, required: true } },
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please provide a product name'],
+      trim: true,
+    },
 
-  benefits: { hair: { type: String, required: true }, skin: { type: String, required: true }, health: { type: String, required: true } },
+    description: {
+      type: String,
+      required: [true, 'Please provide a product description'],
+    },
+    ingredients: {
+      type: [String],
+      required: [true, 'Please list product ingredients'],
+    },
+    suitableFor: [{ type: String, required: true }],
+    relatedBlogs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }],
+    price: {
+      type: Number,
+      required: [true, 'Please set a price'],
+    },
+    stock: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
 
-  availableQuantity: { type: Number, required: true },
-  category: [{ type: String, required: true }],
-  imageUrl: { type: String },
-  discountPercentage: { type: Number, min: 0, max: 100 },
-  promotionCode: { type: String },
-  stockStatus: { type: String, enum: ['in stock', 'out of stock', 'pre-order'], required: true },
-  tags: [{ type: String }],
-  lastModifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  lastModifiedAt: { type: Date }
-}, { timestamps: true });
+    category: [{ type: String, required: true }],
+    imageUrl: [{ type: String }],
+    discountPercentage: { type: Number, min: 0, max: 100 },
+    promotionCode: [{ type: String }],
+    tags: [{ type: String }],
 
+    variants: [
+      {
+        product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        name: String,
+        price: Number,
+        stock: Number,
+        imageUrl: String,
+        quantity: String
+      },
+    ],
 
-export default mongoose.models.Product || mongoose.model("Product", ProductSchema);
+    averageRating: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5,
+    },
+    numReviews: {
+      type: Number,
+      default: 0,
+    },
+    reviews: [reviewSchema],
+
+    lastModifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    lastModifiedAt: { type: Date },
+  },
+  {
+    timestamps: true,
+  }
+);
+export default mongoose.models.Product || mongoose.model('Product', productSchema);

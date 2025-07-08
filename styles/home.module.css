@@ -328,7 +328,7 @@
   width: clamp(300px, 36vw, 600px);
   height: fit-content;
   display: block;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 
 .about_image div {

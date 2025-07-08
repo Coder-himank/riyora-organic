@@ -60,13 +60,15 @@ const ProductCard = ({ product }) => {
     }
   }
 
+  // console.log("Product Data:", productData);
+
 
   return (
 
     <div className={styles.productCard} onMouseEnter={mouseHoverIn} onMouseLeave={mouseHoverOut} onClick={mouseClick}>
       <div className={styles.circle}></div>
 
-      <Image src={productData.imageUrl} alt={productData.name} width={300} height={300} className={styles.product_img} />
+      <Image src={productData.imageUrl[0]} alt={productData.name} width={300} height={300} className={styles.product_img} />
 
 
 
