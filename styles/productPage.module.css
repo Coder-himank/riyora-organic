@@ -281,19 +281,23 @@
 
 .suitable_cards .suitable_images {
     width: 40vw;
-    max-width: 400px;
-    max-height: 400px;
+    max-width: fit-content;
+    max-height: fit-content;
     height: 40vw;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
     overflow: hidden;
     margin-bottom: 20px;
 }
 
+.suitable_images img {
+    width: 100%;
+    object-fit: contain;
+}
 
 .more_information {
     width: 100%;

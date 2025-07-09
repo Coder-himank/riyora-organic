@@ -313,8 +313,8 @@ const ProductPage = ({ productId, productData }) => {
                             <div className={styles.suitable_cards}>
                                 {Array.from({ length: 6 }).map((_, index) => (<>
                                     <div className={styles.suitable_images}>
-                                        <Image src={"/"} width={300} height={300} alt="Suitable 1" />
-                                        <span>Problem</span>
+                                        <Image src={`/images/suitable_${index+1}.png`} width={300} height={300} />
+                                        {/* <span>Problem</span> */}
                                     </div>
                                 </>))}
                             </div>
