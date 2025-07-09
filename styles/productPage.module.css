@@ -55,6 +55,7 @@
     /* justify-content: end; */
     gap: 10px;
     padding: 20px 0;
+    font-size: clamp(8px, 2vw, 14px);
 }
 
 .sec_1 .details .product_name {
@@ -88,11 +89,13 @@
 
 .price_quantity {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    /* align-items: center; */
+    justify-content: center;
     flex-wrap: wrap;
+    flex-direction: column;
     width: 100%;
     padding: 20px 0;
+
 }
 
 .price_quantity div {
@@ -109,13 +112,14 @@
 
 .discount_perc {
     font-weight: 500;
-    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-size: clamp(12px, 2vw, 1.5rem);
     width: fit-content;
     color: red;
 
 }
 
 .price .salePrice {
+    font-size: clamp(24px, 4vw, 2.5rem);
     color: rgb(47, 101, 47);
     font-weight: bold;
 }
@@ -126,33 +130,30 @@
     color: rgb(84, 81, 81);
     text-decoration: line-through;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 18px;
 }
 
 .quantity {
-    width: 50%;
-    /* max-width: 150px; */
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 20px;
     padding: 20px 0;
-    /* border-bottom: 1px solid #ccc; */
+    font-size: 1.5rem;
 }
 
-.quantity div {
+.quantity button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
+    width: clamp(120px, 100%, 250px);
     height: 20px;
-    background-color: black;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 100%;
-    cursor: pointer;
+    padding: 20px 20px;
+    background: none;
+    border: 1px solid green;
+    box-shadow: none;
+    color: black;
 }
 
 .description {
@@ -296,7 +297,7 @@
 
 .more_information {
     width: 100%;
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -327,6 +328,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    font-size: clamp(10px, 2vw, 16px);
 }
 
 
@@ -337,7 +339,8 @@
 
 .more_information table td {
 
-    padding: 10px;
+    padding: 10px 20px;
+    width: 50%;
 }
 
 .more_information table td:nth-child(2) {
