@@ -66,6 +66,62 @@ const productSchema = new mongoose.Schema(
       },
     ],
 
+    details: {
+      brand: {
+        type: String,
+        required: true,
+        trim: true
+      },
+      type: {
+        type: String, // e.g., "Coconut Oil", "Onion Oil"
+        required: true
+      },
+
+      container_material: String, // e.g., "Plastic", "Glass"
+      container_type: String, // e.g., "Bottle", "Jar"
+      container_dispenser: String, // e.g., "Pump", "Dropper", "Flip-cap"
+      container_size: String, // e.g., "100ml", "250ml"
+      ingredients: {
+        type: [String], // Array of ingredient names
+        required: true
+      },
+      keyIngredients: {
+        type: [String], // Highlighted ingredients
+        default: []
+      },
+      freeFrom: {
+        type: [String], // e.g., ["Parabens", "Silicones"]
+        default: []
+      },
+      hairType: {
+        type: [String], // e.g., ["Dry", "Oily", "Curly"]
+        default: []
+      },
+      scalpType: {
+        type: [String], // e.g., ["Sensitive", "Dandruff-prone"]
+        default: []
+      },
+
+      usage_frequency: String, // e.g., "Twice a week"
+      rinseRequired: Boolean,
+
+      benefits: {
+        type: [String], // e.g., ["Hair Growth", "Dandruff Control"]
+        default: []
+      },
+      certifications: {
+        type: [String], // e.g., ["Ayurvedic", "Dermatologist Tested"]
+        default: []
+      },
+      shelfLife: String, // e.g., "24 months"
+      storageInstructions: String,
+      patchTestRecommended: { type: Boolean, default: true },
+      availableSizes: {
+        type: [String], // e.g., ["100ml", "200ml"]
+        default: ["100ml"]
+      }
+    },
+
     averageRating: {
       type: Number,
       default: 0,

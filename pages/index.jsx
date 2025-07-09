@@ -298,16 +298,6 @@ export default function Home() {
             <Image src={"/images/oil-banner.jpg"} alt="Services of organic robust" width={500} height={500} />
           </div>
         </div>
-
-        {/* Subscription Section */}
-        <motion.section className={styles.subscribe_section} viewport={{ once: true }}>
-          <div className={styles.subscribe_bg}></div>
-          <motion.section initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-            <h2 className={styles.home_h2}>Subscribe to our Newsletter</h2>
-            <input type="email" placeholder="Enter your email" />
-            <button className={styles.subscribe_btn}>Subscribe</button>
-          </motion.section>
-        </motion.section>
       </div>
 
     </>

@@ -67,7 +67,7 @@ const ProductPage = ({ productId, productData }) => {
         },
         "offers": {
             "@type": "Offer",
-            "url": `${site_url}/products/${productId}`,
+            "url": `${site_url}${productId}`,
 
             "priceCurrency": "INR",
             "price": `${productData.price}`,
@@ -139,6 +139,7 @@ const ProductPage = ({ productId, productData }) => {
 
     })
     const [uMayLikeProducts, setUMayLikeProducts] = useState([])
+    const [isHydrated, setIsHydrated] = useState(false);
 
 
 
@@ -162,6 +163,8 @@ const ProductPage = ({ productId, productData }) => {
 
         }
 
+        setIsHydrated(true);
+
         fetchRecommendedProducts()
     }, [])
 
@@ -171,6 +174,13 @@ const ProductPage = ({ productId, productData }) => {
         setNotification(msg);
         setTimeout(() => setNotification(null), 2000);
     };
+
+    if (!isHydrated) {
+        return <h1>Loading...</h1>;
+    }
+
+    console.log("Product Data:", productData.imageUrl);
+
 
     return (
         <>
@@ -185,7 +195,7 @@ const ProductPage = ({ productId, productData }) => {
                 <meta property="og:type" content="product" />
                 <meta property="og:title" content={productData.name} />
                 <meta property="og:description" content={productData.description} />
-                <meta property="og:image" content={`${site_url}/${productData.imageUrl[0]}`} />
+                <meta property="og:image" content={`${site_url}${productData.imageUrl[0]}`} />
                 <meta property="og:url" content={site_url + "/products/" + productId} />
                 <meta property="og:site_name" content={brand_name} />
 
@@ -193,7 +203,7 @@ const ProductPage = ({ productId, productData }) => {
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={productData.name} />
                 <meta name="twitter:description" content={productData.description} />
-                <meta name="twitter:image" content={`${site_url}/${productData.imageUrl[0]}`} />
+                <meta name="twitter:image" content={`${site_url}${productData.imageUrl[0]}`} />
                 <meta name="twitter:site" content={brand_name} />
 
                 {/* Canonical URL (Language-Specific) */}
@@ -222,6 +232,7 @@ const ProductPage = ({ productId, productData }) => {
                                 <Carousel>
                                     {productData.imageUrl.map((image, index) => (
                                         <Image key={index} src={image} width={350} height={400} alt={productData.name} />
+
                                     ))}
                                 </Carousel>
                             </section>
@@ -263,8 +274,13 @@ const ProductPage = ({ productId, productData }) => {
                                 </div>
                                 <div className={styles.price_quantity}>
                                     <div className={styles.price}>
-                                        <span className={styles.originalPrice}>₹{productData.price}</span>
-                                        <span className={styles.salePrice}>₹{productData.price}</span>
+                                        {productData.discountPercentage && (
+                                            <>
+                                                <span className={styles.discount_perc}>{productData.discountPercentage}% OFF</span>
+                                                <span className={styles.originalPrice}>₹{productData.price}</span>
+                                            </>
+                                        )}
+                                        <span className={styles.salePrice}>₹{Math.ceil(productData.price - ((productData.discountPercentage / 100) * productData.price))}</span>
                                     </div>
                                     <div className={styles.quantity}>
                                         <button onClick={() => setQuantityDemanded((q) => q - 1 !== 0 ? q - 1 : 1)}>-</button>
@@ -281,7 +297,7 @@ const ProductPage = ({ productId, productData }) => {
 
                                 <div className={styles.variants}>
                                     {productData.variants.map((variant, index) => (<Link href={"/"} className={styles.variant_card}>
-                                        <Image src={variant.imageUrl} width={100} height={100} />
+                                        <Image src={productData.imageUrl[0]} width={100} height={100} />
                                         <div className={styles.variant_text}>
                                             <span>{variant.name}</span>
                                             <span className={styles.variant_price}>₹{variant.price}</span>
@@ -306,13 +322,28 @@ const ProductPage = ({ productId, productData }) => {
                         <section>
                             <h2>More <span>Information</span></h2>
                             <div className={styles.more_information}>
+                                {productData.details && (
+                                    <table>
+                                        <tbdody>
 
-                                {Array.from({ length: 6 }).map((_, index) => (
-                                    <div>
-                                        <span>key</span>
-                                        <p>Value</p>
-                                    </div>
-                                ))}
+                                            {Object.entries(productData.details).map(([key, value]) => (
+                                                <tr key={key}>
+                                                    <td><strong>{key}</strong></td>
+                                                    <td>
+
+                                                        {Array.isArray(value)
+                                                            ? value.join(", ")
+                                                            : typeof value === "boolean"
+                                                                ? value ? "Yes" : "No"
+                                                                : value}
+
+                                                    </td>
+                                                </tr>
+
+                                            ))}
+                                        </tbdody>
+                                    </table>
+                                )}
                             </div>
 
                         </section>

@@ -11,12 +11,7 @@ export default function Footer() {
 
   return (
     <footer className="footer">
-      <div className="banner">
-        <div className="option"></div>
-        <div className="option"></div>
-        <div className="option"></div>
-        <div className="option"></div>
-      </div>
+
       <div className="footer-content">
         <div className="footer-section">
           <ul>

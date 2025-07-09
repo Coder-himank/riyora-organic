@@ -89,7 +89,7 @@
 .price_quantity {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
     width: 100%;
     padding: 20px 0;
@@ -102,14 +102,22 @@
 .price {
     padding: 20px 0;
     width: 50%;
-    max-width: 150px;
+    max-width: fit-content;
     font-size: 2.2rem;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
+}
+
+.discount_perc {
+    font-weight: 500;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    width: fit-content;
+    color: red;
+
 }
 
 .price .salePrice {
-    color: rgb(189, 0, 0);
-    font-weight: 700;
+    color: rgb(47, 101, 47);
+    font-weight: bold;
 }
 
 .originalPrice {
@@ -123,12 +131,13 @@
 
 .quantity {
     width: 50%;
-    max-width: 150px;
+    /* max-width: 150px; */
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 20px;
     padding: 20px 0;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
 }
 
 .quantity div {
@@ -294,8 +303,8 @@
 .more_information div {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    padding: 10px 0;
+    justify-content: space-between;
+    padding: 10px 20px;
     border-bottom: 1px solid #ccc;
 }
 
@@ -307,6 +316,33 @@
 
 .more_information div p {
     max-width: 300px;
+}
+
+.more_information table {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    border-collapse: collapse;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.more_information table tr {
+    border-bottom: 1px solid green;
+    width: 100%;
+}
+
+.more_information table td {
+
+    padding: 10px;
+}
+
+.more_information table td:nth-child(2) {
+
+    text-align: right;
 }
 
 
