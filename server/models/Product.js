@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  imageUrl: String,
+  imageUrl: { type: String, default: "/images/person1.jpg" },
   name: String,
   rating: {
     type: Number,

@@ -141,6 +141,15 @@ const ProductPage = ({ productId, productData }) => {
     const [uMayLikeProducts, setUMayLikeProducts] = useState([])
     const [isHydrated, setIsHydrated] = useState(false);
 
+    const [comment, setComment] = useState("");
+    const [rating, setRating] = useState(0);
+    const [saveComment, setSaveComment] = useState(null);
+
+
+
+    useEffect(() => {
+        console.log("saveComment changed:", saveComment);
+    }, [saveComment]);
 
 
     useEffect(() => {
@@ -168,6 +177,40 @@ const ProductPage = ({ productId, productData }) => {
         fetchRecommendedProducts()
     }, [])
 
+
+    const newFeedback = async () => {
+        if (!session || !session.user) {
+            newNotify("Please Login...")
+            return
+        }
+        if (!productId, comment === "", rating === 0) {
+            newNotify("Empty inputs")
+            return
+        }
+        try {
+            const response = await axios.post("/api/secure/feedback", {
+                productId,
+                name: session.user.name,
+                userId: session.user.id,
+                comment,
+                rating: parseFloat(rating)
+            });
+
+            if (response.status === 200) {
+                newNotify("Feedback submitted successfully");
+                setComment("")
+                setRating(0)
+                console.log(response.data);
+
+                return response.data;
+            } else {
+                newNotify("Failed to submit feedback");
+                return { success: false };
+            }
+        } catch (error) {
+            console.error("Error submitting feedback:", error);
+        }
+    }
 
 
     const newNotify = (msg) => {
@@ -313,7 +356,7 @@ const ProductPage = ({ productId, productData }) => {
                             <div className={styles.suitable_cards}>
                                 {Array.from({ length: 6 }).map((_, index) => (<>
                                     <div className={styles.suitable_images}>
-                                        <Image src={`/images/suitable_${index+1}.png`} width={300} height={300} />
+                                        <Image src={`/images/suitable_${index + 1}.png`} width={300} height={300} />
                                         {/* <span>Problem</span> */}
                                     </div>
                                 </>))}
@@ -390,12 +433,20 @@ const ProductPage = ({ productId, productData }) => {
                                         ))}
                                     </div>
                                 </div>
-                                <div className={styles.rating_div_3}>
+                                <div className={styles.rating_div_3} >
+                                    <div className={styles.comment_field} style={saveComment ? { width: "unset" } : { width: "0%" }}>
 
-                                    <input type="text" placeholder="Write Your Feed Back...." />
-                                    <button>Submit</button>
+                                        <input type="text" placeholder="Write Your Feed Back...." onChange={(e) => setComment(e.target.value)} />
+                                        <button onClick={() => setSaveComment(true)}>Next</button>
+                                    </div>
+                                    <div className={styles.rate_field}>
+                                        <button onClick={() => setSaveComment(false)}>Prev</button>
+                                        <input type="text" placeholder="Rate us Out of 5..." onChange={(e) => setRating(e.target.value)} />
+                                        <button onClick={newFeedback}>Submit</button>
+                                    </div>
                                 </div>
                             </div>
+                            {/* {saveComment} */}
                         </section>
                         <section>
                             <h2>How <span>to  Apply</span></h2>

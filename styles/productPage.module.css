@@ -463,14 +463,25 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
     padding: 20px 0;
     width: 1100px;
     border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+}
+
+.rating_div_3 div {
+    flex-shrink: 0;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .rating_div_3 input {
     width: 75%;
+    max-width: 900px;
     min-width: 150px;
     height: 40px;
     padding: 0 10px;
