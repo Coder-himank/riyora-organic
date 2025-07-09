@@ -55,7 +55,7 @@
     /* justify-content: end; */
     gap: 10px;
     padding: 20px 0;
-    font-size: clamp(8px, 2vw, 14px);
+    font-size: clamp(12px, 2vw, 14px);
 }
 
 .sec_1 .details .product_name {
@@ -281,8 +281,8 @@
 
 .suitable_cards .suitable_images {
     width: 40vw;
-    max-width: fit-content;
-    max-height: fit-content;
+    max-width: 400px;
+    max-height: 400px;
     height: 40vw;
     display: flex;
     align-items: center;
