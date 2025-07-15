@@ -101,8 +101,10 @@ export default function Navbar() {
 
               <Link href="/"><span className="icon_label"><FaHome /></span> Home</Link>
               <Link href="/products"><span className="icon_label"><FaProductHunt /></span> Products</Link>
+              <Link href="/services"><span className="icon_label"><FaServicestack /></span> About Us</Link>
               <Link href="/blogs"><span className="icon_label"><FaBlog /></span> Blogs</Link>
-              <Link href="/services"><span className="icon_label"><FaServicestack /></span> Services</Link>
+              <Link href="/services"><span className="icon_label"><FaServicestack /></span> Career</Link>
+              <Link href="/services"><span className="icon_label"><FaServicestack /></span> Contact Us</Link>
 
             </div>
           </div>

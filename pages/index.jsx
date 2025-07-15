@@ -123,10 +123,12 @@ export default function Home() {
 
           <motion.section className={styles.hero_section_in1} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}>
 
+            <Image src={"/images/heroImage.png"} width={1920} height={1080} />
+
             <div className={styles.hero_text}>
               <div className={styles.hero_head}>
 
-                <h1 className={styles.glow_text}>Welcome to Our Brand</h1>
+                {/* <h1 className={styles.glow_text}>Welcome to Our Brand</h1> */}
                 <p className={styles.subtext}>Discover the best products for a healthy and happy life.</p>
               </div>
 
@@ -143,21 +145,21 @@ export default function Home() {
         {/* Trending Products Section */}
         <motion.section className={styles.trending_product} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>Best <span>Selling Products</span></h2>
-          <motion.section className={styles.trending_product} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            <Carousel>
-              {!products ? (
-                Array.from({ length: 3 }).map((_, index) => (
-                  <ProductSkeleton key={index} />
+          <motion.section className={styles.trending_product_in} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
+            {/* <Carousel> */}
+            {!products ? (
+              Array.from({ length: 3 }).map((_, index) => (
+                <ProductSkeleton key={index} />
+              ))
+            ) : products.length === 0 ? (<>No Products</>) :
+              (
+                products.map((product, index) => (
+                  <ProductCard product={product} />
                 ))
-              ) : products.length === 0 ? (<>No Products</>) :
-                (
-                  products.map((product, index) => (
-                    <ProductCard product={product} />
-                  ))
 
-                )
-              }
-            </Carousel>
+              )
+            }
+            {/* </Carousel> */}
           </motion.section>
         </motion.section>
 
@@ -192,7 +194,7 @@ export default function Home() {
           {!blogs ? (<>
             <section className={styles.blog_in}>
               {Array.from({ length: 3 }).map((_, index) => (
-                <BlogSkeleton key={index} />
+                <BlogSkeleton key={index} style={index % 2 === 0 ? { flexDirection: "row-reverse" } : { flexDirection: "row" }} />
               ))}
 
             </section>
@@ -200,12 +202,17 @@ export default function Home() {
             <section className={styles.blog_in}>
 
               {blogs.map((blog, index) => (
-                <Blog key={index} {...blog} />
+                <Blog
+                  key={index}
+                  {...blog}
+                  flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
+                />
+
               ))}
             </section>
           </>)}
 
-          <Link href={"/blogs"}>Load More</Link>
+          <Link href={"/blogs"} className={styles.load_btn}>Load More</Link>
         </motion.section>
 
         {/* About Section */}
@@ -237,8 +244,12 @@ export default function Home() {
               className={styles.about_text}
               viewport={{ once: true }}
             >
-              <h3>Know About Us</h3>
-              <Link href={"/about"}>Learn More</Link>
+              <div className={styles.about_text_in}>
+
+                <h3>Know About Us</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima labore culpa necessitatibus commodi cumque? Labore eius a quod excepturi. Officiis blanditiis sint recusandae corporis officia quasi reiciendis sed, explicabo, quaerat asperiores enim expedita maxime ut accusamus! Aut accusamus voluptas maiores.</p>
+                <Link href={"/about"}>Learn More</Link>
+              </div>
             </motion.div>
 
           </div>

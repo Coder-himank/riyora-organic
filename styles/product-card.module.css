@@ -4,16 +4,12 @@
   flex: 1 1 auto;
   scroll-snap-align: start;
   width: 27vw;
-  min-width: 300px;
-  min-height: 380px;
   height: fit-content;
   max-height: fit-content;
-  max-width: 450px;
   border-radius: var(--border-radius);
   margin: 0 3px;
   cursor: pointer;
   position: relative;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,6 +17,9 @@
   overflow: hidden;
   border: 1px solid green;
   max-width: 340px;
+  min-width: 200px;
+
+
 }
 
 
@@ -34,25 +33,10 @@
 
 }
 
-
-.product_name {
-  display: flex;
-  align-self: center;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-}
-
-.product_name h3 {
-  font-size: 18px;
-  padding: 10px 20px;
-  color: var(--heading-color);
-}
-
-
 .product_info {
   top: 0;
   display: block;
-  /* position: absolute; */
+  width: 100%;
   height: 100%;
   transform: translateY(0);
   backdrop-filter: blur(3px);
@@ -64,15 +48,6 @@
 
 
 
-.hidden_details {
-  /* display: none; */
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
 
 .details_sec,
 .top_detial_sec {
@@ -90,13 +65,35 @@
   align-items: center;
   padding: 0 10px;
   width: 100%;
+  gap: 20px;
 
 }
 
-.hidden_price {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--heading-color);
+.prices {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: clamp(10px, 5vw, 14px);
+}
+
+.old_price {
+  font-size: 70%;
+  text-decoration: line-through;
+}
+
+.new_price {
+  font-size: 120%;
+}
+
+.discount {
+  background-color: rgb(225, 225, 13);
+  padding: 3px 13px;
+  font-size: 9px;
+  border-radius: 9px;
+  box-shadow: 0 0 20px -10px;
+  font-weight: bold;
 }
 
 .details_sec img {
@@ -119,11 +116,11 @@
   border: 1px solid #ccc;
   border-radius: 20px;
   font-size: 12px;
+  display: none;
 }
 
 .action_btn {
   width: 100%;
-  min-width: 200px;
   align-items: center;
   justify-content: space-evenly;
   display: flex;
@@ -221,13 +218,5 @@
   100% {
     background-position: 200% 0;
 
-  }
-}
-
-
-
-@media screen and (max-width : 650px) {
-  .productCard {
-    width: 100%;
   }
 }

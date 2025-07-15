@@ -366,8 +366,8 @@ const ProductPage = ({ productId, productData }) => {
                             <h2>More <span>Information</span></h2>
                             <div className={styles.more_information}>
                                 {productData.details && (
-                                    <table>
-                                        <tbdody>
+                                    <table style={{ width: "100%" }}>
+                                        <tbody>
 
                                             {Object.entries(productData.details).map(([key, value]) => (
                                                 <tr key={key}>
@@ -384,7 +384,7 @@ const ProductPage = ({ productId, productData }) => {
                                                 </tr>
 
                                             ))}
-                                        </tbdody>
+                                        </tbody>
                                     </table>
                                 )}
                             </div>

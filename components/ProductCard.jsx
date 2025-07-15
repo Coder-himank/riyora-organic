@@ -78,7 +78,12 @@ const ProductCard = ({ product }) => {
         <section className={styles.hidden_details}>
           <section className={styles.top_detial_sec}>
             <section>
-              <span className={styles.hidden_price}>{productData.price}</span>
+              <div className={styles.prices}>
+
+                <span className={styles.old_price}>₹{productData.price}</span> |
+                <span className={styles.new_price}>₹{productData.price}</span> |
+                <span className={styles.discount}>{productData.discountPercentage}%</span>
+              </div>
               <span className={styles.hidden_name}>{productData.name}</span>
               <div className={styles.hidden_rating}>
                 <FaStar />
@@ -89,14 +94,14 @@ const ProductCard = ({ product }) => {
               </div>
             </section>
           </section>
-          <section className={styles.details_sec}>
+          {/* <section className={styles.details_sec}>
             <div className={styles.category}>
 
               {productData.category.map((cat, index) => (
                 <span key={index} className={styles.hidden_category}>{cat}</span>
               ))}
             </div>
-          </section>
+          </section> */}
         </section>
         <section className={styles.details_sec}>
           <section className={styles.action_btn}>

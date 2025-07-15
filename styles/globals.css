@@ -133,20 +133,21 @@ h3 {
 
 
 h2 {
-  font-size: clamp(1.4rem, 8vw, 3rem);
-  text-transform: uppercase;
+  /* font-size: clamp(1.4rem, 8vw, 3rem); */
+  text-transform: capitalize;
+  font-size: clamp(1rem, 8vw, 1.3rem);
   padding: 20px;
   width: 100%;
-  text-align: left;
+  color: green;
+  text-align: center;
   max-width: 1400px;
   padding: 40px 30px;
-  /* margin: auto; */
   font-weight: 100;
-  /* border: 1px solid black; */
   margin: 30px auto;
 
 }
 
+/* 
 h2::after {
   content: '';
   display: block;
@@ -159,7 +160,7 @@ h2::after {
 
 h2 span {
   color: green;
-}
+} */
 
 
 
@@ -370,7 +371,8 @@ header {
 }
 
 .nav-mid .nav-links {
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-size: 12px;
 }
 
 .toogleNavBar {
@@ -415,7 +417,7 @@ header {
 .nav-links a {
   text-decoration: none;
   color: inherit;
-  font-size: var(--base-font-size);
+  /* font-size: var(--base-font-size); */
   padding: 10px 13px;
 }
 
@@ -450,7 +452,7 @@ header {
   height: 35px;
   display: flex;
   align-items: center;
-  /* display: none; */
+  display: none;
 }
 
 .subheader-links {

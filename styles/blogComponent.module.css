@@ -2,17 +2,13 @@
 .blogSkeletonBox {
     min-width: 270px;
     width: 27vw;
-    min-height: 300px;
-    max-height: 500px;
     overflow: hidden;
     height: fit-content;
-    padding: 10px;
+    /* padding: 10px; */
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border-bottom: 3px solid rgba(67, 63, 63, 0.199);
-    box-shadow: 0 0 20px -18px black;
     border-radius: 9px;
     transition: all 0.3s ease-in-out;
 }
@@ -36,8 +32,9 @@
 .sekeltonImage {
     width: 100%;
     height: auto;
-    max-height: 380px;
+    /* max-height: 30vw; */
     width: 380px;
+    max-width: 30vw;
 }
 
 .blog section:nth-child(2),
@@ -69,8 +66,12 @@
 }
 
 .blog h3 {
-    line-height: 60px;
-    font-size: 1.9rem;
+    /* line-height: 60px; */
+    font-size: clamp(1rem, 3vw, 1.9rem);
+}
+
+.blog p {
+    font-size: clamp(10px, 2vw, 16px);
 }
 
 .blog a {
@@ -81,6 +82,7 @@
     color: var(--background-color);
     border-radius: 50px;
     display: block;
+    font-size: clamp(8px, 2vw, 14px);
 }
 
 .blogSkeletonBox {
@@ -122,10 +124,22 @@
     margin: 8px auto;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 900px) {
     .blog {
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .blog {
+        flex-direction: row;
         width: 90vw;
         min-width: 90vw;
         max-width: 90vw;
+    }
+
+    .blog a {
+        padding: 4px 10px;
+
     }
 }
