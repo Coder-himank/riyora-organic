@@ -1,10 +1,14 @@
 
 import { FaEnvelope, FaFacebook, FaInstagram, FaLandmark, FaLocationArrow, FaMailBulk, FaPhone, FaYoutube } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import { FaMapMarkerAlt } from 'react-icons/fa';
 import { RiCustomerService2Line } from "react-icons/ri";
+import { FaPhoneAlt } from 'react-icons/fa';
 import { TbTruckReturn } from "react-icons/tb";
+import { MdEmail } from 'react-icons/md';
 import { IoShieldSharp } from "react-icons/io5";
 import { IoMdHelpCircle } from "react-icons/io";
+import Image from "next/image";
 import Link from "next/link";
 export default function Footer() {
 
@@ -13,31 +17,58 @@ export default function Footer() {
     <footer className="footer">
 
       <div className="footer-content">
-        <div className="footer-section">
-          <ul>
-            <h3>Contact Us</h3>
-            <li><span className="footer_icons"><FaEnvelope /></span>Info@robustorganic.com</li>
-            <li><span className="footer_icons"><FaPhone /></span> +91 96808 86889</li>
-            <li><span className="footer_icons"><FaLocationDot /></span> Sajjan Nagar, Jeevantara, Govardhan Villas,
-              Udaipur, Udaipur-313001 Rajasthan</li>
+        <div className="footer-section section-1">
+          <div className="Footer-logo">
+            {/* Logo */}
+            <Image src={"/images/logo.png"} width={200} height={100} />
+          </div>
+
+          <div className="app-images payment-opt">
+            {/* card type support */}
+            <Image src={"/images/rupay.png"} width={70} height={70} />
+            <Image src={"/images/maestro.png"} width={70} height={70} />
+            <Image src={"/images/master card.png"} width={70} height={70} />
+            <Image src={"/images/visa.png"} width={70} height={70} />
+          </div>
+          <div className="app-images payment-opt">
+            {/* upi app support */}
+            <Image src={"/images/phonepe.png"} width={100} height={80} />
+            <Image src={"/images/gpay.png"} width={100} height={80} />
+            <Image src={"/images/paytm.png"} width={100} height={80} />
+            <Image src={"/images/upi.png"} width={100} height={80} />
+          </div>
+
+        </div>
+        <div className="footer-section section-2">
+          <ul className="footer-links">
+            <li><Link href={"/support#customer_care"}>About Us</Link></li>
+            <li><Link href={"/support#return_policy"}>Contact Us</Link></li>
+            <li><Link href={"/support#privacy_policy"}>Vision and Mission</Link></li>
+            <li><Link href={"/support#help"}>Terms and Condition</Link></li>
+            <li><Link href={"/support#help"}>Privacy Policy</Link></li>
+            <li><Link href={"/support#help"}>FAQs</Link></li>
           </ul>
         </div>
-        <div className="footer-section">
-          <ul>
-            <h3>Support</h3>
-            <li><Link href={"/support#customer_care"}><span className="footer_icons"><RiCustomerService2Line /></span> Customer Care</Link></li>
-            <li><Link href={"/support#return_policy"}><span className="footer_icons"><TbTruckReturn /></span> Return Policy</Link></li>
-            <li><Link href={"/support#privacy_policy"}><span className="footer_icons"><IoShieldSharp /></span> Privacy Policy</Link></li>
-            <li><Link href={"/support#help"}><span className="footer_icons"><IoMdHelpCircle /></span> Help</Link></li>
-          </ul>
-        </div>
-        <div className="footer-section">
-          <ul>
-            <h3>Follow Us</h3>
-            <li><span className="footer_icons"><FaInstagram /></span> Instagram</li>
-            <li><span className="footer_icons"><FaYoutube /></span> YouTube</li>
-            <li><span className="footer_icons"><FaFacebook /></span> Facebook</li>
-          </ul>
+        <div className="footer-section section-3">
+          <div className="footer-contact">
+            <h4>Contact us</h4>
+            <ul>
+              <li><span className="footer_icons"><FaMapMarkerAlt /></span> +91 1234567890</li>
+              <li><span className="footer_icons"><FaPhoneAlt /></span> riyoraorganic@gmail.com</li>
+              <li><span className="footer_icons"><MdEmail /></span> 10, d block sector 14 udaipur raj</li>
+            </ul>
+          </div>
+          <div className="footer-connect">
+            <h4>Connect Us</h4>
+            <div className="app-images social-app">
+
+              <Image src={"/images/instagram.png"} width={100} height={80} />
+              <Image src={"/images/whatsapp.png"} width={100} height={80} />
+              <Image src={"/images/youtube.png"} width={100} height={80} />
+              <Image src={"/images/facebook.png"} width={100} height={80} />
+              <Image src={"/images/twitter.png"} width={100} height={80} />
+            </div>
+          </div>
         </div>
       </div>
       <p>&copy; 2025 Your Company. All rights reserved.</p>

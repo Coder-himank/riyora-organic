@@ -292,16 +292,16 @@
 }
 
 .about_text p {
-  font-size: clamp(12px, 4vw, 1rem);
-  color: white;
+  font-size: clamp(10px, 3vw, 12px);
+  color: rgb(214, 204, 204);
   font-weight: lighter;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
   text-align: left;
 }
 
 .about_text a {
   padding: 5px 10px;
-  font-size: clamp(8px, 2vw, 14px);
+  /* font-size: clamp(8px, 2vw, 14px); */
   border-radius: 20px;
   margin: 20px 0;
   background-color: white;
@@ -326,6 +326,7 @@
 
 .effects_cards {
   width: 100%;
+  max-height: 250px;
   height: fit-content;
   display: flex;
   align-items: center;

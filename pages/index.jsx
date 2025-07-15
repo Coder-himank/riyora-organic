@@ -263,12 +263,12 @@ export default function Home() {
             <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
           </motion.section>
           <motion.section className={styles.effects_cards} viewport={{ once: true }}>
-            <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
-            <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
+            <Image src={"/images/frizRestoreBefore.jpeg"} width={500} height={400} alt="Before using products" />
+            <Image src={"/images/frizRestoreAfter.jpeg"} width={500} height={400} alt="After using products" />
           </motion.section>
           <motion.section className={styles.effects_cards} viewport={{ once: true }}>
-            <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
-            <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
+            <Image src={"/images/hairfallRestoreBefore.jpg"} width={500} height={400} alt="Before using products" />
+            <Image src={"/images/hairfallRestoreAfter.jpg"} width={500} height={400} alt="After using products" />
           </motion.section>
         </motion.section>
 

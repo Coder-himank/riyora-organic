@@ -23,7 +23,7 @@
 
 .blog section:nth-child(1),
 .blogSkeletonBox section:nth-child(1) {
-    padding: 20px;
+    /* padding: 20px; */
     height: 100%;
     width: fit-content;
 }
@@ -34,7 +34,7 @@
     height: auto;
     /* max-height: 30vw; */
     width: 380px;
-    max-width: 30vw;
+    max-width: 46vw;
 }
 
 .blog section:nth-child(2),
