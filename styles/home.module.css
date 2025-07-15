@@ -192,6 +192,11 @@
   height: fit-content;
   width: 100%;
   padding: 20px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .blog_in {
@@ -201,7 +206,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: clamp(2px, 2vw, 18px);
 
 }
 

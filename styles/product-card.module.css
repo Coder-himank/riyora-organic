@@ -27,7 +27,8 @@
 .imageSkeleton {
   width: 100%;
   object-fit: contain;
-  height: 330px;
+  height: fit-content;
+  /* height: 330px; */
   transition: all 0.4s;
   display: block;
 
@@ -74,7 +75,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 5%;
   font-size: clamp(10px, 5vw, 14px);
 }
 
@@ -101,6 +102,11 @@
   height: 100px;
 }
 
+.hidden_name {
+  font-size: clamp(10px, 2vw, 14px);
+  height: 30px;
+}
+
 /* category */
 .category {
   display: flex;
@@ -109,6 +115,16 @@
   justify-content: center;
   padding: 5px;
   width: 100%;
+}
+
+.hidden_rating {
+  color: rgb(228, 228, 12);
+  text-shadow: 0 0 20px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 10px;
 }
 
 .hidden_category {
