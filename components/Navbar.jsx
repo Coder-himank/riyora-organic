@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaBars, FaBlog, FaHome, FaProductHunt, FaServicestack } from "react-icons/fa";
+import { FaBars, FaBlog, FaCross, FaHome, FaProductHunt, FaServicestack } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { FaHeart, FaUser, FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
+import { FaX } from "react-icons/fa6";
 
 export default function Navbar() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function Navbar() {
 
   const { data: session } = useSession();
   const [scrollY, setScrollY] = useState(0);
+  const [mobile, setMobile] = useState(false);
   const userId = session?.user?.id;
 
   const [resizeWidth, setResizeWidth] = useState(0);
@@ -49,6 +51,7 @@ export default function Navbar() {
       if (window.innerWidth >= 900) {
         setToogleNavBar(false)
 
+
       } else {
       }
     };
@@ -63,6 +66,10 @@ export default function Navbar() {
     setChangeNavStyle(window.scrollY < 20 ? false : true)
     if (resizeWidth >= 900) {
       setToogleNavBar(false)
+      setMobile(false)
+    } else {
+      setMobile(true)
+
     }
   }, [resizeWidth])
 
@@ -83,7 +90,7 @@ export default function Navbar() {
 
         {/* Nav bar starts */}
 
-        <nav className={`navbar ${toogleNavBar && "navOpen"} ${changeNavStyle && "navFixed"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
+        <nav className={`navbar ${changeNavStyle && "navFixed"}`} style={changeNavStyle ? navStyle : { background: toogleNavBar ? "white" : "transparent", transition: toogleNavBar ? "all 0s" : 'all 0.05s' }} >
 
           {/* Nav left Code */}
 
@@ -96,7 +103,13 @@ export default function Navbar() {
 
           </div>
           {/* Nav left Ends */}
-          <div className={`nav-mid ${toogleNavBar ? 'navBarOpen' : ''}`}>
+          <div className={`nav-mid`} style={toogleNavBar ? { display: "flex", transform: "translateX(0px)" } : { transform: mobile ? "translateX(-100%)" : "translateX(0px)" }}>
+            <div className="logo">
+              <span className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}>
+                <FaX />
+              </span>
+              <Image src="/images/logo.png" alt="Logo" width={200} height={100} />
+            </div>
             <div className="nav-links">
 
               <Link href="/"><span className="icon_label"><FaHome /></span> Home</Link>
@@ -132,7 +145,7 @@ export default function Navbar() {
         {/* navbar ensds */}
 
 
-      </header>
+      </header >
       <div className="subheader">
         <ul className="subheader-links">
           <li><Link href={"/services"}>Services</Link></li>

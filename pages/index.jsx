@@ -14,6 +14,34 @@ import { useEffect, useState } from "react";
 import BlogSkeleton from "@/components/BlogSkeleton";
 import ProductSkeleton from "@/components/ProductSkeleton";
 import ReviewCard from "@/components/ReviewCard";
+
+
+
+export const TrendingProduct = ({ products }) => {
+  console.log(products);
+
+  return (
+    <motion.section className={styles.trending_product} viewport={{ once: true }}>
+      <h2 className={styles.home_h2}>Best <span>Selling Products</span></h2>
+      <motion.section className={styles.trending_product_in} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
+        {/* <Carousel> */}
+        {!products ? (
+          Array.from({ length: 3 }).map((_, index) => (
+            <ProductSkeleton key={index} />
+          ))
+        ) : products.length === 0 ? (<>No Products</>) :
+          (
+            products.map((product, index) => (
+              <ProductCard product={product} />
+            ))
+
+          )
+        }
+        {/* </Carousel> */}
+      </motion.section>
+    </motion.section>
+  )
+}
 export default function Home() {
 
   const { locale } = useRouter(); // Get the current locale
@@ -143,25 +171,7 @@ export default function Home() {
 
 
         {/* Trending Products Section */}
-        <motion.section className={styles.trending_product} viewport={{ once: true }}>
-          <h2 className={styles.home_h2}>Best <span>Selling Products</span></h2>
-          <motion.section className={styles.trending_product_in} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
-            {/* <Carousel> */}
-            {!products ? (
-              Array.from({ length: 3 }).map((_, index) => (
-                <ProductSkeleton key={index} />
-              ))
-            ) : products.length === 0 ? (<>No Products</>) :
-              (
-                products.map((product, index) => (
-                  <ProductCard product={product} />
-                ))
-
-              )
-            }
-            {/* </Carousel> */}
-          </motion.section>
-        </motion.section>
+        <TrendingProduct products={products} />
 
         {/* Benefits Section */}
         <motion.section className={styles.benefits_section} viewport={{ once: true }}>
@@ -288,6 +298,8 @@ export default function Home() {
 
           </motion.section>
         </motion.section>
+
+        <TrendingProduct products={products} />
 
         {/* Services Section */}
         <div className={styles.services}>

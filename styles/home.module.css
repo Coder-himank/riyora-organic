@@ -206,7 +206,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(2px, 2vw, 18px);
+  gap: clamp(0px, 1vw, 18px);
 
 }
 
@@ -262,6 +262,7 @@
 
 .about_image div:nth-child(1) {
   top: 15%;
+  left: clamp(30px, 10%, 50px);
 }
 
 .about_image div:nth-child(2) {
