@@ -16,8 +16,9 @@
   align-items: center;
   overflow: hidden;
   border: 1px solid green;
+
+  min-width: clamp(200px, 40vw, 230px);
   max-width: 340px;
-  /* min-width: 190px; */
 
 
 }

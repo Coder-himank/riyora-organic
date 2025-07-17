@@ -13,7 +13,7 @@ import Link from "next/link";
 import axios from "axios";
 import { FaArrowRight, FaStar, FaRegStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
-import ReviewCard from "@/components/ReviewCard";
+import { motion } from "framer-motion";
 
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -144,12 +144,8 @@ const ProductPage = ({ productId, productData }) => {
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState(0);
     const [saveComment, setSaveComment] = useState(null);
+    const [productReviews, setProductReviews] = useState(productData.reviews)
 
-
-
-    useEffect(() => {
-        console.log("saveComment changed:", saveComment);
-    }, [saveComment]);
 
 
     useEffect(() => {
@@ -178,6 +174,7 @@ const ProductPage = ({ productId, productData }) => {
     }, [])
 
 
+
     const newFeedback = async () => {
         if (!session || !session.user) {
             newNotify("Please Login...")
@@ -196,11 +193,19 @@ const ProductPage = ({ productId, productData }) => {
                 rating: parseFloat(rating)
             });
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 newNotify("Feedback submitted successfully");
                 setComment("")
-                setRating(0)
+                setRating("")
+                setSaveComment(false)
                 console.log(response.data);
+
+                setProductReviews([{
+                    name: session.user.name,
+                    userId: session.user.id,
+                    comment,
+                    rating
+                }, ...productReviews])
 
                 return response.data;
             } else {
@@ -395,7 +400,7 @@ const ProductPage = ({ productId, productData }) => {
                             <div className={styles.customer_feedback}>
                                 <div className={styles.rating_div_1}>
                                     <div className={styles.rate_score}>
-                                        {productData.averageRating} / 5
+                                        {productData.averageRating.toFixed(1)} / 5
                                     </div>
                                     <div className={styles.rate_stars}>
                                         <span><FaStar /></span>
@@ -409,9 +414,14 @@ const ProductPage = ({ productId, productData }) => {
                                     <div className={styles.rating_div_2_in}>
 
 
-                                        {productData.reviews.map((review, index) => (
+                                        {productReviews.map((review, index) => (
 
-                                            <div className={styles.review_card}>
+                                            <motion.div className={styles.review_card}
+                                                initial={{ x: 100, y: 0, opacity: 0.3 }}
+                                                whileInView={{ x: 0, y: 0, opacity: 1 }}
+                                                transition={{ delay: 0.2, duration: 1.5 }}
+                                                viewport={{ once: true }}
+                                            >
                                                 <div>
                                                     <Image src={review?.imageUrl || "/images/person1.jpg"} alt="Person face" width={200} height={200} />
                                                 </div>
@@ -429,12 +439,12 @@ const ProductPage = ({ productId, productData }) => {
                                                         <p>{review?.comment || "Best Products"}</p>
                                                     </section>
                                                 </div>
-                                            </div>
+                                            </motion.div>
                                         ))}
                                     </div>
                                 </div>
                                 <div className={styles.rating_div_3} >
-                                    <div className={styles.comment_field} style={saveComment ? { width: "unset" } : { width: "0%" }}>
+                                    <div className={styles.comment_field} style={{ width: (saveComment ? 0 : "100%") }}>
 
                                         <input type="text" placeholder="Write Your Feed Back...." onChange={(e) => setComment(e.target.value)} />
                                         <button onClick={() => setSaveComment(true)}>Next</button>
