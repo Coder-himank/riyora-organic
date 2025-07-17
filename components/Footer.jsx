@@ -25,7 +25,7 @@ export default function Footer() {
 
           <div className="app-images payment-opt">
             {/* card type support */}
-            <Image src={"/images/rupay.png"} width={70} height={70} />
+            <Image src={"/images/RuPay.png"} width={70} height={70} />
             <Image src={"/images/maestro.png"} width={70} height={70} />
             <Image src={"/images/master card.png"} width={70} height={70} />
             <Image src={"/images/visa.png"} width={70} height={70} />
