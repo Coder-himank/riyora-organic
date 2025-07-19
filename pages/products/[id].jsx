@@ -14,7 +14,7 @@ import axios from "axios";
 import { FaArrowRight, FaStar, FaRegStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
-
+import StarRating from "@/components/StartRating";
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
 
@@ -152,10 +152,10 @@ const ProductPage = ({ productId, productData }) => {
         const fetchRecommendedProducts = async () => {
             try {
                 const resposne = await axios.get("/api/getProducts")
-                console.log(resposne);
+                // console.log(resposne);
                 if (resposne.status == 200) {
                     setUMayLikeProducts(resposne.data)
-                    console.log(resposne.data);
+                    // console.log(resposne.data);
                 } else {
                     setUMayLikeProducts([])
 
@@ -198,7 +198,7 @@ const ProductPage = ({ productId, productData }) => {
                 setComment("")
                 setRating("")
                 setSaveComment(false)
-                console.log(response.data);
+                // console.log(response.data);
 
                 setProductReviews([{
                     name: session.user.name,
@@ -227,7 +227,7 @@ const ProductPage = ({ productId, productData }) => {
         return <h1>Loading...</h1>;
     }
 
-    console.log("Product Data:", productData.imageUrl);
+    // console.log("Product Data:", productData.imageUrl);
 
 
     return (
@@ -297,12 +297,7 @@ const ProductPage = ({ productId, productData }) => {
                                 <div className={styles.product_name}><h1>{productData.name}</h1></div>
 
                                 <div className={styles.ratings}>
-                                    <span><FaStar /></span>
-                                    <span><FaStar /></span>
-                                    <span><FaStar /></span>
-                                    <span><FaStar /></span>
-
-                                    <span><FaRegStar /></span>
+                                    <StarRating rating={productData.averageRating} />
                                     <span>({productData.numReviews})</span>
                                 </div>
 
@@ -345,7 +340,7 @@ const ProductPage = ({ productId, productData }) => {
 
                                 <div className={styles.variants}>
                                     {productData.variants.map((variant, index) => (<Link href={"/"} className={styles.variant_card}>
-                                        <Image src={productData.imageUrl[0]} width={100} height={100} />
+                                        <Image src={productData.imageUrl[0]} width={100} height={100} alt="Product Image" />
                                         <div className={styles.variant_text}>
                                             <span>{variant.name}</span>
                                             <span className={styles.variant_price}>₹{variant.price}</span>
@@ -360,8 +355,8 @@ const ProductPage = ({ productId, productData }) => {
                             <h2>Suitable <span>For</span></h2>
                             <div className={styles.suitable_cards}>
                                 {Array.from({ length: 6 }).map((_, index) => (<>
-                                    <div className={styles.suitable_images}>
-                                        <Image src={`/images/suitable_${index + 1}.png`} width={300} height={300} />
+                                    <div className={styles.suitable_images} key={index}>
+                                        <Image src={`/images/suitable_${index + 1}.png`} width={300} height={300} alt="Image" />
                                         {/* <span>Problem</span> */}
                                     </div>
                                 </>))}
@@ -403,11 +398,7 @@ const ProductPage = ({ productId, productData }) => {
                                         {productData.averageRating.toFixed(1)} / 5
                                     </div>
                                     <div className={styles.rate_stars}>
-                                        <span><FaStar /></span>
-                                        <span><FaStar /></span>
-                                        <span><FaStar /></span>
-                                        <span><FaStar /></span>
-                                        <span><FaRegStar /></span>
+                                        <StarRating rating={productData.averageRating} />
                                     </div>
                                 </div>
                                 <div className={styles.rating_div_2}>
@@ -417,7 +408,8 @@ const ProductPage = ({ productId, productData }) => {
                                         {productReviews.map((review, index) => (
 
                                             <motion.div className={styles.review_card}
-                                                initial={{ x: 100, y: 0, opacity: 0.3 }}
+                                                key={index}
+                                                initial={{ x: 0, y: 0, opacity: 0.3 }}
                                                 whileInView={{ x: 0, y: 0, opacity: 1 }}
                                                 transition={{ delay: 0.2, duration: 1.5 }}
                                                 viewport={{ once: true }}
@@ -428,11 +420,7 @@ const ProductPage = ({ productId, productData }) => {
                                                 <div className={styles.review_info}>
                                                     <section>{review?.name || "Customer"}</section>
                                                     <section>
-                                                        <FaStar />
-                                                        <FaStar />
-                                                        <FaStar />
-                                                        <FaStar />
-                                                        <FaRegStar />
+                                                        <StarRating rating={review?.rating || 0} />
                                                     </section>
 
                                                     <section>
@@ -462,12 +450,12 @@ const ProductPage = ({ productId, productData }) => {
                             <h2>How <span>to  Apply</span></h2>
                             <div className={styles.apply_section}>
                                 {Array.from({ length: 5 }).map((_, index) => (
-                                    <div className={styles.apply_box} style={{ flexDirection: index % 2 === 0 ? "row-reverse" : "row" }}>
+                                    <div className={styles.apply_box} key={index}>
                                         <Image src={"/"} width={300} height={300} />
                                         <div>
                                             <h4>Step {index}</h4>
 
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus reprehenderit corrupti alias eos quo, inventore, possimus iure explicabo illum ratione temporibus atque soluta culpa excepturi facere! Ut quas asperiores magnam.</p>
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus reprehenderit corrupti alias eos quo.</p>
                                         </div>
                                     </div>
                                 ))}
@@ -494,7 +482,7 @@ export async function getStaticPaths() {
     await dbConnect();
     const products = await Product.find({}, "_id"); // Fetch IDs only
 
-    console.log("Fetched Products:", products); // Check structure
+    // console.log("Fetched Products:", products); // Check structure
 
     let paths = [];
 
@@ -504,7 +492,7 @@ export async function getStaticPaths() {
         params: { id: product._id?.toString() },
     }));
 
-    console.log("Generated Paths:", paths);
+    // console.log("Generated Paths:", paths);
 
     return {
         paths,

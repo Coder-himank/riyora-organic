@@ -21,7 +21,7 @@ export default async function handler(req, res) {
             const order = await razorpay.orders.create(options);
             res.status(200).json(order);
         } catch (error) {
-            console.log('Error creating Razorpay order:', error);
+            // console.log('Error creating Razorpay order:', error);
 
             res.status(500).json({ error: 'Order creation failed' });
         }

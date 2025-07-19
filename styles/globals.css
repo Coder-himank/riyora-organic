@@ -89,7 +89,9 @@
 
 
 
-
+body {
+  scroll-behavior:auto;
+}
 
 /* ========== Global Styles ========== */
 body {
@@ -386,6 +388,20 @@ header {
 .nav-mid .nav-links {
   /* font-weight: bold; */
   font-size: 12px;
+}
+
+.nav-links a::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 2px;
+  transition: all 0.3s ease-in-out;
+  margin: 5px auto 0;
+}
+
+.nav-links .activeLink::after {
+  background-color: green;
+  width: 100%;
 }
 
 .toogleNavBar {
@@ -756,6 +772,10 @@ footer p {
     align-items: center;
     padding: var(--spacing);
     font-size: 1.1rem;
+  }
+
+  .nav-links .activeLink::after {
+    display: none;
   }
 
   .nav-links select {

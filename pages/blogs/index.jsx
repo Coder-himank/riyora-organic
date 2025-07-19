@@ -13,7 +13,7 @@ const Blogs = () => {
         const fetchBlogs = async () => {
             try {
                 const response = await axios.get(`/api/getblogs`);
-                console.log(response);
+                // console.log(response);
 
                 const data = await response.data;
                 setBlogs(data);

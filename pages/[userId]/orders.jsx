@@ -4,18 +4,20 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const Orders = () => {
     const { data: session } = useSession();
     const [ordersData, setOrdersData] = useState(null);
     const [error, setError] = useState(null);
-    const { query } = useRouter();
+    const router = useRouter();
+    const { query } = router;
 
     useEffect(() => {
         async function fetchOrdersData(userId = session?.user?.id) {
             if (!userId) return;
             try {
-                const response = await axios.get(`/api/secure/orders?userId=${userId}&status=${query.status || undefined}`);
+                const response = await axios.get(`/api/secure/orders?userId=${userId}&status=${query.status || ""}`);
                 setOrdersData(response.data.orderDetails);
             } catch (error) {
                 setOrdersData([]);
@@ -23,11 +25,32 @@ export const Orders = () => {
             }
         }
         fetchOrdersData(session?.user?.id);
-    }, [session?.user]);
+    }, [session?.user, query.status]);
+
+    const formatDate = (dateString) => new Date(dateString).toLocaleDateString();
+
+    const shouldDisplayOrder = (order) => {
+        const statusQuery = query?.status;
+        console.log("Status Query:", statusQuery, "Order Status:", order?.status);
+
+        if (!statusQuery) return true;
+        if (statusQuery === "all_orders") return true;
+        if (statusQuery === "canceled" && order?.status === "cancelled") return true;
+        // if (statusQuery === "undelivered_or_old") {
+        //     const isNotDelivered = order?.status !== "delivered";
+        //     const deliveredMoreThan30DaysAgo =
+        //         order?.deliveredOn &&
+        //         new Date(order.deliveredOn) < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+        //     return isNotDelivered || deliveredMoreThan30DaysAgo;
+        // }
+        return false;
+    };
 
     if (error) {
-        return <p>{t("ordersPage.error")}: {error.message}</p>;
+        return <p>Error loading orders: {error.message}</p>;
     }
+
+    const filteredOrders = ordersData?.filter(shouldDisplayOrder) || [];
 
     return (
         <div className={styles.orders_container}>
@@ -37,22 +60,27 @@ export const Orders = () => {
             <div className={styles.orders_list}>
                 {ordersData === null ? (
                     <SkeletonLoading />
-                ) : ordersData.length === 0 ? (
+                ) : filteredOrders.length === 0 ? (
                     <p>No orders found.</p>
                 ) : (
-                    ordersData.map((order) => (
-                        <div key={order._id} className={styles.order_item}>
-                            <div className={styles.order_head}><span>{order._id}</span> <span>₹{order.amount}</span></div>
+                    filteredOrders.map((order) => (
+                        <div key={order._id} className={styles.order_item} id={order._id}>
+                            <div className={styles.order_head}>
+                                <span>{order._id}</span>
+                                <span>₹{order.amount}</span>
+                            </div>
 
                             <div className={styles.order_products}>
                                 {order.products.map((product, index) => (
                                     <div key={index} className={styles.product_plate}>
-                                        <Image
-                                            src={product.imageUrl || "/images/placeholderProduct.png"}
-                                            width={100}
-                                            height={100}
-                                            alt={`Product ${index + 1}`}
-                                        />
+                                        <Link href={`/products/${product.productId}`}>
+                                            <Image
+                                                src={product.imageUrl || "/images/placeholderProduct.png"}
+                                                width={100}
+                                                height={100}
+                                                alt={`Product ${index + 1}`}
+                                            />
+                                        </Link>
                                         <span>Quantity: {product.quantity}</span>
                                         <span>Price : ₹{product.price}</span>
                                     </div>
@@ -61,16 +89,15 @@ export const Orders = () => {
 
                             <div className={styles.order_details}>
                                 <span>Payment Status: {order.paymentStatus}</span>
-                                <span>Placed on: {new Date(order.placedOn).toLocaleDateString()}</span>
-                                <span>Expected Delivery: {new Date(order.expectedDelivery).toLocaleDateString()}</span>
-                                <span>Status: {order.statusHistory?.[order.statusHistory.length - 1]?.status || "Unknown"}</span>
+                                <span>Placed on: {formatDate(order.placedOn)}</span>
+                                <span>Expected Delivery: {formatDate(order.expectedDelivery)}</span>
+                                <span>Status: {order.status}</span>
                             </div>
                         </div>
                     ))
                 )}
             </div>
         </div>
-
     );
 };
 
@@ -100,6 +127,5 @@ const SkeletonLoading = () => {
         </>
     );
 };
-
 
 export default Orders;

@@ -309,7 +309,8 @@ export default function Checkout() {
     try {
       const { data } = await axios.post("/api/secure/checkout", {
         userId: session?.user?.id,
-        promocode
+        promocode,
+        products: [{ productId: router.query.productId, quantity_demanded: router.query.quantity_demanded }] || null,
       });
       setCheckOutData(data);
       setLoading(false);
@@ -435,7 +436,7 @@ export default function Checkout() {
               <div>
                 <h3>{product.name}</h3>
                 <p>Price: ₹{product.price}</p>
-                <p>Quantity: {product.quantity_demanded}</p>
+                <p>Quantity: {product.quantity}</p>
               </div>
             </div>
           ))}

@@ -25,7 +25,6 @@ export default async function handler(req, res) {
     // Destructure request body
     const { fullName, email, password, phone, address, city, country, phoneVerified } = req.body;
 
-    console.log(email);
 
     // Validation: Ensure all required fields are present
     if (!fullName || !email || !password || !phone) {
@@ -84,7 +83,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.log(error.errorResponse)
+    // console.log(error.errorResponse)
     // Handle MongoDB validation errors
     if (error.name === "ValidationError") {
       return handleError(res, 400, "Invalid user data provided!", error);

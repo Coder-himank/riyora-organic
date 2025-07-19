@@ -4,7 +4,7 @@ import Product from '@/server/models/Product';
 
 export default async function handler(req, res) {
     await connectDB();
-    console.log(req.body);
+    // console.log(req.body);
 
     if (req.method === 'POST') {
         const { productId, name, userId, comment, rating } = req.body;

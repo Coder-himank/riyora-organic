@@ -3,7 +3,7 @@ import styles from '@/styles/blogComponent.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 const Blog = (blog, flexDirection) => {
-    console.log(blog.flexDirection);
+    // console.log(blog.flexDirection);
 
     return (
         <div className={styles.blog} style={{ flexDirection: blog.flexDirection }}>

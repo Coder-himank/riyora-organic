@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaBars, FaBlog, FaCross, FaHome, FaProductHunt, FaServicestack } from "react-icons/fa";
+import { FaHome, FaProductHunt, FaServicestack, FaBlog, FaBriefcase, FaEnvelope, FaBars } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { FaHeart, FaUser, FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
-import { FaX } from "react-icons/fa6";
+import { FaRegUser, FaX, FaRegHeart } from "react-icons/fa6";
+
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 export default function Navbar() {
   const router = useRouter();
@@ -50,9 +52,10 @@ export default function Navbar() {
       setResizeWidth(window.innerWidth);
       if (window.innerWidth >= 900) {
         setToogleNavBar(false)
-
+        setMobile(false)
 
       } else {
+        setMobile(true)
       }
     };
 
@@ -62,9 +65,11 @@ export default function Navbar() {
 
 
   useEffect(() => { setChangeNavStyle(scrollY < 20 ? false : true) }, [scrollY, resizeWidth])
+
+
   useEffect(() => {
     setChangeNavStyle(window.scrollY < 20 ? false : true)
-    if (resizeWidth >= 900) {
+    if (window.innerWidth >= 900) {
       setToogleNavBar(false)
       setMobile(false)
     } else {
@@ -76,6 +81,43 @@ export default function Navbar() {
   const changeLanguage = (lang) => {
     router.push(router.pathname, router.asPath, { locale: lang });
   };
+
+
+  const navLinks = [
+    {
+      name: "Home",
+      path: "/",
+      icon: <FaHome />,
+    },
+    {
+      name: "Products",
+      path: "/products",
+      icon: <FaProductHunt />,
+    },
+    {
+      name: "About Us",
+      path: "/services", // Or use "/about" if that's more accurate
+      icon: <FaServicestack />,
+    },
+    {
+      name: "Blogs",
+      path: "/blogs",
+      icon: <FaBlog />,
+    },
+    {
+      name: "Career",
+      path: "/career",
+      icon: <FaBriefcase />,
+    },
+    {
+      name: "Contact Us",
+      path: "/contact",
+      icon: <FaEnvelope />,
+    },
+  ];
+
+  const pathname = router.pathname;
+
 
   return (
     <>
@@ -111,13 +153,10 @@ export default function Navbar() {
               <Image src="/images/logo.png" alt="Logo" width={200} height={100} />
             </div>
             <div className="nav-links">
+              {navLinks.map((link, index) => (
+                <Link key={index} href={link.path} className={`${pathname === link.path && "activeLink"}`}><span className={`icon_label`}>{link.icon}</span> {link.name}</Link>
+              ))}
 
-              <Link href="/"><span className="icon_label"><FaHome /></span> Home</Link>
-              <Link href="/products"><span className="icon_label"><FaProductHunt /></span> Products</Link>
-              <Link href="/services"><span className="icon_label"><FaServicestack /></span> About Us</Link>
-              <Link href="/blogs"><span className="icon_label"><FaBlog /></span> Blogs</Link>
-              <Link href="/services"><span className="icon_label"><FaServicestack /></span> Career</Link>
-              <Link href="/services"><span className="icon_label"><FaServicestack /></span> Contact Us</Link>
 
             </div>
           </div>
@@ -125,14 +164,10 @@ export default function Navbar() {
           {/* Nav right Starts */}
           <div className="nav-right">
             <div className="nav-user-option">
-              <Link href={`/${userId}/cart`}><FaShoppingCart /></Link>
-              <Link href={`/${userId}/wishlist`}><FaHeart /></Link>
+              <Link href={`/${userId}/cart`}>{pathname === `/[userId]/cart` ? <FaShoppingCart /> : <AiOutlineShoppingCart />}</Link>
+              <Link href={`/${userId}/wishlist`}>{pathname == `/[userId]/wishlist` ? <FaHeart /> : <FaRegHeart />}</Link>
 
-              {!session ? (
-                <Link href="/authenticate">Sign In</Link>
-              ) : (
-                <Link href={`/${userId}/dashboard`}><FaUser /></Link>
-              )}
+              <Link href={!session ? "/authenticate" : `/${userId}/dashboard`}>{pathname === `/[userId]/dashboard` ? <FaUser /> : <FaRegUser />}</Link>
 
 
               {/* <ThemeSwitcher /> */}

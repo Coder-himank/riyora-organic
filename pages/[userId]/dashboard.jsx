@@ -119,7 +119,7 @@ export default function UserProfile() {
               <h3>Orders</h3>
               <Link href={`/${user._id}/track-order?orderId=all&userId=${user?._id}`}>Track Orders</Link>
               <Link href={`/${user._id}/orders?status=canceled`}>Canceled Orders</Link>
-              <Link href={`/${user._id}/orders`}>All Orders</Link>
+              <Link href={`/${user._id}/orders?status=all_orders`}>All Orders</Link>
             </section>
             <section className={styles.customer_services}>
               <h3>More Services</h3>

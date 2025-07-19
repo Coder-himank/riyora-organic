@@ -32,7 +32,7 @@ export const TrendingProduct = ({ products }) => {
         ) : products.length === 0 ? (<>No Products</>) :
           (
             products.map((product, index) => (
-              <ProductCard product={product} />
+              <ProductCard key={index} product={product} />
             ))
 
           )
@@ -226,17 +226,18 @@ export default function Home() {
         </motion.section>
 
         {/* About Section */}
-        <motion.section className={styles.about_section} viewport={{ once: true }}>
+        <motion.section className={styles.about_section}
+          initial={{ x: 0, y: 40, opacity: 0.8 }}
+          whileInView={{ x: 0, y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 1.5 }}
+          viewport={{ once: true }}
+        >
           <div className={styles.about_in}>
 
 
 
             <motion.div
-              initial={{ x: 0, y: -40, opacity: 0.3 }}
-              whileInView={{ x: 0, y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 1.5 }}
               className={styles.about_image}
-              viewport={{ once: true }}
             >
               <div className={styles.about_img_1}>
 
@@ -248,11 +249,8 @@ export default function Home() {
               </div>
             </motion.div>
             <motion.div
-              initial={{ x: 0, y: 40, opacity: 0.3 }}
-              whileInView={{ x: 0, y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 1.5 }}
+
               className={styles.about_text}
-              viewport={{ once: true }}
             >
               <div className={styles.about_text_in}>
 
@@ -268,30 +266,33 @@ export default function Home() {
         {/* Effectiveness Section */}
         <motion.section className={styles.effects} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>CHanging <span>Lifes</span></h2>
-          <motion.section className={styles.effects_cards} viewport={{ once: true }}>
-            <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
-            <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
-          </motion.section>
-          <motion.section className={styles.effects_cards} viewport={{ once: true }}>
-            <Image src={"/images/frizRestoreBefore.jpeg"} width={500} height={400} alt="Before using products" />
-            <Image src={"/images/frizRestoreAfter.jpeg"} width={500} height={400} alt="After using products" />
-          </motion.section>
-          <motion.section className={styles.effects_cards} viewport={{ once: true }}>
-            <Image src={"/images/hairfallRestoreBefore.jpg"} width={500} height={400} alt="Before using products" />
-            <Image src={"/images/hairfallRestoreAfter.jpg"} width={500} height={400} alt="After using products" />
-          </motion.section>
+          <Carousel>
+            <motion.section className={styles.effects_cards} viewport={{ once: true }}>
+
+              <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
+              <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
+            </motion.section>
+            <motion.section className={styles.effects_cards} viewport={{ once: true }}>
+              <Image src={"/images/frizRestoreBefore.jpeg"} width={500} height={400} alt="Before using products" />
+              <Image src={"/images/frizRestoreAfter.jpeg"} width={500} height={400} alt="After using products" />
+            </motion.section>
+            <motion.section className={styles.effects_cards} viewport={{ once: true }}>
+              <Image src={"/images/hairfallRestoreBefore.jpg"} width={500} height={400} alt="Before using products" />
+              <Image src={"/images/hairfallRestoreAfter.jpg"} width={500} height={400} alt="After using products" />
+            </motion.section>
+          </Carousel>
         </motion.section>
 
         {/* Reviews Section */}
         <motion.section className={styles.reviews_section} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>Customer <span>Reviews</span></h2>
-          <motion.section initial={{ opacity: 0.5, x: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
+          <motion.section initial={{ opacity: 0.5, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
             <div className={styles.review_in}>
               {/* <Carousel showControls={false} autoScroll={true}> */}
 
 
               {Array.from({ length: 4 }).map((_, index) => (
-                <ReviewCard />
+                <ReviewCard key={index} />
               ))}
               {/* </Carousel> */}
             </div>
@@ -302,7 +303,7 @@ export default function Home() {
         <TrendingProduct products={products} />
 
         {/* Services Section */}
-        <div className={styles.services}>
+        {/* <div className={styles.services}>
           <h2 className={styles.home_h2}>Our <span>Services</span></h2>
           <div className={styles.service_banner}>
             <h3>Customize your Product <span><FaArrowRight /></span></h3>
@@ -320,8 +321,8 @@ export default function Home() {
             <h3>Service name <span><FaArrowRight /></span></h3>
             <Image src={"/images/oil-banner.jpg"} alt="Services of organic robust" width={500} height={500} />
           </div>
-        </div>
-      </div>
+        </div> */}
+      </div >
 
     </>
   );

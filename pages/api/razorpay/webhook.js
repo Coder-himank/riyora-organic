@@ -31,11 +31,11 @@ export default async function handler(req, res) {
         .update(rawBody)
         .digest('hex');
 
-    console.log('Received webhook:', {
-        rawBody: rawBody.toString(),
-        signature: signature,
-        expectedSignature,
-    });
+    // console.log('Received webhook:', {
+    //     rawBody: rawBody.toString(),
+    //     signature: signature,
+    //     expectedSignature,
+    // });
 
     if (
         !signature ||
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 
     const notes = payment.notes;
 
-    console.log("notes", JSON.stringify(notes));
+    // console.log("notes", JSON.stringify(notes));
 
     try {
         await dbConnect();

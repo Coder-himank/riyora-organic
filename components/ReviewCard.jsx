@@ -1,6 +1,6 @@
 import styles from "../styles/reviewCard.module.css";
 import Image from "next/image";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import StarRating from "@/components/StartRating";
 export const ReviewCard = ({ review }) => {
 
     if (!review) {
@@ -8,7 +8,8 @@ export const ReviewCard = ({ review }) => {
             imageUrl: "/images/person1.jpg",
             name: "Customer",
             date: "Date",
-            text: "Best Products"
+            text: "Best Products",
+            rating: 4.5
         }
     }
     return (
@@ -20,11 +21,7 @@ export const ReviewCard = ({ review }) => {
             <div className={styles.review_info}>
                 <section>{review.name || "Customer"}</section>
                 <section>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaRegStar />
+                    <StarRating rating={review.rating || 5} />
                 </section>
                 {/* <section>
                     <p>{review.date || "Date"}</p>

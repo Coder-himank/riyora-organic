@@ -4,11 +4,9 @@ import Image from "next/image";
 import styles from "@/styles/product-card.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { onAddToWishlist, onAddToCart } from "@/components/ProductAction";
-import { FaArrowRight } from "react-icons/fa";
+import { onAddToCart } from "@/components/ProductAction";
 import { FaShoppingCart, FaHeart, FaStar } from "react-icons/fa";
-
+import StarRating from "@/components/StartRating";
 export const SkeletonCard = () => {
   return (
     <motion.div
@@ -60,7 +58,6 @@ const ProductCard = ({ product }) => {
     }
   }
 
-  // console.log("Product Data:", productData);
 
 
   return (
@@ -86,11 +83,8 @@ const ProductCard = ({ product }) => {
               </div>
               <span className={styles.hidden_name}>{productData.name}</span>
               <div className={styles.hidden_rating}>
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-
+                <StarRating rating={productData.averageRating} />
+                <span className={styles.reviewCount}>({productData.numReviews})</span>
               </div>
             </section>
           </section>

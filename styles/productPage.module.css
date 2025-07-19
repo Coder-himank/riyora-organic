@@ -310,23 +310,6 @@
     margin: auto;
 }
 
-.more_information div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ccc;
-}
-
-.more_information div span {
-    font-weight: bold;
-    color: green;
-    max-width: 300px;
-}
-
-.more_information div p {
-    max-width: 300px;
-}
 
 .more_information table {
     border-collapse: collapse;
@@ -337,10 +320,12 @@
 }
 
 .more_information table tr {
-    border-bottom: 1px solid green;
+    border-bottom: 1px solid #ccc;
 }
 
 .more_information table td {
+    text-transform: capitalize;
+
     padding: 10px;
 }
 

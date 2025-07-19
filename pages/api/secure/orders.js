@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             }
 
             let orderDetails;
-            console.log(status);
+            // console.log(status);
 
 
             if (status && status != "undefined") { // Check if status is provided

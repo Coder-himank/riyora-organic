@@ -54,7 +54,7 @@ export async function getStaticPaths() {
             params: { blogId: blog.id.toString() },
         }));
 
-        console.log(paths);
+        (paths);
         return {
             paths,
             fallback: true,

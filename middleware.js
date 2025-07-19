@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function middleware(req) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-    console.log("url", req.nextUrl);
+    // console.log("url", req.nextUrl);
     if (!token) {
         if (req.nextUrl.pathname.startsWith("/api")) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

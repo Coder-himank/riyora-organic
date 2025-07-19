@@ -17,7 +17,7 @@
   overflow: hidden;
   border: 1px solid green;
 
-  min-width: clamp(200px, 40vw, 230px);
+  min-width: clamp(130px, 40vw, 230px);
   max-width: 340px;
 
 
@@ -119,13 +119,18 @@
 }
 
 .hidden_rating {
-  color: rgb(228, 228, 12);
+  color: rgb(211, 211, 36);
   text-shadow: 0 0 20px 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
   font-size: 10px;
+}
+
+.hidden_rating .reviewCount {
+  color: black;
+  font-weight: 500;
 }
 
 .hidden_category {

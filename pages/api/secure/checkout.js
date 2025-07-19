@@ -67,7 +67,7 @@ const handler = async (req, res) => {
       return 0; // No discount for other codes
     }
 
-    const productList = products ? products : await User.findById(userId).then((user) => user.cartData) // Assuming this returns an array of product objects with the required properties;
+    const productList = products || await User.findById(userId).then((user) => user.cartData) // Assuming this returns an array of product objects with the required properties;
 
     const ProductsIds = productList.map((item) => item.productId.toString());
 
