@@ -17,7 +17,7 @@ export const Orders = () => {
         async function fetchOrdersData(userId = session?.user?.id) {
             if (!userId) return;
             try {
-                const response = await axios.get(`/api/secure/orders?userId=${userId}&status=${query.status || ""}`);
+                const response = await axios.get(`/api/secure/orders?userId=${userId}`);
                 setOrdersData(response.data.orderDetails);
             } catch (error) {
                 setOrdersData([]);
@@ -31,6 +31,8 @@ export const Orders = () => {
 
     const shouldDisplayOrder = (order) => {
         const statusQuery = query?.status;
+        console.log("Query Status:", statusQuery);
+        
         console.log("Status Query:", statusQuery, "Order Status:", order?.status);
 
         if (!statusQuery) return true;

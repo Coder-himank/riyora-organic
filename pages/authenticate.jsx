@@ -69,6 +69,8 @@ export default function AuthPage() {
         try {
             const response = await axios.post("/api/send-otp", { phone: formData.phone, countryCode });
             if (response.data.success) {
+                console.log("OTP sent successfully:", response.data.otp);
+                
                 setSentOtp(response.data.otp);
                 setStep(2);
                 toast.success("OTP sent successfully!");

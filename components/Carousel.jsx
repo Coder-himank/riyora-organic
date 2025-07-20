@@ -1,25 +1,29 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import styles from "@/styles/Carousel.module.css"; // Ensure this CSS file exists
+import styles from "@/styles/Carousel.module.css";
 
 const Carousel = ({ children, showControls = true, autoScroll = true }) => {
     const scrollRef = useRef(null);
     const containerRef = useRef(null);
+    const lastManualScrollTime = useRef(Date.now()); // Track last manual scroll
 
     const [showActionButton, setShowActionButton] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(1);
     const [slideCount, setSlideCount] = useState(1);
 
-    // Function to check if the action buttons should be visible
     const checkOverflow = useCallback(() => {
-        if (!scrollRef.current || !containerRef.current || !scrollRef.current.children.length) return;
+        const scrollElement = scrollRef.current;
+        if (!scrollElement || !containerRef.current) return;
 
-        const totalWidth = scrollRef.current.scrollWidth;
-        const viewWidth = containerRef.current.offsetWidth;
+        const childElements = Array.from(scrollElement.children);
+        const containerWidth = containerRef.current.offsetWidth;
 
-        const slides = Math.ceil(totalWidth / viewWidth);
-        showControls && setShowActionButton(slides > 1);
-        setSlideCount(slides > 0 ? slides : 1);
-    }, []);
+        const positions = childElements.map((child) => child.offsetLeft);
+        const slidePositions = [...new Set(positions)]; // Unique starting x-coordinates
+        const count = slidePositions.length;
+
+        setSlideCount(count);
+        showControls && setShowActionButton(count > 1);
+    }, [showControls]);
 
 
     useEffect(() => {
@@ -28,22 +32,30 @@ const Carousel = ({ children, showControls = true, autoScroll = true }) => {
         return () => window.removeEventListener("resize", checkOverflow);
     }, [checkOverflow]);
 
-    // Function to update the current slide index
+
     const updateIndex = useCallback(() => {
-        if (!scrollRef.current || !containerRef.current) return;
+        const scrollElement = scrollRef.current;
+        if (!scrollElement || !containerRef.current) return;
 
-        const scrollLeft = scrollRef.current.scrollLeft;
-        const containerWidth = containerRef.current.offsetWidth;
+        const children = Array.from(scrollElement.children);
+        const scrollLeft = scrollElement.scrollLeft;
 
-        // Use container width to calculate which "page" you're on
-        const index = Math.round(scrollLeft / containerWidth) + 1;
+        let closestIndex = 0;
+        let closestDistance = Infinity;
 
-        setCurrentIndex(index > 0 ? index : 1);
+        children.forEach((child, index) => {
+            const distance = Math.abs(child.offsetLeft - scrollLeft);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        setCurrentIndex(closestIndex + 1); // Convert to 1-based index
     }, []);
 
 
-    // Scroll function
-    const scroll = (direction) => {
+    const scroll = (direction, type = "auto") => {
         if (!scrollRef.current || !containerRef.current) return;
 
         const scrollAmount = containerRef.current.offsetWidth;
@@ -53,15 +65,23 @@ const Carousel = ({ children, showControls = true, autoScroll = true }) => {
             behavior: "smooth",
         });
 
-        setTimeout(updateIndex, 300); // Allow time for smooth scroll to finish
+        // If it's a manual scroll, record time
+        if (type === "manual") {
+            lastManualScrollTime.current = Date.now();
+        }
     };
 
-
+    // Auto-scroll effect
     useEffect(() => {
         if (!autoScroll || !scrollRef.current) return;
 
-        let direction = "right"; // initial scroll direction
-        const scrollInterval = setInterval(() => {
+        let direction = "right";
+        const interval = setInterval(() => {
+            const now = Date.now();
+
+            // Wait 5s after last manual scroll
+            if (now - lastManualScrollTime.current < 5000) return;
+
             const scrollElement = scrollRef.current;
             const scrollLeft = scrollElement.scrollLeft;
             const scrollWidth = scrollElement.scrollWidth;
@@ -80,14 +100,20 @@ const Carousel = ({ children, showControls = true, autoScroll = true }) => {
                     scroll("left");
                 }
             }
-        }, 3000); // Change slide every 3 seconds
+        }, 3000);
 
-        return () => clearInterval(scrollInterval); // Clean up on unmount
-    }, [autoScroll, updateIndex]); // Add dependencies
+        return () => clearInterval(interval);
+    }, [autoScroll]);
+
+    // Update index on manual scroll
+    const handleScroll = () => {
+        lastManualScrollTime.current = Date.now();
+        updateIndex();
+    };
 
     return (
         <div className={styles.carouselContainer} ref={containerRef}>
-            <div className={styles.scrollContainer} ref={scrollRef} onScroll={updateIndex}>
+            <div className={styles.scrollContainer} ref={scrollRef} onScroll={handleScroll}>
                 {children}
             </div>
 
@@ -95,10 +121,10 @@ const Carousel = ({ children, showControls = true, autoScroll = true }) => {
                 <div className={styles.action_btn}>
                     <button
                         className={styles.scrollBtn}
-                        onClick={() => scroll("left")}
+                        onClick={() => scroll("left", "manual")}
                         aria-label="Scroll Left"
                         tabIndex={0}
-                        onKeyDown={(e) => e.key === "Enter" && scroll("left")}
+                        onKeyDown={(e) => e.key === "Enter" && scroll("left", "manual")}
                     >
                         ◀
                     </button>
@@ -111,10 +137,10 @@ const Carousel = ({ children, showControls = true, autoScroll = true }) => {
 
                     <button
                         className={styles.scrollBtn}
-                        onClick={() => scroll("right")}
+                        onClick={() => scroll("right", "manual")}
                         aria-label="Scroll Right"
                         tabIndex={0}
-                        onKeyDown={(e) => e.key === "Enter" && scroll("right")}
+                        onKeyDown={(e) => e.key === "Enter" && scroll("right", "manual")}
                     >
                         ▶
                     </button>

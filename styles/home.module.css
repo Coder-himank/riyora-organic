@@ -336,7 +336,7 @@
   scroll-snap-align: start;
   width: 100%;
   max-height: 250px;
-  height: fit-content;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,7 +349,7 @@
   overflow: hidden;
   max-width: 32%;
   position: relative;
-  min-width: 400px;
+  min-width: 350px;
 }
 
 .effects_cards img {
