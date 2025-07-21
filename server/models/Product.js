@@ -54,6 +54,7 @@ const productSchema = new mongoose.Schema(
     discountPercentage: { type: Number, min: 0, max: 100 },
     promotionCode: [{ type: String }],
     tags: [{ type: String }],
+    quantity: { type: String, required: true, default: "100 ml" }, // e.g., "100ml", "200ml"
 
     variants: [
       {

@@ -1,6 +1,5 @@
 // models/Order.js
 import mongoose from 'mongoose';
-import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
 
 const orderSchema = new mongoose.Schema({
     userId: { type: String, required: true },
@@ -39,6 +38,14 @@ const orderSchema = new mongoose.Schema({
     expectedDelivery: { type: Date, default: Date.now },
     deliveredOn: { type: Date, default: null },
     cancelledOn: { type: Date, default: null },
+
+    orderHistroy: [
+        {
+            status: { type: String, enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled', 'payment_failed'], default: 'pending' },
+            date: { type: Date, default: Date.now },
+            note: String,
+        },
+    ],
 
 
     updatedAt: { type: Date, default: Date.now },

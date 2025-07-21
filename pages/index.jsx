@@ -22,7 +22,7 @@ export const TrendingProduct = ({ products }) => {
 
   return (
     <motion.section className={styles.trending_product} viewport={{ once: true }}>
-      <h2 className={styles.home_h2}>Best <span>Selling Products</span></h2>
+      <h2 className={styles.home_h2}>Our <span>Products</span></h2>
       <motion.section className={styles.trending_product_in} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
         {/* <Carousel> */}
         {!products ? (
@@ -51,6 +51,21 @@ export default function Home() {
   const [blogs, setBlogs] = useState(null);
   const [productsLoading, setProductsLoading] = useState(true);
   const [blogsLoading, setBlogsLoading] = useState(true);
+
+  const choose_us_list_1 = [
+    { img: "/images/choose_us_icon_1.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_2.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_3.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_4.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_5.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_6.png", text: "Quality Products" },
+  ]
+  const choose_us_list_2 = [
+    { img: "/images/choose_us_icon_7.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_8.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_9.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_10.png", text: "Quality Products" },
+  ]
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -150,20 +165,39 @@ export default function Home() {
         <motion.div className={styles.hero_section} viewport={{ once: true }}>
 
           <motion.section className={styles.hero_section_in1} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}>
+            <Carousel>
+              <div className={`${styles.hero_section_slides} ${styles.hero_section_slide_1}`}>
+                <Image src={"/images/heroImage.png"} width={1920} height={1080} />
 
-            <Image src={"/images/heroImage.png"} width={1920} height={1080} />
+                <div className={styles.hero_text}>
+                  <div className={styles.hero_head}>
 
-            <div className={styles.hero_text}>
-              <div className={styles.hero_head}>
+                    {/* <h1 className={styles.glow_text}>Welcome to Our Brand</h1> */}
+                    <p className={styles.subtext}>Discover the best products for a healthy and happy life.</p>
+                  </div>
 
-                {/* <h1 className={styles.glow_text}>Welcome to Our Brand</h1> */}
-                <p className={styles.subtext}>Discover the best products for a healthy and happy life.</p>
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className={styles.shop_btn} viewport={{ once: true }}>
+                    <Link href="/products">Shop Now</Link>
+                  </motion.div>
+                </div>
               </div>
 
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className={styles.shop_btn} viewport={{ once: true }}>
-                <Link href="/products">Shop Now</Link>
-              </motion.div>
-            </div>
+              <div className={`${styles.hero_section_slides} ${styles.hero_section_slide_2}`}>
+                <Image src={"/images/hairfallRestore.jpg"} width={1920} height={1080} />
+
+                {/* <div className={styles.hero_text}>
+                  <div className={styles.hero_head}>
+
+                    <h1 className={styles.glow_text}>Welcome to Our Brand</h1>
+                    <p className={styles.subtext}>Discover the best products for a healthy and happy life.</p>
+                  </div>
+
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className={styles.shop_btn} viewport={{ once: true }}>
+                    <Link href="/products">Shop Now</Link>
+                  </motion.div>
+                </div> */}
+              </div>
+            </Carousel>
 
           </motion.section>
 
@@ -197,32 +231,30 @@ export default function Home() {
           </div>
 
         </motion.section>
-        {/* Blogs Section */}
-        <motion.section className={styles.blogs} viewport={{ once: true }}>
-          <h2 className={styles.home_h2}>Enchant <span>Yourself</span></h2>
 
-          {!blogs ? (<>
-            <section className={styles.blog_in}>
-              {Array.from({ length: 3 }).map((_, index) => (
-                <BlogSkeleton key={index} style={index % 2 === 0 ? { flexDirection: "row-reverse" } : { flexDirection: "row" }} />
-              ))}
-
-            </section>
-          </>) : (<>
-            <section className={styles.blog_in}>
-
-              {blogs.map((blog, index) => (
-                <Blog
-                  key={index}
-                  {...blog}
-                  flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
-                />
-
-              ))}
-            </section>
-          </>)}
-
-          <Link href={"/blogs"} className={styles.load_btn}>Load More</Link>
+        {/* why choose us section */}
+        <motion.section className={styles.choose_us_section}>
+          <h2>Why <span>Choose Us</span></h2>
+          <section>
+            {choose_us_list_1.map((choose_us, index) => (
+              <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
+                <div className={styles.choose_us_card_icon}>
+                  <Image src={choose_us.img} width={50} height={50} alt="Choose Us Icon" />
+                </div>
+                <span>{choose_us.text}</span>
+              </motion.div>))
+            }
+          </section>
+          <section>
+            {choose_us_list_2.map((choose_us, index) => (
+              <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
+                <div className={styles.choose_us_card_icon}>
+                  <Image src={choose_us.img} width={50} height={50} alt="Choose Us Icon" />
+                </div>
+                <span>{choose_us.text}</span>
+              </motion.div>))
+            }
+          </section>
         </motion.section>
 
         {/* About Section */}
@@ -263,6 +295,37 @@ export default function Home() {
           </div>
         </motion.section>
 
+        {/* Blogs Section */}
+        <motion.section className={styles.blogs} viewport={{ once: true }}>
+          <h2 className={styles.home_h2}>Enchant <span>Yourself</span></h2>
+
+          {!blogs ? (<>
+            <section className={styles.blog_in}>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <BlogSkeleton key={index} style={index % 2 === 0 ? { flexDirection: "row-reverse" } : { flexDirection: "row" }} />
+              ))}
+
+            </section>
+          </>) : (<>
+            <section className={styles.blog_in}>
+
+              {blogs.map((blog, index) => (
+                <Blog
+                  key={index}
+                  {...blog}
+                  showContent={false}
+                  flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
+                />
+
+              ))}
+            </section>
+          </>)}
+
+          <Link href={"/blogs"} className={styles.load_btn}>Load More</Link>
+        </motion.section>
+
+
+
         {/* Effectiveness Section */}
         <motion.section className={styles.effects} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>CHanging <span>Lifes</span></h2>
@@ -288,13 +351,13 @@ export default function Home() {
           <h2 className={styles.home_h2}>Customer <span>Reviews</span></h2>
           <motion.section initial={{ opacity: 0.5, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
             <div className={styles.review_in}>
-              {/* <Carousel showControls={false} autoScroll={true}> */}
+              <Carousel showControls={false} autoScroll={true}>
 
 
-              {Array.from({ length: 4 }).map((_, index) => (
-                <ReviewCard key={index} />
-              ))}
-              {/* </Carousel> */}
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <ReviewCard key={index} />
+                ))}
+              </Carousel>
             </div>
 
           </motion.section>

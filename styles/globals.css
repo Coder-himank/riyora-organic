@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
 /* ========== Root Variables for Easy Customization ========== */
 :root {
 
@@ -16,7 +20,8 @@
   /* Rich forest green – headings, emphasis */
 
   /* 🌿 Backgrounds */
-  --background-color: #f4f4f2;
+  /* --background-color: #f4f4f2; */
+  --background-color: white;
   /* Light ivory – overall page background */
   --footer-background: var(--primary-color);
   /* Subtle natural green – footer bg */
@@ -90,7 +95,7 @@
 
 
 body {
-  scroll-behavior:auto;
+  scroll-behavior: auto;
 }
 
 /* ========== Global Styles ========== */
@@ -135,25 +140,25 @@ h3 {
 
 
 h2 {
-  /* font-size: clamp(1.4rem, 8vw, 3rem); */
-  text-transform: capitalize;
-  font-size: clamp(1rem, 8vw, 1.3rem);
-  padding: 20px;
+  font-size: clamp(1.4rem, 8vw, 3rem);
+  text-transform: uppercase;
   width: 100%;
-  color: green;
-  text-align: center;
   max-width: 1400px;
+  text-align: left;
   padding: 40px 30px;
-  font-weight: 100;
+  font-weight: 400;
   margin: 30px auto;
 
 }
 
-/* 
+
 h2::after {
   content: '';
   display: block;
-  width: clamp(300px, 50%, 600px);
+  /* width: clamp(300px, 50%, 600px); */
+  width: 100%;
+  max-width: 700px;
+  min-width: 350px;
   height: 3px;
   background-color: var(--primary-color);
   margin-top: 10px;
@@ -162,7 +167,7 @@ h2::after {
 
 h2 span {
   color: green;
-} */
+}
 
 
 
@@ -518,9 +523,24 @@ footer {
   text-align: center;
   color: var(--primary-color);
   border-top: 2px solid green;
-
+  position: relative;
 }
 
+footer::after {
+  z-index: -1;
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* background-color: white; */
+  opacity: 0.9;
+  background-image: url('/images/footer bg.png');
+  /* background-image: url('/images/logo.png'); */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 footer h3 {
   /* color: var(--background-color); */
@@ -558,9 +578,8 @@ footer p {
 
 }
 
-.footer-logo img {
-  width: 300px;
-  height: auto;
+.Footer-logo img {
+  width: 140px;
   object-fit: contain;
 
 }
@@ -587,12 +606,9 @@ footer p {
 .footer-content ul {
   padding: 0;
   margin: 0;
-  list-style: none;
 }
 
 .footer-links {
-
-  list-style: disc;
   padding: 0 30px;
 }
 
@@ -614,9 +630,12 @@ footer p {
   border-bottom: 2px solid var(--primary-color);
 }
 
+.footer-contact ul {
+  list-style: none;
+}
 
 /* Product Card */
-.productCard {
+/* .productCard {
   flex: 1 1 auto;
   scroll-snap-align: start;
   width: 20vw;
@@ -627,7 +646,6 @@ footer p {
   box-shadow: var(--box-shadow);
   margin: 0 3px;
   background-color: var(--card-background);
-  /* scale: 0.8; */
 }
 
 .product_info {
@@ -664,7 +682,7 @@ footer p {
   align-items: center;
   justify-content: center;
   scale: 1;
-}
+} */
 
 
 /* skeleton loading animation */

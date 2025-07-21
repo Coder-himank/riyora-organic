@@ -82,20 +82,18 @@ const ProductCard = ({ product }) => {
                 <span className={styles.discount}>{productData.discountPercentage}%</span>
               </div>
               <span className={styles.hidden_name}>{productData.name}</span>
+              <section className={styles.details_sec}>
+
+                {<span className={styles.quantity}>{productData.quantity || "100 ml"}</span>}
+              </section>
               <div className={styles.hidden_rating}>
                 <StarRating rating={productData.averageRating} />
-                <span className={styles.reviewCount}>({productData.numReviews})</span>
+                <span>|</span>
+                <span className={styles.reviewCount}>{productData.numReviews} Reviews</span>
               </div>
             </section>
           </section>
-          {/* <section className={styles.details_sec}>
-            <div className={styles.category}>
 
-              {productData.category.map((cat, index) => (
-                <span key={index} className={styles.hidden_category}>{cat}</span>
-              ))}
-            </div>
-          </section> */}
         </section>
         <section className={styles.details_sec}>
           <section className={styles.action_btn}>

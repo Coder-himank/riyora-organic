@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '@/styles/blogComponent.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
-const Blog = (blog, flexDirection) => {
+const Blog = (blog, flexDirection, showContent) => {
     // console.log(blog.flexDirection);
 
     return (
@@ -14,7 +14,9 @@ const Blog = (blog, flexDirection) => {
             <section>
                 {/* content */}
                 <h3>{blog.title}</h3>
-                <p>{blog.content.length > 100 ? blog.content.slice(0, 100) + '...' : blog.content}</p>
+                {showContent &&
+                    <p>{blog.content.length > 100 ? blog.content.slice(0, 100) + '...' : blog.content}</p>
+                }
 
                 <Link href={blog.url}>Learn More</Link>
             </section>
