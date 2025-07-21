@@ -53,20 +53,25 @@ export default function Footer() {
           <div className="footer-contact">
             <h4>Contact us</h4>
             <ul>
-              <li><span className="footer_icons"><FaMapMarkerAlt /></span> +91 1234567890</li>
-              <li><span className="footer_icons"><FaPhoneAlt /></span> riyoraorganic@gmail.com</li>
-              <li><span className="footer_icons"><MdEmail /></span> 10, d block sector 14 udaipur raj</li>
+              <li><span className="footer_icons"><MdEmail /></span> info@riyoraorganic.com</li>
+              <li><span className="footer_icons"><FaPhoneAlt /></span> +91 96808 86889</li>
+              <li><span className="footer_icons"><FaMapMarkerAlt /></span><span>
+                61 LG, Manglam Fun Square Mall,
+                Durga Nursery Rd, Shakti Nagar
+                Udaipur , Rajasthan -313001 India
+              </span>
+              </li>
             </ul>
           </div>
           <div className="footer-connect">
             <h4>Connect Us</h4>
             <div className="app-images social-app">
 
-                <Image src={"/images/instagram.png"} width={100} height={80} />
-                <Image src={"/images/whatsapp.png"} width={100} height={80} />
-                <Image src={"/images/youtube.png"} width={100} height={80} />
-                <Image src={"/images/facebook.png"} width={100} height={80} />
-                <Image src={"/images/twitter.png"} width={100} height={80} />
+              <Image src={"/images/instagram.png"} width={100} height={80} />
+              <Image src={"/images/whatsapp.png"} width={100} height={80} />
+              <Image src={"/images/youtube.png"} width={100} height={80} />
+              <Image src={"/images/facebook.png"} width={100} height={80} />
+              <Image src={"/images/twitter.png"} width={100} height={80} />
             </div>
           </div>
         </div>

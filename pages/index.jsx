@@ -53,18 +53,18 @@ export default function Home() {
   const [blogsLoading, setBlogsLoading] = useState(true);
 
   const choose_us_list_1 = [
-    { img: "/images/choose_us_icon_1.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_2.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_3.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_4.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_5.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_6.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
+    { img: "/images/choose_us_icon_2.png", text: "Eco Friendly" },
+    { img: "/images/choose_us_icon_3.png", text: "Non Sticky" },
+    { img: "/images/choose_us_icon_4.png", text: "Vegan" },
+    { img: "/images/choose_us_icon_5.png", text: "No Artificial Color" },
   ]
   const choose_us_list_2 = [
-    { img: "/images/choose_us_icon_7.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_8.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_9.png", text: "Quality Products" },
-    { img: "/images/choose_us_icon_10.png", text: "Quality Products" },
+    { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
+    { img: "/images/choose_us_icon_6.png", text: "Gluten Free" },
+    // { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
+    { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
+    { img: "/images/choose_us_icon_10.png", text: "Mineral Free" },
   ]
 
   useEffect(() => {
@@ -287,7 +287,7 @@ export default function Home() {
               <div className={styles.about_text_in}>
 
                 <h3>Know About Us</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima labore culpa necessitatibus commodi cumque? Labore eius a quod excepturi. Officiis blanditiis sint recusandae corporis officia quasi reiciendis sed, explicabo, quaerat asperiores enim expedita maxime ut accusamus! Aut accusamus voluptas maiores.</p>
+                <p>In an age of synthetic shortcuts and chemical overload, we’re returning to the roots of health wellness with clean, powerful formulations inspired by Ayurveda and modern botanical research. Every bottle we create carries the essence of tradition, the rigour of science, and the purity of nature because we believe that true beauty starts with balance—between nature and nurture, tradition and science, care and consistency.</p>
                 <Link href={"/about"}>Learn More</Link>
               </div>
             </motion.div>

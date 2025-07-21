@@ -139,9 +139,11 @@ h3 {
 }
 
 h2 {
+  font-weight: 400;
   padding: 20px;
-  color: green;
+  color: #116030;
   text-transform: uppercase;
+  font-size: 30px;
 }
 
 /* h2 {
@@ -577,7 +579,7 @@ footer p {
 }
 
 .footer-section div {
-  width: 300px;
+  width: 340px;
   height: fit-content;
   padding: 10px 0;
 
@@ -643,6 +645,11 @@ footer p {
   font-size: 16px;
   /* border-bottom: 1px solid rgba(128, 128, 128, 0.153); */
   font-weight: 400;
+  display: flex;
+}
+
+.footer-content ul li span {
+  display: inline-block;
 }
 
 .footer_icons {
