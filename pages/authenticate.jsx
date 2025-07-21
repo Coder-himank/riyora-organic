@@ -70,7 +70,7 @@ export default function AuthPage() {
             const response = await axios.post("/api/send-otp", { phone: formData.phone, countryCode });
             if (response.data.success) {
                 console.log("OTP sent successfully:", response.data.otp);
-                
+
                 setSentOtp(response.data.otp);
                 setStep(2);
                 toast.success("OTP sent successfully!");
@@ -137,23 +137,31 @@ export default function AuthPage() {
         <div className={styles.auth_container}>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
             <motion.div className={styles.auth_box} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+                <h3>{isLogin ? "Login" : "Sign Up"}</h3>
                 <form onSubmit={handleSubmit} className={styles.form}>
-                    {!isLogin && <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} required />}
-                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                    {!isLogin && <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />}
-                    <PhoneInput country={countryCode.toLowerCase()} value={formData.phone} onChange={handlePhoneChange} inputProps={{ name: "phone", required: true }} />
+                    <div style={{ width: "100%" }}>
 
-                    {sentOtp && <p> {sentOtp}</p>}
+                        {!isLogin && <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} required />}
+                        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                        {!isLogin && <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />}
+                        <PhoneInput country={countryCode.toLowerCase()} value={formData.phone} onChange={handlePhoneChange} inputProps={{ name: "phone", required: true }} />
 
-                    {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter OTP" required />}
-                    <button type="button" onClick={sendOtp} disabled={!canResend}>{canResend ? "Send OTP" : `Resend in ${resendTimer}s`}</button>
-                    <button type="submit" className={styles.btn} disabled={loading}>{loading ? "Loading..." : isLogin ? "Login" : "Sign Up"}</button>
+                        {sentOtp && <p> {sentOtp}</p>}
 
-                    {!isLogin ?
-                        <p>Already Have an Account: <span style={{ color: "green" }} onClick={() => setIsLogin(true)}>Login</span></p> :
-                        <p>Create New Account: <span style={{ color: "green" }} onClick={() => setIsLogin(false)}>Sign Up</span></p>
-                    }
+
+                        {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter OTP" required />}
+                    </div>
+                    <div style={{ width: "100%" }}>
+
+                        <button type="button" className={styles.btn} onClick={sendOtp} disabled={!canResend}>{canResend ? "Send OTP" : `Resend in ${resendTimer}s`}</button>
+
+
+                        <button type="submit" className={styles.btn} disabled={loading}>{loading ? "Loading..." : isLogin ? "Login" : "Sign Up"}</button>
+                        {!isLogin ?
+                            <p>Already Have an Account: <span style={{ color: "green" }} onClick={() => setIsLogin(true)}>Login</span></p> :
+                            <p>Create New Account: <span style={{ color: "green" }} onClick={() => setIsLogin(false)}>Sign Up</span></p>
+                        }
+                    </div>
                 </form>
             </motion.div>
         </div>

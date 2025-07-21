@@ -30,8 +30,10 @@ export default function UserProfile() {
   }
   // Fetch user profile
   useEffect(() => {
-    if (!session?.user) return;
-
+    if (!session?.user) {
+      router.push("/authenticate");
+      return;
+    }
     const fetchUserProfile = async () => {
       setLoading(true);
       try {

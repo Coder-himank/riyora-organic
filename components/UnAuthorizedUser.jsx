@@ -4,7 +4,7 @@ import styles from "@/styles/UnAuthorizedUser.module.css";
 
 const UnAuthorizedUser = () => {
     const router = useRouter();
-
+    router.push("/authenticate?type=login&callback=" + router.pathname);
     return (
         <div className={styles.unauthorize_container}>
             <div className={styles.msgBox}>

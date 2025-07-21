@@ -62,11 +62,11 @@ export default function Footer() {
             <h4>Connect Us</h4>
             <div className="app-images social-app">
 
-              <Image src={"/images/instagram.png"} width={100} height={80} />
-              <Image src={"/images/whatsapp.png"} width={100} height={80} />
-              <Image src={"/images/youtube.png"} width={100} height={80} />
-              <Image src={"/images/facebook.png"} width={100} height={80} />
-              <Image src={"/images/twitter.png"} width={100} height={80} />
+                <Image src={"/images/instagram.png"} width={100} height={80} />
+                <Image src={"/images/whatsapp.png"} width={100} height={80} />
+                <Image src={"/images/youtube.png"} width={100} height={80} />
+                <Image src={"/images/facebook.png"} width={100} height={80} />
+                <Image src={"/images/twitter.png"} width={100} height={80} />
             </div>
           </div>
         </div>

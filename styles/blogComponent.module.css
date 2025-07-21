@@ -45,7 +45,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('/images/logo.png');
+    /* background-image: url('/images/logo.png'); */
     background-size: contain;
     background-repeat: no-repeat;
     background-size: 40%;
@@ -57,11 +57,12 @@
 
 .blog h3 {
     /* line-height: 60px; */
-    font-size: clamp(2rem, 3vw, 3rem);
-    font-weight: 300;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 500;
 }
 
 .blog p {
+
     font-size: clamp(10px, 2vw, 16px);
 }
 
@@ -130,8 +131,4 @@
         max-width: 90vw;
     }
 
-    .blog a {
-        padding: 4px 10px;
-
-    }
 }

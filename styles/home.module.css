@@ -241,7 +241,7 @@
   justify-content: center;
   flex-direction: column;
   font-size: 8px;
-  color: green;
+  color: #75A43E;
 }
 
 .choose_us_card_icon img {
@@ -257,7 +257,7 @@
 }
 
 .about_in {
-  background-color: var(--secondary-color);
+  background-color: #415B2E;
   height: fit-content;
   width: 90%;
   margin: auto;
@@ -427,7 +427,7 @@
   height: fit-content;
   display: flex;
   align-items: center;
-  gap: 20px;
+  /* gap: 20px; */
 
 }
 

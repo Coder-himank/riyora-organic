@@ -138,8 +138,13 @@ h3 {
   font-family: var(--heading-font-family);
 }
 
-
 h2 {
+  padding: 20px;
+  color: green;
+  text-transform: uppercase;
+}
+
+/* h2 {
   font-size: clamp(1.4rem, 8vw, 3rem);
   text-transform: uppercase;
   width: 100%;
@@ -155,7 +160,6 @@ h2 {
 h2::after {
   content: '';
   display: block;
-  /* width: clamp(300px, 50%, 600px); */
   width: 100%;
   max-width: 700px;
   min-width: 350px;
@@ -167,7 +171,7 @@ h2::after {
 
 h2 span {
   color: green;
-}
+} */
 
 
 
@@ -550,7 +554,7 @@ footer h3 {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
   padding: 30px 0;
 
   border-bottom: 2px solid var(--primary-color);
@@ -565,18 +569,23 @@ footer p {
   max-width: 300px;
   padding: 20px;
   display: flex;
-  align-items: start;
-  justify-self: center;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   height: 300px;
   text-align: left;
 }
 
 .footer-section div {
-  width: 100%;
+  width: 300px;
   height: fit-content;
+  padding: 10px 0;
 
 }
+
+
+
+
 
 .Footer-logo img {
   width: 140px;
@@ -589,7 +598,7 @@ footer p {
   height: 70px;
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
   gap: 10px;
   max-width: 400px;
 }
@@ -603,9 +612,25 @@ footer p {
   width: 30px;
 }
 
+
+
+.Footer-logo,
+.payment-opt {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .footer-content ul {
   padding: 0;
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
 }
 
 .footer-links {
@@ -628,11 +653,13 @@ footer p {
 .footer h4 {
   width: fit-content;
   border-bottom: 2px solid var(--primary-color);
+  margin: auto;
 }
 
 .footer-contact ul {
   list-style: none;
 }
+
 
 /* Product Card */
 /* .productCard {
