@@ -4,7 +4,7 @@ export const handler = async (req, res) => {
             const blogs = [
                 {
                     id: "bg1",
-                    title: "Wht Oiling Your Hair is Cool - And Crucial",
+                    title: "Why Oiling Your Hair is Cool - And Crucial",
                     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
                     url: "/blogs/bg1",
                     imgUrl: "/images/ayurveda-utensils.jpg"

@@ -6,7 +6,7 @@ import Carousel from "@/components/Carousel";
 import Head from "next/head";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
-import { FaArrowRight, FaAward, FaGlobe, FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaArrowRight, FaAward, FaGlobe, FaHeart, FaReact, FaShoppingCart, FaUser } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import Blog from "@/components/blog";
@@ -62,7 +62,7 @@ export default function Home() {
   const choose_us_list_2 = [
     { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
     { img: "/images/choose_us_icon_6.png", text: "Gluten Free" },
-    // { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
+    { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
     { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
     { img: "/images/choose_us_icon_10.png", text: "Mineral Free" },
   ]
@@ -297,7 +297,7 @@ export default function Home() {
                   <span className={styles.about_achivements_icon}>
                     <FaUser />
                   </span>
-                  <span>1000+</span>
+                  <span>50000+</span>
                   Happy Customers
 
                 </motion.div>
@@ -314,6 +314,14 @@ export default function Home() {
                   </span>
                   <span>20+</span>
                   Countries Served
+                </motion.div>
+
+                <motion.div>
+                  <span className={styles.about_achivements_icon}>
+                    <FaStar />
+                  </span>
+                  <span>4.6</span>
+                  Average Rating
                 </motion.div>
 
               </motion.div>
