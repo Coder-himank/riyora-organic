@@ -37,9 +37,9 @@ export default function UserProfile() {
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/secure/userProfile?userId=${session.user.id}`);
+        const res = await axios.get(`/api/secure/userProfile?userId=${session?.user?.id}`);
         if (res.status !== 200) {
-          throw new Error(t("profilePage.fetch_error"));
+          throw new Error("Error fetching user data", res);
         }
         setUser(res.data);
       } catch (err) {
@@ -56,7 +56,7 @@ export default function UserProfile() {
     return (
       <div className={styles.profile_container_loading}>
         <div className="navHolder"></div>
-        <p className="error">{t("profilePage.error_loading")}: {error}</p>
+        <p className="error">Error Loading Profile Page : {error}</p>
       </div>
     );
 
