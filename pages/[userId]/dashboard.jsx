@@ -31,7 +31,7 @@ export default function UserProfile() {
   // Fetch user profile
   useEffect(() => {
     if (!session?.user) {
-      router.push("/authenticate");
+      // router.push("/authenticate");
       return;
     }
     const fetchUserProfile = async () => {
