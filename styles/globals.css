@@ -129,6 +129,33 @@ a {
   padding: 20px;
 }
 
+.chat_Button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 0 20px -14px black;
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background-color: rgb(56, 49, 49);
+  color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+  font-size: 12px;
+  flex-direction: column;
+
+}
+
+.chat_Button img {
+  width: 30px;
+  object-fit: contain;
+}
+
 /* Headings */
 h1,
 h2,
@@ -144,6 +171,8 @@ h2 {
   color: #116030;
   text-transform: uppercase;
   font-size: 30px;
+  width: fit-content;
+  margin: auto;
 }
 
 /* h2 {
@@ -574,14 +603,14 @@ footer p {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 300px;
+  /* height: 300px; */
   text-align: left;
 }
 
 .footer-section div {
   width: 340px;
   height: fit-content;
-  padding: 10px 0;
+  /* padding: 10px 0; */
 
 }
 
@@ -661,6 +690,12 @@ footer p {
   width: fit-content;
   border-bottom: 2px solid var(--primary-color);
   margin: auto;
+}
+
+.footer-contact {
+  /* background-color: red; */
+  padding: 20px 0 50px;
+  height: fit-content;
 }
 
 .footer-contact ul {

@@ -6,7 +6,7 @@ import Carousel from "@/components/Carousel";
 import Head from "next/head";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
-import { FaArrowRight, FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaArrowRight, FaAward, FaGlobe, FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import Blog from "@/components/blog";
@@ -290,6 +290,33 @@ export default function Home() {
                 <p>In an age of synthetic shortcuts and chemical overload, we’re returning to the roots of health wellness with clean, powerful formulations inspired by Ayurveda and modern botanical research. Every bottle we create carries the essence of tradition, the rigour of science, and the purity of nature because we believe that true beauty starts with balance—between nature and nurture, tradition and science, care and consistency.</p>
                 <Link href={"/about"}>Learn More</Link>
               </div>
+
+              <motion.div className={styles.about_achivements}>
+
+                <motion.div>
+                  <span className={styles.about_achivements_icon}>
+                    <FaUser />
+                  </span>
+                  <span>1000+</span>
+                  Happy Customers
+
+                </motion.div>
+                <motion.div>
+                  <span className={styles.about_achivements_icon}>
+                    <FaAward />
+                  </span>
+                  <span>10+</span>
+                  Quality Awards
+                </motion.div>
+                <motion.div>
+                  <span className={styles.about_achivements_icon}>
+                    <FaGlobe />
+                  </span>
+                  <span>20+</span>
+                  Countries Served
+                </motion.div>
+
+              </motion.div>
             </motion.div>
 
           </div>

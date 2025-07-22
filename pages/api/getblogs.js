@@ -4,24 +4,25 @@ export const handler = async (req, res) => {
             const blogs = [
                 {
                     id: "bg1",
-                    title: "Blog 1",
+                    title: "Wht Oiling Your Hair is Cool - And Crucial",
                     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
                     url: "/blogs/bg1",
                     imgUrl: "/images/ayurveda-utensils.jpg"
                 },
                 {
                     id: "bg2",
-                    title: "Blog 2",
+                    title: "Inside Our Process : How We Make Our Hair Oils Safe and Naturally",
                     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
                     url: "/blogs/bg2",
                     imgUrl: "/images/oil_bottel_repat.jpg"
-                }, {
-                    id: "bg3",
-                    title: "Blog 3",
-                    content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
-                    url: "/blogs/bg3",
-                    imgUrl: "/images/oil_bottle_black.jpg"
-                }
+                },
+                // {
+                //     id: "bg3",
+                //     title: "Blog 3",
+                //     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis consectetur nulla, autem ipsa a beatae aliquam nobis placeat. Reiciendis, itaque! Rerum molestias recusandae sit consequatur dolore repellat saepe tempora nostrum distinctio voluptas dicta corrupti tenetur, dolor, totam iste sed! Deleniti.",
+                //     url: "/blogs/bg3",
+                //     imgUrl: "/images/oil_bottle_black.jpg"
+                // }
             ];
 
             const blogId = req.query.blogId;

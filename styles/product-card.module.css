@@ -79,7 +79,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5%;
+  gap: clamp(1px, 1%, 9px);
   font-size: clamp(10px, 5vw, 14px);
 }
 
@@ -95,8 +95,8 @@
 
 .discount {
   background-color: rgb(225, 225, 13);
-  padding: 3px 13px;
-  font-size: 9px;
+  padding: 3px 6%;
+  font-size: clamp(7px, 1vw, 9px);
   border-radius: 9px;
   box-shadow: 0 0 20px -10px;
   font-weight: bold;
@@ -162,8 +162,12 @@
   padding: 8px 28px;
   border-radius: 8px;
   /* padding: 8px; */
+  /* justify-content: space-around; */
+  gap: 10px;
+  font-size: clamp(10px, 2vw, 14px);
 
 }
+
 
 .benefit_image {
   width: 100%;

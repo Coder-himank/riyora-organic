@@ -1,7 +1,8 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import styles from "@/styles/Carousel.module.css";
-
-const Carousel = ({ children, showControls = true, autoScroll = true }) => {
+import Image from "next/image";
+import React from "react";
+const Carousel = ({ children, showControls = true, autoScroll = true, action_style = "overlap" }) => {
     const scrollRef = useRef(null);
     const containerRef = useRef(null);
     const lastManualScrollTime = useRef(Date.now()); // Track last manual scroll
@@ -118,7 +119,12 @@ const Carousel = ({ children, showControls = true, autoScroll = true }) => {
             </div>
 
             {showActionButton && slideCount > 1 && (
-                <div className={styles.action_btn}>
+                <div className={`
+                    ${styles.action_btn}
+                    ${action_style === "overlap" && styles.action_btn_overlap}
+                    ${action_style === "images" && styles.action_btn_img}
+                    
+                    `}>
                     <button
                         className={styles.scrollBtn}
                         onClick={() => scroll("left", "manual")}
@@ -130,9 +136,26 @@ const Carousel = ({ children, showControls = true, autoScroll = true }) => {
                     </button>
 
                     <div className={styles.indicators}>
-                        {Array.from({ length: slideCount - 1 }, (_, i) => (
-                            <span key={i} className={i + 1 === currentIndex ? styles.activeIndicator : styles.indicator}></span>
-                        ))}
+                        {action_style === "images" ?
+                            React.Children.map(children, (child, i) => {
+                                const src = child.props?.src || "/fallback.jpg";
+
+                                return (
+                                    <span key={i} className={i + 1 === currentIndex ? styles.activeIndicator : styles.indicator}>
+                                        <Image src={src} width={50} height={50} alt={`product image ${i + 1}`} />
+                                    </span>
+                                );
+                            })
+
+
+                            :
+                            Array.from({ length: slideCount - 1 }, (_, i) => (
+
+                                <span key={i} className={i + 1 === currentIndex ? styles.activeIndicator : styles.indicator}></span>
+                            ))
+
+
+                        }
                     </div>
 
                     <button

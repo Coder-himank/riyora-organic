@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
 
                 <span className={styles.old_price}>₹{productData.price}</span> |
                 <span className={styles.new_price}>₹{productData.price}</span> |
-                <span className={styles.discount}>{productData.discountPercentage}%</span>
+                <span className={styles.discount}>{productData.discountPercentage}% off</span>
               </div>
               <span className={styles.hidden_name}>{productData.name}</span>
               <section className={styles.details_sec}>
@@ -97,7 +97,7 @@ const ProductCard = ({ product }) => {
         </section>
         <section className={styles.details_sec}>
           <section className={styles.action_btn}>
-            <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /></button>
+            <button onClick={() => onAddToCart(router, productData._id, session)}><FaShoppingCart /> <span>Add To Cart</span></button>
           </section>
         </section>
       </section >

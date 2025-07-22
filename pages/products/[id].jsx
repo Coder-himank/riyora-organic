@@ -277,8 +277,9 @@ const ProductPage = ({ productId, productData }) => {
                         <section className={styles.sec_1}>
                             <section className={styles.carousel}>
 
-                                <Carousel>
+                                <Carousel action_style="images">
                                     {productData.imageUrl.map((image, index) => (
+
                                         <Image key={index} src={image} width={350} height={400} alt={productData.name} />
 
                                     ))}
