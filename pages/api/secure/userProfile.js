@@ -1,12 +1,8 @@
 import connectDB from "@/server/db";
 import User from "@/server/models/User";
-// import { authMiddleware } from "@/server/authMiddleware"
 export default async function handler(req, res) {
     await connectDB();
-
-    // const validUser = await authMiddleware(req, res);
-    // if (!validUser) res.status(401).json({ message: "unauthorised user" })
-
+    console.log("Request Method:", req.method);
     if (req.method === "GET") {
         try {
             const { userId } = req.query;
