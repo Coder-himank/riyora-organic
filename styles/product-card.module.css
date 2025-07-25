@@ -38,6 +38,16 @@
 
 }
 
+.skeleton_btn {
+  background-color: #ccc;
+}
+
+.imageSkeleton {
+  height: 50vw;
+  max-height: 300px;
+  width: 100%;
+}
+
 .product_info {
   top: 0;
   display: block;
@@ -157,7 +167,8 @@
 }
 
 
-.action_btn button {
+.action_btn button,
+.skeletonButton {
   width: 100%;
   padding: 8px 28px;
   border-radius: 8px;
@@ -165,6 +176,7 @@
   /* justify-content: space-around; */
   gap: 10px;
   font-size: clamp(10px, 2vw, 14px);
+  min-height: 40px;
 
 }
 
@@ -223,23 +235,10 @@
   height: 70px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
   justify-content: space-between;
 }
 
-.productSkeleton .skeletonText {
-  width: 60%;
-  height: 20px;
-  border-radius: 20px;
-  background-color: #ccc;
-
-
-}
-
 .skeletonButton {
-  width: 50px;
-  height: 40px;
-  border-radius: 100%;
   background-color: #ccc;
 }
 

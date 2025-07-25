@@ -17,12 +17,8 @@ export const SkeletonCard = () => {
     >
       <div className={`${styles.product_image} ${styles.skeleton_image}`}></div>
       <div className={styles.product_info}>
-        <h3 className={styles.skeleton_text_1}></h3>
-        <p className={styles.skeleton_text_2}></p>
-        <div className={styles.product_actions}>
-          <div className={`${styles.product_btn} ${styles.skeleton_btn}`}></div>
-          <div className={`${styles.product_btn} ${styles.skeleton_btn}`}></div>
-          <div className={`${styles.product_btn} ${styles.skeleton_btn}`}></div>
+        <div className={styles.action_btn}>
+          <div className={`${styles.skeleton_btn}`}></div>
         </div>
       </div>
 

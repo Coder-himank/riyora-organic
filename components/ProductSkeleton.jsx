@@ -7,8 +7,6 @@ const ProductSkeleton = () => {
                 </div>
 
                 <section>
-                    <div className={styles.skeletonText}>
-                    </div>
 
                     <div className={styles.skeletonButton}>
                     </div>
