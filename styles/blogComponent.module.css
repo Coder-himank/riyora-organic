@@ -1,6 +1,5 @@
 .blog,
 .blogSkeletonBox {
-    min-width: 270px;
     width: 100%;
     max-width: 900px;
     overflow: hidden;
@@ -32,7 +31,7 @@
     width: 100%;
     max-width: 600px;
     height: fit-content;
-    padding: 20px;
+    padding: 0 20px;
     text-align: center;
     flex: 1 1 auto;
     position: relative;

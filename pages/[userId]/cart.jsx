@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import useSWR from "swr";
 import { motion } from "framer-motion";
@@ -34,7 +33,7 @@ export default function Cart() {
   const { data: session, status: sessionStatus } = useSession();
   const userId = session?.user?.id;
 
-  const { data: cartItems, error, mutate } = useSWR(
+  const { data: cartItems, error, mutate, isValidating } = useSWR(
     userId ? `/api/secure/cart?userId=${userId}` : null,
     fetcher
   );
@@ -42,25 +41,15 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   const [notification, setNotification] = useState(null);
   const [cartTotal, setCartTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!session?.user) {
-      setLoading(false);
-      return;
-    }
-    if (!cartItems || !userId) {
+    if (!cartItems || cartItems.length === 0) {
+      setCart([]);
       return;
     }
 
     const fetchCartData = async () => {
       try {
-        if (cartItems.length === 0) {
-          setCart([]);
-          return;
-        }
-        setLoading(true);
-
         const productIds = cartItems.map((item) => item.productId);
         const { data: products } = await axios.get(`/api/getProducts?ids=${productIds.join(",")}`);
 
@@ -73,11 +62,10 @@ export default function Cart() {
       } catch (error) {
         console.error("Error fetching Cart Data", error);
       }
-      setLoading(false);
     };
 
     fetchCartData();
-  }, [cartItems, userId]);
+  }, [cartItems]);
 
   useEffect(() => {
     setCartTotal(cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity_demanded, 0));
@@ -90,19 +78,25 @@ export default function Cart() {
 
   const removeFromCart = async (productId) => {
     try {
-      await axios.delete(`/api/secure/cart?userId=${userId}`, { data: { productId, userId } });
+      await axios.delete(`/api/secure/cart?userId=${userId}`, {
+        data: { productId, userId },
+      });
       mutate();
       showNotification("Item Removed From Cart Successfully");
     } catch (error) {
       console.error("Error Removing Item", error);
     }
   };
-
-  const debouncedUpdateQuantity = debounce(async (productId, quantity) => {
+  const updateQuantityOptimistic = async (productId, quantity) => {
     if (quantity < 1) {
       removeFromCart(productId);
       return;
     }
+
+    const updatedCart = cart.map(item =>
+      item.productId === productId ? { ...item, quantity_demanded: quantity } : item
+    );
+    setCart(updatedCart);
 
     try {
       await axios.put(`/api/secure/cart`, { userId, productId, quantity });
@@ -111,9 +105,10 @@ export default function Cart() {
     } catch (error) {
       console.error("Error Updating Cart", error);
     }
-  }, 500);
+  };
 
-  if (sessionStatus === "loading") {
+
+  if (sessionStatus === "loading" || !cartItems) {
     return (
       <>
         <div className="navHolder"></div>
@@ -131,20 +126,13 @@ export default function Cart() {
     );
   }
 
-  if (loading) {
-    return (
-      <>
-        <div className="navHolder"></div>
-        <SkeletonCart />
-      </>
-    );
-  }
-
   if (error) {
     return (
       <>
         <div className="navHolder"></div>
-        <div className={styles.cart_loading}><p>Loading...</p></div>
+        <div className={styles.cart_loading}>
+          <p>Error loading cart.</p>
+        </div>
       </>
     );
   }
@@ -152,6 +140,7 @@ export default function Cart() {
   return (
     <>
       <div className="navHolder"></div>
+      {isValidating && <div className={styles.cart_updating}></div>}
       <div className={styles.cart_container}>
         <h1 className={styles.cart_head}>Your Cart</h1>
 
@@ -186,19 +175,34 @@ export default function Cart() {
                   </Link>
 
                   <span className={styles.quantity_controls}>
-                    <button onClick={() => debouncedUpdateQuantity(item.productId, item.quantity_demanded + 1)}>+</button>
+                    <button
+                      onClick={() =>
+                        updateQuantityOptimistic(item.productId, item.quantity_demanded + 1)
+                      }
+                    >
+                      +
+                    </button>
                     <span className={styles.qty}>{item.quantity_demanded}</span>
-                    <button onClick={() => debouncedUpdateQuantity(item.productId, item.quantity_demanded - 1)}>-</button>
+                    <button
+                      onClick={() =>
+                        updateQuantityOptimistic(item.productId, item.quantity_demanded - 1)
+                      }
+                    >
+                      -
+                    </button>
                   </span>
                 </div>
-                <button className={styles.remove_btn} onClick={() => removeFromCart(item.productId)}>x</button>
+                <button
+                  className={styles.remove_btn}
+                  onClick={() => removeFromCart(item.productId)}
+                >
+                  x
+                </button>
               </div>
             ))}
 
             <div className={styles.cart_billing}>
-              <div className={styles.cart_total}>
-                Total: ₹{cartTotal.toFixed(2)}
-              </div>
+              <div className={styles.cart_total}>Total: ₹{cartTotal.toFixed(2)}</div>
               <Link href={`/${userId}/checkout`}>
                 <button>Checkout</button>
               </Link>
@@ -206,7 +210,6 @@ export default function Cart() {
           </>
         )}
       </div>
-
     </>
   );
 }
