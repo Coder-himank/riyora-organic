@@ -40,7 +40,10 @@ export default async function handler(req, res) {
     else if (req.method === "PUT") {
         try {
             const { userId, updates } = req.body;
+            console.log("Updating user with ID:", userId, "Updates:", updates);
             if (!userId || !updates) return res.status(400).json({ message: "User ID and updates are required" });
+
+
 
             const user = await User.findById(userId);
             if (!user) return res.status(404).json({ message: "User not found" });

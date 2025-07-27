@@ -20,6 +20,7 @@ export default function UserProfile() {
   const router = useRouter()
 
 
+
   // User LOgout Function
   const UserLogOut = () => {
     try {
@@ -50,6 +51,72 @@ export default function UserProfile() {
 
     fetchUserProfile();
   }, [session]);
+
+
+  const editAddress = (index, item) => {
+    const address = prompt("Edit Address", item.address);
+    const city = prompt("Edit City", item.city);
+    const country = prompt("Edit Country", item.country);
+
+    const label = prompt("Edit Label", item.label || "");
+    const pincode = prompt("Edit Pincode", item.pincode);
+    if (address && city && country && pincode) {
+      const updatedAddresses = [...user.addresses];
+      updatedAddresses[index] = {
+        ...updatedAddresses[index],
+        address,
+        city,
+        country,
+        label: label || "",
+        pincode
+      };
+
+      setUser({ ...user, addresses: updatedAddresses });
+      axios.put("/api/secure/userProfile", {
+        userId: session?.user?.id,
+        updates: { addresses: updatedAddresses }
+      })
+        .then(res => {
+          if (res.status === 200) {
+            setNotification("Address updated successfully");
+          } else {
+            setNotification("Error updating address");
+          }
+        })
+        .catch(err => {
+          setNotification("Error updating address: " + err.message);
+
+        });
+    } else {
+      setNotification("All fields are required to update address");
+    }
+  }
+  const deleteAddress = (index, item) => {
+    const confirmDelete = confirm("Are you sure you want to delete this address?");
+    if (confirmDelete) {
+
+      const updatedAddresses = [...user.addresses];
+      updatedAddresses.splice(index, 1);
+      setUser({ ...user, addresses: updatedAddresses });
+      axios.put("/api/secure/userProfile", {
+        userId: session?.user?.id,
+        updates: { addresses: updatedAddresses }
+      })
+        .then(res => {
+          if (res.status === 200) {
+            setNotification("Address deleted successfully");
+
+          } else {
+            setNotification("Error deleting address");
+          }
+        })
+        .catch(err => {
+          setNotification("Error deleting address: " + err.message);
+        });
+    }
+  }
+
+
 
 
   if (error)
@@ -110,8 +177,8 @@ export default function UserProfile() {
                     <td>{item.label || "-"}</td>
                     <td>{item.pincode}</td>
                     <td className={styles.addr_action}>
-                      <span><FaEdit /></span>
-                      <span style={{ background: "red" }}><MdDelete /></span>
+                      <span onClick={() => editAddress(index, item)}><FaEdit /></span>
+                      <span onClick={() => deleteAddress(index, item)} style={{ background: "red" }}><MdDelete /></span>
                     </td>
                   </tr>
                 ))}

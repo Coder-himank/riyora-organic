@@ -87,17 +87,20 @@
 }
 
 .address_plate {
-  /* border: 1px solid black; */
-  /* box-shadow: 0 0 20px -12px rgba(68, 68, 68, 0.278); */
   border-bottom: 1px solid rgba(203, 200, 200, 0.463);
   width: 100%;
   padding: 4px;
-  /* background-color: #e4e8e5; */
   margin: 2px 0;
 }
 
 .address_plate tr {
   border-bottom: 1px solid rgba(131, 126, 126, 0.195);
+
+}
+
+.address_plate tr:nth-child(1):hover {
+  background: unset;
+
 }
 
 .address_plate tr:hover {
@@ -109,7 +112,7 @@
   padding: 3px;
   text-align: left;
   overflow: hidden;
-  height: 20px;
+  padding: 10px 0;
 }
 
 .addr_action {
@@ -117,9 +120,10 @@
 }
 
 .addr_action span {
-  width: 20px;
-  height: 20px;
+  width: fit-content;
+  height: fit-content;
   padding: 5px;
+  font-size: 12px;
   border-radius: 3px;
   background-color: green;
   margin: 0 1px;
