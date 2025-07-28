@@ -1,13 +1,7 @@
 
-import { FaEnvelope, FaFacebook, FaInstagram, FaLandmark, FaLocationArrow, FaMailBulk, FaPhone, FaYoutube } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { RiCustomerService2Line } from "react-icons/ri";
 import { FaPhoneAlt } from 'react-icons/fa';
-import { TbTruckReturn } from "react-icons/tb";
 import { MdEmail } from 'react-icons/md';
-import { IoShieldSharp } from "react-icons/io5";
-import { IoMdHelpCircle } from "react-icons/io";
 import Image from "next/image";
 import Link from "next/link";
 export default function Footer() {
@@ -41,12 +35,11 @@ export default function Footer() {
         </div>
         <div className="footer-section section-2">
           <ul className="footer-links">
-            <li><Link href={"/support#customer_care"}>About Us</Link></li>
-            <li><Link href={"/support#return_policy"}>Contact Us</Link></li>
-            <li><Link href={"/support#privacy_policy"}>Vision and Mission</Link></li>
-            <li><Link href={"/support#help"}>Terms and Condition</Link></li>
-            <li><Link href={"/support#help"}>Privacy Policy</Link></li>
-            <li><Link href={"/support#help"}>FAQs</Link></li>
+            <li><Link href={"/about"}>About Us</Link></li>
+            <li><Link href={"/visionAndMission"}>Vision and Mission</Link></li>
+            <li><Link href={"/termsAndCondition"}>Terms and Condition</Link></li>
+            <li><Link href={"/privacy-policy"}>Privacy Policy</Link></li>
+            <li><Link href={"/Faqs"}>FAQs</Link></li>
           </ul>
         </div>
         <div className="footer-section section-3">

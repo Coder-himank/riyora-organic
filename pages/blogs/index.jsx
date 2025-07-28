@@ -30,10 +30,8 @@ const Blogs = () => {
     return (
         <>
             {/* <div className="navHolder"></div> */}
-            <div className={styles.banner}>
-
-            </div>
             <div>
+                <center><h1>Blogs</h1></center>
                 {loading ? (
                     <p>Loading...</p>
                 ) : (

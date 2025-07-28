@@ -27,13 +27,11 @@ export default function Products() {
   if (loading) {
     return (
       <>
-        <div className={styles.banner}>
-        </div>
         <div className={styles.product_container}>
-          <h1>Our Products</h1>
+          <h2>Our Products</h2>
           <div className={styles.product_list}>
-            {Array.from({ length: 10 }).map((_, index) => (
-              <SkeletonCard key={index} />
+            {Array.from({ length: 2 }).map((_, index) => (
+              <ProductSkeleton key={index} />
             ))}
           </div>
         </div>
@@ -45,9 +43,8 @@ export default function Products() {
 
   return (
     <>
-      <div className={styles.banner}>
-      </div>
       <div className={styles.product_container}>
+        <h2>Our <span>Products</span></h2>
         <div className={styles.product_list}>
           {
             !products ? (<>

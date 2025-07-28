@@ -1,0 +1,72 @@
+.container {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+    font-size: Poppins, sans-serif;
+    background-color: rgba(143, 188, 143, 0.196);
+    min-height: 90vh;
+}
+
+.heading {
+    font-size: clamp(2rem, 2vw + 1rem, 3rem);
+}
+
+.text_area {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: 50px;
+    min-width: 350px;
+    min-height: 500px;
+    border-radius: 10px;
+}
+
+.image_area {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: fit-content;
+    position: relative;
+    width: 50%;
+}
+
+.image_area::after {
+    content: 'A Journey Started With Love For Care';
+    display: block;
+    width: 200px;
+    height: 90px;
+    background-color: rgb(120, 185, 120);
+    border-radius: 10px;
+    position: absolute;
+    /* top: calc(100% - 90px); */
+    top: 0;
+    left: calc(100% - 220px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: rgb(223, 217, 217);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 700;
+    padding: 10px;
+    box-shadow: -2px 2px 20px -14px black;
+}
+
+.image_area img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 900px) {
+    .image_area {
+        width: 100%;
+        min-width: 350px;
+    }
+}

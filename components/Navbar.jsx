@@ -96,7 +96,7 @@ export default function Navbar() {
     },
     {
       name: "About Us",
-      path: "/services", // Or use "/about" if that's more accurate
+      path: "/about", // Or use "/about" if that's more accurate
       icon: <FaServicestack />,
     },
     {
@@ -165,7 +165,6 @@ export default function Navbar() {
           <div className="nav-right">
             <div className="nav-user-option">
               <Link href={`/${userId}/cart`}>{pathname === `/[userId]/cart` ? <FaShoppingCart /> : <AiOutlineShoppingCart />}</Link>
-              <Link href={`/${userId}/wishlist`}>{pathname == `/[userId]/wishlist` ? <FaHeart /> : <FaRegHeart />}</Link>
 
               <Link href={!session ? "/authenticate" : `/${userId}/dashboard`}>{pathname === `/[userId]/dashboard` ? <FaUser /> : <FaRegUser />}</Link>
 

@@ -8,8 +8,12 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/themeContext";
+import { motion } from "framer-motion";
+
+import { useEffect, useState } from "react";
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
+
   return (
     <>
       <ThemeProvider>
@@ -21,14 +25,16 @@ function MyApp({ Component, pageProps }) {
           <Navbar />
 
           <Link className="chat_Button" href={"https://wa.me/919521666123?text=I%20Want%20To%20Buy%20Your%20Products"} target="_blank" rel="noopener noreferrer">
-            <Image src="/images/whatsapp.png" width={50} height={50} />
+
+            <Image src={"/images/whatsapp.png"} alt="wp image" width={50} height={50} />
+
             {/* <span>Chat With Us</span> */}
           </Link>
 
           <Component {...pageProps} />
           <Footer />
         </SessionProvider>
-      </ThemeProvider>
+      </ThemeProvider >
     </>
   )
 }
