@@ -20,9 +20,9 @@
     height: fit-content;
     padding: 20px;
     display: flex;
-    flex-direction: row-reverse;
+    /* flex-direction: row-reverse; */
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     gap: 30px;
 }
 
@@ -40,7 +40,7 @@
     justify-content: center;
     object-fit: contain;
     max-width: 600px;
-    min-width: 600px;
+    /* min-width: 600px; */
 }
 
 .textContent {
