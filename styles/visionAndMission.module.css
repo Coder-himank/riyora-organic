@@ -30,6 +30,7 @@
 .missionSection div {
     width: calc(50% - 20px);
     height: fit-content;
+    border: 1px solid black;
 }
 
 .imageWrapper img {
