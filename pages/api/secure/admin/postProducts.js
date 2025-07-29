@@ -1,8 +1,8 @@
-import { dbConnect } from '@/server/db';
+import connectDB from "@/server/db";
 import Product from '@/server/models/Product';
 
 export default async function handler(req, res) {
-    await dbConnect();
+    await connectDB();
 
     if (req.method === 'POST') {
         try {
