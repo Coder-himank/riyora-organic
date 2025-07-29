@@ -2,6 +2,7 @@ import connectDB from "@/server/db";
 import Product from '@/server/models/Product';
 
 export default async function handler(req, res) {
+    // await connectDB();
     await connectDB();
 
     if (req.method === 'POST') {
