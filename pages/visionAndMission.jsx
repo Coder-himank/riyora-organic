@@ -2,7 +2,7 @@
 
 import React from "react";
 import styles from "@/styles/visionAndMission.module.css";
-
+import Image from "next/image";
 const VisionAndMission = () => {
     return (
         <div className={styles.container}>
@@ -15,11 +15,13 @@ const VisionAndMission = () => {
 
             <section className={styles.visionSection}>
                 <div className={styles.imageWrapper}>
-                    <img
+                    <Image
                         src="/images/logo.png"
                         // src="https://via.placeholder.com/400x250"
                         alt="Vision"
                         className={styles.image}
+                        width={600}
+                        height={600}
                     />
                 </div>
                 <div className={styles.textContent}>
@@ -40,11 +42,13 @@ const VisionAndMission = () => {
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti, voluptas omnis. Quam, delectus voluptates officiis ipsam, nam modi voluptatum consequuntur, totam qui fuga inventore autem repellat! Neque sit similique dignissimos harum beatae, quis ipsam ducimus magni reprehenderit voluptatem pariatur incidunt omnis, cumque nihil dolore numquam laboriosam id asperiores. Est dolor quam quos numquam, tempora soluta veniam, possimus consequuntur laudantium doloremque ducimus voluptatum minima quod, natus placeat nostrum odit? Voluptatibus iste molestias magnam dolorem quaerat rem recusandae veritatis sunt esse quam error sed aliquam, quo voluptatum quod eum. Neque voluptate ab quaerat, itaque aperiam nemo quas facere alias fugiat in deserunt!</p>
                 </div>
                 <div className={styles.imageWrapper}>
-                    <img
+                    <Image
                         src="/images/logo.png"
                         // src="https://via.placeholder.com/400x250"
                         alt="Mission"
                         className={styles.image}
+                        width={600}
+                        height={600}
                     />
                 </div>
             </section>
