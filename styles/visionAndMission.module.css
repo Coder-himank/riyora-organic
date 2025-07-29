@@ -1,0 +1,76 @@
+.container {
+    width: 100%;
+    height: fit-content;
+}
+
+.header {
+    width: 100%;
+    max-width: 80%;
+    margin: auto;
+    padding: 50px 0;
+}
+
+.header h1 {
+    font-size: 3rem;
+}
+
+.visionSection,
+.missionSection {
+    width: 100%;
+    height: fit-content;
+    padding: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.visionSection div,
+.missionSection div {
+    width: calc(50% - 20px);
+    height: fit-content;
+}
+
+.imageWrapper img {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: contain;
+    max-width: 600px;
+    min-width: 600px;
+}
+
+.textContent {
+    min-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.valuesList {
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+}
+
+.valuesList li {
+    padding: 10px;
+}
+
+@media screen and (max-width:700px) {
+    .imageWrapper img {
+        min-width: 300px;
+    }
+
+    .textContent {
+        min-width: none;
+    }
+
+    .visionSection div,
+    .missionSection div {
+        width: 100%;
+    }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import styles from '@/styles/faqs.module.css'
 const faqs = [
     {
         question: "What are the benefits of using hair oil?",
@@ -23,17 +23,35 @@ const faqs = [
     }
 ];
 
+function FaqItem({ question, answer }) {
+    const [open, setOpen] = React.useState(false);
+
+    return (
+        <div div className={styles.faqItem}>
+            <section
+                className={styles.question}
+                onClick={() => setOpen((prev) => !prev)}
+            >
+                Q: {question}
+            </section>
+
+            {open && (
+                <section className={styles.answer}>
+                    <p>A: {answer}</p>
+                </section>
+            )}
+        </div>
+    );
+}
+
 const Faqs = () => (
-    <div style={{ maxWidth: 700, margin: '40px auto', padding: 24 }}>
-        <h1>Hair Oil FAQs</h1>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+    <div className={styles.container}>
+        <h1 className={styles.heading}>Hair Oil FAQs</h1>
+        <div className={styles.faqItems}>
             {faqs.map((faq, idx) => (
-                <li key={idx} style={{ marginBottom: 24 }}>
-                    <strong>Q: {faq.question}</strong>
-                    <p style={{ margin: '8px 0 0 0' }}>A: {faq.answer}</p>
-                </li>
+                FaqItem(faq)
             ))}
-        </ul>
+        </div>
     </div>
 );
 

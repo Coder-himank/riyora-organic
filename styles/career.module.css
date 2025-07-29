@@ -23,7 +23,7 @@
     width: 100%;
     max-width: 300px;
     height: 500px;
-    min-height: 100%;
+    min-height: fit-content;
     box-shadow: 0 0 20px -12px rgba(0, 0, 0, 0.589);
     display: flex;
     align-items: center;
@@ -69,6 +69,6 @@
 
 @media screen and (max-width:800px) {
     .career_card {
-        max-width: 500px;
+        max-width: 400px;
     }
 }

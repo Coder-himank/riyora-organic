@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 /* ========== Root Variables for Easy Customization ========== */
@@ -49,8 +49,7 @@
 
 
   /* Spacing & Typography */
-  --font-family: "Aial",
-    sans-serif;
+  --font-family: Poppins, 'sans-serif';
   --heading-font-weight: 600;
   --base-font-size: 16px;
   --spacing: 10px;
@@ -639,13 +638,6 @@ footer p {
 
 
 
-
-.Footer-logo img {
-  width: 140px;
-  object-fit: contain;
-
-}
-
 .app-images {
   width: 100%;
   height: 70px;
@@ -674,12 +666,23 @@ footer p {
 
 
 .Footer-logo,
+.Footer-logo-mobile,
 .payment-opt {
   width: 100%;
   height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.Footer-logo img,
+.Footer-logo-mobile img {
+  width: 140px;
+  object-fit: contain;
+}
+
+.Footer-logo-mobile {
+  display: none;
 }
 
 .footer-content ul {
@@ -883,10 +886,25 @@ footer p {
 
   .footer-content .footer-section {
     max-width: 100%;
+    align-items: start;
+    /* padding: 0 0 0 20px; */
+  }
+
+  .footer-content .footer-section ul {
+    padding: 20px;
   }
 
   .footer-content .footer-section li {
     border: none;
+  }
+
+  .Footer-logo {
+
+    display: none;
+  }
+
+  .Footer-logo-mobile {
+    display: flex;
   }
 
 }

@@ -43,6 +43,10 @@ export default function Footer() {
           </ul>
         </div>
         <div className="footer-section section-3">
+          <div className="Footer-logo-mobile">
+            {/* Logo */}
+            <Image src={"/images/logo.png"} width={200} height={100} />
+          </div>
           <div className="footer-contact">
             <h4>Contact us</h4>
             <ul>
@@ -57,6 +61,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="footer-connect">
+
             <h4>Connect Us</h4>
             <div className="app-images social-app">
 

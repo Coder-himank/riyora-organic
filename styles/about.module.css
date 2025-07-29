@@ -39,23 +39,27 @@
 .image_area::after {
     content: 'A Journey Started With Love For Care';
     display: block;
-    width: 200px;
-    height: 90px;
+    width: clamp(100px, 20%, 200px);
+    height: fit-content;
     background-color: rgb(120, 185, 120);
     border-radius: 10px;
     position: absolute;
     /* top: calc(100% - 90px); */
     top: 0;
-    left: calc(100% - 220px);
+    /* left: calc(100% - clamp(120px, 20%, 300px)); */
+    left: 76%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: rgb(223, 217, 217);
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: 700;
+    color: rgb(0, 0, 0);
     padding: 10px;
     box-shadow: -2px 2px 20px -14px black;
+    /* font-family: "Lavishly Yours", cursive; */
+    font-size: clamp(10px, 2vw, 16px);
+    font-weight: 400;
+    letter-spacing: 1px;
+
 }
 
 .image_area img {
