@@ -598,6 +598,52 @@ footer::after {
   background-size: cover;
 }
 
+.newsLetter {
+  width: 100%;
+  padding: 20px;
+  /* background-color: rgba(105, 229, 105, 0.402); */
+}
+
+.newsLetter .text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.newsLetter h2 {
+  padding: 0;
+}
+
+
+.newsLetter p {
+  padding: 0;
+  font-weight: 300;
+  font-size: 12px;
+}
+
+.newsLetter .field {
+  width: 100%;
+  padding: 20px 0;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  margin: auto;
+}
+
+.field input {
+  outline: 1px solid green;
+  padding: 0 10px;
+}
+
+.field button {
+  outline: 1px solid green;
+  border-radius: 0;
+}
+
+.field button:hover {
+  transform: none;
+}
+
 footer h3 {
   /* color: var(--background-color); */
 }
@@ -607,7 +653,7 @@ footer h3 {
   align-items: center;
   justify-content: space-evenly;
   flex-wrap: wrap-reverse;
-  padding: 30px 0;
+  /* padding: 30px 0; */
 
   border-bottom: 2px solid var(--primary-color);
 }

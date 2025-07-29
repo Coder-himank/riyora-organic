@@ -4,11 +4,42 @@ import { FaPhoneAlt } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import axios from 'axios';
 export default function Footer() {
 
+  function subscribe(email) {
+    return axios.post("/api/subscribe", {
+      email: email
+    });
+  }
+
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = async () => {
+    if (!email) return;
+    try {
+      await subscribe(email);
+      setEmail("");
+      alert("Subscribed successfully!");
+    } catch (error) {
+      alert("Subscription failed.");
+    }
+  };
 
   return (
     <footer className="footer">
+      <div className='newsLetter'>
+        <section className='text-content'>
+
+          <h2>Subscribe to Our News Letter</h2>
+          <p>Get Lates Update On Your Favourite Products and many More</p>
+        </section>
+        <section className='field'>
+          <input type="text" placeholder='enter email address...' onChange={(e) => setEmail(e.target.value)} />
+          <button onClick={handleSubscribe}>Subscirbe</button>
+        </section>
+      </div>
 
       <div className="footer-content">
         <div className="footer-section section-1">
