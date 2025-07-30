@@ -18,7 +18,7 @@ import ReviewCard from "@/components/ReviewCard";
 
 
 export const TrendingProduct = ({ products }) => {
-  console.log(products);
+  return
 
   return (
     <motion.section className={styles.trending_product} viewport={{ once: true }}>
@@ -206,6 +206,19 @@ export default function Home() {
 
         {/* Trending Products Section */}
         <TrendingProduct products={products} />
+
+        <motion.section className={styles.product_section}>
+          <section className={styles.product_section_in}>
+            <section className={styles.product_text_content}>
+              <h3>Get The Oil</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere eligendi corrupti, repudiandae tenetur odit possimus facilis pariatur vel delectus, dolorem corporis repellat animi neque quos et illum iste qui. Ea.</p>
+              <Link href="/products" className={styles.product_shop_btn}>Get for 499</Link>
+            </section>
+            <section className={styles.product_image_wrapper}>
+              <Image src={'/products/root_strength_hair_oil_2.png'} width={500} height={500} alt="Logo" />
+            </section>
+          </section>
+        </motion.section>
 
         {/* Benefits Section */}
         <motion.section className={styles.benefits_section} viewport={{ once: true }}>

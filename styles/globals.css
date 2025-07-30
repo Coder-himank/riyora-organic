@@ -633,10 +633,12 @@ footer::after {
 .field input {
   outline: 1px solid green;
   padding: 0 10px;
+  border-radius: 0;
+  border: none;
 }
 
 .field button {
-  outline: 1px solid green;
+  outline: 1px solid var(--primary-color);
   border-radius: 0;
 }
 
@@ -674,14 +676,13 @@ footer p {
   text-align: left;
 }
 
+
 .footer-section div {
   width: 340px;
   height: fit-content;
   /* padding: 10px 0; */
 
 }
-
-
 
 
 .app-images {
@@ -952,6 +953,21 @@ footer p {
   .Footer-logo-mobile {
     display: flex;
   }
+
+
+  .footer-content .footer-section:nth-child(1) {
+    flex-direction: row;
+    padding: 0;
+    align-items: center;
+
+  }
+
+
+
+  .footer-content .payment-opt img {
+    width: clamp(30px, 17%, 70px);
+  }
+
 
 }
 

@@ -47,7 +47,7 @@
     /* top: calc(100% - 90px); */
     top: 0;
     /* left: calc(100% - clamp(120px, 20%, 300px)); */
-    left: 76%;
+    right: -1%;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -30,9 +30,9 @@ export default async function handler(req, res) {
 
             // Check if user already subscribed
             const existing = await SubscribeUser.findOne({ email });
-            if (existing) {
-                return res.status(409).json({ error: 'User already subscribed' });
-            }
+            // if (existing) {
+            //     return res.status(409).json({ error: 'User already subscribed' });
+            // }
 
             try {
                 sendMail(email, mailSubject, mailHtml)
@@ -40,11 +40,15 @@ export default async function handler(req, res) {
                 console.log("Unable to send mail : ", e)
             }
 
-            const user = new SubscribeUser({ email });
-            await user.save();
+            if (!existing) {
+                const user = new SubscribeUser({ email });
+                await user.save();
+            }
 
-            res.status(201).json({ message: 'Subscribed successfully', user });
+            res.status(201).json({ message: 'Subscribed successfully' });
         } catch (error) {
+            console.log(error);
+
             res.status(500).json({ error: 'Server error' });
         }
     } else {
