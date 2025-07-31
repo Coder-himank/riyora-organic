@@ -71,9 +71,6 @@ export default async function handler(req, res) {
 
 
         // Common order data
-
-
-
         const orderData = {
             userId: notes.userId,
             products: notes.products || '[]',
@@ -97,6 +94,8 @@ export default async function handler(req, res) {
         try {
             await Order.create(orderData);
         } catch (err) {
+            console.log(orderData);
+
             console.error("Error saving order to DB", JSON.stringify(err));
             return res.status(500).send("DB Save Error");
         }

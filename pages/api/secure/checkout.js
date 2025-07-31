@@ -82,7 +82,7 @@ const handler = async (req, res) => {
 
     const final_products = fetchedProducts.map((product) => {
       return {
-        imageUrl: product.imageUrl,
+        imageUrl: product.imageUrl[0],
         productId: product.productId,
         quantity: product.quantity_demanded,
         price: product.price,
