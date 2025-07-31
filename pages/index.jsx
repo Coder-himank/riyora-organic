@@ -197,6 +197,9 @@ export default function Home() {
         <TrendingProduct products={products} />
 
         <motion.section className={styles.product_section}>
+          <div className={styles.section_header}>
+            <h2>Shop Now</h2>
+          </div>
           <section className={styles.product_section_in}>
             <section className={styles.product_text_content}>
               <h3>Root Strength Hair Oil</h3>
