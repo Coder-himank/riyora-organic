@@ -228,33 +228,63 @@ export default function Home() {
           <div className={styles.section_header}>
 
             <h2>Why <span>Choose Us</span></h2>
-            <p className={styles.sub_heading}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione, quasi, animi assumenda necessitatibus quod omnis cum maiores quia sunt aspernatur, in excepturi iure? Quae iure placeat incidunt magnam ab obcaecati earum, doloremque neque adipisci corporis eaque vero nam? Eaque, aspernatur?</p>
+            {/* <p className={styles.sub_heading}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione, quasi, animi assumenda necessitatibus quod omnis cum maiores quia sunt aspernatur, in excepturi iure? Quae iure placeat incidunt magnam ab obcaecati earum, doloremque neque adipisci corporis eaque vero nam? Eaque, aspernatur?</p> */}
+
           </div>
-          <section>
-            {choose_us_list_1.map((choose_us, index) => (
-              <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
-                <div className={styles.choose_us_card_icon}>
-                  <Image src={choose_us.img} width={50} height={50} alt="Choose Us Icon" />
-                </div>
-                <span>{choose_us.text}</span>
-              </motion.div>))
-            }
+
+          <section className={styles.choose_us_section_in}>
+
+            <div className={styles.choose_us_text_content}>
+              <ul>
+                <li>
+                  Handcrafted oils in small, quality-controlled batches
+                </li>
+                <li>
+                  Ethically sourced, cruelty-free, and eco-conscious packaging
+                </li>
+                <li>
+                  Absolutely no parabens, sulfates, silicones, or Toxic synthetic perfumes & Color
+                </li>
+                <li>
+                  Formulated with Ayurvedic precision and modern purity standards
+                </li>
+                <li>
+                  A brand rooted in trust, built with love, and focused on results.
+                </li>
+
+              </ul>
+            </div>
+
+            <div className={styles.choose_us_image_wrapper}>
+              <section className={styles.choose_us_image_row}>
+
+                {choose_us_list_1.map((choose_us, index) => (
+                  <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
+                    <div className={styles.choose_us_card_icon}>
+                      <Image src={choose_us.img} width={50} height={50} alt="Choose Us Icon" />
+                    </div>
+                    <span>{choose_us.text}</span>
+                  </motion.div>))
+                }
+              </section>
+              <section className={styles.choose_us_image_row}>
+                {choose_us_list_2.map((choose_us, index) => (
+                  <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
+                    <div className={styles.choose_us_card_icon}>
+                      <Image src={choose_us.img} width={50} height={50} alt="Choose Us Icon" />
+                    </div>
+                    <span>{choose_us.text}</span>
+                  </motion.div>))
+                }
+              </section>
+            </div>
           </section>
-          <section>
-            {choose_us_list_2.map((choose_us, index) => (
-              <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
-                <div className={styles.choose_us_card_icon}>
-                  <Image src={choose_us.img} width={50} height={50} alt="Choose Us Icon" />
-                </div>
-                <span>{choose_us.text}</span>
-              </motion.div>))
-            }
-          </section>
-        </motion.section>
+        </motion.section >
 
         {/* About Section */}
         <motion.section className={styles.about_section}
-          initial={{ x: 0, y: 40, opacity: 0.8 }}
+          initial={{ x: 0, y: 40, opacity: 0.8 }
+          }
           whileInView={{ x: 0, y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 1.5 }}
           viewport={{ once: true }}
@@ -320,40 +350,42 @@ export default function Home() {
             </motion.div>
 
           </div>
-        </motion.section>
+        </motion.section >
 
         {/* Blogs Section */}
-        <motion.section className={styles.blogs} viewport={{ once: true }}>
+        < motion.section className={styles.blogs} viewport={{ once: true }}>
           <div className={styles.section_header}>
 
             <h2 className={styles.home_h2}>Enchant <span>Yourself</span></h2>
             <p className={styles.sub_heading}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores accusantium sapiente obcaecati labore delectus atque nemo inventore consectetur modi vitae, id enim veritatis voluptatem ratione. A distinctio esse tempore reiciendis.</p>
           </div>
 
-          {!blogs ? (<>
-            <section className={styles.blog_in}>
-              {Array.from({ length: 3 }).map((_, index) => (
-                <BlogSkeleton key={index} style={index % 2 === 0 ? { flexDirection: "row-reverse" } : { flexDirection: "row" }} />
-              ))}
+          {
+            !blogs ? (<>
+              <section className={styles.blog_in}>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <BlogSkeleton key={index} style={index % 2 === 0 ? { flexDirection: "row-reverse" } : { flexDirection: "row" }} />
+                ))}
 
-            </section>
-          </>) : (<>
-            <section className={styles.blog_in}>
+              </section>
+            </>) : (<>
+              <section className={styles.blog_in}>
 
-              {blogs.map((blog, index) => (
-                <Blog
-                  key={index}
-                  {...blog}
-                  showContent={false}
-                  flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
-                />
+                {blogs.map((blog, index) => (
+                  <Blog
+                    key={index}
+                    {...blog}
+                    showContent={false}
+                    flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
+                  />
 
-              ))}
-            </section>
-          </>)}
+                ))}
+              </section>
+            </>)
+          }
 
           <Link href={"/blogs"} className={styles.load_btn}>Load More</Link>
-        </motion.section>
+        </motion.section >
 
 
 

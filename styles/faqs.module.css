@@ -12,6 +12,22 @@
     font-size: 3rem;
 }
 
+.search_box {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 10px;
+
+}
+
+.search_box input {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    font-size: 18px;
+}
+
 .faqItems {
     width: 100%;
     display: flex;

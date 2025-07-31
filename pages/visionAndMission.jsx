@@ -29,7 +29,7 @@ const VisionAndMission = () => {
                     <p className={styles.sectionText}>
                         Demo text: To be a global leader in delivering innovative solutions that empower individuals and organizations to achieve their fullest potential.
                     </p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti, voluptas omnis. Quam, delectus voluptates officiis ipsam, nam modi voluptatum consequuntur, totam qui fuga inventore autem repellat! Neque sit similique dignissimos harum beatae, quis ipsam ducimus magni reprehenderit voluptatem pariatur incidunt omnis, cumque nihil dolore numquam laboriosam id asperiores. Est dolor quam quos numquam, tempora soluta veniam, possimus consequuntur laudantium doloremque ducimus voluptatum minima quod, natus placeat nostrum odit? Voluptatibus iste molestias magnam dolorem quaerat rem recusandae veritatis sunt esse quam error sed aliquam, quo voluptatum quod eum. Neque voluptate ab quaerat, itaque aperiam nemo quas facere alias fugiat in deserunt!</p>
+                    <p>To empower individuals to embrace natural, effective, and honest self-care through time-tested Ayurvedic wisdom and modern science. Riyora Organic envisions a world where clean, herbal care becomes a daily ritual — free from Toxic chemicals, gimmicks, and false promises. We aim to restore trust in ancient plant-powered solutions while ensuring modern quality, elegance, and consistency.</p>
                 </div>
             </section>
 
@@ -39,7 +39,9 @@ const VisionAndMission = () => {
                     <p className={styles.sectionText}>
                         Demo text: Our mission is to provide high-quality products and services that create value for our customers, foster growth, and contribute positively to society.
                     </p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti, voluptas omnis. Quam, delectus voluptates officiis ipsam, nam modi voluptatum consequuntur, totam qui fuga inventore autem repellat! Neque sit similique dignissimos harum beatae, quis ipsam ducimus magni reprehenderit voluptatem pariatur incidunt omnis, cumque nihil dolore numquam laboriosam id asperiores. Est dolor quam quos numquam, tempora soluta veniam, possimus consequuntur laudantium doloremque ducimus voluptatum minima quod, natus placeat nostrum odit? Voluptatibus iste molestias magnam dolorem quaerat rem recusandae veritatis sunt esse quam error sed aliquam, quo voluptatum quod eum. Neque voluptate ab quaerat, itaque aperiam nemo quas facere alias fugiat in deserunt!</p>
+                    <p>At Riyora Organics, we believe that true beauty starts with balance—between nature and nurture, tradition and science, care and consistency.
+                        In an age of synthetic shortcuts and chemical overload, we’re returning to the roots of health wellness with clean, powerful formulations inspired by Ayurveda and modern botanical research. Every bottle we create carries the essence of tradition, the rigour of science, and the purity of nature.
+                    </p>
                 </div>
                 <div className={styles.imageWrapper}>
                     <Image

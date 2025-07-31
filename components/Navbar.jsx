@@ -89,9 +89,14 @@ export default function Navbar() {
       path: "/",
       icon: <FaHome />,
     },
+    // {
+    //   name: "Products",
+    //   path: "/products",
+    //   icon: <FaProductHunt />,
+    // },
     {
-      name: "Products",
-      path: "/products",
+      name: "Shop Now",
+      path: "/",
       icon: <FaProductHunt />,
     },
     {

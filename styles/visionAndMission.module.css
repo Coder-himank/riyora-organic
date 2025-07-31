@@ -27,7 +27,7 @@
     display: flex;
     /* flex-direction: row-reverse; */
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
     gap: 30px;
 }
 
@@ -39,6 +39,7 @@
 
 .imageWrapper {
     width: fit-content;
+    max-width: fit-content;
 }
 
 .imageWrapper img {
@@ -53,6 +54,7 @@
 }
 
 .textContent {
+    padding: 50px 0;
     min-width: 600px;
     display: flex;
     flex-direction: column;
@@ -66,7 +68,7 @@
 }
 
 .valuesList li {
-    padding: 10px;
+    padding: 20px;
 }
 
 @media screen and (max-width:700px) {

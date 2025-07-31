@@ -1,76 +1,82 @@
 .container {
-    padding: 10px;
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap-reverse;
-    font-size: Poppins, sans-serif;
-    background-color: rgba(143, 188, 143, 0.196);
-    min-height: 90vh;
+    flex-direction: column;
+    gap: 50px;
 }
 
-.heading {
-    font-size: clamp(2rem, 2vw + 1rem, 3rem);
-}
-
-.text_area {
-    flex: 1;
-    padding: 20px;
+.block_wrapper {
+    width: 100%;
+    height: fit-content;
     display: flex;
     align-items: stretch;
     justify-content: space-around;
-    flex-direction: column;
-    gap: 50px;
-    min-width: 350px;
-    min-height: 500px;
-    border-radius: 10px;
+    flex-wrap: wrap;
 }
 
-.image_area {
+.text_content {
+    flex: 1 1 50%;
+    width: 100%;
+    max-width: 700px;
+    min-width: clamp(350px, 90vw, 600px);
+}
+
+.text_content h3 {
+    padding: 30px 20px;
+    font-size: 3rem;
+    color: green;
+}
+
+.text_content p {
+    padding: 20px;
+    font-weight: 300;
+
+}
+
+.image_wrapper {
+    flex: 1 1 50%;
+    min-width: 500px;
+    width: 100%;
+    max-width: fit-content;
     padding: 20px;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
-    min-height: fit-content;
-    position: relative;
-    width: 50%;
+
 }
 
-.image_area::after {
-    content: 'A Journey Started With Love For Care';
-    display: block;
-    width: clamp(100px, 20%, 200px);
-    height: fit-content;
-    background-color: rgb(120, 185, 120);
-    border-radius: 10px;
-    position: absolute;
-    /* top: calc(100% - 90px); */
-    top: 0;
-    /* left: calc(100% - clamp(120px, 20%, 300px)); */
-    right: -1%;
+.image_wrapper img {
+    /* max-width: fit-content; */
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    object-fit: cover;
+}
+
+.heading_container {
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: rgb(0, 0, 0);
-    padding: 10px;
-    box-shadow: -2px 2px 20px -14px black;
-    /* font-family: "Lavishly Yours", cursive; */
-    font-size: clamp(10px, 2vw, 16px);
-    font-weight: 400;
-    letter-spacing: 1px;
 
 }
 
-.image_area img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+.aboutRiyora h1 {
+    font-size: 3rem;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
 }
 
-@media screen and (max-width: 900px) {
-    .image_area {
-        width: 100%;
-        min-width: 350px;
-    }
+.aboutRiyora h1 span {
+    font-size: 4rem;
+    color: green;
 }
+
+.ourPhilosophy {
+    width: 100%;
+    height: fit-content;
+}
+
+.ourPhilosophy h3 {}
