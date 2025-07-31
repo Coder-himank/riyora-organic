@@ -522,6 +522,8 @@
 }
 
 .testimony_image_wrapper {
+  flex: 1 1 auto;
+  scroll-snap-align: start;
   width: 50%;
   height: fit-content;
   min-width: 400px;
