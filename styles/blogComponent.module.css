@@ -83,7 +83,7 @@
     margin: 20px 0;
     padding: 15px 30px;
     max-width: fit-content;
-    background-color: var(--primary-color);
+    background-color: green;
     color: var(--background-color);
     border-radius: 50px;
 }

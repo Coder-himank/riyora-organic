@@ -563,6 +563,10 @@
   text-align: left;
 }
 
+.testimony_text_content p strong {
+  color: green;
+}
+
 .testimony_rating {
   color: gold;
   font-size: 1.6rem;
