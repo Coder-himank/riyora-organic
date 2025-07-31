@@ -310,8 +310,10 @@ export default function Checkout() {
       const { data } = await axios.post("/api/secure/checkout", {
         userId: session?.user?.id,
         promocode,
-        products: [{ productId: router.query.productId, quantity_demanded: router.query.quantity_demanded }] || null,
+        products: router.query.productId ? [{ productId: router.query.productId, quantity_demanded: router.query.quantity_demanded }] : null,
       });
+      console.log("sent");
+
       setCheckOutData(data);
       setLoading(false);
       return data;

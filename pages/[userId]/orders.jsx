@@ -32,7 +32,7 @@ export const Orders = () => {
     const shouldDisplayOrder = (order) => {
         const statusQuery = query?.status;
         console.log("Query Status:", statusQuery);
-        
+
         console.log("Status Query:", statusQuery, "Order Status:", order?.status);
 
         if (!statusQuery) return true;
@@ -66,7 +66,7 @@ export const Orders = () => {
                     <p>No orders found.</p>
                 ) : (
                     filteredOrders.map((order) => (
-                        <div key={order._id} className={styles.order_item} id={order._id}>
+                        <section key={order._id} className={styles.order_item} id={order._id}>
                             <div className={styles.order_head}>
                                 <span>{order._id}</span>
                                 <span>₹{order.amount}</span>
@@ -95,7 +95,7 @@ export const Orders = () => {
                                 <span>Expected Delivery: {formatDate(order.expectedDelivery)}</span>
                                 <span>Status: {order.status}</span>
                             </div>
-                        </div>
+                        </section>
                     ))
                 )}
             </div>

@@ -58,7 +58,8 @@ export default function TrackOrder() {
                 ) : (
                     orderDetails.map((order) => (
                         <>
-                            {(order.status !== "delivered" && new Date(order.deliveredOn) < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) && ( // to check to show only orders that are not delivered or delivered more than 30 days ago
+                            {order.status !== "delivered" || new Date(order.deliveredOn) >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) && (
+                                // render something here
 
                                 <Link href={`/${userId}/orders#${order._id}`} key={order._id} className={styles.order_link}>
                                     <div className={styles.order_detail} key={order.orderId}>

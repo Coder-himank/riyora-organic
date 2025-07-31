@@ -40,7 +40,7 @@
   /* max-width: 1400px; */
   height: 50vw;
   /* min-height: 30vh; */
-  max-height: 75vh;
+  max-height: 60vh;
   overflow: hidden;
   margin: 0 auto;
   /* box-shadow: 0 -2px 20px -15px; */
@@ -222,10 +222,7 @@
 }
 
 .load_btn {
-  padding: 10px 17px;
-  border: 2px solid var(--primary-color);
-  border-radius: 20px;
-  font-size: clamp(10px, 2vw, 14px);
+  text-decoration: underline;
 
 }
 
@@ -275,7 +272,7 @@
 .product_image_wrapper img {
   width: 100%;
   max-width: fit-content;
-  max-height: 600px;
+  max-height: 800px;
   object-fit: contain;
   height: fit-content;
 }
