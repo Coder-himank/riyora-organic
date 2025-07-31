@@ -58,10 +58,10 @@ export default function TrackOrder() {
                 ) : (
                     orderDetails.map((order) => (
                         <>
-                            {order.status !== "delivered" || new Date(order.deliveredOn) >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) && (
+                            {((order.status !== "delivered") || (order.status === "delivered" && new Date(order.deliveredOn) >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))) && (
                                 // render something here
 
-                                <Link href={`/${userId}/orders#${order._id}`} key={order._id} className={styles.order_link}>
+                                <Link href={`/${userId}/orderDetail?orderId=${order._id}&userId=${session?.user?.id}`} key={order._id} className={styles.order_link}>
                                     <div className={styles.order_detail} key={order.orderId}>
 
                                         <section className={styles.order_images}>

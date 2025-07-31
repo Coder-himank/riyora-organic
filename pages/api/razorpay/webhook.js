@@ -49,6 +49,8 @@ export default async function handler(req, res) {
     const eventType = event.event;
     const payment = event?.payload?.payment?.entity;
 
+
+
     if (!payment) {
         console.error("No payment entity found in webhook");
         return res.status(400).send("Malformed webhook");
@@ -89,6 +91,7 @@ export default async function handler(req, res) {
                 paymentDate: new Date(payment.created_at * 1000),
             },
             status: eventType === 'payment.captured' ? 'confirmed' : 'payment_failed',
+            orderHistroy: [{ status: "pending", notes: "The Order Is pending" }]
         };
 
         try {

@@ -65,37 +65,37 @@ export const Orders = () => {
                 ) : filteredOrders.length === 0 ? (
                     <p>No orders found.</p>
                 ) : (
-                    filteredOrders.map((order) => (
-                        <section key={order._id} className={styles.order_item} id={order._id}>
-                            <div className={styles.order_head}>
-                                <span>{order._id}</span>
-                                <span>₹{order.amount}</span>
-                            </div>
+                    filteredOrders.map((order, i) => (
+                        <Link key={order._id} href={`/${session?.user?.id}/orderDetail?orderId=${order._id}&userId=${session?.user?.id}`}>
+                            <section key={order._id} className={styles.order_item}>
+                                <div className={styles.order_head}>
+                                    <span>{order._id}</span>
+                                    <span>₹{order.amount}</span>
+                                </div>
 
-                            <div className={styles.order_products}>
-                                {order.products.map((product, index) => (
-                                    <div key={index} className={styles.product_plate}>
-                                        <Link href={`/products/${product.productId}`}>
+                                <div className={styles.order_products}>
+                                    {order.products.map((product, index) => (
+                                        <div key={index} className={styles.product_plate}>
                                             <Image
                                                 src={product.imageUrl || "/images/placeholderProduct.png"}
                                                 width={100}
                                                 height={100}
                                                 alt={`Product ${index + 1}`}
                                             />
-                                        </Link>
-                                        <span>Quantity: {product.quantity}</span>
-                                        <span>Price : ₹{product.price}</span>
-                                    </div>
-                                ))}
-                            </div>
+                                            <span>Quantity: {product.quantity}</span>
+                                            <span>Price : ₹{product.price}</span>
+                                        </div>
+                                    ))}
+                                </div>
 
-                            <div className={styles.order_details}>
-                                <span>Payment Status: {order.paymentStatus}</span>
-                                <span>Placed on: {formatDate(order.placedOn)}</span>
-                                <span>Expected Delivery: {formatDate(order.expectedDelivery)}</span>
-                                <span>Status: {order.status}</span>
-                            </div>
-                        </section>
+                                <div className={styles.order_details}>
+                                    <span>Payment Status: {order.paymentStatus}</span>
+                                    <span>Placed on: {formatDate(order.placedOn)}</span>
+                                    <span>Expected Delivery: {formatDate(order.expectedDelivery)}</span>
+                                    <span>Status: {order.status}</span>
+                                </div>
+                            </section>
+                        </Link>
                     ))
                 )}
             </div>

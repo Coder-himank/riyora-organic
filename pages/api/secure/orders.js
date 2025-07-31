@@ -8,6 +8,7 @@ export default async function handler(req, res) {
         try {
             const { orderId, userId, status } = req.query;
 
+
             if (!userId) {
                 return res.status(400).json({ message: "Missing Details" });
             }
@@ -27,7 +28,7 @@ export default async function handler(req, res) {
 
                 //check order according to orderId
                 orderDetails = await Order.findOne({ userId, razorpayOrderId: orderId.toString() });
-                orderDetails = orderDetails ? [orderDetails] : [];
+                orderDetails = orderDetails ? orderDetails : [];
             } else {
                 // Fetch all orders for the user
                 orderDetails = await Order.find({ userId });
