@@ -185,17 +185,6 @@ export default function Home() {
               <div className={`${styles.hero_section_slides} ${styles.hero_section_slide_2}`}>
                 <Image src={"/images/hero_banner_2.png"} width={1920} height={1080} />
 
-                {/* <div className={styles.hero_text}>
-                  <div className={styles.hero_head}>
-
-                    <h1 className={styles.glow_text}>Welcome to Our Brand</h1>
-                    <p className={styles.subtext}>Discover the best products for a healthy and happy life.</p>
-                  </div>
-
-                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className={styles.shop_btn} viewport={{ once: true }}>
-                    <Link href="/products">Shop Now</Link>
-                  </motion.div>
-                </div> */}
               </div>
             </Carousel>
 
@@ -229,34 +218,15 @@ export default function Home() {
           </section>
         </motion.section>
 
-        {/* Benefits Section */}
-        <motion.section className={styles.benefits_section} viewport={{ once: true }}>
 
-          <div className={styles.benefit_card_holder}>
-
-            <div className={styles.benefit_card}>
-              <Image src={"/images/plant.png"} width={200} height={200} alt="No Chemicals" />
-              <span>No Chemicals</span>
-            </div>
-            <div className={styles.benefit_card}>
-              <Image src={"/images/nutrition.png"} width={200} height={200} alt="Rich in Nutrients" />
-              <span>Rich in Nutrients</span>
-            </div>
-            <div className={styles.benefit_card}>
-              <Image src={"/images/enviornment.png"} width={200} height={200} alt="Environment Friendly" />
-              <span>Environment Friendly</span>
-            </div>
-            <div className={styles.benefit_card}>
-              <Image src={"/images/muscle.png"} width={200} height={200} alt="Better for Health" />
-              <span>Better for Health</span>
-            </div>
-          </div>
-
-        </motion.section>
 
         {/* why choose us section */}
         <motion.section className={styles.choose_us_section}>
-          <h2>Why <span>Choose Us</span></h2>
+          <div className={styles.section_header}>
+
+            <h2>Why <span>Choose Us</span></h2>
+            <p className={styles.sub_heading}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione, quasi, animi assumenda necessitatibus quod omnis cum maiores quia sunt aspernatur, in excepturi iure? Quae iure placeat incidunt magnam ab obcaecati earum, doloremque neque adipisci corporis eaque vero nam? Eaque, aspernatur?</p>
+          </div>
           <section>
             {choose_us_list_1.map((choose_us, index) => (
               <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
@@ -287,9 +257,6 @@ export default function Home() {
           viewport={{ once: true }}
         >
           <div className={styles.about_in}>
-
-
-
             <motion.div
               className={styles.about_image}
             >
@@ -354,7 +321,11 @@ export default function Home() {
 
         {/* Blogs Section */}
         <motion.section className={styles.blogs} viewport={{ once: true }}>
-          <h2 className={styles.home_h2}>Enchant <span>Yourself</span></h2>
+          <div className={styles.section_header}>
+
+            <h2 className={styles.home_h2}>Enchant <span>Yourself</span></h2>
+            <p className={styles.sub_heading}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores accusantium sapiente obcaecati labore delectus atque nemo inventore consectetur modi vitae, id enim veritatis voluptatem ratione. A distinctio esse tempore reiciendis.</p>
+          </div>
 
           {!blogs ? (<>
             <section className={styles.blog_in}>
@@ -386,8 +357,11 @@ export default function Home() {
         {/* testimonies */}
         {/* Effectiveness Section */}
         <motion.section className={styles.effects} viewport={{ once: true }}>
-          <h2 className={styles.home_h2}>Changing <span>Lifes</span></h2>
-          <p className={styles.sub_heading}>Testimonies of our loyal customers after using Riyora for months</p>
+          <div className={styles.section_header}>
+
+            <h2 className={styles.home_h2}>Changing <span>Lifes</span></h2>
+            <p className={styles.sub_heading}>Testimonies of our loyal customers after using Riyora for months</p>
+          </div>
 
           <Carousel>
 

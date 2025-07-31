@@ -13,9 +13,16 @@
   overflow: hidden;
 }
 
+.section_header {
+  padding: 30px 0;
+}
+
 .sub_heading {
   font-weight: 200;
   font-size: 10px;
+  max-width: 700px;
+  padding: 10px;
+  margin: auto;
 }
 
 /* Hero Section */
@@ -232,12 +239,11 @@
 .product_section_in {
   padding: 50px 0;
   width: 100%;
-  /* max-width: 1400px; */
   margin: auto;
 
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: flex-end;
   flex-wrap: wrap-reverse;
 }
 
@@ -248,7 +254,7 @@
   display: flex;
   align-items: start;
   flex-direction: column;
-  gap: 50px;
+  gap: 40px;
   min-width: 500px;
 }
 
@@ -325,6 +331,7 @@
 .choose_us_section {
   width: 100%;
   height: clamp(350px, 50vw, 500px);
+  min-height: fit-content;
 }
 
 .choose_us_section section {
@@ -365,6 +372,7 @@
 
 .about_in {
   background-color: #415B2E;
+  /* background-color: #80ac608c; */
   height: fit-content;
   width: 100%;
   /* border-radius: 20px; */
@@ -513,18 +521,20 @@
 
 
 .testimony_section {
+  flex: 1 1 auto;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   padding: 50px 0;
-  flex-wrap: wrap;
+  overflow: hidden;
+  /* flex-wrap: wrap; */
 }
 
 .testimony_image_wrapper {
-  flex: 1 1 auto;
+
   scroll-snap-align: start;
-  width: 50%;
+  width: 100%;
   height: fit-content;
   min-width: 400px;
   margin: auto;
@@ -543,7 +553,7 @@
   flex-direction: column;
   gap: 40px;
   padding: 40px;
-  width: 50%;
+  width: 100%;
   min-width: 400px;
 }
 
@@ -776,6 +786,10 @@
     width: 90%;
   }
 
+  .testimony_section {
+    flex-wrap: wrap;
+  }
+
 }
 
 
@@ -819,6 +833,11 @@
     max-width: 300px;
     max-height: 300px;
     /* top: 35%; */
+  }
+
+  .testimony_section {
+    padding: 50px 0;
+    justify-content: center;
   }
 }
 

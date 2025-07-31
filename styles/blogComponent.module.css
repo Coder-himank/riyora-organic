@@ -1,14 +1,15 @@
 .blog,
 .blogSkeletonBox {
     width: 100%;
-    max-width: 900px;
     overflow: hidden;
     height: fit-content;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     border-radius: 9px;
     transition: all 0.3s ease-in-out;
+    padding: 50px 30px;
+    gap: 20px;
 }
 
 .blog:hover {
@@ -18,24 +19,6 @@
 
 
 
-.blog img,
-.sekeltonImage {
-    width: 100%;
-    height: auto;
-    max-width: 450px;
-    width: 45vw;
-}
-
-.blog section:nth-child(2),
-.blogSkeletonBox section:nth-child(2) {
-    width: 100%;
-    max-width: 600px;
-    height: fit-content;
-    padding: 0 20px;
-    text-align: center;
-    flex: 1 1 auto;
-    position: relative;
-}
 
 .blog section:nth-child(2)::before {
     content: '';
@@ -54,26 +37,55 @@
     z-index: -1;
 }
 
+.image_wrapper {
+    width: 100%;
+    max-width: fit-content;
+    min-width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blog img,
+.sekeltonImage {
+    width: 70vw;
+    height: auto;
+    max-width: 450px;
+}
+
+.blog .text_content,
+.blogSkeletonBox section:nth-child(2) {
+    width: 100%;
+    max-width: 700px;
+    height: fit-content;
+    padding: 0 20px;
+    text-align: start;
+    flex: 1 1 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .blog h3 {
     /* line-height: 60px; */
-    font-size: clamp(10px, 2vw, 1.4rem);
+    /* font-size: clamp(10px, 2vw, 1.4rem); */
     font-weight: 500;
 }
 
 .blog p {
 
-    font-size: clamp(10px, 2vw, 16px);
+    font-weight: 200;
+    /* font-size: clamp(10px, 2vw, 16px); */
 }
 
 .blog a {
-    margin: 20px auto;
+    margin: 20px 0;
     padding: 10px 20px;
     max-width: fit-content;
     background-color: var(--primary-color);
     color: var(--background-color);
     border-radius: 50px;
-    display: block;
-    font-size: clamp(8px, 2vw, 14px);
 }
 
 .blogSkeletonBox {
@@ -121,13 +133,27 @@
     .blog section,
     .blogSkeletonBox section {
         width: 50%;
+
     }
 
     .blog {
+        flex-wrap: wrap;
         flex-direction: row;
         width: 90vw;
         min-width: 90vw;
         max-width: 90vw;
+        justify-content: center !important;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .image_wrapper {
+        max-width: 100%;
+    }
+
+    .image_wrapper img {
+        width: 90vw;
+
     }
 
 }
