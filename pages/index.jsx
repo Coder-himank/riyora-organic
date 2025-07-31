@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import BlogSkeleton from "@/components/BlogSkeleton";
 import ProductSkeleton from "@/components/ProductSkeleton";
 import ReviewCard from "@/components/ReviewCard";
-
+import StarRating from '@/components/StartRating'
 
 
 export const TrendingProduct = ({ products }) => {
@@ -210,11 +210,20 @@ export default function Home() {
         <motion.section className={styles.product_section}>
           <section className={styles.product_section_in}>
             <section className={styles.product_text_content}>
-              <h3>Get The Oil</h3>
+              <h3>Root Strength Hair Oil</h3>
+
+              <section className={styles.product_rating}>
+                <StarRating rating={4.4} /> <span className={styles.review_count}>| (20)</span>
+              </section>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere eligendi corrupti, repudiandae tenetur odit possimus facilis pariatur vel delectus, dolorem corporis repellat animi neque quos et illum iste qui. Ea.</p>
-              <Link href="/products" className={styles.product_shop_btn}>Get for 499</Link>
+              <div className={styles.product_bottom}>
+
+                <Link href="/products" className={styles.product_shop_btn}>Get for ₹ 499</Link>
+
+              </div>
             </section>
             <section className={styles.product_image_wrapper}>
+              <div className={styles.bg_circel}></div>
               <Image src={'/products/root_strength_hair_oil_2.png'} width={500} height={500} alt="Logo" />
             </section>
           </section>
@@ -374,28 +383,36 @@ export default function Home() {
 
 
 
+        {/* testimonies */}
         {/* Effectiveness Section */}
         <motion.section className={styles.effects} viewport={{ once: true }}>
-          <h2 className={styles.home_h2}>CHanging <span>Lifes</span></h2>
-          <Carousel>
-            <motion.section className={styles.effects_cards} viewport={{ once: true }}>
+          <h2 className={styles.home_h2}>Changing <span>Lifes</span></h2>
+          <p className={styles.sub_heading}>Testimonies of our loyal customers after using Riyora for months</p>
 
-              <Image src={"/images/effectiveness_image_1.jpg"} width={500} height={400} alt="Before using products" />
-              <Image src={"/images/effectiveness_image_2.jpg"} width={500} height={400} alt="After using products" />
-            </motion.section>
-            <motion.section className={styles.effects_cards} viewport={{ once: true }}>
-              <Image src={"/images/frizRestoreBefore.jpeg"} width={500} height={400} alt="Before using products" />
-              <Image src={"/images/frizRestoreAfter.jpeg"} width={500} height={400} alt="After using products" />
-            </motion.section>
-            <motion.section className={styles.effects_cards} viewport={{ once: true }}>
-              <Image src={"/images/hairfallRestoreBefore.jpg"} width={500} height={400} alt="Before using products" />
-              <Image src={"/images/hairfallRestoreAfter.jpg"} width={500} height={400} alt="After using products" />
-            </motion.section>
+          <Carousel>
+
+            {Array.from({ length: 5 }).map((_, index) => (
+              <motion.section className={styles.testimony_section}>
+                <div className={styles.testimony_image_wrapper}>
+                  <Image src={'/images/person1.png'} alt={'person Image'} height={450} width={450} />
+                </div>
+                <div className={styles.testimony_text_content}>
+                  <h3>Thank You Riyora</h3>
+                  <p>Trisha showed her trust in Riyora after using <strong>Riyora's Root Strength Hair Oil </strong> 2 months Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi, odit.</p>
+
+                  <section className={styles.testimony_rating}>
+                    <StarRating rating={4.7} />
+                  </section>
+                </div>
+              </motion.section>
+            ))}
           </Carousel>
+
+
         </motion.section>
 
         {/* Reviews Section */}
-        <motion.section className={styles.reviews_section} viewport={{ once: true }}>
+        {/* <motion.section className={styles.reviews_section} viewport={{ once: true }}>
           <h2 className={styles.home_h2}>Customer <span>Reviews</span></h2>
           <motion.section initial={{ opacity: 0.5, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
             <div className={styles.review_in}>
@@ -409,7 +426,7 @@ export default function Home() {
             </div>
 
           </motion.section>
-        </motion.section>
+        </motion.section> */}
 
         <TrendingProduct products={products} />
 
