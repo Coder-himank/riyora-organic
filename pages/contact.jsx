@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from '@/styles/contact.module.css'
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Head from "next/head";
+import Image from "next/image";
 const Contact = () => {
     const { data: session } = useSession();
     const [form, setForm] = useState({
@@ -9,6 +11,8 @@ const Contact = () => {
         email: "",
         message: "",
     });
+
+    // SEO: Add meta tags and meaningful content
     const [submitted, setSubmitted] = useState(false);
 
 
@@ -31,20 +35,42 @@ const Contact = () => {
 
     return (
         <>
+            <Head>
+                <title>Contact Riyora Organic | Best Natural Hair Oil Brand</title>
+                <meta name="description" content="Contact Riyora Organic, the leading natural hair oil brand. Share your feedback, ask questions, or report issues. We're here to help you achieve healthy, beautiful hair." />
+                <meta name="keywords" content="Riyora Organic, contact, hair oil, natural hair care, organic hair oil, feedback, support" />
+                <meta property="og:title" content="Contact Riyora Organic | Best Natural Hair Oil Brand" />
+                <meta property="og:description" content="Get in touch with Riyora Organic for all your natural hair oil needs. We value your feedback and are ready to assist you." />
+                <meta property="og:url" content="https://riyora-organic.vercel.app/contact" />
+                <meta property="og:type" content="website" />
+                <meta property="og:image" content="https://riyora-organic.vercel.app/images/Riyora-hair-oil-og.jpg" />
+            </Head>
             <section className={styles.header_section}>
-                <h1>Contact Us</h1>
+                <h1>Contact Riyora Organic</h1>
                 <p>
-                    We value your feedback and are here to help with any questions or concerns you may have. If you would like to share your experience or report an issue, please fill out the form below. The Ryora Organic team appreciates your input and will get back to you as soon as possible.
+                    Have questions about our <strong>natural hair oil</strong> or want to share your experience with Riyora Organic? Fill out the form below and our team will respond promptly. Your feedback helps us provide the best organic hair care solutions.
                 </p>
+                <Image
+                    src="/images/Riyora-hair-oil-bottle.jpg"
+                    alt="Riyora Organic Hair Oil Bottle"
+                    width={320}
+                    height={320}
+                    priority
+                />
             </section>
             <div className={styles.form}>
                 {submitted ? (
-                    <center><div style={{ color: "green", marginTop: 20 }}>Thank you for contacting us!</div></center>
+                    <center>
+                        <div style={{ color: "green", marginTop: 20 }}>
+                            Thank you for contacting Riyora Organic! We appreciate your feedback and will get back to you soon.
+                        </div>
+                    </center>
                 ) : (
                     <form onSubmit={handleSubmit}>
                         <div style={{ marginBottom: 16 }}>
-                            <label>Name</label>
+                            <label htmlFor="name">Name</label>
                             <input
+                                id="name"
                                 type="text"
                                 name="name"
                                 value={form.name}
@@ -54,8 +80,9 @@ const Contact = () => {
                             />
                         </div>
                         <div style={{ marginBottom: 16 }}>
-                            <label>Email</label>
+                            <label htmlFor="email">Email</label>
                             <input
+                                id="email"
                                 type="email"
                                 name="email"
                                 value={form.email}
@@ -65,8 +92,9 @@ const Contact = () => {
                             />
                         </div>
                         <div style={{ marginBottom: 16 }}>
-                            <label>Message</label>
+                            <label htmlFor="message">Message</label>
                             <textarea
+                                id="message"
                                 name="message"
                                 value={form.message}
                                 onChange={handleChange}

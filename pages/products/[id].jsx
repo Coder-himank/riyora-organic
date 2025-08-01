@@ -60,11 +60,7 @@ const ProductPage = ({ productId, productData }) => {
         },
         "sku": "ORG-ALOE-001",
         "mpn": "123456",
-        "identifier": {
-            "@type": "PropertyValue",
-            "propertyID": "GTIN",
-            "value": "0123456789012"
-        },
+        "gtin13": "0123456789012",
         "offers": {
             "@type": "Offer",
             "url": `${site_url}${productId}`,
@@ -108,30 +104,15 @@ const ProductPage = ({ productId, productData }) => {
         },
         "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "reviewCount": "56"
+            "ratingValue": productData.averageRating,
+            "reviewCount": productData.numReviews
         },
-        "review": [
-            {
-                "@type": "Review",
-                "author": {
-                    "@type": "Person",
-                    "name": "John Doe"
-                },
-                "datePublished": "2025-01-15",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "5",
-                    "bestRating": "5"
-                },
-                "reviewBody": "Amazing product! My skin feels so refreshed."
-            }
-        ],
+
         "hasMerchantReturnPolicy": {
             "@type": "MerchantReturnPolicy",
             "applicableCountry": "IN",
             "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-            "merchantReturnDays": 30,
+            "merchantReturnDays": 2,
             "returnMethod": "https://schema.org/ReturnByMail",
             "returnFees": "https://schema.org/FreeReturn",
 
@@ -146,6 +127,24 @@ const ProductPage = ({ productId, productData }) => {
     const [saveComment, setSaveComment] = useState(null);
     const [productReviews, setProductReviews] = useState(productData.reviews)
 
+    useEffect(() => {
+        if (!productData || !productReviews) return;
+
+        setProductSchema({
+            ...productSchema,
+            review: productReviews.map((review) => ({
+                "@type": "Review",
+                author: { "@type": "Person", name: review.name },
+                datePublished: new Date().toISOString().split("T")[0],
+                reviewRating: {
+                    "@type": "Rating",
+                    ratingValue: review.rating,
+                    bestRating: "5"
+                },
+                reviewBody: review.comment
+            }))
+        });
+    }, [productReviews]);
 
 
     useEffect(() => {
@@ -180,7 +179,7 @@ const ProductPage = ({ productId, productData }) => {
             newNotify("Please Login...")
             return
         }
-        if (!productId, comment === "", rating === 0) {
+        if (!productId || comment === "", rating === 0) {
             newNotify("Empty inputs")
             return
         }
@@ -283,7 +282,7 @@ const ProductPage = ({ productId, productData }) => {
                                         <Image key={index} src={image} width={500} height={500} alt={productData.name} />
 
                                     ))}
-                                
+
                                 </Carousel>
                             </section>
 
@@ -441,7 +440,8 @@ const ProductPage = ({ productId, productData }) => {
                                     </div>
                                     <div className={styles.rate_field}>
                                         <button onClick={() => setSaveComment(false)}>Prev</button>
-                                        <input type="text" placeholder="Rate us Out of 5..." onChange={(e) => setRating(e.target.value)} />
+                                        <input type="number" min={1} max={5} step={0.5} value={rating} onChange={(e) => setRating(parseFloat(e.target.value))} />
+
                                         <button onClick={newFeedback}>Submit</button>
                                     </div>
                                 </div>

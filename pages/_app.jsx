@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps }) {
 
         <Head>
           <html lang={router.locale} />
+          <link rel="shortcut icon" href="Riyora-Logo-Favicon.ico" type="image/x-icon" />
         </Head>
         <SessionProvider>
           <Navbar />
