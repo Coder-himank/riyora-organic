@@ -1,7 +1,6 @@
 import styles from '@/styles/services.module.css';
 import Head from 'next/head';
 import Image from 'next/image';
-import Head from 'next/head';
 const Services = () => {
     return (
         <>
