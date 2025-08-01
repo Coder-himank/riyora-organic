@@ -288,7 +288,7 @@
   min-width: 500px;
 }
 
-.product_text_content h3 {
+.product_text_content h1 {
   font-size: clamp(2.6rem, 6vw, 3rem);
 }
 
@@ -383,13 +383,13 @@
   max-width: 600px;
   width: 90%;
   list-style: decimal;
-  padding: 20px;
+  padding: 20px 0 20px 10px;
   margin: auto;
   font-weight: 300;
 }
 
 .choose_us_section ul li {
-  padding: 20px;
+  padding: 20px 0;
 }
 
 /* About Section */

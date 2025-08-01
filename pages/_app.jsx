@@ -21,6 +21,9 @@ function MyApp({ Component, pageProps }) {
         <Head>
           <html lang={router.locale} />
           <link rel="shortcut icon" href="Riyora-Logo-Favicon.ico" type="image/x-icon" />
+
+          <link rel="apple-touch-icon" href="/images/riyora-apple-touch-icon.png" />
+
         </Head>
         <SessionProvider>
           <Navbar />

@@ -111,7 +111,7 @@ export default function Home() {
         <meta name="keywords" content="Riyora, ayurvedic hair oil, organic hair oil, hair growth oil, natural hair care, cruelty-free, eco-friendly, vegan hair oil, best hair oil India" />
         <meta name="author" content="Riyora Organic" />
         <meta name="robots" content="index, follow" />
-        <meta name="language" content="en,hi" />
+        <meta name="language" content="en" />
         <link rel="canonical" href="https://riyora-organic.vercel.app/" />
 
         {/* Open Graph / Facebook */}
@@ -178,13 +178,13 @@ export default function Home() {
           </div>
           <section className={styles.product_section_in}>
             <section className={styles.product_text_content}>
-              <h3>Root Strength Hair Oil</h3>
+              <h1>Root Strength Hair Oil</h1>
               <section className={styles.product_rating}>
                 <StarRating rating={4.4} /> <span className={styles.review_count}>| (20)</span>
               </section>
               <p>Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oil nourishes your scalp, strengthens roots, and promotes healthy hair growth. Free from parabens, sulfates, and artificial colors.</p>
               <div className={styles.product_bottom}>
-                <Link href="/products" className={styles.product_shop_btn}>Get for ₹ 499</Link>
+                <Link href="/products" className={styles.product_shop_btn}>Shop Now for ₹ 499</Link>
               </div>
             </section>
             <section className={styles.product_image_wrapper}>
