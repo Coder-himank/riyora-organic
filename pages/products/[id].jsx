@@ -280,9 +280,10 @@ const ProductPage = ({ productId, productData }) => {
                                 <Carousel action_style="images">
                                     {productData.imageUrl.map((image, index) => (
 
-                                        <Image key={index} src={image} width={350} height={400} alt={productData.name} />
+                                        <Image key={index} src={image} width={500} height={500} alt={productData.name} />
 
                                     ))}
+                                
                                 </Carousel>
                             </section>
 
@@ -464,14 +465,7 @@ const ProductPage = ({ productId, productData }) => {
                         </section>
 
 
-                        <section className={styles.more_products}>
-                            <Carousel>
-                                {uMayLikeProducts.length !== 0 &&
-                                    uMayLikeProducts.map((product, index) =>
-                                        <ProductCard key={product.name} product={product} />
-                                    )}
-                            </Carousel>
-                        </section>
+
                     </div>
                 )}
             </div>

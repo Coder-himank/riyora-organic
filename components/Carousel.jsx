@@ -77,6 +77,10 @@ const Carousel = ({
     useEffect(() => {
         checkOverflow();
 
+        if (action_style === "images") {
+            setShowActionButton(true)
+        }
+
         const observer = new ResizeObserver(() => {
             checkOverflow();
         });
@@ -139,7 +143,7 @@ const Carousel = ({
                 {children}
             </div>
 
-            {showActionButton && slidePositions.length > 1 && (
+            {(showActionButton && slidePositions.length > 1) && (
                 <div
                     className={`
             ${styles.action_btn}

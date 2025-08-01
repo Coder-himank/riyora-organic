@@ -25,7 +25,7 @@ const VisionAndMission = () => {
                     />
                 </div>
                 <div className={styles.textContent}>
-                    <h2 className={styles.sectionTitle}>Our Vision</h2>
+                    <h3 className={styles.sectionTitle}>Our Vision</h3>
                     <p className={styles.sectionText}>
                         Demo text: To be a global leader in delivering innovative solutions that empower individuals and organizations to achieve their fullest potential.
                     </p>
@@ -35,7 +35,7 @@ const VisionAndMission = () => {
 
             <section className={styles.missionSection}>
                 <div className={styles.textContent}>
-                    <h2 className={styles.sectionTitle}>Our Mission</h2>
+                    <h3 className={styles.sectionTitle}>Our Mission</h3>
                     <p className={styles.sectionText}>
                         Demo text: Our mission is to provide high-quality products and services that create value for our customers, foster growth, and contribute positively to society.
                     </p>

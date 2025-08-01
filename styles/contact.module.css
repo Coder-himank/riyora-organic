@@ -1,22 +1,28 @@
-.contact-container {
-    text-align: center;
-    padding: 30px;
-}
-
-.contact-form {
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.contact-form input,
-.contact-form textarea {
+.header_section {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    max-width: 1300px;
+    margin: auto;
+
 }
 
-.contact-form button {
-    margin-top: 15px;
+.header_section h1 {
+    padding: 20px;
+    font-size: 3rem;
+    color: green;
+    text-align: center;
+}
+
+.header_section p {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    font-weight: 300;
+    text-align: center;
+}
+
+.form {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
 }

@@ -19,6 +19,7 @@
     width: 100%;
     max-width: 700px;
     min-width: clamp(350px, 90vw, 600px);
+
 }
 
 .text_content h3 {
@@ -42,6 +43,7 @@
     display: flex;
     align-items: stretch;
     justify-content: center;
+
 
 }
 
@@ -74,9 +76,18 @@
     color: green;
 }
 
-.ourPhilosophy {
-    width: 100%;
-    height: fit-content;
-}
+@media screen and (max-width: 1200px) {
+    .text_content {
+        order: 1;
+        width: 100%;
+        max-width: 100%;
+    }
 
-.ourPhilosophy h3 {}
+    .image_wrapper {
+        width: 100%;
+        max-width: 100%;
+        justify-content: start;
+        min-width: 100%;
+
+    }
+}

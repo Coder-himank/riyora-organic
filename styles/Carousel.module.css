@@ -149,8 +149,8 @@
 
 .action_btn_img .indicator,
 .action_btn_img .activeIndicator {
-  width: clamp(30px, 10vw, 100px);
-  height: clamp(30px, 10vw, 100px);
+  width: clamp(70px, 8vw, 70px);
+  height: clamp(70px, 8vw, 70px);
   border: 1px solid #ccc;
   background: none;
   border-radius: 0;

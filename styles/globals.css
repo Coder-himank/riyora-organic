@@ -363,7 +363,7 @@ header {
   width: 100%;
   min-width: fit-content;
   max-width: 300px;
-  min-width: 100px;
+  min-width: fit-content;
 
 }
 
@@ -398,19 +398,24 @@ header {
   display: flex;
   align-items: center;
   justify-content: left;
+  max-width: fit-content;
 }
 
 .nav-left .name-head img {
-  width: 120px;
-  height: auto;
+  width: fit-content;
+  min-width: 100px;
+  max-width: 15vw;
+  height: 100%;
+  max-height: 100px;
   margin: 1px 5px;
+  object-fit: contain;
+  transition: all 0.6s;
 }
-
 
 .navFixed .name-head img {
-  transition: all 0.6s;
   width: 100px;
 }
+
 
 .nav-left {
   display: flex;
@@ -856,11 +861,6 @@ footer p {
     display: flex;
   }
 
-  .nav-left .name-head img {
-    /* scale: 0.9; */
-    width: 120px;
-  }
-
   .navFixed .name-head img {
     transition: all 0.6s;
     width: 100px;
@@ -874,7 +874,7 @@ footer p {
   }
 
   .nav-right {
-    width: 50%;
+    width: fit-content;
   }
 
   .toogleNavBar {

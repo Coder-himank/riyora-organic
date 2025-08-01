@@ -61,6 +61,15 @@
     gap: 20px;
 }
 
+.textContent h3 {
+    font-size: 3rem;
+    color: green;
+}
+
+.textContent p {
+    font-weight: 300;
+}
+
 .valuesList {
     max-width: 900px;
     width: 100%;
@@ -78,6 +87,7 @@
     }
 
     .textContent {
+        order: 1;
         min-width: 200px;
     }
 

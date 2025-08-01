@@ -34,18 +34,16 @@
 
 
 .carousel {
-    height: fit-content;
+    height: auto;
     width: clamp(400px, 100%, 460px);
     overflow: hidden;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
 }
 
 .carousel img {
     flex: 1 1 auto;
     scroll-snap-align: start;
     width: 100%;
-
-    /* max-height: 450px; */
     object-fit: contain;
 }
 
@@ -477,12 +475,13 @@
 
 .apply_section {
     width: 100%;
-    max-width: 1200px;
+    /* max-width: 1200px; */
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     margin: auto;
+    padding: 50px 0;
 }
 
 .apply_box {
@@ -491,8 +490,12 @@
     padding: 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     /* flex-wrap: wrap; */
+}
+
+.apply_box:nth-child(even) {
+    flex-direction: row-reverse;
 }
 
 .apply_box img {
