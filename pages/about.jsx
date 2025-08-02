@@ -5,35 +5,35 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>About Riyora Organics | Ayurvedic Hair Oil & Natural Hair Care</title>
-        <meta name="description" content="Learn about Riyora Organics: our Ayurvedic roots, pure herbal hair oils, and commitment to natural, chemical-free hair care. Discover our story, philosophy, and mission for healthy, beautiful hair." />
+        <title>About Riyora Organic | Ayurvedic Hair Oil & Natural Hair Care</title>
+        <meta name="description" content="Learn about Riyora Organic: our Ayurvedic roots, pure herbal hair oils, and commitment to natural, chemical-free hair care. Discover our story, philosophy, and mission for healthy, beautiful hair." />
 
-        <meta property="og:title" content="About Riyora Organics | Ayurvedic Hair Oil & Natural Hair Care" />
-        <meta property="og:description" content="Explore the journey of Riyora Organics—where tradition meets science for natural hair care. Discover our Ayurvedic philosophy, pure ingredients, and dedication to honest, effective beauty." />
+        <meta property="og:title" content="About Riyora Organic | Ayurvedic Hair Oil & Natural Hair Care" />
+        <meta property="og:description" content="Explore the journey of Riyora Organic—where tradition meets science for natural hair care. Discover our Ayurvedic philosophy, pure ingredients, and dedication to honest, effective beauty." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://riyora-organic.vercel.app/about" />
         <meta property="og:image" content="https://riyora-organic.vercel.app/images/ayurveda-utensils.jpg" />
-        <meta property="og:site_name" content="Riyora Organics" />
+        <meta property="og:site_name" content="Riyora Organic" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="About Riyora Organics | Ayurvedic Hair Oil & Natural Hair Care" />
-        <meta name="twitter:description" content="Discover Riyora Organics—Ayurvedic hair oils and natural hair care. Learn about our story, philosophy, and commitment to pure, effective herbal products." />
+        <meta name="twitter:title" content="About Riyora Organic | Ayurvedic Hair Oil & Natural Hair Care" />
+        <meta name="twitter:description" content="Discover Riyora Organic—Ayurvedic hair oils and natural hair care. Learn about our story, philosophy, and commitment to pure, effective herbal products." />
         <meta name="twitter:image" content="https://riyora-organic.vercel.app/images/ayurveda-utensils.jpg" />
         <meta name="twitter:site" content="@riyora-organic.vercel.app" />
 
-        <meta name="keywords" content="Riyora Organics, About Riyora, Ayurvedic hair oil, natural hair care, herbal hair oil, chemical-free hair products, hair growth, hair wellness, organic hair oil, pure ingredients, Ayurveda, hair loss solution, scalp health, Indian hair oil, botanical hair care, sustainable beauty, clean beauty, non-toxic hair oil, hair nourishment, hair strengthening, hair fall control" />
-        <meta name="author" content="Riyora Organics" />
+        <meta name="keywords" content="Riyora Organic, About Riyora, Ayurvedic hair oil, natural hair care, herbal hair oil, chemical-free hair products, hair growth, hair wellness, organic hair oil, pure ingredients, Ayurveda, hair loss solution, scalp health, Indian hair oil, botanical hair care, sustainable beauty, clean beauty, non-toxic hair oil, hair nourishment, hair strengthening, hair fall control" />
+        <meta name="author" content="Riyora Organic" />
         <link rel="canonical" href="https://riyora-organic.vercel.app/about" />
       </Head>
       <div className={styles.container}>
         <section className={`${styles.aboutRiyora} ${styles.block_wrapper}`}>
           <div className={styles.image_wrapper}>
-            <Image src="/images/ayurveda-utensils.jpg" alt="Riyora Organics - About Us - Ayurvedic Hair Oil" width={500} height={500} loading="lazy" />
+            <Image src="/images/ayurveda-utensils.jpg" alt="Riyora Organic - About Us - Ayurvedic Hair Oil" width={500} height={500} loading="lazy" />
           </div>
           <div className={styles.text_content}>
-            <h1>About <span>Riyora Organics</span></h1>
+            <h1>About <span>Riyora Organic</span></h1>
             <p>
-              Welcome to <strong>Riyora Organics</strong>, your trusted source for <strong>Ayurvedic hair oil</strong> and <strong>natural hair care</strong> solutions. Our journey began with a personal quest for pure, effective hair care, leading us to craft herbal oils rooted in <strong>Ayurvedic wisdom</strong> and modern research. We believe in honest, chemical-free self-care, using only the finest botanicals to nourish and restore hair health. Each bottle is a testament to our commitment to quality, safety, and transparency. At Riyora, we empower you to embrace your natural beauty with products that are gentle, effective, and trustworthy. Join us as we redefine hair care, one drop at a time, and experience the difference of nature's purest ingredients.
+              Welcome to <strong>Riyora Organic</strong>, your trusted source for <strong>Ayurvedic hair oil</strong> and <strong>natural hair care</strong> solutions. Our journey began with a personal quest for pure, effective hair care, leading us to craft herbal oils rooted in <strong>Ayurvedic wisdom</strong> and modern research. We believe in honest, chemical-free self-care, using only the finest botanicals to nourish and restore hair health. Each bottle is a testament to our commitment to quality, safety, and transparency. At Riyora, we empower you to embrace your natural beauty with products that are gentle, effective, and trustworthy. Join us as we redefine hair care, one drop at a time, and experience the difference of nature's purest ingredients.
             </p>
           </div>
         </section>
@@ -41,22 +41,22 @@ export default function About() {
           <div className={styles.text_content}>
             <h2>Our <span>Philosophy</span></h2>
             <p>
-              At <strong>Riyora Organics</strong>, we believe that true beauty starts with balance—between nature and nurture, tradition and science, care and consistency. In an age of synthetic shortcuts and chemical overload, we’re returning to the roots of health wellness with clean, powerful formulations inspired by <strong>Ayurveda</strong> and modern botanical research. Every bottle we create carries the essence of tradition, the rigour of science, and the purity of nature.
+              At <strong>Riyora Organic</strong>, we believe that true beauty starts with balance—between nature and nurture, tradition and science, care and consistency. In an age of synthetic shortcuts and chemical overload, we’re returning to the roots of health wellness with clean, powerful formulations inspired by <strong>Ayurveda</strong> and modern botanical research. Every bottle we create carries the essence of tradition, the rigour of science, and the purity of nature.
             </p>
           </div>
           <div className={styles.image_wrapper}>
-            <Image src="/images/ayurveda-utensils.jpg" alt="Ayurvedic Philosophy - Riyora Organics" width={500} height={500} loading="lazy" />
+            <Image src="/images/ayurveda-utensils.jpg" alt="Ayurvedic Philosophy - Riyora Organic" width={500} height={500} loading="lazy" />
           </div>
         </section>
 
         <section className={`${styles.block_wrapper} ${styles.ourVision}`}>
           <div className={styles.image_wrapper}>
-            <Image src="/images/ayurveda-utensils.jpg" alt="Our Vision - Riyora Organics" width={500} height={500} loading="lazy" />
+            <Image src="/images/ayurveda-utensils.jpg" alt="Our Vision - Riyora Organic" width={500} height={500} loading="lazy" />
           </div>
           <div className={styles.text_content}>
             <h2>Our <span>Vision</span></h2>
             <p>
-              To empower individuals to embrace natural, effective, and honest self-care through time-tested <strong>Ayurvedic wisdom</strong> and modern science. Riyora Organics envisions a world where clean, herbal care becomes a daily ritual—free from toxic chemicals, gimmicks, and false promises. We aim to restore trust in ancient plant-powered solutions while ensuring modern quality, elegance, and consistency.
+              To empower individuals to embrace natural, effective, and honest self-care through time-tested <strong>Ayurvedic wisdom</strong> and modern science. Riyora Organic envisions a world where clean, herbal care becomes a daily ritual—free from toxic chemicals, gimmicks, and false promises. We aim to restore trust in ancient plant-powered solutions while ensuring modern quality, elegance, and consistency.
             </p>
           </div>
         </section>
@@ -93,7 +93,7 @@ export default function About() {
 
         <section className={`${styles.block_wrapper} ${styles.evolution}`}>
           <div className={styles.image_wrapper}>
-            <Image src="/images/ayurveda-utensils.jpg" alt="Evolution of Riyora Organics" width={500} height={500} loading="lazy" />
+            <Image src="/images/ayurveda-utensils.jpg" alt="Evolution of Riyora Organic" width={500} height={500} loading="lazy" />
           </div>
           <div className={styles.text_content}>
             <h2>The <span>Evolution of Riyora</span></h2>
@@ -113,11 +113,11 @@ export default function About() {
           <div className={styles.text_content}>
             <h2>Our <span>Mission</span></h2>
             <p>
-              That was the moment <strong>Riyora Organics</strong> was born. Our mission is not just to sell a product, but to share a movement against toxic chemicals and harmful products. We are committed to providing <strong>pure, effective, and safe Ayurvedic hair oils</strong> for everyone seeking natural hair wellness.
+              That was the moment <strong>Riyora Organic</strong> was born. Our mission is not just to sell a product, but to share a movement against toxic chemicals and harmful products. We are committed to providing <strong>pure, effective, and safe Ayurvedic hair oils</strong> for everyone seeking natural hair wellness.
             </p>
           </div>
           <div className={styles.image_wrapper}>
-            <Image src="/images/ayurveda-utensils.jpg" alt="Our Mission - Riyora Organics" width={500} height={500} loading="lazy" />
+            <Image src="/images/ayurveda-utensils.jpg" alt="Our Mission - Riyora Organic" width={500} height={500} loading="lazy" />
           </div>
         </section>
       </div>

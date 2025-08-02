@@ -91,7 +91,7 @@ export default async function handler(req, res) {
 
     // Handle duplicate email error (MongoDB unique index)
     if (error.code === 11000) {
-      return handleError(res, 400, "Email is already in use!", error);
+      return handleError(res, 400, "Phone Number or Email is already in use!", error);
     }
 
     // Generic server error fallback

@@ -60,10 +60,6 @@ const TermsAndCondition = () => (
                 </p>
             </section>
         </div>
-        <hr />
-        <p className={styles.bottom}>
-            &copy; {new Date().getFullYear()} ShineHair Oil. All rights reserved.
-        </p>
     </div>
 );
 

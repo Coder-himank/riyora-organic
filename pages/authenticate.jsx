@@ -121,6 +121,17 @@ export default function AuthPage() {
                 if (await verifyOtp()) {
                     const response = await axios.post("/api/auth/signup", { ...formData, phoneVerified: true });
                     toast.success(response.data.message);
+                    try {
+                        const res = await signIn("credentials", { email: formData.email, password: formData.password, redirect: false });
+                        if (res?.error) {
+                            toast.error("Error Signing in");
+                        } else {
+                            toast.success("Sign Up successful!");
+                            setTimeout(() => router.push(callback || "/"), 1500);
+                        }
+                    } catch (error) {
+                        toast.error("Sign Up failed. Please try again.");
+                    }
                     setIsLogin(true);
                     setLoading(false);
                 }
