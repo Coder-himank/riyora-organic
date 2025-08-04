@@ -11,6 +11,7 @@ import { isValidPhoneNumber } from "libphonenumber-js";
 import { useRouter } from "next/router";
 import styles from "@/styles/authenticate.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AuthPage() {
     const { data: session } = useSession();
@@ -21,8 +22,10 @@ export default function AuthPage() {
     const [otp, setOtp] = useState("");
     const [sentOtp, setSentOtp] = useState(null);
     const [step, setStep] = useState(1);
-    const [resendTimer, setResendTimer] = useState(25);
-    const [canResend, setCanResend] = useState(true);
+    const [resendTimerSignup, setResendTimerSignup] = useState(25);
+    const [resendTimerLogin, setResendTimerLogin] = useState(25);
+    const [canResendLoginOtp, setCanResendLoginOtp] = useState(true);
+    const [canResendSignupOtp, setCanResendSignupOtp] = useState(true);
     const [countryCode, setCountryCode] = useState("IN");
 
     const router = useRouter();
@@ -38,13 +41,20 @@ export default function AuthPage() {
     }, [pageType]);
 
     useEffect(() => {
-        if (resendTimer > 0) {
-            const timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000);
+        if (resendTimerLogin > 0) {
+            const timer = setTimeout(() => setResendTimerLogin(resendTimerLogin - 1), 1000);
             return () => clearTimeout(timer);
         } else {
-            setCanResend(true);
+            setCanResendLoginOtp(true);
         }
-    }, [resendTimer]);
+
+        if (resendTimerSignup > 0) {
+            const timer = setTimeout(() => setResendTimerSignup(resendTimerSignup - 1), 1000);
+            return () => clearTimeout(timer);
+        } else {
+            setCanResendSignupOtp(true);
+        }
+    }, [resendTimerLogin, resendTimerSignup]);
 
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -63,8 +73,15 @@ export default function AuthPage() {
 
     const sendOtp = async () => {
         if (!validatePhone()) return;
-        setCanResend(false);
-        setResendTimer(25);
+        if (isLogin) {
+
+            setCanResendLoginOtp(false);
+            setResendTimerLogin(25);
+        } else {
+
+            setCanResendSignupOtp(false);
+            setResendTimerSignup(25);
+        }
 
         try {
             const response = await axios.post("/api/send-otp", { phone: formData.phone, countryCode });
@@ -132,7 +149,6 @@ export default function AuthPage() {
                     } catch (error) {
                         toast.error("Sign Up failed. Please try again.");
                     }
-                    setIsLogin(true);
                     setLoading(false);
                 }
             } catch (error) {
@@ -147,27 +163,41 @@ export default function AuthPage() {
     return (
         <div className={styles.auth_container}>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
-            <motion.div className={styles.auth_box} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                <h3>{isLogin ? "Login" : "Sign Up"}</h3>
+            <motion.div
+                className={styles.auth_box}
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}>
+                <div className={styles.image_wrapper}>
+                    <Image src={"/images/loginImage.png"} alt="Riyora login page" width={400} height={400} />
+                </div>
                 <form onSubmit={handleSubmit} className={styles.form}>
-                    <div style={{ width: "100%" }}>
+                    <h3>{isLogin ? "Login" : "Sign Up"}</h3>
+                    <div className={styles.formAreaTop}>
 
                         {!isLogin && <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} required />}
                         <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
                         {!isLogin && <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />}
-                        <PhoneInput country={countryCode.toLowerCase()} value={formData.phone} onChange={handlePhoneChange} inputProps={{ name: "phone", required: true }} />
+                        <PhoneInput country={countryCode.toLowerCase()} value={formData.phone} onChange={handlePhoneChange} inputProps={{ name: "phone", required: true }} className={styles.phoneInput} />
 
                         {sentOtp && <p> {sentOtp}</p>}
 
 
                         {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter OTP" required />}
                     </div>
-                    <div style={{ width: "100%" }}>
+                    <div className={styles.formAreaBottom}>
 
-                        <button type="button" className={styles.btn} onClick={sendOtp} disabled={!canResend}>{canResend ? "Send OTP" : `Resend in ${resendTimer}s`}</button>
+                        <button type="button"
+                            className={styles.btn}
+                            onClick={sendOtp}
+                            disabled={isLogin ? !canResendLoginOtp : !canResendSignupOtp}>{canResendLoginOtp || canResendSignupOtp ? "Send OTP" : `Resend in ${isLogin ? resendTimerLogin : resendTimerSignup}s`}</button>
 
 
-                        <button type="submit" className={styles.btn} disabled={loading}>{loading ? "Loading..." : isLogin ? "Login" : "Sign Up"}</button>
+                        <button type="submit"
+                            className={styles.btn}
+                            disabled={loading}>
+                            {loading ? "Loading..." : isLogin ? "Login" : "Sign Up"}
+                        </button>
                         {!isLogin ?
                             <p>Already Have an Account: <span style={{ color: "green" }} onClick={() => setIsLogin(true)}>Login</span></p> :
                             <p>Create New Account: <span style={{ color: "green" }} onClick={() => setIsLogin(false)}>Sign Up</span></p>

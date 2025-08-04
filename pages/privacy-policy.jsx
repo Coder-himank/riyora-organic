@@ -28,13 +28,6 @@ const PrivacyPolicy = () => {
       </Head>
       <div className={style.container}>
         <div className={style.header}>
-          <Image
-            src="/images/riyora-hair-oil-bottle.png"
-            alt="Riyora Organic Hair Oil Bottle"
-            width={120}
-            height={120}
-            priority
-          />
           <h1 className={style.title}>Privacy Policy</h1>
           <p className={style.updated}>Last updated: July 29, 2025</p>
           <p className={style.text}>

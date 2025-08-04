@@ -24,7 +24,7 @@ export default function UserProfile() {
   // User LOgout Function
   const UserLogOut = () => {
     try {
-      signOut()
+      signOut({ callbackUrl: "/authenticate" })
     } catch {
       setNotification("Error Signing Out")
     }

@@ -50,13 +50,6 @@ const Contact = () => {
                 <p>
                     Have questions about our <strong>natural hair oil</strong> or want to share your experience with Riyora Organic? Fill out the form below and our team will respond promptly. Your feedback helps us provide the best organic hair care solutions.
                 </p>
-                <Image
-                    src="/images/Riyora-hair-oil-bottle.jpg"
-                    alt="Riyora Organic Hair Oil Bottle"
-                    width={320}
-                    height={320}
-                    priority
-                />
             </section>
             <div className={styles.form}>
                 {submitted ? (
