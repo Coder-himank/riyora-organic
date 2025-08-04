@@ -1,7 +1,4 @@
-:root {
-  --maxWidthImage: 400px;
-  --maxWidthForm: 350px;
-}
+
 
 .auth_container {
   display: flex;
