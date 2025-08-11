@@ -16,7 +16,7 @@ import ProductSkeleton from "@/components/ProductSkeleton";
 import ReviewCard from "@/components/ReviewCard";
 import StarRating from '@/components/StartRating'
 
-
+import axios from "axios";
 export const TrendingProduct = ({ products }) => {
   return
 
@@ -84,9 +84,9 @@ export default function Home() {
     const fetchBlogs = async () => {
       try {
 
-        const res = await fetch("/api/getblogs");
-        const data = await res.json();
-        setBlogs(data);
+        const res = await axios.get("/api/getblogs");
+        setBlogs(res.data); // Axios automatically parses JSON
+
       } catch (error) {
         console.error("Error fetching blogs:", error);
       } finally {

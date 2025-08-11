@@ -35,14 +35,14 @@ const BlogPage = ({ blogId }) => {
         <>
             <Head>
                 <title>{blog ? `${blog.title} | Riyora Organic Hair Oil` : 'Riyora Organic Hair Oil Blog'}</title>
-                <meta name="description" content={blog ? blog.content.slice(0, 150) + '...' : 'Discover natural hair care tips and benefits of Riyora Organic Hair Oil. Read our latest blog articles for healthy, beautiful hair.'} />
+                <meta name="description" content={blog ? blog.description.slice(0, 150) + '...' : 'Discover natural hair care tips and benefits of Riyora Organic Hair Oil. Read our latest blog articles for healthy, beautiful hair.'} />
                 <meta name="keywords" content="Riyora Organic, Hair Oil, Organic Hair Oil, Hair Care, Natural Hair, Hair Growth, Herbal Oil, Healthy Hair, Blog" />
                 <meta property="og:title" content={blog ? `${blog.title} | Riyora Organic Hair Oil` : 'Riyora Organic Hair Oil Blog'} />
-                <meta property="og:description" content={blog ? blog.content.slice(0, 150) + '...' : 'Discover natural hair care tips and benefits of Riyora Organic Hair Oil.'} />
+                <meta property="og:description" content={blog ? blog.description.slice(0, 150) + '...' : 'Discover natural hair care tips and benefits of Riyora Organic Hair Oil.'} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`https://riyora-organic.vercel.app/blogs/${blogId}`} />
                 <meta property="og:site_name" content="Riyora Organic Hair Oil" />
-                <meta property="og:image" content={blog && blog.imageUrl ? blog.imageUrl : 'https://riyora-organic.vercel.app/default-og-image.jpg'} />
+                <meta property="og:image" content={blog && blog.imgUrl ? blog.imgUrl : 'https://riyora-organic.vercel.app/default-og-image.jpg'} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -50,8 +50,8 @@ const BlogPage = ({ blogId }) => {
                             "@context": "https://schema.org",
                             "@type": "BlogPosting",
                             "headline": blog ? blog.title : "Riyora Organic Hair Oil Blog",
-                            "description": blog ? blog.content.slice(0, 150) + '...' : "Discover natural hair care tips and benefits of Riyora Organic Hair Oil.",
-                            "image": blog && blog.imageUrl ? blog.imageUrl : "https://riyora-organic.vercel.app/default-og-image.jpg",
+                            "description": blog ? blog.description.slice(0, 150) + '...' : "Discover natural hair care tips and benefits of Riyora Organic Hair Oil.",
+                            "image": blog && blog.imgUrl ? blog.imgUrl : "https://riyora-organic.vercel.app/default-og-image.jpg",
                             "author": {
                                 "@type": "Organization",
                                 "name": "Riyora Organic"
@@ -81,18 +81,45 @@ const BlogPage = ({ blogId }) => {
                     <h1>{error}</h1>
                 ) : (
                     <div className={styles.blog_container}>
-                        <h1>{blog.title}</h1>
-                        {blog.imageUrl && (
-                            <Image
-                                src={blog.imageUrl}
-                                alt={blog.title}
-                                width={800}
-                                height={400}
-                                style={{ width: '100%', height: 'auto' }}
-                                priority
-                            />
-                        )}
-                        <p>{blog.content}</p>
+                        <div className={styles.header}>
+
+
+                        </div>
+
+                        <div className={styles.mainSection}>
+
+                            {blog.imgUrl && (
+                                <Image
+                                    src={blog.imgUrl}
+                                    alt={blog.title}
+                                    width={800}
+                                    height={400}
+                                    style={{ width: '100%', height: 'auto' }}
+                                    priority
+                                    className={styles.bannerImage} />
+                            )}
+                            <div className={`${styles.mainContentBox} ${styles.sectionContent}`}>
+                                <h1>{blog.title}</h1>
+                                <p className={styles.description}>{blog.description}</p>
+                            </div>
+                        </div>
+
+                        {blog?.sections && blog.sections.map((secData, index) => (
+                            <section className={styles.sections}>
+                                <div className={styles.sectionImageWrapper}>
+                                    <Image
+                                        src={secData.image}
+                                        width={400}
+                                        height={400}
+                                        alt={secData.heading}
+                                    />
+                                </div>
+                                <div className={styles.sectionContent}>
+                                    <h2>{secData.heading}</h2>
+                                    <p>{secData.text}</p>
+                                </div>
+                            </section>
+                        ))}
                     </div>
                 )}
             </div>
@@ -106,7 +133,7 @@ export async function getStaticPaths() {
         const blogs = res.data;
 
         const paths = blogs.map((blog) => ({
-            params: { blogId: blog.id.toString() },
+            params: { blogId: blog._id.toString() },
         }));
 
         (paths);

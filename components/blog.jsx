@@ -17,10 +17,10 @@ const Blog = (blog, flexDirection, showContent = true) => {
                 {/* content */}
                 <h3>{blog.title}</h3>
                 {/* {showContent && */}
-                <p>{blog.content.length > 100 ? blog.content.slice(0, 400) + '...' : blog.content}</p>
+                <p>{blog.description.length > 100 ? blog.description.slice(0, 400) + '...' : blog.description}</p>
                 {/* } */}
 
-                <Link href={blog.url}>Learn More</Link>
+                <Link href={`/blogs/${blog._id}`}>Learn More</Link>
             </section>
         </div >
     );
