@@ -65,6 +65,10 @@
 
 }
 
+.sec_1 .strong {
+    font-weight: bold;
+}
+
 
 .sec_1 .details {
     padding: 0 10px;
@@ -349,13 +353,18 @@
     margin: auto;
 }
 
+.more_information table {
+    width: 100%;
+}
+
 .moreDetails {
     width: 100%;
-    max-width: 400px;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 20px;
     text-align: justify;
-
+    border-bottom: 1px solid #ccc;
     margin: auto;
 }
 
@@ -503,46 +512,39 @@
 
 .apply_section {
     width: 100%;
-    /* max-width: 1200px; */
+    max-width: 1000px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
     margin: auto;
-    padding: 50px 0;
 }
 
 .apply_box {
-    width: 100%;
-    min-height: fit-content;
-    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* flex-wrap: wrap; */
+    width: 100%;
 }
 
 .apply_box:nth-child(even) {
     flex-direction: row-reverse;
+    /* flips image/text for alternating rows */
 }
 
 .apply_box img {
-    width: 30vw;
-    height: fit-content;
-    max-width: 300px;
-    object-fit: contain;
+    flex: 1 1 50%;
+    width: 50%;
+    height: auto;
+    object-fit: cover;
+    /* fill the space nicely */
 }
 
 .apply_box div {
-    width: 100%;
-    height: fit-content;
+    flex: 1 1 50%;
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    justify-content: center;
     flex-direction: column;
-    max-width: 600px;
-    padding: 0 20px;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
 }
 
 .apply_box h4 {
@@ -551,7 +553,7 @@
 }
 
 .apply_box p {
-    font-size: clamp(8px, 2vw, 12px);
+    font-size: clamp(0.75rem, 2vw, 1rem);
 }
 
 .sec {

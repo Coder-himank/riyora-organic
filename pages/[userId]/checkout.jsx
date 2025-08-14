@@ -21,16 +21,22 @@ export default function Checkout() {
 
   // Load Razorpay script safely
   useEffect(() => {
-    if (typeof window !== "undefined" && !window.Razorpay) {
+    const loadScript = () => {
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
       script.onload = () => setRazorpayLoaded(true);
       script.onerror = () => setError("Failed to load payment gateway. Try again.");
       document.body.appendChild(script);
+    };
+
+    if (!window.Razorpay) {
+      loadScript();
     } else {
       setRazorpayLoaded(true);
     }
   }, []);
+
 
   // Redirect if not logged in
   useEffect(() => {
@@ -171,7 +177,7 @@ export default function Checkout() {
         <section className={styles.productList}>
           {summary.products.map((p) => (
             <div key={p.productId} className={styles.product}>
-              <img src={p.imageUrl} alt={p.name} />
+              <img src={p.imageUrl[0]} alt={p.name} />
               <div>
                 <h3>{p.name}</h3>
                 <p>Price: ₹{p.price}</p>
@@ -214,7 +220,7 @@ export default function Checkout() {
         </section>
 
         <section className={styles.amount_section}>
-          <h2>Amount Break Down (server)</h2>
+          <h2>Amount Break Down</h2>
           <span><strong>Amount</strong>: ₹{summary.beforeTaxAmount}</span>
           <span><strong>Discount</strong>: ₹{summary.discount}</span>
           <span><strong>Taxes</strong>: ₹{summary.taxedAmount}</span>

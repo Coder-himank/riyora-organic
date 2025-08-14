@@ -411,23 +411,28 @@ const ProductPage = ({ productId, productData }) => {
 
                                 <div className={styles.more_information}>
                                     {productData.details && (
+                                        <table>
+                                            {
 
-                                        Object.entries(productData.details).map(([key, value]) => (
-                                            <div className={styles.moreDetails}>
-                                                <strong>{key}</strong>
-                                                <p>
 
-                                                    {
-                                                        Array.isArray(value)
-                                                            ? value.join(", ")
-                                                            : typeof value === "boolean"
-                                                                ? value ? "Yes" : "No"
-                                                                : value
-                                                    }
-                                                </p>
-                                            </div>
+                                                Object.entries(productData.details).map(([key, value]) => (
+                                                    <tr className={styles.moreDetails}>
+                                                        <td className={styles.strong}>{key}</td>
+                                                        <td>
 
-                                        ))
+                                                            {
+                                                                Array.isArray(value)
+                                                                    ? value.join(", ")
+                                                                    : typeof value === "boolean"
+                                                                        ? value ? "Yes" : "No"
+                                                                        : value
+                                                            }
+                                                        </td>
+                                                    </tr>
+
+                                                ))
+                                            }
+                                        </table>
 
                                     )}
                                 </div>
