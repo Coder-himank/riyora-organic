@@ -302,7 +302,13 @@
   display: flex;
   align-items: center;
   justify-content: left;
-  gap: 10%;
+  gap: 10px;
+}
+
+.product_bottom p {
+  text-decoration: line-through red;
+  color: rgba(0, 0, 0, 0.57);
+  font-size: 14px;
 }
 
 .product_rating {

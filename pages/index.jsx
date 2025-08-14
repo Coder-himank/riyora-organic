@@ -6,7 +6,8 @@ import Carousel from "@/components/Carousel";
 import Head from "next/head";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
-import { FaArrowRight, FaAward, FaGlobe, FaHeart, FaReact, FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaLeaf, FaOilCan, FaRegClock } from "react-icons/fa";
+import { GiChemicalDrop } from "react-icons/gi";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import Blog from "@/components/blog";
@@ -184,7 +185,8 @@ export default function Home() {
               </section>
               <p>Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oil nourishes your scalp, strengthens roots, and promotes healthy hair growth. Free from parabens, sulfates, and artificial colors.</p>
               <div className={styles.product_bottom}>
-                <Link href="/products" className={styles.product_shop_btn}>Shop Now for ₹ 499</Link>
+                <Link href="/products/686e0a1e70b0d31fd37f20e8" className={styles.product_shop_btn}>Shop Now for ₹ 499</Link>
+                <p>MRP: 549</p>
               </div>
             </section>
             <section className={styles.product_image_wrapper}>
@@ -259,31 +261,31 @@ export default function Home() {
               <motion.div className={styles.about_achivements}>
                 <motion.div>
                   <span className={styles.about_achivements_icon}>
-                    <FaUser />
+                    <FaLeaf />
                   </span>
-                  <span>50,000+</span>
-                  Happy Customers
+                  <span>100%</span>
+                  Natural Ingredients
                 </motion.div>
                 <motion.div>
                   <span className={styles.about_achivements_icon}>
-                    <FaAward />
+                    <GiChemicalDrop />
                   </span>
-                  <span>10+</span>
-                  Quality Awards
+                  <span>0%</span>
+                  Parabeans
                 </motion.div>
                 <motion.div>
                   <span className={styles.about_achivements_icon}>
-                    <FaGlobe />
+                    <FaOilCan />
                   </span>
-                  <span>20+</span>
-                  Countries Served
+                  <span>5</span>
+                  Premium essential oils
                 </motion.div>
                 <motion.div>
                   <span className={styles.about_achivements_icon}>
-                    <FaStar />
+                    <FaRegClock />
                   </span>
-                  <span>4.6</span>
-                  Average Rating
+                  <span>6</span>
+                  Month Shelf life
                 </motion.div>
               </motion.div>
             </motion.div>

@@ -1,5 +1,6 @@
 import connectDB from "@/server/db";
 import User from "@/server/models/User";
+
 export default async function handler(req, res) {
     await connectDB();
     console.log("Request Method:", req.method);

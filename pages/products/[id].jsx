@@ -15,6 +15,8 @@ import { FaArrowRight, FaStar, FaRegStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
 import StarRating from "@/components/StartRating";
+
+
 const ExpandableSection = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(true);
 
@@ -173,13 +175,44 @@ const ProductPage = ({ productId, productData }) => {
     }, [])
 
 
+    const ReviewCard = ({ review, index }) => {
+        return (
+            <motion.div
+                className={styles.review_card}
+                key={index}
+                initial={{ x: 0, y: 0, opacity: 0.3 }}
+                whileInView={{ x: 0, y: 0, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 1.5 }}
+                viewport={{ once: true }}
+            >
+                <div>
+                    <Image
+                        src={review?.imageUrl || "/images/person1.jpg"}
+                        alt="Person face"
+                        width={200}
+                        height={200}
+                    />
+                </div>
+                <div className={styles.review_info}>
+                    <section>{review?.name || "Customer"}</section>
+                    <section>
+                        <StarRating rating={review?.rating || 0} />
+                    </section>
+                    <section>
+                        <p>{review?.comment || "Best Products"}</p>
+                    </section>
+                </div>
+            </motion.div>
+        );
+    };
+
 
     const newFeedback = async () => {
         if (!session || !session.user) {
             newNotify("Please Login...")
             return
         }
-        if (!productId || comment === "", rating === 0) {
+        if (!productId || comment === "" || rating === 0) {
             newNotify("Empty inputs")
             return
         }
@@ -195,7 +228,7 @@ const ProductPage = ({ productId, productData }) => {
             if (response.status === 201) {
                 newNotify("Feedback submitted successfully");
                 setComment("")
-                setRating("")
+                setRating(0)
                 setSaveComment(false)
                 // console.log(response.data);
 
@@ -225,6 +258,14 @@ const ProductPage = ({ productId, productData }) => {
     if (!isHydrated) {
         return <h1>Loading...</h1>;
     }
+
+    const choose_us_list_1 = [
+        { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
+        { img: "/images/choose_us_icon_2.png", text: "Eco Friendly" },
+        { img: "/images/choose_us_icon_3.png", text: "Non Sticky" },
+        { img: "/images/choose_us_icon_4.png", text: "Vegan" },
+        { img: "/images/choose_us_icon_5.png", text: "No Artificial Color" },
+    ]
 
     // console.log("Product Data:", productData.imageUrl);
 
@@ -318,13 +359,19 @@ const ProductPage = ({ productId, productData }) => {
                                 </div>
                                 <div className={styles.price_quantity}>
                                     <div className={styles.price}>
-                                        {productData.discountPercentage && (
-                                            <>
-                                                <span className={styles.discount_perc}>{productData.discountPercentage}% OFF</span>
-                                                <span className={styles.originalPrice}>₹{productData.price}</span>
-                                            </>
-                                        )}
-                                        <span className={styles.salePrice}>₹{Math.ceil(productData.price - ((productData.discountPercentage / 100) * productData.price))}</span>
+                                        <div className={styles.price_display}>
+
+                                            {productData.discountPercentage && (
+                                                <>
+                                                    <span className={styles.discount_perc}>{productData.discountPercentage}% OFF</span>
+                                                    <span className={styles.originalPrice}>₹{productData.price}</span>
+                                                </>
+                                            )}
+                                            <span className={styles.salePrice}>₹{Math.ceil(productData.price - ((productData.discountPercentage / 100) * productData.price))}</span>
+                                        </div>
+                                        <div className={styles.price_text}>
+                                            <p>+gst and delivery chrages</p>
+                                        </div>
                                     </div>
                                     <div className={styles.quantity}>
                                         <button onClick={() => setQuantityDemanded((q) => q - 1 !== 0 ? q - 1 : 1)}>-</button>
@@ -332,6 +379,18 @@ const ProductPage = ({ productId, productData }) => {
                                         <button onClick={() => setQuantityDemanded(quantity_demanded + 1)}>+</button>
                                     </div>
                                 </div>
+
+
+                                <section className={styles.icons}>
+                                    {choose_us_list_1.map((item, index) => (
+                                        <Image
+                                            src={item.img}
+                                            width={80}
+                                            height={80}
+                                            alt={item.text}
+                                        />
+                                    ))}
+                                </section>
 
                                 <div className={styles.action_btn}>
 
@@ -349,6 +408,31 @@ const ProductPage = ({ productId, productData }) => {
                                     </Link>
                                     ))}
                                 </div>
+
+                                <div className={styles.more_information}>
+                                    {productData.details && (
+
+                                        Object.entries(productData.details).map(([key, value]) => (
+                                            <div className={styles.moreDetails}>
+                                                <strong>{key}</strong>
+                                                <p>
+
+                                                    {
+                                                        Array.isArray(value)
+                                                            ? value.join(", ")
+                                                            : typeof value === "boolean"
+                                                                ? value ? "Yes" : "No"
+                                                                : value
+                                                    }
+                                                </p>
+                                            </div>
+
+                                        ))
+
+                                    )}
+                                </div>
+
+
                             </div>
                         </section>
 
@@ -358,39 +442,30 @@ const ProductPage = ({ productId, productData }) => {
                                 {Array.from({ length: 6 }).map((_, index) => (<>
                                     <div className={styles.suitable_images} key={index}>
                                         <Image src={`/images/suitable_${index + 1}.png`} width={300} height={300} alt="Image" />
-                                        {/* <span>Problem</span> */}
+                                        <p>Helps in reducing </p>
                                     </div>
                                 </>))}
                             </div>
                         </section>
+
+
+
                         <section>
-                            <h2>More <span>Information</span></h2>
-                            <div className={styles.more_information}>
-                                {productData.details && (
-                                    <table style={{ width: "100%" }}>
-                                        <tbody>
+                            <h2>How <span>to  Apply</span></h2>
+                            <div className={styles.apply_section}>
+                                {Array.from({ length: 5 }).map((_, index) => (
+                                    <div className={styles.apply_box} key={index}>
+                                        <Image src={"/images/pouring_oil.jpg"} width={300} height={300} />
+                                        <div>
+                                            <h4>Step {index}</h4>
 
-                                            {Object.entries(productData.details).map(([key, value]) => (
-                                                <tr key={key}>
-                                                    <td><strong>{key}</strong></td>
-                                                    <td>
-
-                                                        {Array.isArray(value)
-                                                            ? value.join(", ")
-                                                            : typeof value === "boolean"
-                                                                ? value ? "Yes" : "No"
-                                                                : value}
-
-                                                    </td>
-                                                </tr>
-
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                )}
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus reprehenderit corrupti alias eos quo.</p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-
                         </section>
+
                         <section>
                             <h2>Customer <span>Feedback</span></h2>
                             <div className={styles.customer_feedback}>
@@ -404,32 +479,10 @@ const ProductPage = ({ productId, productData }) => {
                                 </div>
                                 <div className={styles.rating_div_2}>
                                     <div className={styles.rating_div_2_in}>
-
-
                                         {productReviews.map((review, index) => (
-
-                                            <motion.div className={styles.review_card}
-                                                key={index}
-                                                initial={{ x: 0, y: 0, opacity: 0.3 }}
-                                                whileInView={{ x: 0, y: 0, opacity: 1 }}
-                                                transition={{ delay: 0.2, duration: 1.5 }}
-                                                viewport={{ once: true }}
-                                            >
-                                                <div>
-                                                    <Image src={review?.imageUrl || "/images/person1.jpg"} alt="Person face" width={200} height={200} />
-                                                </div>
-                                                <div className={styles.review_info}>
-                                                    <section>{review?.name || "Customer"}</section>
-                                                    <section>
-                                                        <StarRating rating={review?.rating || 0} />
-                                                    </section>
-
-                                                    <section>
-                                                        <p>{review?.comment || "Best Products"}</p>
-                                                    </section>
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                            <ReviewCard key={index} review={review} index={index} />
+                                        ))
+                                        }
                                     </div>
                                 </div>
                                 <div className={styles.rating_div_3} >
@@ -448,27 +501,12 @@ const ProductPage = ({ productId, productData }) => {
                             </div>
                             {/* {saveComment} */}
                         </section>
-                        <section>
-                            <h2>How <span>to  Apply</span></h2>
-                            <div className={styles.apply_section}>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <div className={styles.apply_box} key={index}>
-                                        <Image src={"/"} width={300} height={300} />
-                                        <div>
-                                            <h4>Step {index}</h4>
-
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus reprehenderit corrupti alias eos quo.</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
 
 
 
-                    </div>
+                    </div >
                 )}
-            </div>
+            </div >
         </>
     );
 };

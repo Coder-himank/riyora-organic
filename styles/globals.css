@@ -26,7 +26,7 @@
   --footer-background: var(--primary-color);
   /* Subtle natural green – footer bg */
   /* --navbar-background: rgba(255, 255, 255, 0.75); */
-  --navbar-background: rgb(241, 239, 239);
+  --navbar-background: rgba(255, 255, 255, 0);
   /* Semi-transparent for organic feel */
   --navbar-text-color: #101010;
   /* Earthy green – navbar text */

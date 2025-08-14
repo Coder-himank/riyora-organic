@@ -137,6 +137,9 @@ export default function Cart() {
     );
   }
 
+  console.log(cart);
+
+
   return (
     <>
       <div className="navHolder"></div>
@@ -159,7 +162,7 @@ export default function Cart() {
               <div key={item.productId} className={styles.cart_item}>
                 <Link href={`/products/${item.productId}`}>
                   <motion.img
-                    src={item.imageUrl || "/products/placeholder.jpg"}
+                    src={item.imageUrl[0]}
                     alt={item.name}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

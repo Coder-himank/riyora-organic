@@ -13,16 +13,11 @@
 .mainSection {
     width: 100%;
     padding: 20px;
-    display: flex;
-    align-items: start;
-    justify-content: right;
-    flex-wrap: wrap;
-    flex-direction: row-reverse;
 }
 
 
 .bannerImage {
-    width: 40%;
+    /* width: 40%; */
     max-width: 400px;
     height: fit-content;
     object-fit: contain;
@@ -30,7 +25,9 @@
 
 
 .mainContentBox h1 {
-    font-size: 4rem;
+    font-size: 3rem;
+    text-transform: uppercase;
+    color: green;
 }
 
 .mainContentBox {
@@ -42,15 +39,17 @@
 .sections {
     display: flex;
     align-items: start;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 20px;
     height: fit-content;
     flex-wrap: wrap;
+    gap: 40px;
 }
 
 
 .sections:nth-child(even) {
-    justify-content: flex-start;
+    /* justify-content: flex-start; */
+    flex-direction: row-reverse;
 
 }
 
@@ -62,15 +61,18 @@
     width: fit-content;
     margin: 0;
     padding: 20px 0;
+    font-size: 2.5rem;
 }
 
 .sectionImageWrapper {
     width: fit-content;
     height: fit-content;
+    min-width: 350px;
+    padding: 40px 0;
 }
 
 .sections img {
-    width: 300px;
+    width: 100%;
     height: fit-content;
     object-fit: contain;
 }
@@ -80,5 +82,11 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
+    gap: 20px;
     /* align-items: flex-end; */
+}
+
+.sectionContent p {
+    font-weight: 300;
+    text-align: justify;
 }

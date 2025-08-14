@@ -9,6 +9,7 @@ import Image from "next/image";
 import { FaRegUser, FaX, FaRegHeart } from "react-icons/fa6";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const router = useRouter();
@@ -96,7 +97,7 @@ export default function Navbar() {
     // },
     {
       name: "Shop Now",
-      path: "/",
+      path: "/products/686e0a1e70b0d31fd37f20e8",
       icon: <FaProductHunt />,
     },
     {
@@ -122,6 +123,8 @@ export default function Navbar() {
   ];
 
   const pathname = router.pathname;
+  console.log(pathname);
+
 
 
   return (

@@ -1,59 +1,41 @@
-// export default async function handler(req, res) {
-//     if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
-
-//     const { phone, otp, storedOtp } = req.body; // `storedOtp` should be fetched from DB/session
-
-//     if (!otp || !storedOtp) return res.status(400).json({ error: "OTP is required" });
-
-//     if (otp === storedOtp) {
-//       return res.status(200).json({ success: true, message: "OTP verified successfully!" });
-//     }
-
-//     return res.status(400).json({ error: "Invalid OTP" });
-//   }
-
-import { parsePhoneNumberFromString } from "libphonenumber-js";
-import { createClient } from "redis";
-
-const redis = createClient(
-  {
-    url: process.env.REDIS_URL
-  }
-);
-await redis.connect();
+import redis from "@/server/redis";
+import dbConnect from "@/server/db";
+import User from "@/server/models/User";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
+  if (req.method !== "POST") return res.status(405).end();
+
+  const { countryCode, phone, otp } = req.body;
+  if (!phone || !otp || !countryCode) {
+    return res.status(400).json({ success: false, message: "Phone, country code, and OTP are required" });
   }
 
-  const { phone, countryCode, otp } = req.body;
+  const otpKey = `otp:${countryCode}${phone}`;
 
-  if (!phone || !countryCode || !otp) {
-    return res.status(400).json({ error: "Phone, countryCode, and OTP are required" });
-  }
-
-  const parsedPhone = parsePhoneNumberFromString(phone, countryCode);
-  if (!parsedPhone?.isValid()) {
-    return res.status(400).json({ error: "Invalid phone number" });
-  }
-
-  const formattedPhone = parsedPhone.format("E.164");
-  const key = `otp:${formattedPhone}`;
-
-  const storedOtp = await redis.get(key);
+  // Atomically get and delete OTP
+  const storedOtp = await redis.get(otpKey);
+  // await redis.del(otpKey);
 
   if (!storedOtp) {
-    return res.status(400).json({ error: "OTP expired or not found" });
+    return res.status(400).json({ success: false, message: "OTP expired or not found" });
   }
 
   if (storedOtp !== otp) {
-    return res.status(401).json({ error: "Invalid OTP" });
+    return res.status(400).json({ success: false, message: "Invalid OTP" });
+  }
+  console.log("OTP MATCHED");
+
+  await dbConnect();
+
+  let user = await User.findOne({ phone });
+  if (!user) {
+    // Create minimal user for signup
+    user = new User({ name: "Temp", phone, phoneVerified: true, enrolled: false });
+    await user.save();
+  } else {
+    user.phoneVerified = true;
+    await user.save();
   }
 
-  await redis.del(key); // One-time use
-
-  // ✅ You can now mark the user as verified in DB
-
-  return res.status(200).json({ success: true, message: "Phone verified successfully!" });
+  return res.status(200).json({ success: true, message: "Phone verified" });
 }

@@ -1,54 +1,40 @@
-// models/Order.js
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const orderSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
-    products: [
-        {
-            productId: { type: String, ref: 'Product' },
-            imageUrl: { type: String },
-            quantity: Number,
-            price: Number,
-        },
-    ],
-    promoCode: { type: String, default: null },
-    amountBreakDown: {
-        subtotal: Number,
-        shipping: Number,
-        tax: Number,
-        total: Number,
-        discount: Number
+const OrderItemSchema = new mongoose.Schema(
+    {
+        productId: { type: String, required: true },
+        name: String,
+        imageUrl: String,
+        price: Number,
+        quantity: Number,
     },
-    address: { label: String, city: String, state: String, country: String, pincode: String, address: String },
-    amount: Number,
-    currency: { type: String, default: 'INR' },
-    paymentId: String,
-    signature: String,
-    razorpayOrderId: { type: String, required: true, unique: true },
-    paymentStatus: { type: String, enum: ['pending', 'paid', 'failed', 'COD'], default: 'pending' },
-    paymentDetails: {
-        transactionId: String,
-        paymentGateway: String,
-        paymentDate: Date,
+    { _id: false }
+);
+
+const AmountsSchema = new mongoose.Schema(
+    {
+        beforeTaxAmount: Number,
+        discount: Number,
+        taxedAmount: Number,
+        deliveryCharges: Number,
+        finalAmount: Number,
     },
-    status: { type: String, enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled', 'payment_failed'], default: 'pending' },
+    { _id: false }
+);
 
-    // dates
-    placedOn: { type: Date, default: Date.now },
-    expectedDelivery: { type: Date, default: Date.now },
-    deliveredOn: { type: Date, default: null },
-    cancelledOn: { type: Date, default: null },
+const OrderSchema = new mongoose.Schema(
+    {
+        userId: { type: String, required: true, index: true },
+        items: [OrderItemSchema],
+        amounts: AmountsSchema,
+        addressId: { type: String, default: null },
+        status: { type: String, enum: ["pending", "paid", "failed", "refunded"], default: "pending" },
+        razorpayOrderId: { type: String, index: true },
+        razorpayPaymentId: String,
+        razorpaySignature: String,
+        paidAt: Date,
+    },
+    { timestamps: true }
+);
 
-    orderHistroy: [
-        {
-            status: { type: String, enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled', 'payment_failed'], default: 'pending' },
-            date: { type: Date, default: Date.now },
-            note: String,
-        },
-    ],
-
-
-    updatedAt: { type: Date, default: Date.now },
-});
-
-export default mongoose.models.Order || mongoose.model('Order', orderSchema);
+export default mongoose.models.Order || mongoose.model("Order", OrderSchema);

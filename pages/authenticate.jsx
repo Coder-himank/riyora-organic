@@ -1,211 +1,273 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
 import { useRouter } from "next/router";
-import styles from "@/styles/authenticate.module.css";
-import Link from "next/link";
 import Image from "next/image";
 
+import styles from "@/styles/authenticate.module.css";
+import { validatePhone } from "@/utils/otp"; // only keeping phone validation here
+
 export default function AuthPage() {
-    const { data: session } = useSession();
     const [isLogin, setIsLogin] = useState(true);
     const [loading, setLoading] = useState(false);
-    const [userVerified, setUserVerified] = useState(false);
-    const [formData, setFormData] = useState({ fullName: "", email: "", password: "", phone: "", address: "", city: "", country: "" });
+    const [formData, setFormData] = useState({
+        fullName: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "",
+        country: "",
+    });
     const [otp, setOtp] = useState("");
-    const [sentOtp, setSentOtp] = useState(null);
     const [step, setStep] = useState(1);
-    const [resendTimerSignup, setResendTimerSignup] = useState(25);
-    const [resendTimerLogin, setResendTimerLogin] = useState(25);
-    const [canResendLoginOtp, setCanResendLoginOtp] = useState(true);
-    const [canResendSignupOtp, setCanResendSignupOtp] = useState(true);
+    const [resendTimer, setResendTimer] = useState(0);
+    const [canResend, setCanResend] = useState(true);
     const [countryCode, setCountryCode] = useState("IN");
 
     const router = useRouter();
     const { type: pageType, callback } = router.query;
 
+    // Adjust mode based on query param
     useEffect(() => {
-
-        if (pageType !== "login") {
-
-            setIsLogin(false);
-        }
-
+        if (pageType !== "login") setIsLogin(false);
+        // signOut()
     }, [pageType]);
 
+
+    // Countdown for resend OTP
     useEffect(() => {
-        if (resendTimerLogin > 0) {
-            const timer = setTimeout(() => setResendTimerLogin(resendTimerLogin - 1), 1000);
+        if (resendTimer > 0) {
+            const timer = setTimeout(() => setResendTimer((t) => t - 1), 1000);
             return () => clearTimeout(timer);
         } else {
-            setCanResendLoginOtp(true);
+            setCanResend(true);
         }
+    }, [resendTimer]);
 
-        if (resendTimerSignup > 0) {
-            const timer = setTimeout(() => setResendTimerSignup(resendTimerSignup - 1), 1000);
-            return () => clearTimeout(timer);
-        } else {
-            setCanResendSignupOtp(true);
-        }
-    }, [resendTimerLogin, resendTimerSignup]);
-
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handlePhoneChange = (value, country) => {
         setFormData({ ...formData, phone: value });
         setCountryCode(country.countryCode.toUpperCase());
     };
 
-    const validatePhone = () => {
-        if (!isValidPhoneNumber(formData.phone, countryCode)) {
-            toast.error("Invalid phone number. Please enter a valid number.");
+    const handleSendOtp = async () => {
+        if (!validatePhone(formData.phone, countryCode)) {
+            toast.error("Invalid phone number");
+            return;
+        }
+        setCanResend(false);
+        setResendTimer(25);
+
+        try {
+            const res = await axios.post("/api/send-otp", {
+                phone: formData.phone,
+                countryCode,
+            });
+            if (res.data.success) {
+                toast.success("OTP sent successfully");
+                setStep(2);
+            } else {
+                toast.error(res.data.message || "Failed to send OTP");
+            }
+        } catch {
+            toast.error("Error sending OTP");
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        if (!otp || otp.length < 4) {
+            toast.error("Please enter a valid OTP");
             return false;
         }
-        return true;
-    };
-
-    const sendOtp = async () => {
-        if (!validatePhone()) return;
-        if (isLogin) {
-
-            setCanResendLoginOtp(false);
-            setResendTimerLogin(25);
-        } else {
-
-            setCanResendSignupOtp(false);
-            setResendTimerSignup(25);
-        }
-
         try {
-            const response = await axios.post("/api/send-otp", { phone: formData.phone, countryCode });
-            if (response.data.success) {
-                console.log("OTP sent successfully:", response.data.otp);
-
-                setSentOtp(response.data.otp);
-                setStep(2);
-                toast.success("OTP sent successfully!");
-            } else {
-                toast.error(response.data.error);
-            }
-        } catch (error) {
-
-            toast.error("Failed to send OTP. Please try again.");
-        }
-    };
-
-    const verifyOtp = async () => {
-        try {
-            const response = await axios.post("/api/verify-otp", { phone: formData.phone, countryCode, otp });
-            if (response.data.success) {
-                setUserVerified(true);
-                toast.success("Phone number verified successfully!");
+            const res = await axios.post("/api/verify-otp", {
+                countryCode,
+                phone: formData.phone,
+                otp,
+            });
+            if (res.data.success) {
+                toast.success("Phone verified successfully");
                 return true;
             } else {
-                toast.error("Invalid OTP. Please try again.");
+                toast.error(res.data.message || "Invalid OTP");
+                return false;
             }
-        } catch (error) {
-            toast.error("OTP verification failed. Please try again.");
+        } catch {
+            toast.error("OTP verification failed");
+            return false;
         }
-        return false;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        if (isLogin) {
-            if (await verifyOtp()) {
-                try {
-                    const res = await signIn("credentials", { email: formData.email, password: formData.password, redirect: false });
-                    if (res?.error) {
-                        toast.error("Invalid credentials. Please try again.");
-                    } else {
-                        toast.success("Login successful!");
-                        setTimeout(() => router.push(callback || "/"), 1500);
-                    }
-                } catch (error) {
-                    toast.error("Login failed. Please try again.");
-                }
-            }
-        } else {
-            try {
-                if (await verifyOtp()) {
-                    const response = await axios.post("/api/auth/signup", { ...formData, phoneVerified: true });
-                    toast.success(response.data.message);
-                    try {
-                        const res = await signIn("credentials", { email: formData.email, password: formData.password, redirect: false });
-                        if (res?.error) {
-                            toast.error("Error Signing in");
-                        } else {
-                            toast.success("Sign Up successful!");
-                            setTimeout(() => router.push(callback || "/"), 1500);
-                        }
-                    } catch (error) {
-                        toast.error("Sign Up failed. Please try again.");
-                    }
-                    setLoading(false);
-                }
-            } catch (error) {
-                toast.error(error.response?.data?.message || "Registration failed. Please try again.");
-            }
+
+        const otpVerified = await handleVerifyOtp();
+        if (!otpVerified) {
+            setLoading(false);
+            return;
         }
-        setLoading(false);
+
+        try {
+            if (isLogin) {
+                // Login flow
+                const res = await signIn("credentials", {
+                    countryCode,
+                    phone: formData.phone,
+                    redirect: false,
+                    otp
+                });
+                console.log(res)
+                if (res?.error) {
+                    toast.error("Login failed");
+                } else {
+                    toast.success("Login successful");
+                    router.push(callback || "/");
+                }
+            } else {
+                // Sign up flow
+                await axios.post("/api/auth/signup", {
+                    name: formData.fullName, // match backend field
+                    email: formData.email,
+                    phone: formData.phone,
+                    address: formData.address,
+                    city: formData.city,
+                    country: formData.country,
+                    phoneVerified: true,
+                });
+                const res = await signIn("credentials", { countryCode, phone: formData.phone, otp, redirect: false });
+                console.log(res)
+
+                if (res.ok) {
+
+
+                    toast.success("Sign up successful");
+                    router.push(callback || "/");
+                } else {
+
+                    toast.error("Sign up Failed");
+                }
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Operation failed");
+        } finally {
+            setLoading(false);
+        }
     };
-
-
 
     return (
         <div className={styles.auth_container}>
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+            <ToastContainer position="top-right" autoClose={3000} />
             <motion.div
                 className={styles.auth_box}
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}>
+                transition={{ duration: 0.5 }}
+            >
                 <div className={styles.image_wrapper}>
-                    <Image src={"/images/loginImage.png"} alt="Riyora login page" width={400} height={400} />
+                    <Image
+                        src="/images/loginImage.png"
+                        alt="Auth page"
+                        width={400}
+                        height={400}
+                    />
                 </div>
+
                 <form onSubmit={handleSubmit} className={styles.form}>
                     <h3>{isLogin ? "Login" : "Sign Up"}</h3>
+
                     <div className={styles.formAreaTop}>
+                        {!isLogin && (
+                            <input
+                                type="text"
+                                name="fullName"
+                                placeholder="Full Name"
+                                value={formData.fullName}
+                                onChange={handleChange}
+                                required
+                            />
+                        )}
 
-                        {!isLogin && <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} required />}
-                        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                        {!isLogin && <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />}
-                        <PhoneInput country={countryCode.toLowerCase()} value={formData.phone} onChange={handlePhoneChange} inputProps={{ name: "phone", required: true }} className={styles.phoneInput} />
+                        <PhoneInput
+                            country={countryCode.toLowerCase()}
+                            value={formData.phone}
+                            onChange={handlePhoneChange}
+                            inputProps={{ name: "phone", required: true }}
+                            className={styles.phoneInput}
+                        />
 
-                        {sentOtp && <p> {sentOtp}</p>}
-
-
-                        {step === 2 && <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter OTP" required />}
+                        {step === 2 && (
+                            <input
+                                type="text"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                placeholder="Enter OTP"
+                                required
+                            />
+                        )}
                     </div>
+
                     <div className={styles.formAreaBottom}>
-
-                        <button type="button"
+                        <button
+                            type="button"
                             className={styles.btn}
-                            onClick={sendOtp}
-                            disabled={isLogin ? !canResendLoginOtp : !canResendSignupOtp}>{canResendLoginOtp || canResendSignupOtp ? "Send OTP" : `Resend in ${isLogin ? resendTimerLogin : resendTimerSignup}s`}</button>
-
-
-                        <button type="submit"
-                            className={styles.btn}
-                            disabled={loading}>
-                            {loading ? "Loading..." : isLogin ? "Login" : "Sign Up"}
+                            onClick={handleSendOtp}
+                            disabled={!canResend}
+                        >
+                            {canResend ? "Send OTP" : `Resend in ${resendTimer}s`}
                         </button>
-                        {!isLogin ?
-                            <p>Already Have an Account: <span style={{ color: "green" }} onClick={() => setIsLogin(true)}>Login</span></p> :
-                            <p>Create New Account: <span style={{ color: "green" }} onClick={() => setIsLogin(false)}>Sign Up</span></p>
-                        }
+
+                        {step === 2 && (
+                            <button
+                                type="submit"
+                                className={styles.btn}
+                                disabled={loading}
+                            >
+                                {loading
+                                    ? "Loading..."
+                                    : isLogin
+                                        ? "Login"
+                                        : "Sign Up"}
+                            </button>
+                        )}
+
+                        {!isLogin ? (
+                            <p>
+                                Already have an account?{" "}
+                                <span
+                                    style={{ color: "green", cursor: "pointer" }}
+                                    onClick={() => {
+                                        setIsLogin(true);
+                                        setStep(1);
+                                    }}
+                                >
+                                    Login
+                                </span>
+                            </p>
+                        ) : (
+                            <p>
+                                Create new account?{" "}
+                                <span
+                                    style={{ color: "green", cursor: "pointer" }}
+                                    onClick={() => {
+                                        setIsLogin(false);
+                                        setStep(1);
+                                    }}
+                                >
+                                    Sign Up
+                                </span>
+                            </p>
+                        )}
                     </div>
                 </form>
             </motion.div>
         </div>
-
     );
 }

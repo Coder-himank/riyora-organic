@@ -86,7 +86,7 @@ const BlogPage = ({ blogId }) => {
 
                         </div>
 
-                        <div className={styles.mainSection}>
+                        <div className={`${styles.mainSection} ${styles.sections}`}>
 
                             {blog.imgUrl && (
                                 <Image
@@ -94,7 +94,6 @@ const BlogPage = ({ blogId }) => {
                                     alt={blog.title}
                                     width={800}
                                     height={400}
-                                    style={{ width: '100%', height: 'auto' }}
                                     priority
                                     className={styles.bannerImage} />
                             )}
