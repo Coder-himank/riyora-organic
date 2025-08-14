@@ -7,7 +7,16 @@ const nextConfig = {
   },
 
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ["res.cloudinary.com"],
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: "/sitemap.xml",
+        destination: "/api/sitemap.xml",
+      },
+    ];
   },
 
   async headers() {
@@ -19,23 +28,15 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: `
               default-src 'self';
-              script-src 'self' 'unsafe-inline' https://checkout.razorpay.com;
+              script-src 'self' https://checkout.razorpay.com;
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               font-src 'self' https://fonts.gstatic.com;
-              img-src 'self' data: https:;
-              connect-src 'self' https://api.razorpay.com;
-            `.replace(/\n/g, "")
-          }
-        ]
-      }
-    ];
-  },
-
-  async rewrites() {
-    return [
-      {
-        source: "/sitemap.xml",
-        destination: "/api/sitemap.xml",
+              img-src 'self' data: https://res.cloudinary.com;
+              connect-src 'self';
+              frame-src https://checkout.razorpay.com;
+            `.replace(/\s{2,}/g, " "), // remove extra spaces
+          },
+        ],
       },
     ];
   },
