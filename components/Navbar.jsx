@@ -123,8 +123,6 @@ export default function Navbar() {
   ];
 
   const pathname = router.pathname;
-  console.log(pathname);
-
 
 
   return (

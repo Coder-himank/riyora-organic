@@ -174,6 +174,7 @@ a {
 
 .chat_Button img {
   width: 30px;
+  height: auto;
   object-fit: contain;
 }
 
@@ -402,7 +403,7 @@ header {
 }
 
 .nav-left .name-head img {
-  width: fit-content;
+  width: auto;
   min-width: 100px;
   max-width: 15vw;
   height: 100%;
@@ -414,6 +415,7 @@ header {
 
 .navFixed .name-head img {
   width: 100px;
+  height: auto;
 }
 
 
@@ -447,6 +449,7 @@ header {
 
 .nav-mid .logo img {
   width: 80px;
+  height: auto;
   object-fit: contain;
 }
 
@@ -701,6 +704,7 @@ footer p {
 
 .app-images img {
   width: 60px;
+  height: auto;
   object-fit: contain;
 }
 
@@ -712,6 +716,7 @@ footer p {
 
 .social-app img {
   width: 35px;
+  height: auto;
 }
 
 
@@ -729,6 +734,7 @@ footer p {
 .Footer-logo img,
 .Footer-logo-mobile img {
   width: 140px;
+  height: auto;
   object-fit: contain;
 }
 
@@ -864,6 +870,7 @@ footer p {
   .navFixed .name-head img {
     transition: all 0.6s;
     width: 100px;
+    height: auto;
   }
 
   .navbar {

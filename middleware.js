@@ -75,9 +75,21 @@ export async function middleware(req) {
     res.headers.set("X-Frame-Options", "DENY");
     res.headers.set("X-Content-Type-Options", "nosniff");
     res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-    res.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-    res.headers.set("Content-Security-Policy", "default-src 'self'; img-src 'self' data:; script-src 'self'");
 
+    res.headers.set("Permissions-Policy", "camera=(self), microphone=(self), geolocation=(self)");
+
+    res.headers.set(
+        "Content-Security-Policy",
+        `
+    default-src 'self';
+    img-src 'self' data: https://res.cloudinary.com;
+    script-src 'self' 'unsafe-inline' https://checkout.razorpay.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    connect-src 'self' https://api.razorpay.com;
+    frame-src https://checkout.razorpay.com https://api.razorpay.com;
+  `.replace(/\s+/g, ' ').trim()
+    );
     return res;
 }
 

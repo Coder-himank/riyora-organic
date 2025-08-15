@@ -1,4 +1,3 @@
-
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
@@ -6,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import axios from 'axios';
+
 export default function Footer() {
 
   function subscribe(email) {
@@ -31,12 +31,15 @@ export default function Footer() {
     <footer className="footer">
       <div className='newsLetter'>
         <section className='text-content'>
-
           <h2>Subscribe to Our News Letter</h2>
           <p>Get Lates Update On Your Favourite Products and many More</p>
         </section>
         <section className='field'>
-          <input type="text" placeholder='enter email address...' onChange={(e) => setEmail(e.target.value)} />
+          <input
+            type="text"
+            placeholder='enter email address...'
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <button onClick={handleSubscribe}>Subscirbe</button>
         </section>
       </div>
@@ -44,26 +47,24 @@ export default function Footer() {
       <div className="footer-content">
         <div className="footer-section section-1">
           <div className="Footer-logo">
-            {/* Logo */}
-            <Image src={"/images/logo.png"} width={200} height={100} />
+            <Image src={"/images/logo.png"} width={200} height={100} alt="Riyora Organic Logo" />
           </div>
 
           <div className="app-images payment-opt">
-            {/* card type support */}
-            <Image src={"/images/RuPay.png"} width={70} height={70} />
-            <Image src={"/images/maestro.png"} width={70} height={70} />
-            <Image src={"/images/master card.png"} width={70} height={70} />
-            <Image src={"/images/visa.png"} width={70} height={70} />
-          </div>
-          <div className="app-images payment-opt">
-            {/* upi app support */}
-            <Image src={"/images/phonepe.png"} width={100} height={80} />
-            <Image src={"/images/gpay.png"} width={100} height={80} />
-            <Image src={"/images/paytm.png"} width={100} height={80} />
-            <Image src={"/images/upi.png"} width={100} height={80} />
+            <Image src={"/images/RuPay.png"} width={70} height={70} alt="RuPay Card Logo" />
+            <Image src={"/images/maestro.png"} width={70} height={70} alt="Maestro Card Logo" />
+            <Image src={"/images/master card.png"} width={70} height={70} alt="MasterCard Logo" />
+            <Image src={"/images/visa.png"} width={70} height={70} alt="Visa Card Logo" />
           </div>
 
+          <div className="app-images payment-opt">
+            <Image src={"/images/phonepe.png"} width={100} height={80} alt="PhonePe Logo" />
+            <Image src={"/images/gpay.png"} width={100} height={80} alt="Google Pay Logo" />
+            <Image src={"/images/paytm.png"} width={100} height={80} alt="Paytm Logo" />
+            <Image src={"/images/upi.png"} width={100} height={80} alt="UPI Logo" />
+          </div>
         </div>
+
         <div className="footer-section section-2">
           <ul className="footer-links">
             <li><Link href={"/about"}>About Us</Link></li>
@@ -73,50 +74,49 @@ export default function Footer() {
             <li><Link href={"/Faqs"}>FAQs</Link></li>
           </ul>
         </div>
+
         <div className="footer-section section-3">
           <div className="Footer-logo-mobile">
-            {/* Logo */}
-            <Image src={"/images/logo.png"} width={200} height={100} />
+            <Image src={"/images/logo.png"} width={200} height={100} alt="Riyora Organic Logo" />
           </div>
+
           <div className="footer-contact">
             <h4>Contact us</h4>
             <ul>
               <li><span className="footer_icons"><MdEmail /></span> info@riyoraorganic.com</li>
               <li><span className="footer_icons"><FaPhoneAlt /></span> +91 96808 86889</li>
-              <li><span className="footer_icons"><FaMapMarkerAlt /></span><span>
-                61 LG, Manglam Fun Square Mall,
-                Durga Nursery Rd, Shakti Nagar
-                Udaipur , Rajasthan -313001 India
-              </span>
+              <li><span className="footer_icons"><FaMapMarkerAlt /></span>
+                <span>
+                  61 LG, Manglam Fun Square Mall, Durga Nursery Rd, Shakti Nagar, Udaipur, Rajasthan -313001 India
+                </span>
               </li>
             </ul>
           </div>
-          <div className="footer-connect">
 
+          <div className="footer-connect">
             <h4>Connect Us</h4>
             <div className="app-images social-app">
-
               <Link href={"https://www.instagram.com/riyoraorganic/"} target="_blank">
-                <Image src={"/images/instagram.png"} width={100} height={80} />
+                <Image src={"/images/instagram.png"} width={100} height={80} alt="Instagram Logo" />
               </Link>
               <Link href={"https://wa.me/919521666123"} target="_blank">
-                <Image src={"/images/whatsapp.png"} width={100} height={80} />
+                <Image src={"/images/whatsapp.png"} width={100} height={80} alt="WhatsApp Logo" />
               </Link>
               <Link href={"/"}>
-                <Image src={"/images/youtube.png"} width={100} height={80} />
+                <Image src={"/images/youtube.png"} width={100} height={80} alt="YouTube Logo" />
               </Link>
               <Link href={"/"}>
-                <Image src={"/images/facebook.png"} width={100} height={80} />
+                <Image src={"/images/facebook.png"} width={100} height={80} alt="Facebook Logo" />
               </Link>
               <Link href={"/"}>
-                <Image src={"/images/twitter.png"} width={100} height={80} />
+                <Image src={"/images/twitter.png"} width={100} height={80} alt="Twitter Logo" />
               </Link>
             </div>
           </div>
         </div>
       </div>
+
       <p>&copy; 2025 Your Company. All rights reserved.</p>
     </footer>
-
   );
 }
