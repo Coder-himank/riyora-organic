@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -8,7 +8,6 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { useRouter } from "next/router";
 import Image from "next/image";
-
 import styles from "@/styles/authenticate.module.css";
 import { validatePhone } from "@/utils/otp"; // only keeping phone validation here
 
@@ -28,6 +27,9 @@ export default function AuthPage() {
     const [resendTimer, setResendTimer] = useState(0);
     const [canResend, setCanResend] = useState(true);
     const [countryCode, setCountryCode] = useState("IN");
+    const [sentOtp, setSentOtp] = useState(0)
+
+    const { data: session } = useSession()
 
     const router = useRouter();
     const { type: pageType, callback } = router.query;
@@ -37,6 +39,13 @@ export default function AuthPage() {
         if (pageType !== "login") setIsLogin(false);
         // signOut()
     }, [pageType]);
+
+
+    useEffect(() => {
+        if (session?.user?.id) {
+            signOut() // uncomment only if you intentionally want auto-logout
+        }
+    }, []);
 
 
     // Countdown for resend OTP
@@ -73,6 +82,7 @@ export default function AuthPage() {
             if (res.data.success) {
                 toast.success("OTP sent successfully");
                 setStep(2);
+                setSentOtp(res.data.otp)
             } else {
                 toast.error(res.data.message || "Failed to send OTP");
             }
@@ -203,14 +213,19 @@ export default function AuthPage() {
                             className={styles.phoneInput}
                         />
 
+
+
                         {step === 2 && (
-                            <input
-                                type="text"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                placeholder="Enter OTP"
-                                required
-                            />
+                            <>
+                                <input
+                                    type="text"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                    placeholder="Enter OTP"
+                                    required
+                                />
+                                {sentOtp}
+                            </>
                         )}
                     </div>
 
