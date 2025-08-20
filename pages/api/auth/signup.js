@@ -24,7 +24,6 @@ export default async function handler(req, res) {
       { phone },
       {
         name,
-        email,
         phone,
         phoneVerified: true,
         enrolled: true

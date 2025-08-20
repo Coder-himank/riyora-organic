@@ -167,6 +167,7 @@ export default function AuthPage() {
             }
         } catch (error) {
             toast.error(error.response?.data?.message || "Operation failed");
+            signOut()
         } finally {
             setLoading(false);
         }

@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     phone: { type: String, required: true, unique: true, trim: true },
-    email: { type: String, unique: true, lowercase: true, trim: true },
+    email: { type: String, unique: true, lowercase: true, trim: true , sparse : true},
     emailVerified: { type: Boolean, default: false },
     phoneVerified: { type: Boolean, default: false },
     verificationToken: { type: String },

@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     }
   }
 
-  await rateLimit(req, res, { key: "verify", points: 20, duration: 60 }); // 20 req/min
+  await rateLimit(req, res, { key: "verify", points: 20, duration: 60 });
 
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).json({ error: "Unauthorized" });
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
   const order = await Order.findOne({ razorpayOrderId: razorpay_order_id, userId: session.user.id });
   if (!order) return res.status(404).json({ error: "Order not found" });
-  if (order.status === "paid") return res.json({ status: "success" });
+  if (order.paymentStatus === "paid") return res.json({ status: "success" });
 
   // Verify signature (HMAC SHA256 of order_id|payment_id)
   const body = `${razorpay_order_id}|${razorpay_payment_id}`;
@@ -43,13 +43,32 @@ export default async function handler(req, res) {
     .digest("hex");
 
   if (expected !== razorpay_signature) {
+    order.paymentStatus = "failed";
+    order.orderHistory.push({
+      status: "payment_failed",
+      note: "Signature verification failed",
+      updatedBy: "system",
+    });
+    await order.save();
     return res.status(400).json({ status: "failed", error: "Invalid signature" });
   }
 
-  order.status = "paid";
-  order.razorpayPaymentId = razorpay_payment_id;
-  order.razorpaySignature = razorpay_signature;
-  order.paidAt = new Date();
+  // ✅ Update according to schema
+  order.paymentId = razorpay_payment_id;
+  order.signature = razorpay_signature;
+  order.paymentStatus = "paid";
+  order.paymentDetails = {
+    transactionId: razorpay_payment_id,
+    paymentGateway: "razorpay",
+    paymentDate: new Date(),
+    method: req.body.method || "unknown", // Razorpay gives method in webhook; optional here
+  };
+  order.orderHistory.push({
+    status: "confirmed",
+    note: "Payment verified",
+    updatedBy: "system",
+  });
+
   await order.save();
 
   // TODO: reduce inventory, send emails, create shipment, etc.
