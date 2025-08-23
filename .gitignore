@@ -170,6 +170,8 @@ yarn-error.log*
 
 toDo.txt
 
+/output
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

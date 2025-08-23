@@ -18,6 +18,7 @@ import ReviewCard from "@/components/ReviewCard";
 import StarRating from '@/components/StartRating'
 
 import axios from "axios";
+import getProductUrl from "@/utils/productsUtils";
 export const TrendingProduct = ({ products }) => {
   return
 
@@ -53,6 +54,10 @@ export default function Home() {
   const [productsLoading, setProductsLoading] = useState(true);
   const [blogsLoading, setBlogsLoading] = useState(true);
 
+  const [productUrl, setProductUrl] = useState(null);
+  
+  
+
   const choose_us_list_1 = [
     { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
     { img: "/images/choose_us_icon_2.png", text: "Eco Friendly" },
@@ -71,7 +76,7 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/getProducts?type=trending"); // Replace with your API endpoint
+        const res = await fetch("/api/getProducts"); // Replace with your API endpoint
         const data = await res.json();
         setProducts(data);
       } catch (error) {
@@ -95,8 +100,14 @@ export default function Home() {
       }
     }
 
+    const fetchProductUrl = async () => {
+      const url = await getProductUrl();
+      setProductUrl(url);
+    }
+
     fetchBlogs()
     fetchProducts()
+    fetchProductUrl()
 
   }, [])
   const { publicRuntimeConfig } = getConfig()
@@ -185,8 +196,10 @@ export default function Home() {
               </section>
               <p>Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oil nourishes your scalp, strengthens roots, and promotes healthy hair growth. Free from parabens, sulfates, and artificial colors.</p>
               <div className={styles.product_bottom}>
-                <Link href="/products/686e0a1e70b0d31fd37f20e8" className={styles.product_shop_btn}>Shop Now for ₹ 499</Link>
-                <p>MRP: 549</p>
+                {productUrl &&
+                <Link href={productUrl} className={styles.product_shop_btn}>Shop Now for ₹ 499</Link>
+              }
+              <p>MRP: 549</p>
               </div>
             </section>
             <section className={styles.product_image_wrapper}>

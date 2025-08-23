@@ -177,7 +177,7 @@ export default function Checkout() {
         <section className={styles.productList}>
           {summary.products.map((p) => (
             <div key={p.productId} className={styles.product}>
-              <img src={p.imageUrl[0]} alt={p.name} />
+              <img src={p.imageUrl} alt={p.name} />
               <div>
                 <h3>{p.name}</h3>
                 <p>Price: ₹{p.price}</p>

@@ -73,7 +73,7 @@ const ProductCard = ({ product }) => {
             <section>
               <div className={styles.prices}>
 
-                <span className={styles.old_price}>₹{productData.price}</span> |
+                <span className={styles.old_price}>₹{productData.mrp}</span> |
                 <span className={styles.new_price}>₹{productData.price}</span> |
                 <span className={styles.discount}>{productData.discountPercentage}% off</span>
               </div>

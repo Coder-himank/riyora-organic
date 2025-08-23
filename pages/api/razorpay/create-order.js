@@ -1,3 +1,4 @@
+// pages/api/razorpay/create-order.js
 import Razorpay from "razorpay";
 import dbConnect from "@/server/db";
 import Product from "@/server/models/Product";
@@ -10,14 +11,33 @@ import { rateLimit } from "@/utils/rateLimit";
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
+/**
+ * Razorpay client instance configured with keys from environment
+ */
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+/**
+ * API Route: Create Razorpay Order
+ *
+ * Responsibilities:
+ * 1. Validate request method and origin (CSRF protection).
+ * 2. Enforce rate limits to prevent abuse.
+ * 3. Authenticate user with NextAuth session.
+ * 4. Validate and sanitize products input and optional promo code.
+ * 5. Calculate subtotal, discounts, tax, shipping, and final total.
+ * 6. Create an order in Razorpay and persist a pending order in DB.
+ * 7. Respond with Razorpay order details.
+ */
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+  // Allow only POST requests
+  if (req.method !== "POST") {
+    return res.status(405).end("Method Not Allowed");
+  }
 
+  // Origin check to mitigate CSRF or unauthorized requests
   const origin = req.headers.origin || req.headers.referer || "";
   if (ALLOWED_ORIGIN) {
     const normalizedOrigin = origin.replace(/\/$/, "");
@@ -27,47 +47,69 @@ export default async function handler(req, res) {
     }
   }
 
+  // Apply rate limiting
   await rateLimit(req, res, { key: "createorder", points: 10, duration: 60 });
 
+  // Authenticate user
   const session = await getServerSession(req, res, authOptions);
-  if (!session) return res.status(401).json({ error: "Unauthorized" });
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
+  // Extract and sanitize request body
   const { products: clientProducts, promocode: rawPromo, address } = req.body || {};
   const promocode = sanitizePromo(rawPromo);
   const productsInput = sanitizeProducts(clientProducts);
 
+  // Ensure DB connection
   await dbConnect();
 
-  // Build trusted items
+  /**
+   * Build trusted product list:
+   * - Validate product existence
+   * - Apply discounts
+   * - Ensure safe quantity
+   */
   const products = [];
   if (productsInput && productsInput.length) {
     for (const { productId, quantity } of productsInput) {
-      const p = await Product.findById(productId).lean();
-      if (!p || p.deleted) return res.status(400).json({ error: "Invalid product" });
+      const product = await Product.findById(productId).lean();
+      if (!product || product.deleted) {
+        return res.status(400).json({ error: "Invalid product" });
+      }
 
-      const unitPrice = Math.ceil(p.price - (p.discountPercentage || 0) / 100 * p.price);
+      const unitPrice = Math.ceil(
+        product.price - ((product.discountPercentage || 0) / 100) * product.price
+      );
+
       products.push({
-        productId: p._id,
-        name: p.name,
-        imageUrl: p.imageUrl?.[0] || "",
+        productId: product._id,
+        name: product.name,
+        imageUrl: product.imageUrl?.[0] || "",
         price: unitPrice,
         quantity: Math.max(1, Number(quantity || 1)),
-        sku: p.sku || null,
+        sku: product.sku || null,
       });
     }
   } else {
     return res.status(400).json({ error: "No products supplied" });
   }
 
-  // Amount calculations
-  const subtotal = products.reduce((s, it) => s + it.price * it.quantity, 0);
+  /**
+   * Pricing Calculations
+   */
+  const subtotal = products.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   const { discountValue } = await validatePromo(promocode, subtotal, session.user.id);
+
   const taxableBase = Math.max(0, subtotal - discountValue);
   const tax = Math.round(taxableBase * 0.18);
   const shipping = taxableBase > 999 ? 0 : 49;
   const total = taxableBase + tax + shipping;
 
-  // Create Razorpay order (amount in paise)
+  /**
+   * Create Razorpay Order (amount in paise)
+   */
   const rpOrder = await razorpay.orders.create({
     amount: total * 100,
     currency: "INR",
@@ -78,7 +120,9 @@ export default async function handler(req, res) {
     },
   });
 
-  // Persist pending order
+  /**
+   * Persist pending order in DB
+   */
   await Order.create({
     userId: session.user.id,
     products,
@@ -92,7 +136,7 @@ export default async function handler(req, res) {
     },
     amount: total,
     currency: "INR",
-    address: address || {}, // snapshot of address object
+    address: address || {}, // snapshot of address
     razorpayOrderId: rpOrder.id,
     status: "pending",
     paymentStatus: "pending",
@@ -105,5 +149,6 @@ export default async function handler(req, res) {
     ],
   });
 
-  res.json(rpOrder);
+  // Respond with Razorpay order
+  return res.status(200).json(rpOrder);
 }

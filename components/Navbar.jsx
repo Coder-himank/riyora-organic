@@ -7,7 +7,7 @@ import Head from "next/head";
 import { FaHeart, FaUser, FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
 import { FaRegUser, FaX, FaRegHeart } from "react-icons/fa6";
-
+import getProductUrl from "@/utils/productsUtils";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { toast } from "react-toastify";
 
@@ -21,6 +21,7 @@ export default function Navbar() {
   const [scrollY, setScrollY] = useState(0);
   const [mobile, setMobile] = useState(false);
   const userId = session?.user?.id;
+  const [productUrl, setProductUrl] = useState("/");
 
   const [resizeWidth, setResizeWidth] = useState(0);
 
@@ -32,6 +33,15 @@ export default function Navbar() {
   }
 
 
+  useEffect(() => {
+    
+        const fetchProductUrl = async () => {
+          const url = await getProductUrl();
+          setProductUrl(url);
+        }
+
+        fetchProductUrl()
+  }, []);
 
   useEffect(() => {
     setToogleNavBar(false)
@@ -97,7 +107,7 @@ export default function Navbar() {
     // },
     {
       name: "Shop Now",
-      path: "/products/686e0a1e70b0d31fd37f20e8",
+      path: productUrl,
       icon: <FaProductHunt />,
     },
     {

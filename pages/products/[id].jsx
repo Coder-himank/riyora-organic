@@ -15,6 +15,7 @@ import { FaArrowRight, FaStar, FaRegStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
 import StarRating from "@/components/StartRating";
+import mongoose from "mongoose";
 
 
 const ExpandableSection = ({ title, children }) => {
@@ -364,10 +365,10 @@ const ProductPage = ({ productId, productData }) => {
                                             {productData.discountPercentage && (
                                                 <>
                                                     <span className={styles.discount_perc}>{productData.discountPercentage}% OFF</span>
-                                                    <span className={styles.originalPrice}>₹{productData.price}</span>
+                                                    <span className={styles.originalPrice}>₹{productData.mrp}</span>
                                                 </>
                                             )}
-                                            <span className={styles.salePrice}>₹{Math.ceil(productData.price - ((productData.discountPercentage / 100) * productData.price))}</span>
+                                            <span className={styles.salePrice}>₹{productData.price}</span>
                                         </div>
                                         <div className={styles.price_text}>
                                             <p>+gst and delivery chrages</p>
@@ -541,13 +542,22 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
 
     await dbConnect();
+
+      // 1. Validate ID first
+  if (!mongoose.Types.ObjectId.isValid(params.id)) {
+    return { notFound: true };
+  }
     const product = await Product.findById(params.id).lean(); // Fetch the product by ID
 
+    console.log("Fetched Product:", params.id); // Check the fetched product
 
+    if(!product){
+        return { notFound: true }; // Return 404 if product not found
+    }
     return {
         props: {
             productId: params.id,
-            productData: JSON.parse(JSON.stringify(product)), // Convert to JSON and back to object to remove MongoDB specific properties
+            productData:  JSON.parse(JSON.stringify(product)), // Convert to JSON and back to object to remove MongoDB specific properties
         },
         revalidate: 10, // Revalidates every 10 minutes
     };
