@@ -50,7 +50,9 @@ export default function OrderDetail() {
         </p>
         <p>
           <b>Status:</b>{" "}
-          <span className={`${styles.badge} ${styles[order.status]}`}>
+          <span
+            className={`${styles.badge} ${styles[order.status]} ${order.status === "ready to ship" ? styles.ready_to_ship : ""}`}
+          >
             {order.status}
           </span>
         </p>
@@ -73,7 +75,7 @@ export default function OrderDetail() {
               <p className={styles.productName}>{p.name}</p>
               <p className={styles.productSku}>SKU: {p.sku}</p>
               <p className={styles.productPrice}>
-                {p.quantity} × ₹{p.price}
+                {p.quantity} x ₹{p.price}
               </p>
             </div>
           </div>

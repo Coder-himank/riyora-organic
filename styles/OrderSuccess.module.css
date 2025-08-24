@@ -59,6 +59,10 @@
   padding: 1.2rem;
   text-align: left;
   margin-bottom: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-transform: uppercase;
 }
 
 .summaryTitle {
@@ -89,7 +93,6 @@
   color: white;
   font-weight: 600;
   padding: 0.8rem 1.5rem;
-  border-radius: 0.75rem;
   text-decoration: none;
   transition: background 0.2s;
 }

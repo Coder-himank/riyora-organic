@@ -524,22 +524,24 @@ const ProductPage = ({ productId, productData }) => {
                   <div className={styles.more_information}>
                     {productData.details && (
                       <table>
-                        {Object.entries(productData.details).map(
-                          ([key, value]) => (
-                            <tr className={styles.moreDetails}>
-                              <td className={styles.strong}>{key}</td>
-                              <td>
-                                {Array.isArray(value)
-                                  ? value.join(", ")
-                                  : typeof value === "boolean"
-                                    ? value
-                                      ? "Yes"
-                                      : "No"
-                                    : value}
-                              </td>
-                            </tr>
-                          )
-                        )}
+                        <tbody>
+                          {Object.entries(productData.details).map(
+                            ([key, value]) => (
+                              <tr className={styles.moreDetails}>
+                                <td className={styles.strong}>{key}</td>
+                                <td>
+                                  {Array.isArray(value)
+                                    ? value.join(", ")
+                                    : typeof value === "boolean"
+                                      ? value
+                                        ? "Yes"
+                                        : "No"
+                                      : value}
+                                </td>
+                              </tr>
+                            )
+                          )}
+                        </tbody>
                       </table>
                     )}
                   </div>
@@ -657,7 +659,6 @@ export async function getStaticProps({ params }) {
   }
   const product = await Product.findById(params.id).lean(); // Fetch the product by ID
 
-  console.log("Fetched Product:", params.id); // Check the fetched product
 
   if (!product) {
     return { notFound: true }; // Return 404 if product not found

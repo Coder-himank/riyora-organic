@@ -5,6 +5,7 @@
   background: #f9fafb;
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
 }
 
 .title {
@@ -18,7 +19,6 @@
 .card {
   background: #fff;
   padding: 1.5rem;
-  border-radius: 1rem;
   box-shadow: 0 4px 12px rgba(137, 137, 137, 0.05);
   margin-bottom: 1.5rem;
   transition: transform 0.2s ease;

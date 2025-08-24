@@ -79,9 +79,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Invalid product" });
       }
 
-      const unitPrice = Math.ceil(
-        product.price - ((product.discountPercentage || 0) / 100) * product.price
-      );
+      const unitPrice =product.price
 
       products.push({
         productId: product._id,
@@ -166,7 +164,6 @@ export default async function handler(req, res) {
   // console.log("Check Order persisted:", checkOd);
 
   // Respond with Razorpay order
-  console.log("Razorpay order created:", rpOrder);
   
   return res.status(200).json(rpOrder);
 }

@@ -10,7 +10,5 @@ export const sendSms = async (to, body) => {
     // });
 
 
-    console.log(body);
-
     return true
 };

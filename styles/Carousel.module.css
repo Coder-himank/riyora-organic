@@ -70,15 +70,17 @@
 
 
 .action_btn .indicators {
-  max-width: fit-content;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
   pointer-events: auto;
   position: absolute;
-  bottom: 9px;
-  left: 50%;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 }
 

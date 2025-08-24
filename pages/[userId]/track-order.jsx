@@ -27,8 +27,6 @@ export default function TrackOrder() {
       const { data } = await axios.get(
         `/api/secure/orders?orderId=${id === "all" ? "all" : id}&userId=${userId}`
       );
-      console.log(data);
-
       const orders = data.orders || (data.order ? [data.order] : []);
       setOrderDetails(orders);
     } catch (err) {

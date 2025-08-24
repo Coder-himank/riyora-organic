@@ -67,8 +67,6 @@ export default async function handler(req, res) {
     return res.status(400).send("Malformed webhook");
   }
 
-  console.log(payment);
-  
 
   const notes = payment.notes || {};
 
@@ -80,7 +78,7 @@ export default async function handler(req, res) {
 
     // If not found, create a new order as fallback
     if (!order) {
-      console.log("Order not found, creating new order for Razorpay orderId:", payment.order_id);
+  
       // return res.status(200).send("Order not found, webhook ignored");
       
       order = new Order({

@@ -3,7 +3,6 @@ import User from "@/server/models/User";
 
 export default async function handler(req, res) {
     await connectDB();
-    console.log("Request Method:", req.method);
     if (req.method === "GET") {
         try {
             const { userId } = req.query;
@@ -41,7 +40,6 @@ export default async function handler(req, res) {
     else if (req.method === "PUT") {
         try {
             const { userId, updates } = req.body;
-            console.log("Updating user with ID:", userId, "Updates:", updates);
             if (!userId || !updates) return res.status(400).json({ message: "User ID and updates are required" });
 
 

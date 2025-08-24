@@ -109,8 +109,6 @@ export default async function handler(req, res) {
   });
 
   await order.save();
-  console.log("Verified and updated order:", order);
-
   // TODO: trigger side effects like reducing inventory, sending confirmation email, creating shipment, etc.
 
   return res.status(200).json({ status: "success" });

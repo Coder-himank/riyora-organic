@@ -32,9 +32,8 @@ export const Orders = () => {
 
   const shouldDisplayOrder = (order) => {
     const statusQuery = query?.status;
-    console.log("Query Status:", statusQuery);
 
-    console.log("Status Query:", statusQuery, "Order Status:", order?.status);
+
 
     if (!statusQuery) return true;
     if (statusQuery === "all_orders") return true;

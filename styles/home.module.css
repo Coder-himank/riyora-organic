@@ -302,9 +302,10 @@
 }
 
 .product_bottom p {
-  text-decoration: line-through red;
-  color: rgba(0, 0, 0, 0.57);
+  text-decoration: line-through red 2px;
+  color: rgb(0, 0, 0);
   font-size: 14px;
+  font-weight: bold;
 }
 
 .product_rating {

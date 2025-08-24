@@ -134,7 +134,6 @@ export default function AuthPage() {
                     redirect: false,
                     otp
                 });
-                console.log(res)
                 if (res?.error) {
                     toast.error("Login failed");
                 } else {
@@ -153,7 +152,7 @@ export default function AuthPage() {
                     phoneVerified: true,
                 });
                 const res = await signIn("credentials", { countryCode, phone: formData.phone, otp, redirect: false });
-                console.log(res)
+
 
                 if (res.ok) {
 

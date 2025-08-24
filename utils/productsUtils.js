@@ -12,9 +12,6 @@ export const getProductUrl = async () => {
       return `/products/${response.data[0]._id}`;
     } else {
 
-      console.log(response.data);
-      
-
       return "/";
     }
   }catch (error) {

@@ -119,7 +119,6 @@ export default function Checkout() {
 
     const { _id, label, address, city, country, pincode } = selectedAddr;
 
-    console.log("Using address:", selectedAddr);
 
     const deliveryPayload = {
       name: session?.user?.name,

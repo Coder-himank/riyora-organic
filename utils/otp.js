@@ -5,7 +5,6 @@ import axios from "axios";
 
 
 export const validatePhone = (phone, countryCode) => {
-    console.log(typeof phone, typeof countryCode);
 
     if (!isValidPhoneNumber(phone, countryCode)) {
         toast.error("Invalid phone number. Please enter a valid number.");
@@ -16,8 +15,6 @@ export const validatePhone = (phone, countryCode) => {
 
 
 export const sendOtp = async (phone, countryCode) => {
-    console.log(phone, countryCode);
-
     if (!validatePhone(phone, countryCode)) {
         toast.error("Invalid Phone Number")
         return false
