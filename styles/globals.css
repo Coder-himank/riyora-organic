@@ -705,6 +705,7 @@ footer p {
 .app-images img {
   width: 60px;
   height: auto;
+  margin: 10px 0;
   object-fit: contain;
 }
 
@@ -716,7 +717,9 @@ footer p {
 
 .social-app img {
   width: 35px;
+  /* height: auto; */
   height: auto;
+  margin: 10px 0;
 }
 
 
@@ -729,6 +732,10 @@ footer p {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.payment-opt img{
+  height: 30px;
 }
 
 .Footer-logo img,

@@ -49,8 +49,10 @@
 .blog img,
 .sekeltonImage {
     width: 70vw;
+    max-height: 400px;
     height: auto;
     max-width: 600px;
+    object-fit: contain;
 }
 
 .blog .text_content,

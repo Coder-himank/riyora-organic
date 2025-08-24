@@ -75,12 +75,16 @@ export default async function handler(req, res) {
     // Attempt to locate order by Razorpay orderId
     let order = await Order.findOne({ razorpayOrderId: payment.order_id });
 
+    console.log(order);
+
     // If not found, create a new order as fallback
     if (!order) {
+      console.log("Order not found, creating new order for Razorpay orderId:", payment.order_id);
+      
       order = new Order({
         userId: notes.userId,
         products: notes.products ? JSON.parse(notes.products) : [],
-        address: notes.address ? JSON.parse(notes.address) : {},
+        address: notes.address ? JSON.parse(notes.address) : {city:"lund"},
         amountBreakDown: notes.amountBreakDown
           ? JSON.parse(notes.amountBreakDown)
           : {},

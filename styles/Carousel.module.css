@@ -1,45 +1,63 @@
 .carouselContainer {
-  display: flex;
-  align-items: center;
   position: relative;
   width: 100%;
   overflow: hidden;
-  flex-direction: column;
-
-  scroll-snap-type: x mandatory;
-  /* overflow-x: scroll; */
-  display: flex;
-  scroll-behavior: smooth;
-  height: 100%;
-  position: relative;
+  max-height: 100%;
 }
 
-.scrollContainer>* {
+.sliderWrapper {
+  display: flex;
+  width: 100%;
+}
+
+.slide {
+  flex: 0 0 100%;
   scroll-snap-align: start;
-  flex-shrink: 0;
-  width: 100%;
-  /* Optional: make each child full width */
+  transition: transform 0.5s ease-in-out;
+  width: fit-content;
+  height: fit-content;
+  max-height: 100%;
 }
 
+.scrollBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
 
-.scrollContainer {
+.scrollBtn:first-of-type {
+  left: 10px;
+}
+
+.scrollBtn:last-of-type {
+  right: 10px;
+}
+
+.indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  gap: 10px;
-  /* padding: 10px; */
-  scroll-behavior: smooth;
-  width: 100%;
-  /* max-width: fit-content; */
-  margin: auto;
-  align-items: center;
+  gap: 8px;
 }
 
+.indicator, .activeIndicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+}
 
-/* Hide scrollbar for Webkit-based browsers */
-.scrollContainer::-webkit-scrollbar {
-  display: none;
+.activeIndicator {
+  background: white;
 }
 
 

@@ -108,15 +108,36 @@ export default function Checkout() {
     }
 
     if (!selectedAddressId) return alert("Please select a delivery address");
+
     if (!razorpayLoaded) return alert("Payment gateway not ready");
 
     try {
       // Ask server to create order. It will re-calc totals from DB and apply promo safely.
+
+    const selectedAddr = addresses.find(addr => addr._id === selectedAddressId);
+    if (!selectedAddr) return alert("Selected address not found");
+
+    const { _id, label, address, city, country, pincode } = selectedAddr;
+
+    console.log("Using address:", selectedAddr);
+
+    const deliveryPayload = {
+      name: session?.user?.name,
+      phone: session?.user?.phone,
+      email: session?.user?.email,
+      label,
+      address,
+      city,
+      
+      country,
+      pincode
+    };
+      if (!deliveryPayload) return alert("Selected address not found");
       const { data: order } = await axios.post(
         "/api/razorpay/create-order",
         {
           promocode,
-          addressId: selectedAddressId,
+          deliveryAddress : deliveryPayload,
           products: router.query.productId
             ? [{ productId: router.query.productId, quantity: Number(router.query.quantity_demanded || 1) }]
             : null,
@@ -152,7 +173,7 @@ export default function Checkout() {
         },
         prefill: {
           name: session?.user?.name || "",
-          email: session?.user?.email || "",
+          phone: session?.user?.phone || "",
         },
         theme: { color: "#0ea5e9" },
       };

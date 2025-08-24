@@ -1,83 +1,125 @@
 import connectDB from "@/server/db";
 import Order from "@/server/models/Order";
+import mongoose from "mongoose";
 
 export default async function handler(req, res) {
-    await connectDB();
+  await connectDB();
 
+  try {
     if (req.method === "GET") {
-        try {
-            const { orderId, userId, status } = req.query;
+      const { orderId, userId, status } = req.query;
+
+      if (!userId) {
+        return res
+          .status(400)
+          .json({ success: false, message: "User ID is required" });
+      }
+
+      let orders;
+
+      if (status && status !== "undefined") {
+        // ✅ Fetch orders by status
+        orders = await Order.find({
+          userId,
+          "statusHistory.status": status,
+        });
+      } else if (orderId && orderId !== "undefined") {
+        
+        if (orderId === "all") {
+          const orders = await Order.find({
+          userId
+        });
+
+        return res.status(200).json({ success: true, orders });
+      }
+
+        
+        // ✅ Validate ObjectId if orderId is MongoDB _id
 
 
-            if (!userId) {
-                return res.status(400).json({ message: "Missing Details" });
-            }
-
-            let orderDetails;
-            // console.log(status);
-
-
-            if (status && status != "undefined") { // Check if status is provided
-                //chck order according to status
-                orderDetails = await Order.find({
-                    userId,
-                    "statusHistory.status": status  // Correct way to filter nested arrays
-                });
-            } else if (orderId & orderId !== undefined) { // Check if orderId is provided
-                // Validate if orderId is a valid ObjectId
-
-                //check order according to orderId
-                orderDetails = await Order.findOne({ userId, razorpayOrderId: orderId.toString() });
-                orderDetails = orderDetails ? orderDetails : [];
-            } else {
-                // Fetch all orders for the user
-                orderDetails = await Order.find({ userId });
-            }
-            return res.status(200).json({ orderDetails });
-        } catch (error) {
-            console.error("Error fetching orders:", error);
-            return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        if (!mongoose.Types.ObjectId.isValid(orderId)) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Invalid orderId" });
         }
+
+        // ✅ Fetch single order by orderId (or _id if required)
+        const order = await Order.findOne({
+          userId,
+          _id: orderId,
+        });
+
+        if (!order) {
+          return res
+            .status(404)
+            .json({ success: false, message: "Order not found" });
+        }
+
+        return res.status(200).json({ success: true, order });
+      } else {
+        // ✅ Fetch all orders for user
+        orders = await Order.find({ userId });
+      }
+
+      return res.status(200).json({ success: true, orders });
     }
 
-
-
     else if (req.method === "PUT") {
-        try {
-            const { orderId } = req.query;
-            const updateFields = req.body;
+      const { orderId } = req.query;
+      const updateFields = req.body;
 
-            // Validate if orderId is provided
-            if (!orderId) {
-                return res.status(400).json({ success: false, message: "Order ID is required" });
-            }
+      if (!orderId) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Order ID is required" });
+      }
 
-            // Check if order exists
-            const order = await Order.findOne({ orderId });
-            if (!order) {
-                return res.status(404).json({ success: false, message: "Order not found" });
-            }
+      const order = await Order.findOne({ orderId });
+      if (!order) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Order not found" });
+      }
 
-            // Handle status history updates if status is provided
-            if (updateFields.status && ['pending', 'shipped', 'delivered', 'cancelled'].includes(updateFields.status)) {
-                updateFields.$push = { statusHistory: { status: updateFields.status, updatedAt: new Date() } };
-                delete updateFields.status; // Remove status to avoid overriding history array
-            }
+      const updateQuery = { $set: { ...updateFields } };
 
-            // Use findOneAndUpdate for better efficiency
-            const updatedOrder = await Order.findOneAndUpdate(
-                { orderId },
-                { $set: updateFields }, // Update only provided fields
-                { new: true } // Return updated document
-            );
+      // ✅ Handle status history update
+      if (
+        updateFields.status &&
+        ["pending", "shipped", "delivered", "cancelled"].includes(
+          updateFields.status
+        )
+      ) {
+        updateQuery.$push = {
+          statusHistory: { status: updateFields.status, updatedAt: new Date() },
+        };
+        delete updateQuery.$set.status;
+      }
 
-            res.json({ success: true, message: "Order updated successfully", order: updatedOrder });
-        } catch (error) {
-            res.status(500).json({ success: false, message: "Failed to update order", error: error.message });
-        }
+      const updatedOrder = await Order.findOneAndUpdate(
+        { orderId },
+        updateQuery,
+        { new: true }
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: "Order updated successfully",
+        order: updatedOrder,
+      });
     }
 
     else {
-        res.status(405).json({ success: false, message: "Method Not Allowed" });
+      res
+        .status(405)
+        .json({ success: false, message: `Method ${req.method} Not Allowed` });
     }
+  } catch (error) {
+    console.error("Order API Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
 }

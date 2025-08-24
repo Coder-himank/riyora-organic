@@ -8,6 +8,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { validatePromo } from "@/utils/promo";
 import { sanitizePromo, sanitizeProducts } from "@/utils/sanitize";
 import { rateLimit } from "@/utils/rateLimit";
+import { type } from "os";
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -57,7 +58,7 @@ export default async function handler(req, res) {
   }
 
   // Extract and sanitize request body
-  const { products: clientProducts, promocode: rawPromo, address } = req.body || {};
+  const { products: clientProducts, promocode: rawPromo, deliveryAddress } = req.body || {};
   const promocode = sanitizePromo(rawPromo);
   const productsInput = sanitizeProducts(clientProducts);
 
@@ -120,10 +121,13 @@ export default async function handler(req, res) {
     },
   });
 
+  console.log("Razorpay order created:",  Object.keys(deliveryAddress).length, deliveryAddress);
+
+
   /**
    * Persist pending order in DB
    */
-  await Order.create({
+  const od = await Order.create({
     userId: session.user.id,
     products,
     promoCode: promocode || null,
@@ -136,7 +140,17 @@ export default async function handler(req, res) {
     },
     amount: total,
     currency: "INR",
-    address: address || {}, // snapshot of address
+    address: {
+      name : deliveryAddress.name,
+      phone : deliveryAddress.phone,
+      email : deliveryAddress.email,
+      label : deliveryAddress.label,
+      address: deliveryAddress.address,
+      state:"",
+      city : deliveryAddress.city,
+      country : deliveryAddress.country,
+      pincode : deliveryAddress.pincode
+    }, // snapshot of address
     razorpayOrderId: rpOrder.id,
     status: "pending",
     paymentStatus: "pending",
@@ -148,6 +162,9 @@ export default async function handler(req, res) {
       },
     ],
   });
+
+  // console.log("Order persisted:", od);
+  
 
   // Respond with Razorpay order
   return res.status(200).json(rpOrder);

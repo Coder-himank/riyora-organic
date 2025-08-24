@@ -172,10 +172,10 @@ export default function Home() {
           <motion.section className={styles.hero_section_in1} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}>
             <Carousel>
               <div className={`${styles.hero_section_slides} ${styles.hero_section_slide_1}`}>
-                <Image src={"/images/hero_banner_3.png"} width={1920} height={1080} alt="Riyora Organic Ayurvedic Hair Oil Banner" priority />
+                <Image src={"/images/hero_banner_3.png"} width={1920} height={400} alt="Riyora Organic Ayurvedic Hair Oil Banner" priority />
               </div>
               <div className={`${styles.hero_section_slides} ${styles.hero_section_slide_2}`}>
-                <Image src={"/images/hero_banner_2.png"} width={1920} height={1080} alt="Natural Hair Oil for Hair Growth" />
+                <Image src={"/images/hero_banner_2.png"} width={1920} height={400} alt="Natural Hair Oil for Hair Growth" />
               </div>
             </Carousel>
           </motion.section>

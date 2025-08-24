@@ -95,6 +95,7 @@ export const authOptions = {
         token.id = user.id;
         token.name = user.name;
         token.phone = user.phone;
+        token.email = user.email || user.phone;
         token.role = user.role || "user";
       }
       return token;
@@ -108,6 +109,7 @@ export const authOptions = {
       session.user.id = token.id;
       session.user.name = token.name;
       session.user.phone = token.phone;
+      session.user.email = token.email;
       session.user.role = token.role;
       return session;
     }
