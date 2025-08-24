@@ -121,9 +121,6 @@ export default async function handler(req, res) {
     },
   });
 
-  console.log("Razorpay order created:",  Object.keys(deliveryAddress).length, deliveryAddress);
-
-
   /**
    * Persist pending order in DB
    */
@@ -163,9 +160,13 @@ export default async function handler(req, res) {
     ],
   });
 
-  // console.log("Order persisted:", od);
+  // // console.log("Order persisted:", od);
   
+  // const checkOd = await Order.findOne({razorpayOrderId: rpOrder.id});
+  // console.log("Check Order persisted:", checkOd);
 
   // Respond with Razorpay order
+  console.log("Razorpay order created:", rpOrder);
+  
   return res.status(200).json(rpOrder);
 }

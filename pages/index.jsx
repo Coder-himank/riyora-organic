@@ -6,48 +6,56 @@ import Carousel from "@/components/Carousel";
 import Head from "next/head";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
-import { FaLeaf, FaOilCan, FaRegClock } from "react-icons/fa";
+import { FaOilCan, FaRegClock } from "react-icons/fa";
 import { GiChemicalDrop } from "react-icons/gi";
-import { FaRegStar, FaStar } from "react-icons/fa";
 import ProductCard from "@/components/ProductCard";
 import Blog from "@/components/blog";
 import { useEffect, useState } from "react";
 import BlogSkeleton from "@/components/BlogSkeleton";
 import ProductSkeleton from "@/components/ProductSkeleton";
-import ReviewCard from "@/components/ReviewCard";
-import StarRating from '@/components/StartRating'
+import StarRating from "@/components/StartRating";
+import { FaUserMd, FaLeaf, FaSeedling, FaShieldAlt } from "react-icons/fa";
+import { GiHairStrands } from "react-icons/gi";
 
 import axios from "axios";
 import getProductUrl from "@/utils/productsUtils";
 export const TrendingProduct = ({ products }) => {
-  return
+  return;
 
   return (
-    <motion.section className={styles.trending_product} viewport={{ once: true }}>
-      <h2 className={styles.home_h2}>Our <span>Products</span></h2>
-      <motion.section className={styles.trending_product_in} initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1, delay: 0.3 }} viewport={{ once: true }}>
+    <motion.section
+      className={styles.trending_product}
+      viewport={{ once: true }}
+    >
+      <h2 className={styles.home_h2}>
+        Our <span>Products</span>
+      </h2>
+      <motion.section
+        className={styles.trending_product_in}
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        viewport={{ once: true }}
+      >
         {/* <Carousel> */}
         {!products ? (
           Array.from({ length: 2 }).map((_, index) => (
             <ProductSkeleton key={index} />
           ))
-        ) : products.length === 0 ? (<>No Products</>) :
-          (
-            products.map((product, index) => (
-              <ProductCard key={index} product={product} />
-            ))
-
-          )
-        }
+        ) : products.length === 0 ? (
+          <>No Products</>
+        ) : (
+          products.map((product, index) => (
+            <ProductCard key={index} product={product} />
+          ))
+        )}
         {/* </Carousel> */}
       </motion.section>
     </motion.section>
-  )
-}
+  );
+};
 export default function Home() {
-
   const { locale } = useRouter(); // Get the current locale
-
 
   const [products, setProducts] = useState(null);
   const [blogs, setBlogs] = useState(null);
@@ -55,8 +63,6 @@ export default function Home() {
   const [blogsLoading, setBlogsLoading] = useState(true);
 
   const [productUrl, setProductUrl] = useState(null);
-  
-  
 
   const choose_us_list_1 = [
     { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
@@ -64,14 +70,14 @@ export default function Home() {
     { img: "/images/choose_us_icon_3.png", text: "Non Sticky" },
     { img: "/images/choose_us_icon_4.png", text: "Vegan" },
     { img: "/images/choose_us_icon_5.png", text: "No Artificial Color" },
-  ]
+  ];
   const choose_us_list_2 = [
     { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
     { img: "/images/choose_us_icon_6.png", text: "Gluten Free" },
     { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
     { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
     { img: "/images/choose_us_icon_10.png", text: "Mineral Free" },
-  ]
+  ];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -85,42 +91,46 @@ export default function Home() {
       } finally {
         setProductsLoading(false);
       }
-    }
+    };
 
     const fetchBlogs = async () => {
       try {
-
         const res = await axios.get("/api/getblogs");
         setBlogs(res.data); // Axios automatically parses JSON
-
       } catch (error) {
         console.error("Error fetching blogs:", error);
       } finally {
         setBlogsLoading(false);
       }
-    }
+    };
 
     const fetchProductUrl = async () => {
       const url = await getProductUrl();
       setProductUrl(url);
-    }
+    };
 
-    fetchBlogs()
-    fetchProducts()
-    fetchProductUrl()
-
-  }, [])
-  const { publicRuntimeConfig } = getConfig()
-  const site_url = publicRuntimeConfig.BASE_URL
-
+    fetchBlogs();
+    fetchProducts();
+    fetchProductUrl();
+  }, []);
+  const { publicRuntimeConfig } = getConfig();
+  const site_url = publicRuntimeConfig.BASE_URL;
 
   return (
     <>
       <Head>
         {/* Primary Meta Tags */}
-        <title>Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth</title>
-        <meta name="description" content="Riyora Organic offers premium ayurvedic hair oil for strong, healthy, and shiny hair. 100% natural, cruelty-free, and eco-friendly hair care products. Shop now for the best hair oil in India." />
-        <meta name="keywords" content="Riyora, ayurvedic hair oil, organic hair oil, hair growth oil, natural hair care, cruelty-free, eco-friendly, vegan hair oil, best hair oil India" />
+        <title>
+          Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth
+        </title>
+        <meta
+          name="description"
+          content="Riyora Organic offers premium ayurvedic hair oil for strong, healthy, and shiny hair. 100% natural, cruelty-free, and eco-friendly hair care products. Shop now for the best hair oil in India."
+        />
+        <meta
+          name="keywords"
+          content="Riyora, ayurvedic hair oil, organic hair oil, hair growth oil, natural hair care, cruelty-free, eco-friendly, vegan hair oil, best hair oil India"
+        />
         <meta name="author" content="Riyora Organic" />
         <meta name="robots" content="index, follow" />
         <meta name="language" content="en" />
@@ -129,38 +139,56 @@ export default function Home() {
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://riyora-organic.vercel.app/" />
-        <meta property="og:title" content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth" />
-        <meta property="og:description" content="Discover Riyora Organic's ayurvedic hair oil, crafted for stronger, healthier hair. 100% natural, vegan, and cruelty-free. Shop now!" />
-        <meta property="og:image" content="https://riyora-organic.vercel.app/images/og-image.jpg" />
+        <meta
+          property="og:title"
+          content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth"
+        />
+        <meta
+          property="og:description"
+          content="Discover Riyora Organic's ayurvedic hair oil, crafted for stronger, healthier hair. 100% natural, vegan, and cruelty-free. Shop now!"
+        />
+        <meta
+          property="og:image"
+          content="https://riyora-organic.vercel.app/images/og-image.jpg"
+        />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Riyora Organic" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://riyora-organic.vercel.app/" />
-        <meta name="twitter:title" content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth" />
-        <meta name="twitter:description" content="Shop Riyora Organic's ayurvedic hair oil for natural hair growth and shine. 100% organic, cruelty-free, and eco-friendly." />
-        <meta name="twitter:image" content="https://riyora-organic.vercel.app/images/twitter-image.jpg" />
+        <meta
+          name="twitter:title"
+          content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth"
+        />
+        <meta
+          name="twitter:description"
+          content="Shop Riyora Organic's ayurvedic hair oil for natural hair growth and shine. 100% organic, cruelty-free, and eco-friendly."
+        />
+        <meta
+          name="twitter:image"
+          content="https://riyora-organic.vercel.app/images/twitter-image.jpg"
+        />
 
         {/* JSON-LD Breadcrumb Schema */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
-            "itemListElement": [
+            itemListElement: [
               {
                 "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://riyora-organic.vercel.app/"
+                position: 1,
+                name: "Home",
+                item: "https://riyora-organic.vercel.app/",
               },
               {
                 "@type": "ListItem",
-                "position": 2,
-                "name": "Products",
-                "item": "https://riyora-organic.vercel.app/products"
+                position: 2,
+                name: "Products",
+                item: "https://riyora-organic.vercel.app/products",
               },
-            ]
+            ],
           })}
         </script>
       </Head>
@@ -169,13 +197,34 @@ export default function Home() {
       <div className={styles.home_container}>
         {/* Hero Section */}
         <motion.div className={styles.hero_section} viewport={{ once: true }}>
-          <motion.section className={styles.hero_section_in1} initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}>
+          <motion.section
+            className={styles.hero_section_in1}
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+          >
             <Carousel>
-              <div className={`${styles.hero_section_slides} ${styles.hero_section_slide_1}`}>
-                <Image src={"/images/hero_banner_3.png"} width={1920} height={400} alt="Riyora Organic Ayurvedic Hair Oil Banner" priority />
+              <div
+                className={`${styles.hero_section_slides} ${styles.hero_section_slide_1}`}
+              >
+                <Image
+                  src={"/images/hero_banner_3.png"}
+                  width={1920}
+                  height={400}
+                  alt="Riyora Organic Ayurvedic Hair Oil Banner"
+                  priority
+                />
               </div>
-              <div className={`${styles.hero_section_slides} ${styles.hero_section_slide_2}`}>
-                <Image src={"/images/hero_banner_2.png"} width={1920} height={400} alt="Natural Hair Oil for Hair Growth" />
+              <div
+                className={`${styles.hero_section_slides} ${styles.hero_section_slide_2}`}
+              >
+                <Image
+                  src={"/images/hero_banner_2.png"}
+                  width={1920}
+                  height={400}
+                  alt="Natural Hair Oil for Hair Growth"
+                />
               </div>
             </Carousel>
           </motion.section>
@@ -192,19 +241,33 @@ export default function Home() {
             <section className={styles.product_text_content}>
               <h1>Root Strength Hair Oil</h1>
               <section className={styles.product_rating}>
-                <StarRating rating={4.4} /> <span className={styles.review_count}>| (20)</span>
+                <StarRating rating={4.4} />{" "}
+                <span className={styles.review_count}>| (20)</span>
               </section>
-              <p>Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oil nourishes your scalp, strengthens roots, and promotes healthy hair growth. Free from parabens, sulfates, and artificial colors.</p>
+              <p>
+                Experience the power of Ayurveda with Riyora's Root Strength
+                Hair Oil. Formulated with natural plant extracts, this oil
+                nourishes your scalp, strengthens roots, and promotes healthy
+                hair growth. Free from parabens, sulfates, and artificial
+                colors.
+              </p>
               <div className={styles.product_bottom}>
-                {productUrl &&
-                <Link href={productUrl} className={styles.product_shop_btn}>Shop Now for ₹ 499</Link>
-              }
-              <p>MRP: 549</p>
+                {productUrl && (
+                  <Link href={productUrl} className={styles.product_shop_btn}>
+                    Shop Now for ₹ 499
+                  </Link>
+                )}
+                <p>MRP: 549</p>
               </div>
             </section>
             <section className={styles.product_image_wrapper}>
               <div className={styles.bg_circel}></div>
-              <Image src={'/products/root_strength_hair_oil_2.png'} width={500} height={500} alt="Riyora Root Strength Hair Oil Bottle" />
+              <Image
+                src={"/products/root_strength_hair_oil_2.png"}
+                width={500}
+                height={500}
+                alt="Riyora Root Strength Hair Oil Bottle"
+              />
             </section>
           </section>
         </motion.section>
@@ -212,14 +275,24 @@ export default function Home() {
         {/* Why Choose Us Section */}
         <motion.section className={styles.choose_us_section}>
           <div className={styles.section_header}>
-            <h2>Why <span>Choose Riyora?</span></h2>
+            <h2>
+              Why <span>Choose Riyora?</span>
+            </h2>
           </div>
           <section className={styles.choose_us_section_in}>
             <div className={styles.choose_us_text_content}>
               <ul>
-                <li>Handcrafted ayurvedic oils in small, quality-controlled batches</li>
-                <li>Ethically sourced, cruelty-free, and eco-conscious packaging</li>
-                <li>Free from parabens, sulfates, silicones, and synthetic perfumes</li>
+                <li>
+                  Handcrafted ayurvedic oils in small, quality-controlled
+                  batches
+                </li>
+                <li>
+                  Ethically sourced, cruelty-free, and eco-conscious packaging
+                </li>
+                <li>
+                  Free from parabens, sulfates, silicones, and synthetic
+                  perfumes
+                </li>
                 <li>Formulated with Ayurvedic wisdom and modern science</li>
                 <li>Trusted by thousands for visible hair transformation</li>
               </ul>
@@ -227,9 +300,21 @@ export default function Home() {
             <div className={styles.choose_us_image_wrapper}>
               <section className={styles.choose_us_image_row}>
                 {choose_us_list_1.map((choose_us, index) => (
-                  <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
+                  <motion.div
+                    key={index}
+                    className={styles.choose_us_card}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.2, duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
                     <div className={styles.choose_us_card_icon}>
-                      <Image src={choose_us.img} width={50} height={50} alt={choose_us.text} />
+                      <Image
+                        src={choose_us.img}
+                        width={50}
+                        height={50}
+                        alt={choose_us.text}
+                      />
                     </div>
                     <span>{choose_us.text}</span>
                   </motion.div>
@@ -237,9 +322,21 @@ export default function Home() {
               </section>
               <section className={styles.choose_us_image_row}>
                 {choose_us_list_2.map((choose_us, index) => (
-                  <motion.div key={index} className={styles.choose_us_card} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.2, duration: 0.5 }} viewport={{ once: true }}>
+                  <motion.div
+                    key={index}
+                    className={styles.choose_us_card}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.2, duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
                     <div className={styles.choose_us_card_icon}>
-                      <Image src={choose_us.img} width={50} height={50} alt={choose_us.text} />
+                      <Image
+                        src={choose_us.img}
+                        width={50}
+                        height={50}
+                        alt={choose_us.text}
+                      />
                     </div>
                     <span>{choose_us.text}</span>
                   </motion.div>
@@ -250,7 +347,8 @@ export default function Home() {
         </motion.section>
 
         {/* About Section */}
-        <motion.section className={styles.about_section}
+        <motion.section
+          className={styles.about_section}
           initial={{ x: 0, y: 40, opacity: 0.8 }}
           whileInView={{ x: 0, y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 1.5 }}
@@ -259,46 +357,60 @@ export default function Home() {
           <div className={styles.about_in}>
             <motion.div className={styles.about_image}>
               <div className={styles.about_img_1}>
-                <Image src={"/Riyora-Logo-Favicon.png"} alt="Riyora Organic Logo" width={500} height={500} />
+                <Image
+                  src={"/Riyora-Logo-Favicon.png"}
+                  alt="Riyora Organic Logo"
+                  width={500}
+                  height={500}
+                />
               </div>
               <div className={styles.about_img_2}>
-                <Image src={"/Riyora-Logo-Favicon.png"} alt="Riyora Organic Logo" width={500} height={500} />
+                <Image
+                  src={"/Riyora-Logo-Favicon.png"}
+                  alt="Riyora Organic Logo"
+                  width={500}
+                  height={500}
+                />
               </div>
             </motion.div>
             <motion.div className={styles.about_text}>
               <div className={styles.about_text_in}>
                 <h3>About Riyora Organic</h3>
-                <p>Riyora Organic is dedicated to reviving the ancient wisdom of Ayurveda for modern hair care. Our mission is to provide pure, effective, and sustainable hair oil solutions that nurture your hair naturally. Join thousands who trust Riyora for their hair transformation journey.</p>
+                <p>
+                  Riyora Organic is dedicated to reviving the ancient wisdom of
+                  Ayurveda for modern hair care. Our mission is to provide pure,
+                  effective, and sustainable hair oil solutions that nurture
+                  your hair naturally. Join thousands who trust Riyora for their
+                  hair transformation journey.
+                </p>
                 <Link href={"/about"}>Learn More</Link>
               </div>
               <motion.div className={styles.about_achivements}>
+
+
+                <motion.div>
+                  <span className={styles.about_achivements_icon}>
+                    <FaUserMd />
+                  </span>
+                  <span>Dermatologist Tested</span>
+                </motion.div>
+                <motion.div>
+                  <span className={styles.about_achivements_icon}>
+                    <GiHairStrands />
+                  </span>
+                  <span>Suitable For All Hair Types</span>
+                </motion.div>
                 <motion.div>
                   <span className={styles.about_achivements_icon}>
                     <FaLeaf />
                   </span>
-                  <span>100%</span>
-                  Natural Ingredients
+                  <span>Promotes Hair Growth</span>
                 </motion.div>
                 <motion.div>
                   <span className={styles.about_achivements_icon}>
-                    <GiChemicalDrop />
+                    <FaShieldAlt />
                   </span>
-                  <span>0%</span>
-                  Parabeans
-                </motion.div>
-                <motion.div>
-                  <span className={styles.about_achivements_icon}>
-                    <FaOilCan />
-                  </span>
-                  <span>5</span>
-                  Premium essential oils
-                </motion.div>
-                <motion.div>
-                  <span className={styles.about_achivements_icon}>
-                    <FaRegClock />
-                  </span>
-                  <span>6</span>
-                  Month Shelf life
+                  <span>Reduces Hair Fall</span>
                 </motion.div>
               </motion.div>
             </motion.div>
@@ -308,47 +420,74 @@ export default function Home() {
         {/* Blogs Section */}
         <motion.section className={styles.blogs} viewport={{ once: true }}>
           <div className={styles.section_header}>
-            <h2 className={styles.home_h2}>Hair Care <span>Insights</span></h2>
-            <p className={styles.sub_heading}>Explore expert tips, ayurvedic secrets, and customer stories for healthy, beautiful hair with Riyora Organic.</p>
+            <h2 className={styles.home_h2}>
+              Hair Care <span>Insights</span>
+            </h2>
+            <p className={styles.sub_heading}>
+              Explore expert tips, ayurvedic secrets, and customer stories for
+              healthy, beautiful hair with Riyora Organic.
+            </p>
           </div>
-          {
-            !blogs ? (
-              <section className={styles.blog_in}>
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <BlogSkeleton key={index} style={index % 2 === 0 ? { flexDirection: "row-reverse" } : { flexDirection: "row" }} />
-                ))}
-              </section>
-            ) : (
-              <section className={styles.blog_in}>
-                {blogs.map((blog, index) => (
-                  <Blog
-                    key={index}
-                    {...blog}
-                    showContent={false}
-                    flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
-                  />
-                ))}
-              </section>
-            )
-          }
-          <Link href={"/blogs"} className={styles.load_btn}>Read More Hair Care Tips</Link>
+          {!blogs ? (
+            <section className={styles.blog_in}>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <BlogSkeleton
+                  key={index}
+                  style={
+                    index % 2 === 0
+                      ? { flexDirection: "row-reverse" }
+                      : { flexDirection: "row" }
+                  }
+                />
+              ))}
+            </section>
+          ) : (
+            <section className={styles.blog_in}>
+              {blogs.map((blog, index) => (
+                <Blog
+                  key={index}
+                  {...blog}
+                  showContent={false}
+                  flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
+                />
+              ))}
+            </section>
+          )}
+          <Link href={"/blogs"} className={styles.load_btn}>
+            Read More Hair Care Tips
+          </Link>
         </motion.section>
 
         {/* Testimonials Section */}
         <motion.section className={styles.effects} viewport={{ once: true }}>
           <div className={styles.section_header}>
-            <h2 className={styles.home_h2}>Customer <span>Stories</span></h2>
-            <p className={styles.sub_heading}>Hear from our loyal customers who have experienced the Riyora difference.</p>
+            <h2 className={styles.home_h2}>
+              Customer <span>Stories</span>
+            </h2>
+            <p className={styles.sub_heading}>
+              Hear from our loyal customers who have experienced the Riyora
+              difference.
+            </p>
           </div>
           <Carousel>
             {Array.from({ length: 5 }).map((_, index) => (
               <motion.section className={styles.testimony_section} key={index}>
                 <div className={styles.testimony_image_wrapper}>
-                  <Image src={'/images/person1.png'} alt={'Happy Riyora Customer'} height={450} width={450} />
+                  <Image
+                    src={"/images/person1.png"}
+                    alt={"Happy Riyora Customer"}
+                    height={450}
+                    width={450}
+                  />
                 </div>
                 <div className={styles.testimony_text_content}>
                   <h3>Thank You Riyora</h3>
-                  <p>Trisha shares her journey with Riyora's Root Strength Hair Oil. After 2 months of use, she noticed stronger, shinier hair and reduced hair fall. Join the Riyora family for visible results!</p>
+                  <p>
+                    Trisha shares her journey with Riyora's Root Strength Hair
+                    Oil. After 2 months of use, she noticed stronger, shinier
+                    hair and reduced hair fall. Join the Riyora family for
+                    visible results!
+                  </p>
                   <section className={styles.testimony_rating}>
                     <StarRating rating={4.7} />
                   </section>

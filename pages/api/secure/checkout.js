@@ -76,10 +76,7 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: "Invalid product" });
         }
 
-        const price = Math.ceil(
-          product.price -
-            ((product.discountPercentage || 0) / 100) * product.price
-        );
+        const price =product.price
 
         items.push({
           productId: String(product._id),

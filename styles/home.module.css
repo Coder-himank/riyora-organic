@@ -511,7 +511,6 @@
 .about_achivements div {
   padding: 10px;
   color: rgba(255, 255, 255, 0.616);
-  font-size: 8px;
   font-family: "Poppins", sans-serif;
   text-transform: uppercase;
   display: flex;
@@ -521,17 +520,17 @@
   background-color: #55763b;
   border-radius: 10px;
   width: calc(50% - 20px);
+  height: 100px;
 }
 
 .about_achivements div span {
-  font-weight: 500;
+  font-weight: 300;
   display: block;
   color: rgb(255, 255, 255);
   width: fit-content;
-  font-size: clamp(1.3rem, 3vw, 2rem);
+  /* font-size: clamp(1.3rem, 3vw, 2rem); */
+  font-size: clamp(0.8rem, 3vw, 1rem);
 }
-
-
 .effects {
   width: 90%;
   max-width: 90%;
