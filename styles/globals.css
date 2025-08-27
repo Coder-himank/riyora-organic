@@ -94,7 +94,7 @@
 
 
 body {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   background: rgba(255, 255, 255, 0.733) url('/images/body-background.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -294,6 +294,31 @@ button:hover::before,
 button:disabled {
   background: #ccc;
   cursor: not-allowed;
+}
+
+.authform{
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(9, 9, 9, 0.553);
+  width: 100%;
+  height: calc(100vh);
+  overflow: auto;
+  padding: 150px 0 0px 0;
+}
+
+.authform .closebtn{
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background-color: red;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 header {

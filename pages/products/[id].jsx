@@ -20,6 +20,9 @@ import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
 import StarRating from "@/components/StartRating";
 import mongoose from "mongoose";
+import { ToastContainer, toast } from "react-toastify";
+
+import { FaSmile, FaMeh, FaFrown, FaGrinStars, FaAngry } from "react-icons/fa";
 
 const ExpandableSection = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -37,6 +40,143 @@ const ExpandableSection = ({ title, children }) => {
   );
 };
 
+const ReviewSection = ({ productId, reviews = [] }) => {
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const { data: session } = useSession();
+
+  // Calculate average rating & distribution
+  const totalReviews = reviews.length;
+  const averageRating =
+    totalReviews > 0
+      ? reviews.reduce((acc, r) => acc + r.rating, 0) / totalReviews
+      : 0;
+
+  const distribution = [5, 4, 3, 2, 1].map((star) => {
+    const count = reviews.filter((r) => r.rating === star).length;
+    return {
+      star,
+      count,
+      percent: totalReviews ? (count / totalReviews) * 100 : 0,
+    };
+  });
+
+  const smileOptions = [
+    { value: 5, icon: <FaGrinStars />, label: "Excellent" },
+    { value: 4, icon: <FaSmile />, label: "Good" },
+    { value: 3, icon: <FaMeh />, label: "Average" },
+    { value: 2, icon: <FaFrown />, label: "Poor" },
+    { value: 1, icon: <FaAngry />, label: "Terrible" },
+  ];
+
+  const handleSubmit = async () => {
+    if (!rating || !comment) {
+      toast.error("Please select a rating and write a review.");
+      return;
+    }
+
+    if (!session || !session.user) {
+      toast.error("Please Login...");
+      return;
+    }
+    if (!productId || comment === "" || rating === 0) {
+      toast.error("Empty inputs");
+      return;
+    }
+    try {
+      const response = await axios.post("/api/secure/feedback", {
+        productId,
+        name: session.user.name,
+        userId: session.user.id,
+        comment,
+        rating: parseFloat(rating),
+      });
+
+      if (response.status === 201) {
+        toast.success("Feedback submitted successfully");
+        setRating(0);
+        setComment("");
+
+        return response.data;
+      } else {
+        toast.error("Failed to submit feedback");
+        return { success: false };
+      }
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
+  };
+
+  return (
+    <section className={styles.reviewSection}>
+      <h2>
+        Customer <span>Reviews</span>
+      </h2>
+
+      <div className={styles.reviewContainer}>
+        {/* Left Side: Ratings Summary */}
+        <div className={styles.leftPanel}>
+          <h3>{averageRating.toFixed(1)} / 5</h3>
+          <p>Based on {totalReviews} reviews</p>
+
+          {distribution.map((d) => (
+            <div key={d.star} className={styles.ratingRow}>
+              <span>{d.star}★</span>
+              <div className={styles.progressBar}>
+                <div style={{ width: `${d.percent}%` }}></div>
+              </div>
+              <span>{d.count}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Right Side: Write a Review */}
+        <div className={styles.rightPanel}>
+          <h3>Write Your Review</h3>
+          <div className={styles.smileOptions}>
+            {smileOptions.map((s) => (
+              <button
+                key={s.value}
+                className={`${styles.smileBtn} ${rating === s.value ? styles.active : ""}`}
+                onClick={() => setRating(s.value)}
+              >
+                {s.icon}
+                <span>{s.label}</span>
+              </button>
+            ))}
+          </div>
+          <textarea
+            placeholder="Share your experience..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
+          <button className={styles.submitBtn} onClick={handleSubmit}>
+            Submit Review
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom: Reviews List */}
+      <div className={styles.reviewList}>
+        <h3>What others are saying</h3>
+        {reviews.length === 0 ? (
+          <p>No reviews yet. Be the first to review!</p>
+        ) : (
+          reviews.map((r, i) => (
+            <div key={i} className={styles.reviewCard}>
+              <div className={styles.reviewHeader}>
+                <strong>{r.name || "Anonymous"}</strong>
+                <span>{r.rating}★</span>
+              </div>
+              <p>{r.comment}</p>
+            </div>
+          ))
+        )}
+      </div>
+    </section>
+  );
+};
+
 const ProductPage = ({ productId, productData }) => {
   if (!productId) {
     return <h1>Product not found</h1>;
@@ -46,7 +186,6 @@ const ProductPage = ({ productId, productData }) => {
   const site_url = publicRuntimeConfig.BASE_URL;
 
   const { data: session } = useSession();
-  const [notification, setNotification] = useState(null);
   // const [productData, setProductData] = useState(null)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -203,56 +342,6 @@ const ProductPage = ({ productId, productData }) => {
     );
   };
 
-  const newFeedback = async () => {
-    if (!session || !session.user) {
-      newNotify("Please Login...");
-      return;
-    }
-    if (!productId || comment === "" || rating === 0) {
-      newNotify("Empty inputs");
-      return;
-    }
-    try {
-      const response = await axios.post("/api/secure/feedback", {
-        productId,
-        name: session.user.name,
-        userId: session.user.id,
-        comment,
-        rating: parseFloat(rating),
-      });
-
-      if (response.status === 201) {
-        newNotify("Feedback submitted successfully");
-        setComment("");
-        setRating(0);
-        setSaveComment(false);
-        // console.log(response.data);
-
-        setProductReviews([
-          {
-            name: session.user.name,
-            userId: session.user.id,
-            comment,
-            rating,
-          },
-          ...productReviews,
-        ]);
-
-        return response.data;
-      } else {
-        newNotify("Failed to submit feedback");
-        return { success: false };
-      }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-    }
-  };
-
-  const newNotify = (msg) => {
-    setNotification(msg);
-    setTimeout(() => setNotification(null), 2000);
-  };
-
   if (!isHydrated) {
     return <h1>Loading...</h1>;
   }
@@ -316,8 +405,9 @@ const ProductPage = ({ productId, productData }) => {
       </Head>
       <div className="navHolder"></div>
 
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <div className={styles.product_container}>
-        {notification && <div className="notification">{notification}</div>}
         {loading ? (
           <h1>Loading...</h1>
         ) : error ? (
@@ -354,8 +444,12 @@ const ProductPage = ({ productId, productData }) => {
                 </div>
 
                 <div className={styles.ratings}>
-                  <StarRating rating={productData.averageRating} />
-                  <span>({productData.numReviews})</span>
+                  <Link href={"#reviews"}>
+                    <StarRating rating={productData.averageRating} />
+                  </Link>
+                  <span>
+                    {productData.averageRating} ({productData.numReviews})
+                  </span>
                 </div>
 
                 <div className={styles.description}>
@@ -402,7 +496,7 @@ const ProductPage = ({ productId, productData }) => {
                       </span>
                     </div>
                     <div className={styles.price_text}>
-                      <p>+gst and delivery chrages</p>
+                      <p>100ml (₹0.5/ 1 ml) | no extra charges</p>
                     </div>
                   </div>
                   <div className={styles.quantity}>
@@ -437,8 +531,8 @@ const ProductPage = ({ productId, productData }) => {
                   <button
                     onClick={() =>
                       onAddToCart(router, productId, session).success == false
-                        ? newNotify("Unable To Add to Cart")
-                        : newNotify("Added To Cart")
+                        ? toast.error("Unable To Add to Cart")
+                        : toast.success("Added To Cart")
                     }
                   >
                     Add To Cart
@@ -473,30 +567,29 @@ const ProductPage = ({ productId, productData }) => {
 
                 <div className={styles.expandable_info}>
                   <ExpandableSection title="More Details">
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Dicta, aliquam mollitia? Iure veritatis laudantium dolores
-                      sed. Adipisci velit dolore ab praesentium vitae
-                      recusandae, voluptatum enim odit eius error saepe eaque?
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Dicta, aliquam mollitia? Iure veritatis laudantium dolores
-                      sed. Adipisci velit dolore ab praesentium vitae
-                      recusandae, voluptatum enim odit eius error saepe eaque?
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Dicta, aliquam mollitia? Iure veritatis laudantium dolores
-                      sed. Adipisci velit dolore ab praesentium vitae
-                      recusandae, voluptatum enim odit eius error saepe eaque?
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Dicta, aliquam mollitia? Iure veritatis laudantium dolores
-                      sed. Adipisci velit dolore ab praesentium vitae
-                      recusandae, voluptatum enim odit eius error saepe eaque?
-                    </p>
+                    <div className={styles.info}>
+                      <strong>Key Ingredients : </strong>
+                      <p>
+                        {productData?.details?.keyIngredients?.map(
+                          (keyIn) => keyIn
+                        )}
+                      </p>
+                    </div>
+
+                    <div className={styles.info}>
+                      <strong>Ingredients : </strong>
+                      <p>
+                        {productData?.details?.ingredients?.map(
+                          (keyIn) => keyIn
+                        )}
+                      </p>
+                    </div>
+                    <div className={styles.info}>
+                      <strong>Benefits :</strong>
+                      <p>
+                        {productData?.details?.benefits?.map((keyIn) => keyIn)}
+                      </p>
+                    </div>
                   </ExpandableSection>
                 </div>
 
@@ -574,54 +667,8 @@ const ProductPage = ({ productId, productData }) => {
               </div>
             </section>
 
-            <section>
-              <h2>
-                Customer <span>Feedback</span>
-              </h2>
-              <div className={styles.customer_feedback}>
-                <div className={styles.rating_div_1}>
-                  <div className={styles.rate_score}>
-                    {productData.averageRating.toFixed(1)} / 5
-                  </div>
-                  <div className={styles.rate_stars}>
-                    <StarRating rating={productData.averageRating} />
-                  </div>
-                </div>
-                <div className={styles.rating_div_2}>
-                  <div className={styles.rating_div_2_in}>
-                    {productReviews.map((review, index) => (
-                      <ReviewCard key={index} review={review} index={index} />
-                    ))}
-                  </div>
-                </div>
-                <div className={styles.rating_div_3}>
-                  <div
-                    className={styles.comment_field}
-                    style={{ width: saveComment ? 0 : "100%" }}
-                  >
-                    <input
-                      type="text"
-                      placeholder="Write Your Feed Back...."
-                      onChange={(e) => setComment(e.target.value)}
-                    />
-                    <button onClick={() => setSaveComment(true)}>Next</button>
-                  </div>
-                  <div className={styles.rate_field}>
-                    <button onClick={() => setSaveComment(false)}>Prev</button>
-                    <input
-                      type="number"
-                      min={1}
-                      max={5}
-                      step={0.5}
-                      value={rating}
-                      onChange={(e) => setRating(parseFloat(e.target.value))}
-                    />
-
-                    <button onClick={newFeedback}>Submit</button>
-                  </div>
-                </div>
-              </div>
-              {/* {saveComment} */}
+            <section id="reviews">
+              <ReviewSection reviews={productReviews} productId={productId} />
             </section>
           </div>
         )}
@@ -658,7 +705,6 @@ export async function getStaticProps({ params }) {
     return { notFound: true };
   }
   const product = await Product.findById(params.id).lean(); // Fetch the product by ID
-
 
   if (!product) {
     return { notFound: true }; // Return 404 if product not found

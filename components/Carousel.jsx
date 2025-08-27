@@ -166,7 +166,7 @@ const Carousel = ({
               ? React.Children.map(children, (child, i) => {
                   const src = child.props?.src || "/fallback.jpg";
                   return (
-                    <span
+                    <span 
                       key={i}
                       className={
                         i + 1 === currentIndex
