@@ -164,11 +164,19 @@ const ReviewSection = ({ productId, reviews = [] }) => {
         ) : (
           reviews.map((r, i) => (
             <div key={i} className={styles.reviewCard}>
-              <div className={styles.reviewHeader}>
-                <strong>{r.name || "Anonymous"}</strong>
-                <span>{r.rating}★</span>
+              <Image
+                src={"/images/person1.jpg"}
+                width={50}
+                height={50}
+                alt="loda"
+              />
+              <div>
+                <div className={styles.reviewHeader}>
+                  <strong>{r.name || "Anonymous"}</strong>
+                  <span>{r.rating}★</span>
+                </div>
+                <p>{r.comment}</p>
               </div>
-              <p>{r.comment}</p>
             </div>
           ))
         )}

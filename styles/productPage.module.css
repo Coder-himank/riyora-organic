@@ -317,8 +317,11 @@
     font-weight: 300;
     font-size: 14px;
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    /* justify-content: space-between; */
+    /* gap: 20px; */
+}
+.info strong{
+    font-weight: 500;
 }
 
 .suitable_cards {
@@ -468,14 +471,17 @@
   cursor: pointer;
   color: #666;
   transition: transform 0.2s;
+  box-shadow: none;
+  font-size: 2rem;
 }
 
 .smileBtn span {
-  font-size: 12px;
+  font-size: 8px;
 }
 
 .smileBtn:hover {
   transform: scale(1.1);
+  box-shadow: none;
   color: green;
 }
 
@@ -517,12 +523,18 @@
 }
 
 .reviewCard {
+    display: grid;
+    grid-template-columns: 50px 1fr;
   border-bottom: 1px solid #eee;
   padding: 10px 0;
+    font-weight: 300;
 }
 
-.reviewCard {
-    font-weight: 300;
+.reviewCard img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .reviewHeader {
@@ -533,12 +545,13 @@
 }
 
 .apply_section {
-    display: grid;
-    grid-template-columns: 1fr; /* Mobile: 1 card */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 20px;
     width: 100%;
     margin: auto;
-    justify-items: center;
     max-width: 1000px;
 }
 
@@ -620,22 +633,40 @@
 }
 
 
-@media screen and  (max-width: 768px) {
 
-}
-/* Tablet (≥ 768px): 2 cards */
-@media (min-width: 768px) {
-    .apply_section {
-        grid-template-columns: repeat(2, 1fr);
-    }
+@media screen and  (max-width: 768px) {
     
 
-}
-
-
-/* Desktop (≥ 1024px): 3 cards */
-@media (min-width: 1024px) {
-    .apply_section {
-        grid-template-columns: repeat(3, 1fr);
+    .carousel {
+        position: relative;
+        top: 0;
+        width: 90%;
+        max-width: 400px;
+        margin-bottom: 20px;
     }
+
+    .sec_1 .details {
+        max-width: 90%;
+    }
+
+    .price_quantity {
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .price, .quantity {
+        width: 100%;
+        max-width: none;
+    }
+
+    .leftPanel, .rightPanel {
+        min-width: 100%;
+        border-right: none;
+        padding-right: 0;
+    }
+
+    .leftPanel {
+        margin-bottom: 30px;
+    }
+    
 }
