@@ -199,7 +199,7 @@ export default function Home() {
         <motion.div className={styles.hero_section} viewport={{ once: true }}>
           <motion.section
             className={styles.hero_section_in1}
-            initial={{ opacity: 0, y: -50 }}
+            initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             viewport={{ once: true }}
@@ -303,8 +303,8 @@ export default function Home() {
                   <motion.div
                     key={index}
                     className={styles.choose_us_card}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x:20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.2, duration: 0.5 }}
                     viewport={{ once: true }}
                   >
@@ -325,8 +325,8 @@ export default function Home() {
                   <motion.div
                     key={index}
                     className={styles.choose_us_card}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.2, duration: 0.5 }}
                     viewport={{ once: true }}
                   >
@@ -349,7 +349,7 @@ export default function Home() {
         {/* About Section */}
         <motion.section
           className={styles.about_section}
-          initial={{ x: 0, y: 40, opacity: 0.8 }}
+          initial={{ x: 0, y: 0, opacity: 0.8 }}
           whileInView={{ x: 0, y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 1.5 }}
           viewport={{ once: true }}

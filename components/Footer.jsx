@@ -97,19 +97,19 @@ export default function Footer() {
             <h4>Connect Us</h4>
             <div className="app-images social-app">
               <Link href={"https://www.instagram.com/riyoraorganic/"} target="_blank">
-                <Image src={"/images/instagram.png"} width={100} height={80} alt="Instagram Logo" />
+                <Image src={"/images/instagram.png"} width={100} height={80} alt="follow our Instagram account" />
               </Link>
               <Link href={"https://wa.me/919521666123"} target="_blank">
-                <Image src={"/images/whatsapp.png"} width={100} height={80} alt="WhatsApp Logo" />
+                <Image src={"/images/whatsapp.png"} width={100} height={80} alt="chat with us WhatsApp account" />
               </Link>
               <Link href={"/"}>
-                <Image src={"/images/youtube.png"} width={100} height={80} alt="YouTube Logo" />
+                <Image src={"/images/youtube.png"} width={100} height={80} alt="subscribe our YouTube account" />
               </Link>
               <Link href={"/"}>
-                <Image src={"/images/facebook.png"} width={100} height={80} alt="Facebook Logo" />
+                <Image src={"/images/facebook.png"} width={100} height={80} alt="follow our Facebook account" />
               </Link>
               <Link href={"/"}>
-                <Image src={"/images/twitter.png"} width={100} height={80} alt="Twitter Logo" />
+                <Image src={"/images/twitter.png"} width={100} height={80} alt="read latest news on Twitter account" />
               </Link>
             </div>
           </div>

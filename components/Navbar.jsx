@@ -157,7 +157,7 @@ export default function Navbar() {
             <span className="toogleNavBar" onClick={() => setToogleNavBar((prev) => !prev)}>
               <FaBars />
             </span>
-            <Link href="/"><span className="name-head"><Image src="/images/logo.png" alt="Logo" width={200} height={100} /></span></Link>
+            <Link href="/"><span className="name-head"><Image src="/images/logo.png" alt="Riyora organic official logo" width={200} height={100} /></span></Link>
 
           </div>
           {/* Nav left Ends */}
