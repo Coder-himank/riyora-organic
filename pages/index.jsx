@@ -199,7 +199,7 @@ export default function Home() {
         <motion.div className={styles.hero_section} viewport={{ once: true }}>
           <motion.section
             className={styles.hero_section_in1}
-            initial={{ opacity: 0, y: 0 }}
+            initial={{ opacity: 0.7, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             viewport={{ once: true }}
@@ -211,7 +211,7 @@ export default function Home() {
                 <Image
                   src={"/images/hero_banner_3.png"}
                   width={1920}
-                  height={400}
+                  height={500}
                   alt="Riyora Organic Ayurvedic Hair Oil Banner"
                   priority
                 />
@@ -222,7 +222,7 @@ export default function Home() {
                 <Image
                   src={"/images/hero_banner_2.png"}
                   width={1920}
-                  height={400}
+                  height={500}
                   alt="Natural Hair Oil for Hair Growth"
                 />
               </div>
@@ -238,7 +238,7 @@ export default function Home() {
             <h2>Shop Now</h2>
           </div>
           <section className={styles.product_section_in}>
-            <section className={styles.product_text_content}>
+            <div className={styles.product_text_content}>
               <h1>Root Strength Hair Oil</h1>
               <section className={styles.product_rating}>
                 <StarRating rating={4.4} />{" "}
@@ -259,8 +259,8 @@ export default function Home() {
                 )}
                 <p>MRP: 549</p>
               </div>
-            </section>
-            <section className={styles.product_image_wrapper}>
+            </div>
+            <div className={styles.product_image_wrapper}>
               <div className={styles.bg_circel}></div>
               <Image
                 src={"/products/root_strength_hair_oil_2.png"}
@@ -268,7 +268,7 @@ export default function Home() {
                 height={500}
                 alt="Riyora Root Strength Hair Oil Bottle"
               />
-            </section>
+            </div>
           </section>
         </motion.section>
 
@@ -303,7 +303,7 @@ export default function Home() {
                   <motion.div
                     key={index}
                     className={styles.choose_us_card}
-                    initial={{ opacity: 0, x:20 }}
+                    initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.2, duration: 0.5 }}
                     viewport={{ once: true }}
@@ -386,8 +386,6 @@ export default function Home() {
                 <Link href={"/about"}>Learn More</Link>
               </div>
               <motion.div className={styles.about_achivements}>
-
-
                 <motion.div>
                   <span className={styles.about_achivements_icon}>
                     <FaUserMd />

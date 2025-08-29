@@ -12,10 +12,14 @@ import { useEffect, useState } from "react";
 
 function AuthPopup() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [showAuth, setShowAuth] = useState(false);
   const [popupCount, setPopupCount] = useState(0); // track how many times shown
 
   useEffect(() => {
+    if (router.pathname === "/authenticate") {
+      return;
+    }
     if (!session) {
       // First popup after 10s
       const firstTimer = setTimeout(() => {
