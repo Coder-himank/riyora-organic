@@ -1,0 +1,152 @@
+
+.reviewSection {
+  margin: 40px 0;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.reviewSection h2 {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.reviewSection h2 span {
+  color: green;
+}
+
+.reviewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* Left Panel */
+.leftPanel {
+  flex: 1;
+  min-width: 280px;
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
+}
+
+.leftPanel h3 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  gap: 10px;
+}
+
+.progressBar {
+  flex: 1;
+  height: 8px;
+  background: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progressBar div {
+  height: 100%;
+  background: green;
+}
+
+/* Right Panel */
+.rightPanel {
+  flex: 2;
+  min-width: 300px;
+}
+
+.smileOptions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.smileBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  color: #666;
+  transition: transform 0.2s;
+  box-shadow: none;
+  font-size: 2rem;
+}
+
+.smileBtn span {
+  font-size: 8px;
+}
+
+.smileBtn:hover {
+  transform: scale(1.1);
+  box-shadow: none;
+  color: green;
+}
+
+.smileBtn.active {
+  color: green;
+}
+
+.rightPanel textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.submitBtn {
+  background: green;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submitBtn:hover {
+  background: darkgreen;
+}
+
+/* Reviews List */
+.reviewList {
+  margin-top: 40px;
+}
+
+.reviewList h3 {
+  margin-bottom: 20px;
+}
+
+.reviewCard {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+    font-weight: 300;
+}
+
+.reviewCard img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 5px;
+}

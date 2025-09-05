@@ -9,7 +9,7 @@ export const getProductUrl = async () => {
 
     
     if (response.data && response.data.length > 0) {
-      return `/products/${response.data[0]._id}`;
+      return `/products/${response.data[0].slug}`;
     } else {
 
       return "/";

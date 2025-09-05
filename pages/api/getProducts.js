@@ -39,8 +39,10 @@ export default async function handler(req, res) {
       }
 
       products = await Product.find({ _id: { $in: idsArray } });
+      // products = await Product.find({ _id: { $in: idsArray }, visible:true });
     } else {
       // Case 2: Fetch all products
+      // products = await Product.find({visible:true});
       products = await Product.find();
     }
 

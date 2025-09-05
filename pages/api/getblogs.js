@@ -21,6 +21,8 @@ const handler = async (req, res) => {
       if (blogId) {
         const blog = await Blog.findById(blogId);
 
+
+        // if (!blog || !blog?.visible) {
         if (!blog) {
           return res.status(404).json({ message: "Blog not found" });
         }
