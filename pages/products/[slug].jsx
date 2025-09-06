@@ -160,7 +160,7 @@ const ProductPage = ({ productId, productData }) => {
 
               <section className={styles.icons}>
                 {productData.chooseUs?.map((item, idx) => (
-                  <Image key={idx} src={item?.imageUrl} width={80} height={80} alt={item.text} />
+                  <Image key={idx} src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
                 ))}
               </section>
             )}

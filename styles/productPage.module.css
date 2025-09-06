@@ -362,7 +362,7 @@
 
 
 .suitable_cards .suitable_images {
-    width: 40vw;
+    width: 30vw;
     max-width: fit-content;
     max-height: fit-content;
     height: fit-content;
@@ -383,7 +383,7 @@
     width: 100%;
     height: fit-content;
     object-fit: contain;
-    max-width: 130px;
+    max-width: 100px;
 }
 
 .suitable_images p {
@@ -447,9 +447,7 @@
 }
 
 
-
-@media screen and  (max-width: 768px) {
-    
+@media screen and  (max-width: 900px) {
 
     .carousel {
         position: relative;
@@ -458,6 +456,10 @@
         max-width: 400px;
         margin-bottom: 20px;
     }
+
+}
+@media screen and  (max-width: 768px) {
+    
 
     .sec_1 .details {
         max-width: 100%;
@@ -481,6 +483,21 @@
 
     .leftPanel {
         margin-bottom: 30px;
+    }
+
+
+    .expandable_section{
+        padding: 10px 0;
+    }
+    
+    .expandable_title{
+        padding: 0;
+    }
+    
+    .expandable_content{
+        padding: 5px;
+        font-size: 14px;
+        letter-spacing: 0.01rem;
     }
     
 }
