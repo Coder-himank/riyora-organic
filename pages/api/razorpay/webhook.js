@@ -67,7 +67,6 @@ export default async function handler(req, res) {
     return res.status(400).send("Malformed webhook");
   }
 
-
   const notes = payment.notes || {};
 
   try {
@@ -78,13 +77,19 @@ export default async function handler(req, res) {
 
     // If not found, create a new order as fallback
     if (!order) {
-  
-      // return res.status(200).send("Order not found, webhook ignored");
-      
       order = new Order({
         userId: notes.userId,
-        products: notes.products ? JSON.parse(notes.products) : [],
-        address: notes.address ? JSON.parse(notes.address) : {city:"lund"},
+        // modified for variants → products may contain variantId + variantName
+        products: notes.products
+          ? JSON.parse(notes.products).map((p) => ({
+              productId: p.productId,
+              quantity: p.quantity,
+              variantId: p.variantId || null, // added for variants
+              variantName: p.variantName || null, // added for variants
+              price: p.price,
+            }))
+          : [],
+        address: notes.address ? JSON.parse(notes.address) : { city: "lund" },
         amountBreakDown: notes.amountBreakDown
           ? JSON.parse(notes.amountBreakDown)
           : {},

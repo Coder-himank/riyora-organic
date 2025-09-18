@@ -38,12 +38,12 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Invalid product IDs" });
       }
 
-      products = await Product.find({ _id: { $in: idsArray } });
+      products = await Product.find({ _id: { $in: idsArray } , visible : true });
       // products = await Product.find({ _id: { $in: idsArray }, visible:true });
     } else {
       // Case 2: Fetch all products
       // products = await Product.find({visible:true});
-      products = await Product.find();
+      products = await Product.find({visible:true});
     }
 
     // Case 3: Apply filters (e.g., featured products)

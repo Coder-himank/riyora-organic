@@ -1,3 +1,4 @@
+// pages/products/[slug].jsx
 import Head from "next/head";
 import dbConnect from "@/server/db";
 import Image from "next/image";
@@ -14,8 +15,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import StarRating from "@/components/StartRating";
 import { ToastContainer, toast } from "react-toastify";
-
-import ReviewSection from "@/components/ReviewSection"; // ⬅️ reuse your review section component
+import ReviewSection from "@/components/ReviewSection";
 
 const ExpandableSection = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -40,29 +40,54 @@ const ProductPage = ({ productId, productData }) => {
   const [quantity_demanded, setQuantityDemanded] = useState(1);
   const [uMayLikeProducts, setUMayLikeProducts] = useState([]);
 
+  // ============ Variants Support =============
+  const [selectedVariant, setSelectedVariant] = useState(null); // added for variants
+
+  // Normalize imageUrl for variants (added for variants)
+  const normalizeVariantImages = (variant) => {
+    if (!variant) return [];
+    return Array.isArray(variant.imageUrl) ? variant.imageUrl : variant.imageUrl ? [variant.imageUrl] : [];
+  };
+
+  const displayProduct = selectedVariant
+    ? {
+      ...productData,                // base product fields
+      price: selectedVariant.price,   // override variant-specific fields
+      mrp: selectedVariant.mrp,
+      stock: selectedVariant.stock,
+      sku: selectedVariant.sku,
+      quantity: selectedVariant.quantity,
+      imageUrl: [...normalizeVariantImages(selectedVariant), ...productData?.imageUrl],
+      name: selectedVariant.name || productData.name,
+    }
+    : {
+      ...productData,
+      imageUrl: Array.isArray(productData.imageUrl) ? productData.imageUrl : [productData.imageUrl],
+    };
+
   // ================= Schema.org =================
   const [productSchema, setProductSchema] = useState({
     "@context": "https://schema.org",
     "@type": "Product",
-    name: productData.name,
-    image: productData.imageUrl,
-    description: productData.description,
-    brand: { "@type": "Brand", name: productData.brand },
-    sku: productData.sku,
+    name: displayProduct.name,
+    image: displayProduct.imageUrl,
+    description: displayProduct.description,
+    brand: { "@type": "Brand", name: displayProduct.brand },
+    sku: displayProduct.sku,
     offers: {
       "@type": "Offer",
-      url: `${site_url}/products/${productData.slug}`,
-      priceCurrency: productData.currency,
-      price: productData.price,
+      url: `${site_url}/products/${displayProduct.slug}`,
+      priceCurrency: displayProduct.currency,
+      price: displayProduct.price,
       availability:
-        productData.stock > 0
+        displayProduct.stock > 0
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: productData.averageRating,
-      reviewCount: productData.numReviews,
+      ratingValue: displayProduct.averageRating,
+      reviewCount: displayProduct.numReviews,
     },
   });
 
@@ -78,22 +103,24 @@ const ProductPage = ({ productId, productData }) => {
     fetchRecommended();
   }, []);
 
+  useEffect(() => { }, [displayProduct]);
+
   return (
     <>
       <Head>
-        <title>{`${productData.name} | ${productData.brand}`}</title>
-        <meta name="description" content={productData.description} />
-        <meta name="keywords" content={productData.keywords?.join(", ")} />
+        <title>{`${displayProduct.name} | ${displayProduct.brand}`}</title>
+        <meta name="description" content={displayProduct.description} />
+        <meta name="keywords" content={displayProduct.keywords?.join(", ")} />
 
         {/* Open Graph */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={productData.name} />
-        <meta property="og:description" content={productData.description} />
-        <meta property="og:image" content={`${site_url}${productData.imageUrl[0]}`} />
-        <meta property="og:url" content={`${site_url}/products/${productData.slug}`} />
+        <meta property="og:title" content={displayProduct.name} />
+        <meta property="og:description" content={displayProduct.description} />
+        <meta property="og:image" content={`${site_url}${displayProduct.imageUrl[0]}`} />
+        <meta property="og:url" content={`${site_url}/products/${displayProduct.slug}`} />
 
         {/* Canonical */}
-        <link rel="canonical" href={`${site_url}/products/${productData.slug}`} />
+        <link rel="canonical" href={`${site_url}/products/${displayProduct.slug}`} />
 
         {/* Schema */}
         <script
@@ -109,8 +136,8 @@ const ProductPage = ({ productId, productData }) => {
         <section className={styles.sec_1}>
           <section className={styles.carousel}>
             <Carousel action_style="images">
-              {productData.imageUrl.map((img, idx) => (
-                <Image key={idx} src={img} width={500} height={500} alt={productData.name} />
+              {(displayProduct.imageUrl || []).map((img, idx) => (
+                <Image key={idx} src={img} width={500} height={500} alt={displayProduct.name} />
               ))}
             </Carousel>
           </section>
@@ -119,33 +146,33 @@ const ProductPage = ({ productId, productData }) => {
             <div className={styles.paths}>
               <Link href="/">Home</Link> <span>/</span>
               <Link href="/products">Products</Link> <span>/</span>
-              <Link href={`/products/${productData.slug}`}>{productData.name}</Link>
+              <Link href={`/products/${displayProduct.slug}`}>{displayProduct.name}</Link>
             </div>
 
-            <h1>{productData.name}</h1>
+            <h1>{displayProduct.name}</h1>
 
             <div className={styles.ratings}>
-              <StarRating rating={productData.averageRating} />
+              <StarRating rating={displayProduct.averageRating} />
               <span>
-                {productData.averageRating} ({productData.numReviews})
+                {displayProduct.averageRating} ({displayProduct.numReviews})
               </span>
             </div>
 
             <div className={styles.description}>
-              <p>{productData.description}</p>
+              <p>{displayProduct.description}</p>
             </div>
 
             {/* Pricing + Quantity */}
             <div className={styles.price_quantity}>
               <div className={styles.price}>
-                {productData.discountPercentage > 0 && (
+                {displayProduct.discountPercentage > 0 && (
                   <>
-                    <span className={styles.discount_perc}>{productData.discountPercentage}% OFF</span>
-                    <span className={styles.originalPrice}>₹{productData.mrp}</span>
+                    <span className={styles.discount_perc}>{displayProduct.discountPercentage}% OFF</span>
+                    <span className={styles.originalPrice}>₹{displayProduct.mrp}</span>
                   </>
                 )}
-                <span className={styles.salePrice}>₹{productData.price}</span>
-                <p className={styles.price_text}>{productData.quantity} | no extra charges</p>
+                <span className={styles.salePrice}>₹{displayProduct.price}</span>
+                <p className={styles.price_text}>{displayProduct.quantity} | no extra charges</p>
               </div>
 
               <div className={styles.quantity}>
@@ -156,37 +183,25 @@ const ProductPage = ({ productId, productData }) => {
             </div>
 
             {/* Choose Us */}
-            {productData?.chooseUs.length > 0 && (
-
+            {displayProduct?.chooseUs?.length > 0 && (
               <section className={styles.icons}>
-                {productData.chooseUs?.map((item, idx) => (
+                {displayProduct.chooseUs?.map((item, idx) => (
                   <Image key={idx} src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
                 ))}
               </section>
             )}
 
-            {/* Actions */}
-            <div className={styles.action_btn}>
-              <button
-                onClick={() =>
-                  onAddToCart(router, productId, session).success === false
-                    ? toast.error("Unable To Add to Cart")
-                    : toast.success("Added To Cart")
-                }
-              >
-                Add To Cart
-              </button>
-              <button onClick={() => onBuy(router, productId, quantity_demanded, session)}>Buy Now</button>
-            </div>
-
             {/* Variants */}
-            {productData.variants && (
-
+            {productData.variants && productData?.variants?.length > 0 && (
               <div className={styles.variants}>
-                {productData.variants?.map((variant, idx) => (
-                  <Link key={idx} href={`/products/${variant.product_id}`} className={styles.variant_card}>
+                {productData.variants.map((variant, idx) => (
+                  <div
+                    key={idx}
+                    className={`${styles.variant_card} ${selectedVariant?._id === variant.product_id ? styles.selected_variant : ""}`}
+                    onClick={() => setSelectedVariant(variant)}
+                  >
                     <Image
-                      src={variant?.imageUrl || productData?.imageUrl[0]}
+                      src={normalizeVariantImages(variant)[0] || productData?.imageUrl[0]}
                       width={100}
                       height={100}
                       alt={`${variant.name} variant`}
@@ -195,34 +210,47 @@ const ProductPage = ({ productId, productData }) => {
                       <span>{variant.name}</span>
                       <span className={styles.variant_price}>₹{variant.price}</span>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}
 
-            {/* Details */}
+            {/* Actions */}
+            <div className={styles.action_btn}>
+              <button
+                onClick={() =>
+                  onAddToCart(router, displayProduct._id, session, quantity_demanded, selectedVariant?._id)
+                    .success === false
+                    ? toast.error("Unable To Add to Cart")
+                    : toast.success("Added To Cart")
+                }
+              >
+                Add To Cart
+              </button>
+              <button
+                onClick={() => onBuy(router, displayProduct._id, quantity_demanded, session, variantId = selectedVariant?._id)}
+              >
+                Buy Now
+              </button>
+            </div>
+
+            {/* Expandable Sections */}
             <ExpandableSection title="Top Highlights">
               <div className={styles.highlights}>
-
-                <p><strong>Key Ingredients - </strong>{productData.details?.keyIngredients?.join(", ")}</p>
-                <p><strong>Ingredients - </strong>{productData.details?.ingredients?.join(", ")}</p>
-
+                <p><strong>Key Ingredients - </strong>{displayProduct.details?.keyIngredients?.join(", ")}</p>
+                <p><strong>Ingredients - </strong>{displayProduct.details?.ingredients?.join(", ")}</p>
                 <p><strong>Material Type Free - </strong>Alcohol Free, Cruelty Free, Dye Free, Hexane Free, Paraben Free, Mineral Oil Free, Palm oill Free, SLS Free, Silicone Free, Free From Toxic Chemicals, No Artificial Colours, No Artificial Fragrance </p>
-
-                <p><strong>Hair Type - </strong>{productData.details.hairType}</p>
-
-                <p><strong>Product Benefits - </strong> {productData.details?.benefits?.join(", ")}</p>
-
-                <p><strong>Item Form - </strong>{productData.details.itemForm}</p>
-                <p><strong>Item Volume - </strong>{productData.details.itemVolume}</p>
+                <p><strong>Hair Type - </strong>{displayProduct.details.hairType}</p>
+                <p><strong>Product Benefits - </strong> {displayProduct.details?.benefits?.join(", ")}</p>
+                <p><strong>Item Form - </strong>{displayProduct.details.itemForm}</p>
+                <p><strong>Item Volume - </strong>{displayProduct.details.itemVolume}</p>
               </div>
-
             </ExpandableSection>
 
             <ExpandableSection title="Specifications">
               <table className={styles.specifications}>
                 <tbody>
-                  {Object.entries(productData.specifications || {}).map(([k, v]) => (
+                  {Object.entries(displayProduct.specifications || {}).map(([k, v]) => (
                     <tr key={k}>
                       <td className={styles.strong}>{k}</td>
                       <td>{v || "-"}</td>
@@ -233,20 +261,16 @@ const ProductPage = ({ productId, productData }) => {
             </ExpandableSection>
 
             <ExpandableSection title="Disclaimer">
-
               <ol className={styles.disclaimer}>
-
-                {Object.entries(productData.disclaimers || {}).map(([k, v]) => (
-                  <li key={k}>
-                    {v}
-                  </li>
+                {Object.entries(displayProduct.disclaimers || {}).map(([k, v]) => (
+                  <li key={k}>{v}</li>
                 ))}
               </ol>
             </ExpandableSection>
 
             <ExpandableSection title="Suitable For">
               <div className={styles.suitable_cards}>
-                {productData.suitableFor?.map((s, idx) => (
+                {displayProduct.suitableFor?.map((s, idx) => (
                   <div key={idx} className={styles.suitable_images}>
                     <Image src={s?.imageUrl} width={300} height={300} alt={s.text} />
                     <p>{s.text}</p>
@@ -261,7 +285,7 @@ const ProductPage = ({ productId, productData }) => {
         <section>
           <h2>How <span>to Apply</span></h2>
           <div className={styles.apply_section}>
-            {productData.howToApply?.map((step, idx) => (
+            {displayProduct.howToApply?.map((step, idx) => (
               <div key={idx} className={styles.apply_box}>
                 <Image src={step?.imageUrl} width={300} height={300} alt={step.title} />
                 <div>
@@ -275,7 +299,7 @@ const ProductPage = ({ productId, productData }) => {
 
         {/* Reviews */}
         <section id="reviews">
-          <ReviewSection reviews={productData.reviews} productId={productId} />
+          <ReviewSection reviews={displayProduct.reviews} productId={productId} />
         </section>
       </div>
     </>
@@ -285,7 +309,7 @@ const ProductPage = ({ productId, productData }) => {
 // ================== SSG ==================
 export async function getStaticPaths() {
   await dbConnect();
-  const products = await Product.find({}, "slug");
+  const products = await Product.find({ visible: true }, "slug");
 
   return {
     paths: products.map((p) => ({ params: { slug: p.slug } })),
@@ -299,10 +323,20 @@ export async function getStaticProps({ params }) {
 
   if (!product) return { notFound: true };
 
+  // Ensure imageUrl and variants.imageUrl are arrays (added for variants)
+  const normalizedProduct = {
+    ...product,
+    imageUrl: Array.isArray(product.imageUrl) ? product.imageUrl : product.imageUrl ? [product.imageUrl] : [],
+    variants: product.variants?.map(v => ({
+      ...v,
+      imageUrl: Array.isArray(v.imageUrl) ? v.imageUrl : v.imageUrl ? [v.imageUrl] : [],
+    })) || [],
+  };
+
   return {
     props: {
       productId: product._id.toString(),
-      productData: JSON.parse(JSON.stringify(product)),
+      productData: JSON.parse(JSON.stringify(normalizedProduct)),
     },
     revalidate: 600,
   };

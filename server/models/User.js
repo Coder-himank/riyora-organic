@@ -12,12 +12,27 @@ const AddressSchema = new mongoose.Schema({
 
 const CartItemSchema = new mongoose.Schema({
   productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+
+  // modified for variants
+  variantId: { type: mongoose.Schema.Types.ObjectId, required: false }, // which variant
+  variantName: { type: String }, // snapshot name (e.g. "200ml Pack")
+  variantPrice: { type: Number }, // snapshot price at time of adding
+  imageUrl: { type: String }, // added for variants - snapshot image
+
+  name: { type: String }, // snapshot product name
+  price: { type: Number }, // snapshot base price (fallback)
+
   quantity_demanded: { type: Number, required: true, min: 1 },
   addedAt: { type: Date, default: Date.now }
 });
 
 const WishlistItemSchema = new mongoose.Schema({
   productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+
+  // added for variants
+  variantId: { type: mongoose.Schema.Types.ObjectId },
+  variantName: { type: String },
+
   addedAt: { type: Date, default: Date.now }
 });
 
@@ -51,8 +66,8 @@ const UserSchema = new mongoose.Schema(
     role: { type: String, enum: ["customer", "admin", "guest"], default: "customer" },
 
     addresses: [AddressSchema],
-    cartData: [CartItemSchema],
-    wishlistData: [WishlistItemSchema],
+    cartData: [CartItemSchema], // modified for variants
+    wishlistData: [WishlistItemSchema], // modified for variants
     orderHistory: [OrderHistorySchema],
     preferences: PreferencesSchema,
 

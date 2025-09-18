@@ -1,16 +1,21 @@
+// components/ProductAction.js
 
-export async function onAddToCart(router, productId, session) {
+export async function onAddToCart(router, productId, session, quantity_demanded, variantId = null) { // modified for variants
     if (!session?.user) {
         router.push({ pathname: `/authenticate`, query: { callback: `/cart`, productId } })
         return
-
     }
 
     try {
         const response = await fetch(`/api/secure/cart?userId=${session.user.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: session?.user?.id, productId, quantity: 1 })
+            body: JSON.stringify({
+                userId: session?.user?.id,
+                productId,
+                quantity: quantity_demanded,
+                variantId // added for variants
+            })
         });
         const data = await response.json();
         return data;
@@ -19,6 +24,7 @@ export async function onAddToCart(router, productId, session) {
         return { success: false, message: "Request failed" };
     }
 }
+
 export async function onAddToWishlist(router, productId, session) {
     if (!session?.user?.id) {
         router.push({ pathname: `/authenticate`, query: { callback: `/wishlist`, productId } })
@@ -39,6 +45,9 @@ export async function onAddToWishlist(router, productId, session) {
     }
 }
 
-export const onBuy = (router, productId, quantity_demanded, session) => {
-    router.push({ pathname: `/${session?.user?.id}/checkout`, query: { productId, quantity_demanded } })
+export const onBuy = (router, productId, quantity_demanded, session, variantId = null) => { // modified for variants
+    router.push({
+        pathname: `/${session?.user?.id}/checkout`,
+        query: { productId, quantity_demanded, variantId } // added for variants
+    })
 }

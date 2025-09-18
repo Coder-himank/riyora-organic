@@ -62,7 +62,7 @@ export default function TrackOrder() {
               order.status !== "delivered" ||
               (order.deliveredOn &&
                 new Date(order.deliveredOn) >=
-                  new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+                new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
 
             return (
               showOrder && (

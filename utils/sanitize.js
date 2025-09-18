@@ -8,7 +8,8 @@ export function sanitizeProducts(arr) {
     return arr
         .map((x) => ({
             productId: String(x?.productId || "").trim(),
+            variantId: String(x?.variantId || "").trim(),
             quantity: Number(x?.quantity || 1),
         }))
-        .filter((x) => x.productId && x.quantity > 0 && x.quantity <= 50);
+        .filter((x) => x.productId && x.quantity > 0 && x.quantity <= 50); // set the maximum number of products a perosn can porder at a time
 }

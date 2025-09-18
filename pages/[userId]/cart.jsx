@@ -1,3 +1,4 @@
+// pages/cart.js
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -51,14 +52,46 @@ export default function Cart() {
     const fetchCartData = async () => {
       try {
         const productIds = cartItems.map((item) => item.productId);
-        const { data: products } = await axios.get(`/api/getProducts?ids=${productIds.join(",")}`);
+        const { data: products } = await axios.get(
+          `/api/getProducts?ids=${productIds.join(",")}`
+        );
 
-        const mergedCart = cartItems.map((item) => ({
-          ...item,
-          ...products.find((p) => p._id === item.productId),
-        }));
+        const mergedCart = cartItems.map((item) => {
+          const product = products.find((p) => p._id === item.productId);
+
+          let variant = null;
+          if (item.variantId && product?.variants?.length) {
+            variant = product.variants.find((v) => {
+              console.log(v);
+
+              return v._id.toString() === item.variantId.toString()
+            });
+            console.log(item.variantId.toString());
+          }
+
+
+
+
+          return {
+            ...item,
+
+            // modified for variants
+            name: variant
+              ? `${product.name} - ${variant.name}`
+              : product.name,
+            price: variant ? variant.price : product.price,
+            imageUrl: variant
+              ? variant.imageUrl?.length
+                ? variant.imageUrl
+                : product.imageUrl
+              : product.imageUrl,
+            description: product.description,
+          };
+        });
 
         setCart(mergedCart);
+        console.log(mergedCart);
+
       } catch (error) {
         console.error("Error fetching Cart Data", error);
       }
@@ -68,7 +101,12 @@ export default function Cart() {
   }, [cartItems]);
 
   useEffect(() => {
-    setCartTotal(cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity_demanded, 0));
+    setCartTotal(
+      cart.reduce(
+        (sum, item) => sum + (item.price || 0) * item.quantity_demanded,
+        0
+      )
+    );
   }, [cart]);
 
   const showNotification = (message) => {
@@ -76,10 +114,10 @@ export default function Cart() {
     setTimeout(() => setNotification(null), 3000);
   };
 
-  const removeFromCart = async (productId) => {
+  const removeFromCart = async (productId, variantId) => {
     try {
       await axios.delete(`/api/secure/cart?userId=${userId}`, {
-        data: { productId, userId },
+        data: { productId, variantId, userId }, // modified for variants
       });
       mutate();
       showNotification("Item Removed From Cart Successfully");
@@ -87,26 +125,33 @@ export default function Cart() {
       console.error("Error Removing Item", error);
     }
   };
-  const updateQuantityOptimistic = async (productId, quantity) => {
+
+  const updateQuantityOptimistic = async (productId, variantId, quantity) => {
     if (quantity < 1) {
-      removeFromCart(productId);
+      removeFromCart(productId, variantId);
       return;
     }
 
-    const updatedCart = cart.map(item =>
-      item.productId === productId ? { ...item, quantity_demanded: quantity } : item
+    const updatedCart = cart.map((item) =>
+      item.productId === productId && item.variantId === variantId
+        ? { ...item, quantity_demanded: quantity }
+        : item
     );
     setCart(updatedCart);
 
     try {
-      await axios.put(`/api/secure/cart`, { userId, productId, quantity });
+      await axios.put(`/api/secure/cart`, {
+        userId,
+        productId,
+        variantId, // modified for variants
+        quantity,
+      });
       mutate();
       showNotification("Cart Updated Successfully");
     } catch (error) {
       console.error("Error Updating Cart", error);
     }
   };
-
 
   if (sessionStatus === "loading" || !cartItems) {
     return (
@@ -137,7 +182,6 @@ export default function Cart() {
     );
   }
 
-
   return (
     <>
       <div className="navHolder"></div>
@@ -157,7 +201,10 @@ export default function Cart() {
         ) : (
           <>
             {cart.map((item) => (
-              <div key={item.productId} className={styles.cart_item}>
+              <div
+                key={`${item.productId}-${item.variantId || "default"}`} // modified for variants
+                className={styles.cart_item}
+              >
                 <Link href={`/products/${item.productId}`}>
                   <motion.img
                     src={item.imageUrl[0]}
@@ -178,7 +225,11 @@ export default function Cart() {
                   <span className={styles.quantity_controls}>
                     <button
                       onClick={() =>
-                        updateQuantityOptimistic(item.productId, item.quantity_demanded + 1)
+                        updateQuantityOptimistic(
+                          item.productId,
+                          item.variantId,
+                          item.quantity_demanded + 1
+                        )
                       }
                     >
                       +
@@ -186,7 +237,11 @@ export default function Cart() {
                     <span className={styles.qty}>{item.quantity_demanded}</span>
                     <button
                       onClick={() =>
-                        updateQuantityOptimistic(item.productId, item.quantity_demanded - 1)
+                        updateQuantityOptimistic(
+                          item.productId,
+                          item.variantId,
+                          item.quantity_demanded - 1
+                        )
                       }
                     >
                       -
@@ -195,7 +250,9 @@ export default function Cart() {
                 </div>
                 <button
                   className={styles.remove_btn}
-                  onClick={() => removeFromCart(item.productId)}
+                  onClick={() =>
+                    removeFromCart(item.productId, item.variantId)
+                  }
                 >
                   x
                 </button>
@@ -203,7 +260,9 @@ export default function Cart() {
             ))}
 
             <div className={styles.cart_billing}>
-              <div className={styles.cart_total}>Total: ₹{cartTotal.toFixed(2)}</div>
+              <div className={styles.cart_total}>
+                Total: ₹{cartTotal.toFixed(2)}
+              </div>
               <Link href={`/${userId}/checkout`}>
                 <button>Checkout</button>
               </Link>
@@ -213,12 +272,4 @@ export default function Cart() {
       </div>
     </>
   );
-}
-
-function debounce(func, delay) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => func(...args), delay);
-  };
 }

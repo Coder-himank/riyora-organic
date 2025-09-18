@@ -1,3 +1,5 @@
+
+//products/index
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductCard, { SkeletonCard } from "@/components/ProductCard";

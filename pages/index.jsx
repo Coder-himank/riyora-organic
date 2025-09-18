@@ -19,6 +19,9 @@ import { GiHairStrands } from "react-icons/gi";
 
 import axios from "axios";
 import getProductUrl from "@/utils/productsUtils";
+import connectDB from "@/server/db";
+import Product from "@/server/models/Product";
+
 export const TrendingProduct = ({ products }) => {
   return;
 
@@ -54,7 +57,9 @@ export const TrendingProduct = ({ products }) => {
     </motion.section>
   );
 };
-export default function Home() {
+
+
+export default function Home({ highlightedProduct }) {
   const { locale } = useRouter(); // Get the current locale
 
   const [products, setProducts] = useState(null);
@@ -239,34 +244,30 @@ export default function Home() {
           </div>
           <section className={styles.product_section_in}>
             <div className={styles.product_text_content}>
-              <h1>Root Strength Hair Oil</h1>
+              <h1>{highlightedProduct.name}</h1>
               <section className={styles.product_rating}>
-                <StarRating rating={4.4} />{" "}
-                <span className={styles.review_count}>| (20)</span>
+                <StarRating rating={highlightedProduct.averageRating} />{" "}
+                <span className={styles.review_count}>{highlightedProduct.averageRating} | ({highlightedProduct.numReviews})</span>
               </section>
-              <p>
-                Experience the power of Ayurveda with Riyora's Root Strength
-                Hair Oil. Formulated with natural plant extracts, this oil
-                nourishes your scalp, strengthens roots, and promotes healthy
-                hair growth. Free from parabens, sulfates, and artificial
-                colors.
+              <p> {highlightedProduct.description ||
+                "Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oilnourishes your scalp, strengthens roots, and promotes healthyhair growth. Free from parabens, sulfates, and artificialcolors."}
               </p>
               <div className={styles.product_bottom}>
                 {productUrl && (
                   <Link href={productUrl} className={styles.product_shop_btn}>
-                    Shop Now for ₹ 499
+                    Shop Now for ₹ {highlightedProduct.price}
                   </Link>
                 )}
-                <p>MRP: 549</p>
+                <p>MRP: {highlightedProduct.mrp}</p>
               </div>
             </div>
             <div className={styles.product_image_wrapper}>
               <div className={styles.bg_circel}></div>
               <Image
-                src={"/products/root_strength_hair_oil_2.png"}
+                src={highlightedProduct.imageUrl[0] || "/products/root_strength_hair_oil_2.png"}
                 width={500}
                 height={500}
-                alt="Riyora Root Strength Hair Oil Bottle"
+                alt={highlightedProduct.name || "Riyora Root Strength Hair Oil Bottle"}
               />
             </div>
           </section>
@@ -500,4 +501,30 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+
+export const getServerSideProps = async ({ params }) => {
+  try {
+
+    await connectDB()
+    const highlightedProduct = await Product.findOne({});
+    return {
+      props: {
+        highlightedProduct: JSON.parse(JSON.stringify(highlightedProduct))
+      }
+    }
+
+  } catch (e) {
+    console.log("Cant fetch Product")
+  }
+  return {
+    props: {
+      highlightedProduct: JSON.parse(JSON.stringify({
+        name: "Loading",
+        price: 0,
+        mrp: 0,
+      }))
+    }
+  }
 }

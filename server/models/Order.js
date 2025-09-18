@@ -13,6 +13,12 @@ const orderSchema = new mongoose.Schema(
                 price: { type: Number, required: true },
                 name: { type: String }, // keep snapshot of product name
                 sku: { type: String },  // stock keeping unit
+
+                // added for variants
+                variantId: { type: mongoose.Schema.Types.ObjectId }, // reference to selected variant
+                variantName: { type: String }, // snapshot of variant name (e.g., Size M, Combo Pack)
+                variantSku: { type: String },  // sku of the variant
+                variantPrice: { type: Number }, // price of the variant at purchase
             },
         ],
 

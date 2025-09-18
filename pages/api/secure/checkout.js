@@ -65,22 +65,29 @@ export default async function handler(req, res) {
     await dbConnect();
 
     /**
-     * Step 5: Resolve product details
-     * If no products provided, fall back to user's saved cart (TODO).
+     * Step 5: Resolve product details (with variant support)
      */
     const items = [];
     if (productsInput && productsInput.length) {
-      for (const { productId, quantity } of productsInput) {
+      for (const { productId, quantity, variantId } of productsInput) {
         const product = await Product.findById(productId).lean();
         if (!product || product.deleted) {
           return res.status(400).json({ error: "Invalid product" });
         }
 
-        const price =product.price
+        // added for variants → resolve variant price & name if variantId provided
+        let variant = null;
+        if (variantId && product.variants?.length) {
+          variant = product.variants.find((v) => String(v._id) === String(variantId));
+        }
+
+        const price = variant ? variant.price : product.price;
+        const name = variant ? `${product.name} - ${variant.name}` : product.name;
 
         items.push({
           productId: String(product._id),
-          name: product.name,
+          variantId: variant ? String(variant._id) : null, // added for variants
+          name, // modified for variants → include variant name
           imageUrl: product.imageUrl?.[0] || "",
           price,
           quantity: Math.max(1, Number(quantity || 1)),

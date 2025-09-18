@@ -37,7 +37,6 @@ export default function Checkout() {
     }
   }, []);
 
-
   // Redirect if not logged in
   useEffect(() => {
     if (status === "unauthenticated") router.push("/auth?type=login");
@@ -63,12 +62,16 @@ export default function Checkout() {
     /**
      * We only send minimal data: either
      * - cart on the server (implicit), or
-     * - immediate buy via query (?productId, ?quantity_demanded)
+     * - immediate buy via query (?productId, ?variantId, ?quantity_demanded)
      */
     const payload = {
       promocode,
       products: router.query.productId
-        ? [{ productId: router.query.productId, quantity: Number(router.query.quantity_demanded || 1) }]
+        ? [{
+          productId: router.query.productId,
+          variantId: router.query.variantId || null, // added for variants
+          quantity: Number(router.query.quantity_demanded || 1)
+        }]
         : null,
       addressId: selectedAddressId || null,
     };
@@ -82,7 +85,6 @@ export default function Checkout() {
   };
 
   const fetchAddresses = async () => {
-    // You already have this API; ensure it returns address _id for each address
     const { data } = await axios.get(`/api/secure/userProfile?userId=${session?.user?.id}`, { withCredentials: true });
     setAddresses(data.addresses || []);
     if (data.addresses?.length) {
@@ -112,33 +114,33 @@ export default function Checkout() {
     if (!razorpayLoaded) return alert("Payment gateway not ready");
 
     try {
-      // Ask server to create order. It will re-calc totals from DB and apply promo safely.
+      const selectedAddr = addresses.find(addr => addr._id === selectedAddressId);
+      if (!selectedAddr) return alert("Selected address not found");
 
-    const selectedAddr = addresses.find(addr => addr._id === selectedAddressId);
-    if (!selectedAddr) return alert("Selected address not found");
+      const { _id, label, address, city, country, pincode } = selectedAddr;
 
-    const { _id, label, address, city, country, pincode } = selectedAddr;
+      const deliveryPayload = {
+        name: session?.user?.name,
+        phone: session?.user?.phone,
+        email: session?.user?.email,
+        label,
+        address,
+        city,
+        country,
+        pincode
+      };
 
-
-    const deliveryPayload = {
-      name: session?.user?.name,
-      phone: session?.user?.phone,
-      email: session?.user?.email,
-      label,
-      address,
-      city,
-      
-      country,
-      pincode
-    };
-      if (!deliveryPayload) return alert("Selected address not found");
       const { data: order } = await axios.post(
         "/api/razorpay/create-order",
         {
           promocode,
-          deliveryAddress : deliveryPayload,
+          deliveryAddress: deliveryPayload,
           products: router.query.productId
-            ? [{ productId: router.query.productId, quantity: Number(router.query.quantity_demanded || 1) }]
+            ? [{
+              productId: router.query.productId,
+              variantId: router.query.variantId || null, // added for variants
+              quantity: Number(router.query.quantity_demanded || 1)
+            }]
             : null,
         },
         { withCredentials: true }
@@ -196,10 +198,11 @@ export default function Checkout() {
 
         <section className={styles.productList}>
           {summary.products.map((p) => (
-            <div key={p.productId} className={styles.product}>
+            <div key={`${p.productId}-${p.variantId || "default"}`} className={styles.product}>
               <img src={p.imageUrl} alt={p.name} />
               <div>
                 <h3>{p.name}</h3>
+                {p.variantName && <p>Variant: {p.variantName}</p> /* added for variants */}
                 <p>Price: ₹{p.price}</p>
                 <p>Quantity: {p.quantity}</p>
               </div>

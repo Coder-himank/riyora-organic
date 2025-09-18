@@ -31,7 +31,7 @@ const handler = async (req, res) => {
       }
 
       // Fetch all blogs
-      const blogs = await Blog.find();
+      const blogs = await Blog.find({visible:true});
       return res.status(200).json(blogs);
 
     } catch (error) {

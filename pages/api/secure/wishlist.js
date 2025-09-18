@@ -4,8 +4,6 @@ import User from "@/server/models/User";
 export default async function handler(req, res) {
   await connectDB();
 
-  // await authMiddleware(res, req);
-
   try {
     const { userId } = req.method === "GET" ? req.query : req.body;
     if (!userId) {
@@ -21,18 +19,24 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case "POST": {
-        const { productId } = req.body;
+        const { productId, variantId } = req.body; // added for variants
         if (!productId) {
           return res.status(400).json({ message: "Product ID is required." });
         }
 
-        // Check if product is already in wishlist
-        const alreadyExists = user.wishlistData.some(item => item.productId.toString() === productId);
+        // Check if product + variant already exists in wishlist
+        const alreadyExists = user.wishlistData.some(
+          item => item.productId.toString() === productId && (item.variantId || null) === (variantId || null) // modified for variants
+        );
         if (alreadyExists) {
           return res.status(200).json({ message: "Product already in wishlist.", wishlist: user.wishlistData });
         }
 
-        user.wishlistData.push({ productId, addedAt: new Date() });
+        user.wishlistData.push({
+          productId,
+          variantId: variantId || null, // added for variants
+          addedAt: new Date(),
+        });
         await user.save();
 
         return res.status(200).json({ message: "Added to wishlist.", wishlist: user.wishlistData });
@@ -42,12 +46,15 @@ export default async function handler(req, res) {
         return res.status(200).json({ wishlist: user.wishlistData });
 
       case "DELETE": {
-        const { productId } = req.body;
+        const { productId, variantId } = req.body; // added for variants
         if (!productId) {
           return res.status(400).json({ message: "Product ID is required." });
         }
 
-        const updatedWishlist = user.wishlistData.filter(item => item.productId.toString() !== productId);
+        const updatedWishlist = user.wishlistData.filter(
+          item => item.productId.toString() !== productId || (item.variantId || null) !== (variantId || null) // modified for variants
+        );
+
         if (updatedWishlist.length === user.wishlistData.length) {
           return res.status(404).json({ message: "Product not found in wishlist." });
         }
