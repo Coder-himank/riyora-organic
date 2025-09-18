@@ -41,6 +41,8 @@ const ProductPage = ({ productId, productData }) => {
   const [uMayLikeProducts, setUMayLikeProducts] = useState([]);
 
   // ============ Variants Support =============
+
+  //selecting the varinat from url or default
   const [selectedVariant, setSelectedVariant] = useState(null); // added for variants
 
   // Normalize imageUrl for variants (added for variants)
@@ -90,6 +92,17 @@ const ProductPage = ({ productId, productData }) => {
       reviewCount: displayProduct.numReviews,
     },
   });
+
+  useEffect(() => {
+    if (productData.variants?.length) {
+      const queryVariant = router.query.variantId;
+      const initialVariant = queryVariant
+        ? productData.variants.find((v) => v._id.toString() === queryVariant)
+        : productData.variants[0];
+
+      setSelectedVariant(initialVariant || null);
+    }
+  }, [router.query.variantId, productData.variants]);
 
   useEffect(() => {
     const fetchRecommended = async () => {
@@ -198,7 +211,19 @@ const ProductPage = ({ productId, productData }) => {
                   <div
                     key={idx}
                     className={`${styles.variant_card} ${selectedVariant?._id === variant.product_id ? styles.selected_variant : ""}`}
-                    onClick={() => setSelectedVariant(variant)}
+                    onClick={() => {
+                      setSelectedVariant(variant);
+
+                      // Push variantId into URL without reloading page
+                      router.push(
+                        {
+                          pathname: router.pathname,
+                          query: { ...router.query, variantId: variant._id },
+                        },
+                        undefined,
+                        { shallow: true } // prevents full page reload
+                      );
+                    }}
                   >
                     <Image
                       src={normalizeVariantImages(variant)[0] || productData?.imageUrl[0]}
@@ -228,7 +253,7 @@ const ProductPage = ({ productId, productData }) => {
                 Add To Cart
               </button>
               <button
-                onClick={() => onBuy(router, displayProduct._id, quantity_demanded, session, variantId = selectedVariant?._id)}
+                onClick={() => onBuy(router, displayProduct._id, quantity_demanded, session, selectedVariant?._id)}
               >
                 Buy Now
               </button>
