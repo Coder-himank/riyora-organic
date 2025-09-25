@@ -5,9 +5,11 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Image from "next/image";
 import styles from "@/styles/reviewSection.module.css"
+import { MultiImageUploader } from "@/components/ImageUploader";
 export const ReviewSection = ({ productId, reviews = [] }) => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+    const [images, setImages] = useState("")
     const { data: session } = useSession();
 
     // Calculate average rating & distribution
@@ -26,6 +28,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         };
     });
 
+
+
     const smileOptions = [
         { value: 5, icon: <FaGrinStars />, label: "Excellent" },
         { value: 4, icon: <FaSmile />, label: "Good" },
@@ -33,6 +37,19 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         { value: 2, icon: <FaFrown />, label: "Poor" },
         { value: 1, icon: <FaAngry />, label: "Terrible" },
     ];
+
+
+
+    // ======================Image Upload Function =============================
+    // 
+    const setReviewImage = (url) => {
+        setImages((prev) => [...prev, ...url])
+    }
+
+    const removeReviewImage = (idx) => {
+
+        setImages((prev) => prev.filter((p, index) => index === idx))
+    }
 
     const handleSubmit = async () => {
         if (!rating || !comment) {
@@ -54,6 +71,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                 name: session.user.name,
                 userId: session.user.id,
                 comment,
+                images: images,
                 rating: parseFloat(rating),
             });
 
@@ -61,6 +79,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                 toast.success("Feedback submitted successfully");
                 setRating(0);
                 setComment("");
+                setImages([])
 
                 return response.data;
             } else {
@@ -73,7 +92,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     };
 
     return (
-        <section className={styles.reviewSection}>
+        <section className={styles.reviewSection} id="reviews">
             <h2>
                 Customer <span>Reviews</span>
             </h2>
@@ -115,6 +134,14 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                     ></textarea>
+
+                    <MultiImageUploader
+                        images={images}
+                        setDataFunction={setReviewImage}
+                        removeDataFunction={removeReviewImage}
+                        fileFolder={`${productId}-reviews`}
+                    />
+
                     <button className={styles.submitBtn} onClick={handleSubmit}>
                         Submit Review
                     </button>
@@ -130,10 +157,11 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                     reviews.map((r, i) => (
                         <div key={i} className={styles.reviewCard}>
                             <Image
-                                src={"/images/person1.jpg"}
+                                src={"/images/user.png"}
                                 width={50}
                                 height={50}
                                 alt="loda"
+                                className={styles.userImage}
                             />
                             <div>
                                 <div className={styles.reviewHeader}>
@@ -141,6 +169,16 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                                     <span>{r.rating}★</span>
                                 </div>
                                 <p>{r.comment}</p>
+                                {r.images && r.images.length > 0 && (
+
+                                    <section className={styles.reviewImages}>
+                                        {/* Images */}
+
+                                        {r.images.map((img, index) => (
+                                            <Image src={img} alt={`Image Review ${index}`} width={150} height={150} />
+                                        ))}
+                                    </section>
+                                )}
                             </div>
                         </div>
                     ))

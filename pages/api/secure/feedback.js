@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     // console.log(req.body);
 
     if (req.method === 'POST') {
-        const { productId, name, userId, comment, rating } = req.body;
+        const { productId, name, userId, comment, rating, images } = req.body;
         if (!productId || !name || !userId || !comment) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
@@ -18,6 +18,7 @@ export default async function handler(req, res) {
                 userId,
                 comment,
                 rating,
+                images : images ? images : [],
                 createdAt: new Date(),
             };
 

@@ -107,6 +107,7 @@
 }
 
 .submitBtn {
+  margin: 17px 0;
   background: green;
   color: white;
   border: none;
@@ -137,13 +138,27 @@
     font-weight: 300;
 }
 
-.reviewCard img {
+.reviewCard .userImage {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
-
+.reviewImages{
+  width: 100%;
+  height: fit-content;
+  padding: 20px 0 ;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+}
+.reviewImages img{
+  max-width: 100px;
+  max-height: 100px;
+  flex: 1 1 auto;
+  border-radius: 5px;
+}
 .reviewHeader {
   display: flex;
   justify-content: space-between;

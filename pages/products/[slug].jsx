@@ -17,6 +17,18 @@ import StarRating from "@/components/StartRating";
 import { ToastContainer, toast } from "react-toastify";
 import ReviewSection from "@/components/ReviewSection";
 
+
+function camelToNormal(text) {
+  return text
+    // insert space before capital letters
+    .replace(/([A-Z])/g, ' $1')
+    // trim any leading space
+    .trim()
+    // capitalize the first letter
+    .replace(/^./, str => str.toUpperCase());
+}
+
+
 const ExpandableSection = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(true);
   return (
@@ -40,10 +52,11 @@ const ProductPage = ({ productId, productData }) => {
   const [quantity_demanded, setQuantityDemanded] = useState(1);
   const [uMayLikeProducts, setUMayLikeProducts] = useState([]);
 
+
   // ============ Variants Support =============
 
   //selecting the varinat from url or default
-  const [selectedVariant, setSelectedVariant] = useState(null); // added for variants
+  const [selectedVariant, setSelectedVariant] = useState({ ...productData }); // added for variants
 
   // Normalize imageUrl for variants (added for variants)
   const normalizeVariantImages = (variant) => {
@@ -118,6 +131,34 @@ const ProductPage = ({ productId, productData }) => {
 
   useEffect(() => { }, [displayProduct]);
 
+
+  const VaraintCard = ({ variant }) => {
+    return (
+      <div
+        className={`${styles.variant_card} ${selectedVariant?._id.toString() === variant._id.toString() ? styles.selected_variant : ""}`}
+        onClick={() => {
+          setSelectedVariant(variant);
+
+          // Push variantId into URL without reloading page
+          router.push(
+            {
+              pathname: router.pathname,
+              query: { ...router.query, variantId: variant._id },
+            },
+            undefined,
+            { shallow: true } // prevents full page reload
+          );
+        }}
+      >
+        <div className={styles.variant_text}>
+          <span>{variant.quantity}</span>
+        </div>
+      </div>
+    )
+
+  }
+
+
   return (
     <>
       <Head>
@@ -164,16 +205,32 @@ const ProductPage = ({ productId, productData }) => {
 
             <h1>{displayProduct.name}</h1>
 
-            <div className={styles.ratings}>
-              <StarRating rating={displayProduct.averageRating} />
-              <span>
-                {displayProduct.averageRating} ({displayProduct.numReviews})
-              </span>
-            </div>
+            <Link href={"#reviews"} style={{ maxWidth: "fit-content" }}>
+              <div className={styles.ratings}>
+                <StarRating rating={displayProduct.averageRating} />
+                <span>
+                  {displayProduct.averageRating} ({displayProduct.numReviews})
+                </span>
+              </div>
+            </Link>
 
             <div className={styles.description}>
               <p>{displayProduct.description}</p>
             </div>
+
+
+            {/* Variants section */}
+            {productData.variants && productData?.variants?.length > 0 && (
+              <div className={styles.variants}>
+                <VaraintCard variant={{
+                  ...productData
+                }} />
+
+                {productData.variants.map((variant, idx) => (
+                  <VaraintCard key={idx} variant={variant} />
+                ))}
+              </div>
+            )}
 
             {/* Pricing + Quantity */}
             <div className={styles.price_quantity}>
@@ -195,50 +252,9 @@ const ProductPage = ({ productId, productData }) => {
               </div>
             </div>
 
-            {/* Choose Us */}
-            {displayProduct?.chooseUs?.length > 0 && (
-              <section className={styles.icons}>
-                {displayProduct.chooseUs?.map((item, idx) => (
-                  <Image key={idx} src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
-                ))}
-              </section>
-            )}
 
-            {/* Variants */}
-            {productData.variants && productData?.variants?.length > 0 && (
-              <div className={styles.variants}>
-                {productData.variants.map((variant, idx) => (
-                  <div
-                    key={idx}
-                    className={`${styles.variant_card} ${selectedVariant?._id === variant.product_id ? styles.selected_variant : ""}`}
-                    onClick={() => {
-                      setSelectedVariant(variant);
 
-                      // Push variantId into URL without reloading page
-                      router.push(
-                        {
-                          pathname: router.pathname,
-                          query: { ...router.query, variantId: variant._id },
-                        },
-                        undefined,
-                        { shallow: true } // prevents full page reload
-                      );
-                    }}
-                  >
-                    <Image
-                      src={normalizeVariantImages(variant)[0] || productData?.imageUrl[0]}
-                      width={100}
-                      height={100}
-                      alt={`${variant.name} variant`}
-                    />
-                    <div className={styles.variant_text}>
-                      <span>{variant.name}</span>
-                      <span className={styles.variant_price}>₹{variant.price}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+
 
             {/* Actions */}
             <div className={styles.action_btn}>
@@ -259,6 +275,16 @@ const ProductPage = ({ productId, productData }) => {
               </button>
             </div>
 
+
+            {/* Choose Us */}
+            {displayProduct?.chooseUs?.length > 0 && (
+              <section className={styles.icons}>
+                {displayProduct.chooseUs?.map((item, idx) => (
+                  <Image key={idx} src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
+                ))}
+              </section>
+            )}
+
             {/* Expandable Sections */}
             <ExpandableSection title="Top Highlights">
               <div className={styles.highlights}>
@@ -277,8 +303,18 @@ const ProductPage = ({ productId, productData }) => {
                 <tbody>
                   {Object.entries(displayProduct.specifications || {}).map(([k, v]) => (
                     <tr key={k}>
-                      <td className={styles.strong}>{k}</td>
-                      <td>{v || "-"}</td>
+                      {k === "weight" ? (
+                        <>
+                          <td className={styles.strong}>{camelToNormal(k)}</td>
+                          <td>{displayProduct.quantity || "-"}</td>
+                        </>
+                      ) : (
+                        <>
+                          <td className={styles.strong}>{camelToNormal(k)}</td>
+                          <td>{v || "-"}</td>
+                        </>
+                      )
+                      }
                     </tr>
                   ))}
                 </tbody>
@@ -304,10 +340,10 @@ const ProductPage = ({ productId, productData }) => {
               </div>
             </ExpandableSection>
           </div>
-        </section>
+        </section >
 
         {/* How to Apply */}
-        <section>
+        < section >
           <h2>How <span>to Apply</span></h2>
           <div className={styles.apply_section}>
             {displayProduct.howToApply?.map((step, idx) => (
@@ -320,13 +356,13 @@ const ProductPage = ({ productId, productData }) => {
               </div>
             ))}
           </div>
-        </section>
+        </ section>
 
         {/* Reviews */}
-        <section id="reviews">
+        < section id="reviews" >
           <ReviewSection reviews={displayProduct.reviews} productId={productId} />
-        </section>
-      </div>
+        </ section>
+      </div >
     </>
   );
 };

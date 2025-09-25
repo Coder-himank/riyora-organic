@@ -245,10 +245,12 @@ export default function Home({ highlightedProduct }) {
           <section className={styles.product_section_in}>
             <div className={styles.product_text_content}>
               <h1>{highlightedProduct.name}</h1>
-              <section className={styles.product_rating}>
-                <StarRating rating={highlightedProduct.averageRating} />{" "}
-                <span className={styles.review_count}>{highlightedProduct.averageRating} | ({highlightedProduct.numReviews})</span>
-              </section>
+              <Link href={`/products/${highlightedProduct.slug}#reviews`} style={{ maxWidth: "fit-content" }}>
+                <section className={styles.product_rating}>
+                  <StarRating rating={highlightedProduct.averageRating} />{" "}
+                  <span className={styles.review_count}>{highlightedProduct.averageRating} | ({highlightedProduct.numReviews})</span>
+                </section>
+              </Link>
               <p> {highlightedProduct.description ||
                 "Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oilnourishes your scalp, strengthens roots, and promotes healthyhair growth. Free from parabens, sulfates, and artificialcolors."}
               </p>

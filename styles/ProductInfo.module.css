@@ -1,0 +1,101 @@
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 1rem 2rem;
+  font-family: "Inter", sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Title */
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #222;
+}
+
+/* Image */
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.mainImage {
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Description */
+.description {
+  font-size: 1.15rem;
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.3rem;
+}
+
+/* Ingredients Grid */
+.ingredientsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.ingredientCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.8rem;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.ingredientCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.ingredientCard span {
+  margin-top: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Benefits and Suitability Lists */
+.benefitsList,
+.suitabilityList {
+  list-style: disc inside;
+  padding-left: 0;
+}
+
+.benefitsList li,
+.suitabilityList li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+/* Not found message */
+.notFound {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 5rem;
+  color: #999;
+}

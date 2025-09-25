@@ -272,16 +272,22 @@
 .variant_card {
     flex: auto 1 1;
     scroll-snap-align: start;
-    width: 100%;
-    max-width: 130px;
-    height: 150px;
+    /* height: 150px */
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 30px;
     overflow: hidden;
+    max-width: fit-content;
+    padding: 0 20px;
+    color: var(--primary-color);
+}
+
+.selected_variant{
+    background-color: rgb(63, 142, 103);
+    color: white;
 }
 
 .variant_card img {
@@ -292,9 +298,7 @@
 
 .variant_text {
     font-size: 10px;
-    color: #eaeaea;
     min-height: 30px;
-    background-color: var(--primary-color);
     text-align: center;
     padding: 4px;
     width: 100%;
@@ -450,7 +454,7 @@
 @media screen and  (max-width: 900px) {
 
     .carousel {
-        position: relative;
+        position: static;
         top: 0;
         width: 90%;
         max-width: 400px;
