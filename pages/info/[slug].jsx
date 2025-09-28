@@ -74,7 +74,7 @@ export async function getStaticPaths() {
   const products = await ProductInfo.find({}).lean();
 
   const paths = products.map((p) => ({
-    params: { slug: p.title.replace(/\s+/g, "-").toLowerCase() },
+    params: { slug: p.slug },
   }));
 
   return { paths, fallback: false };
@@ -84,7 +84,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   await connectDB();
   const product = await ProductInfo.findOne({
-    title: { $regex: new RegExp(`^${params.slug.replace(/-/g, " ")}$`, "i") },
+    slug: params.slug,
   }).lean();
 
   return { props: { productInfo: JSON.parse(JSON.stringify(product)) || null } };

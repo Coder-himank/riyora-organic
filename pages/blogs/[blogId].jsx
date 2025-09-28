@@ -1,13 +1,14 @@
-import { useRouter } from 'next/router';
 import axios from 'axios';
-import styles from '@/styles/blogPage.module.css'; // Adjust the path as necessary
+import styles from '@/styles/blogPage.module.css';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+
 const BlogPage = ({ blogId }) => {
     const [blog, setBlog] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         const fetchBlogdata = async () => {
             setLoading(true)
@@ -25,103 +26,113 @@ const BlogPage = ({ blogId }) => {
             } finally {
                 setLoading(false)
             }
-
         }
         fetchBlogdata();
-    }, [])
+    }, [blogId])
 
+    const renderSection = (secData, index) => {
+        switch (secData.type) {
+            case 'text':
+            case 'quote':
+                return (
+                    <section key={index} className={styles.sections}>
+                        {secData.images?.[0]?.url && (
+                            <div className={styles.sectionImageWrapper}>
+                                <Image
+                                    src={secData.images[0].url}
+                                    width={400}
+                                    height={400}
+                                    alt={secData.heading || 'Section Image'}
+                                />
+                            </div>
+                        )}
+                        <div className={styles.sectionContent}>
+                            {secData.heading && <h2>{secData.heading}</h2>}
+                            <p>{secData.content}</p>
+                        </div>
+                    </section>
+                );
+            case 'image':
+                return (
+                    <section key={index} className={styles.sections}>
+                        {secData.images?.[0]?.url && (
+                            <div className={styles.sectionImageWrapper}>
+                                <Image
+                                    src={secData.images[0].url}
+                                    width={800}
+                                    height={400}
+                                    alt={secData.heading || 'Image Section'}
+                                />
+                            </div>
+                        )}
+                        {secData.heading && <h2>{secData.heading}</h2>}
+                    </section>
+                );
+            case 'list':
+                return (
+                    <section key={index} className={styles.sections}>
+                        {secData.heading && <h2>{secData.heading}</h2>}
+                        <ul className={styles.listSection}>
+                            {secData.listItems?.map((item, idx) => (
+                                <li key={idx}>{item}</li>
+                            ))}
+                        </ul>
+                    </section>
+                );
+            case 'code':
+                return (
+                    <section key={index} className={styles.sections}>
+                        {secData.heading && <h2>{secData.heading}</h2>}
+                        <pre className={styles.codeBlock}>
+                            <code>{secData.content}</code>
+                        </pre>
+                    </section>
+                );
+            default:
+                return null;
+        }
+    }
 
     return (
         <>
             <Head>
                 <title>{blog ? `${blog.title} | Riyora Organic Hair Oil` : 'Riyora Organic Hair Oil Blog'}</title>
                 <meta name="description" content={blog ? blog.description.slice(0, 150) + '...' : 'Discover natural hair care tips and benefits of Riyora Organic Hair Oil. Read our latest blog articles for healthy, beautiful hair.'} />
-                <meta name="keywords" content="Riyora Organic, Hair Oil, Organic Hair Oil, Hair Care, Natural Hair, Hair Growth, Herbal Oil, Healthy Hair, Blog" />
                 <meta property="og:title" content={blog ? `${blog.title} | Riyora Organic Hair Oil` : 'Riyora Organic Hair Oil Blog'} />
                 <meta property="og:description" content={blog ? blog.description.slice(0, 150) + '...' : 'Discover natural hair care tips and benefits of Riyora Organic Hair Oil.'} />
-                <meta property="og:type" content="article" />
-                <meta property="og:url" content={`https://riyora-organic.vercel.app/blogs/${blogId}`} />
-                <meta property="og:site_name" content="Riyora Organic Hair Oil" />
-                <meta property="og:image" content={blog && blog.imgUrl ? blog.imgUrl : 'https://riyora-organic.vercel.app/default-og-image.jpg'} />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "BlogPosting",
-                            "headline": blog ? blog.title : "Riyora Organic Hair Oil Blog",
-                            "description": blog ? blog.description.slice(0, 150) + '...' : "Discover natural hair care tips and benefits of Riyora Organic Hair Oil.",
-                            "image": blog && blog.imgUrl ? blog.imgUrl : "https://riyora-organic.vercel.app/default-og-image.jpg",
-                            "author": {
-                                "@type": "Organization",
-                                "name": "Riyora Organic"
-                            },
-                            "publisher": {
-                                "@type": "Organization",
-                                "name": "Riyora Organic",
-                                "logo": {
-                                    "@type": "ImageObject",
-                                    "url": "https://riyora-organic.vercel.app/logo.png"
-                                }
-                            },
-                            "mainEntityOfPage": {
-                                "@type": "WebPage",
-                                "@id": `https://riyora-organic.vercel.app/blogs/${blogId}`
-                            },
-                            "datePublished": blog && blog.date ? blog.date : undefined
-                        })
-                    }}
-                />
             </Head>
-            <div>
-                <div className="navHolder"></div>
-                {loading ? (
-                    <center> <h1>loading</h1> </center>
-                ) : error ? (
-                    <h1>{error}</h1>
-                ) : (
-                    <div className={styles.blog_container}>
-                        <div className={styles.header}>
 
+            <div className="navHolder"></div>
 
-                        </div>
-
-                        <div className={`${styles.mainSection} ${styles.sections}`}>
-
-                            {blog.imgUrl && (
+            {loading ? (
+                <center><h1>Loading...</h1></center>
+            ) : error ? (
+                <h1>{error}</h1>
+            ) : (
+                <div className={styles.blog_container}>
+                    <div className={styles.mainContentBox}>
+                        {blog.imageUrl && (
+                            <div className={styles.bannerImageWrapper}>
                                 <Image
-                                    src={blog.imgUrl}
+                                    src={blog.imageUrl}
                                     alt={blog.title}
-                                    width={800}
+                                    width={1200}
                                     height={400}
                                     priority
                                     className={styles.bannerImage} />
-                            )}
-                            <div className={`${styles.mainContentBox} ${styles.sectionContent}`}>
-                                <h1>{blog.title}</h1>
-                                <p className={styles.description}>{blog.description}</p>
                             </div>
-                        </div>
+                        )}
 
-                        {blog?.sections && blog.sections.map((secData, index) => (
-                            <section className={styles.sections}>
-                                <div className={styles.sectionImageWrapper}>
-                                    <Image
-                                        src={secData.image}
-                                        width={400}
-                                        height={400}
-                                        alt={secData.heading}
-                                    />
-                                </div>
-                                <div className={styles.sectionContent}>
-                                    <h2>{secData.heading}</h2>
-                                    <p>{secData.text}</p>
-                                </div>
-                            </section>
-                        ))}
+                        <div className={styles.textWrapper}>
+
+                            <h1>{blog.title}</h1>
+                            <p className={styles.description}>{blog.description}</p>
+                        </div>
                     </div>
-                )}
-            </div>
+
+                    {blog.sections?.map((secData, idx) => renderSection(secData, idx))}
+                </div>
+            )}
         </>
     );
 };
@@ -131,21 +142,14 @@ export async function getStaticPaths() {
         const res = await axios.get(`${process.env.BASE_URL}/api/getblogs`);
         const blogs = res.data;
 
-        const paths = blogs.map((blog) => ({
-            params: { blogId: blog._id.toString() },
+        const paths = blogs.map(blog => ({
+            params: { blogId: blog._id.toString() }
         }));
 
-        (paths);
-        return {
-            paths,
-            fallback: true,
-        };
+        return { paths, fallback: true };
     } catch (error) {
         console.error('Error fetching blog paths:', error);
-        return {
-            paths: [],
-            fallback: true,
-        };
+        return { paths: [], fallback: true };
     }
 }
 

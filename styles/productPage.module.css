@@ -95,8 +95,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: auto;
     gap: 20px;
     padding: 20px 0;
+    max-width: 90%;
+    overflow: auto;
 }
 
 .sec_1 .details .icons img {

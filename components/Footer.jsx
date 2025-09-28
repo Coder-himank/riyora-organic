@@ -43,6 +43,8 @@ export default function Footer() {
         </section>
       </div>
 
+
+
       <div className="footer-content">
         <div className="footer-section section-1">
           <div className="Footer-logo">
@@ -106,6 +108,33 @@ export default function Footer() {
               height={80}
               alt="UPI Logo"
             />
+          </div>
+
+          <div className="otherPlatforms">
+            <h2>We are Also Available on</h2>
+
+            <div className="otherPlatformsin">
+              <Image
+                src={"/images/amazon.png"}
+                alt="Amazon India"
+                width={200}
+                height={100}
+              />
+
+              <Image
+                src={"/images/flipkart.png"}
+                alt="Amazon India"
+                width={200}
+                height={100}
+              />
+
+              <Image
+                src={"/images/meesho.png"}
+                alt="Amazon India"
+                width={200}
+                height={100}
+              />
+            </div>
           </div>
         </div>
 
@@ -216,6 +245,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+
 
       <p>&copy; 2025 Your Company. All rights reserved.</p>
     </footer>

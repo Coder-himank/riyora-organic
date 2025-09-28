@@ -12,7 +12,7 @@ const Blog = (blog, flexDirection, showContent = true) => {
     >
       <section className={styles.image_wrapper}>
         {/* image */}
-        <Image src={blog.imgUrl} alt={blog.title} width={300} height={300} />
+        <Image src={blog.imageUrl} alt={blog.title} width={300} height={300} />
       </section>
       <section className={styles.text_content}>
         {/* content */}

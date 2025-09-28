@@ -84,6 +84,7 @@
 
 .smileBtn span {
   font-size: 8px;
+ box-shadow: 0 0 10px -3px black;
 }
 
 .smileBtn:hover {

@@ -32,7 +32,7 @@ export default function AuthPage() {
   const { data: session } = useSession();
 
   const router = useRouter();
-  const { type: pageType, callback } = router.query;
+  const { type: pageType, callbackUrl } = router.query;
 
   // Adjust mode based on query param
   useEffect(() => {
@@ -136,7 +136,9 @@ export default function AuthPage() {
           toast.error("Login failed");
         } else {
           toast.success("Login successful");
-          router.push(callback || "/");
+          console.log(callbackUrl);
+
+          // router.push(callbackUrl || "/");
         }
       } else {
         // Sign up flow
@@ -158,7 +160,7 @@ export default function AuthPage() {
 
         if (res.ok) {
           toast.success("Sign up successful");
-          router.push(callback || "/");
+          router.push(callbackUrl || "/");
         } else {
           toast.error("Sign up Failed");
         }

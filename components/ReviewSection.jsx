@@ -6,6 +6,7 @@ import axios from "axios";
 import Image from "next/image";
 import styles from "@/styles/reviewSection.module.css"
 import { MultiImageUploader } from "@/components/ImageUploader";
+import { color } from "framer-motion";
 export const ReviewSection = ({ productId, reviews = [] }) => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
@@ -31,11 +32,11 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
 
 
     const smileOptions = [
-        { value: 5, icon: <FaGrinStars />, label: "Excellent" },
-        { value: 4, icon: <FaSmile />, label: "Good" },
-        { value: 3, icon: <FaMeh />, label: "Average" },
-        { value: 2, icon: <FaFrown />, label: "Poor" },
-        { value: 1, icon: <FaAngry />, label: "Terrible" },
+        { value: 1, icon: <FaAngry />, label: "Terrible", color: "#F44336" },
+        { value: 2, icon: <FaFrown />, label: "Poor", color: "#FF9800" },
+        { value: 3, icon: <FaMeh />, label: "Average", color: "#FFC107" },
+        { value: 4, icon: <FaSmile />, label: "Good", color: "#8BC34A" },
+        { value: 5, icon: <FaGrinStars />, label: "Excellent", color: "#4CAF50" },
     ];
 
 
@@ -122,6 +123,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                             <button
                                 key={s.value}
                                 className={`${styles.smileBtn} ${rating === s.value ? styles.active : ""}`}
+                                style={{ color: s.color }}
                                 onClick={() => setRating(s.value)}
                             >
                                 {s.icon}

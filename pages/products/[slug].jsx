@@ -218,6 +218,10 @@ const ProductPage = ({ productId, productData }) => {
               <p>{displayProduct.description}</p>
             </div>
 
+            <div className={styles.description}>
+              <Link href={`/info/${productData.slug}`}>Know More...</Link>
+            </div>
+
 
             {/* Variants section */}
             {productData.variants && productData?.variants?.length > 0 && (
