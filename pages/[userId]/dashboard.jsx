@@ -192,10 +192,7 @@ export default function UserProfile() {
             </section>
             <section className={styles.customer_services}>
               <h3>More Services</h3>
-              <Link href="/refund">Refund</Link>
-              <Link href="/payment-history">Payment History</Link>
               <Link href="/customer-care">Customer Care</Link>
-              <Link href="/help">Help</Link>
             </section>
             <section>
               <button onClick={() => UserLogOut()} style={{ background: "var(--danger)" }}>Sign Out</button>

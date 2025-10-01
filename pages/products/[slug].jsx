@@ -16,7 +16,7 @@ import { motion } from "framer-motion";
 import StarRating from "@/components/StartRating";
 import { ToastContainer, toast } from "react-toastify";
 import ReviewSection from "@/components/ReviewSection";
-
+import InfiniteCarousel from "@/components/ImageCarousel";
 
 function camelToNormal(text) {
   return text
@@ -56,7 +56,28 @@ const ProductPage = ({ productId, productData }) => {
   // ============ Variants Support =============
 
   //selecting the varinat from url or default
-  const [selectedVariant, setSelectedVariant] = useState({ ...productData }); // added for variants
+  // replace this:
+  // const [selectedVariant, setSelectedVariant] = useState({ ...productData });
+
+  // initial state
+  const [selectedVariant, setSelectedVariant] = useState(null);
+
+  // set initial variant based on query or first variant; fallback to null
+  useEffect(() => {
+    if (!productData) return;
+
+    if (productData.variants?.length) {
+      const queryVariant = router.query.variantId;
+      const initialVariant = queryVariant
+        ? productData.variants.find((v) => String(v._id) === String(queryVariant))
+        : productData.variants[0];
+
+      setSelectedVariant(initialVariant || null);
+    } else {
+      setSelectedVariant(null);
+    }
+  }, [router.query.variantId, productData]);
+
 
   // Normalize imageUrl for variants (added for variants)
   const normalizeVariantImages = (variant) => {
@@ -111,11 +132,11 @@ const ProductPage = ({ productId, productData }) => {
       const queryVariant = router.query.variantId;
       const initialVariant = queryVariant
         ? productData.variants.find((v) => v._id.toString() === queryVariant)
-        : productData.variants[0];
+        : productData;
 
       setSelectedVariant(initialVariant || null);
     }
-  }, [router.query.variantId, productData.variants]);
+  }, [router.query.variantId, productData.variants, productData]);
 
   useEffect(() => {
     const fetchRecommended = async () => {
@@ -133,20 +154,19 @@ const ProductPage = ({ productId, productData }) => {
 
 
   const VaraintCard = ({ variant }) => {
+    const isSelected =
+      (selectedVariant?._id && String(selectedVariant._id) === String(variant._id)) ||
+      (!selectedVariant && variant._id === productId); // handle base product case
+
     return (
       <div
-        className={`${styles.variant_card} ${selectedVariant?._id.toString() === variant._id.toString() ? styles.selected_variant : ""}`}
+        className={`${styles.variant_card} ${isSelected ? styles.selected_variant : ""}`}
         onClick={() => {
           setSelectedVariant(variant);
-
-          // Push variantId into URL without reloading page
           router.push(
-            {
-              pathname: router.pathname,
-              query: { ...router.query, variantId: variant._id },
-            },
+            { pathname: router.pathname, query: { ...router.query, variantId: variant._id } },
             undefined,
-            { shallow: true } // prevents full page reload
+            { shallow: true }
           );
         }}
       >
@@ -154,9 +174,8 @@ const ProductPage = ({ productId, productData }) => {
           <span>{variant.quantity}</span>
         </div>
       </div>
-    )
-
-  }
+    );
+  };
 
 
   return (
@@ -189,11 +208,8 @@ const ProductPage = ({ productId, productData }) => {
       <div className={styles.product_container}>
         <section className={styles.sec_1}>
           <section className={styles.carousel}>
-            <Carousel action_style="images">
-              {(displayProduct.imageUrl || []).map((img, idx) => (
-                <Image key={idx} src={img} width={500} height={500} alt={displayProduct.name} />
-              ))}
-            </Carousel>
+            <InfiniteCarousel images={displayProduct.imageUrl} />
+
           </section>
 
           <div className={styles.details}>

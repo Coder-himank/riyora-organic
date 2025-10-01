@@ -15,7 +15,7 @@ export const uploadFile = async (e, setDataFunction, files, fileFolder) => {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        const uploadedUrls = res.data.urls; // array from API
+        const uploadedUrls = Array.isArray(res.data.urls) ? res.data.urls : [res.data.urls]; // array from API
 
         setDataFunction(uploadedUrls);
         toast.success("Images uploaded successfully");
@@ -37,6 +37,9 @@ export const handleImageDrop = async (e, setDataFunction, fileFolder) => {
 
 
 export const handleFileSelect = async (e, setDataFunction, fileFolder) => {
+    console.log("\n\n\n");
+    console.log(e, setDataFunction);
+    console.log("\n\n\n");
     const files = Array.from(e.target.files);
     return uploadFile(e, setDataFunction, files, fileFolder)
 

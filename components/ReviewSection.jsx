@@ -44,7 +44,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     // ======================Image Upload Function =============================
     // 
     const setReviewImage = (url) => {
-        setImages((prev) => [...prev, ...url])
+        setImages((prev) => [...prev, Array.isArray(url) ? url[0] : url]);
     }
 
     const removeReviewImage = (idx) => {

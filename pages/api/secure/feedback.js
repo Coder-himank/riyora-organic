@@ -32,8 +32,10 @@ export default async function handler(req, res) {
 
             // Step 2: Recalculate average rating and total reviews
             const totalReviews = product.reviews.length;
-            const averageRating =
-                product.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews;
+            const averageRating = totalReviews > 0
+                ? (product.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(2)
+                : 0.00;
+
 
             // Step 3: Update fields
             product.averageRating = averageRating;

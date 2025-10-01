@@ -77,8 +77,8 @@ export default function Cart() {
 
             // modified for variants
             name: variant
-              ? `${product.name} - ${variant.name}`
-              : product.name,
+              ? `${product?.name} - ${variant?.name}`
+              : product?.name,
             price: variant ? variant.price : product.price,
             imageUrl: variant
               ? variant.imageUrl?.length
@@ -129,6 +129,11 @@ export default function Cart() {
   const updateQuantityOptimistic = async (productId, variantId, quantity) => {
     if (quantity < 1) {
       removeFromCart(productId, variantId);
+      return;
+    }
+
+    if (quantity > 5) {
+      showNotification("Cannot add more than 5 items of the same product.");
       return;
     }
 
@@ -194,7 +199,7 @@ export default function Cart() {
         {cart.length === 0 ? (
           <div className={styles.empty_cart}>
             <p>Your cart is empty</p>
-            <Link href="/products">
+            <Link href="/">
               <button className="shop-now">Shop Now</button>
             </Link>
           </div>
@@ -202,7 +207,7 @@ export default function Cart() {
           <>
             {cart.map((item) => (
               <div
-                key={`${item.productId}-${item.variantId || "default"}`} // modified for variants
+                key={`${item.productId}-${item.variantId || ""}`} // modified for variants
                 className={styles.cart_item}
               >
                 <Link href={`/products/${item.productId}`}>

@@ -12,6 +12,7 @@ const uploadImage = async (e, ftype, setUploading, setDataFunction, fileFolder, 
             await handleImageDrop(e, setDataFunction, fileFolder, setDragOver)
         }
         if (ftype === "File Select") {
+            console.log(e, setDataFunction, fileFolder);
             await handleFileSelect(e, setDataFunction, fileFolder)
         }
     } catch (err) {
@@ -99,8 +100,8 @@ export const MultiImageUploader = ({ images, setDataFunction, removeDataFunction
                 multiple
                 accept="image/*"
                 style={{ display: "none" }}
-                // id="fileInput"
-                onChange={(e) => uploadImage(e, "File Select", setDataFunction, fileFolder)}
+                id="fileInput"
+                onChange={(e) => uploadImage(e, "File Select", setUploading, setDataFunction, fileFolder, setDragOver)}
             />
 
             <div
@@ -110,7 +111,7 @@ export const MultiImageUploader = ({ images, setDataFunction, removeDataFunction
                 onDrop={(e) => uploadImage(e, "Image Drop", setUploading, setDataFunction, fileFolder, setDragOver)}
             >
                 <label
-                    // htmlFor="fileInput"
+                    htmlFor="fileInput"
                     className={styles.filePickerBtn}>
                     {uploading ? "Uploading..." : "drag and drop OR click here to upload images"}
                 </label>

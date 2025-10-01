@@ -9,14 +9,19 @@ import Link from "next/link";
 import { ThemeProvider } from "@/components/themeContext";
 import AuthPage from "@/pages/authenticate";
 import { useEffect, useState } from "react";
+import { Loader } from "@/components/Loader";
 
+import getProductUrl from "@/utils/productsUtils";
 function AuthPopup() {
   const { data: session } = useSession();
   const router = useRouter();
   const [showAuth, setShowAuth] = useState(false);
   const [popupCount, setPopupCount] = useState(0); // track how many times shown
 
+
   useEffect(() => {
+    console.log(router.pathname);
+
     if (router.pathname === "/authenticate") {
       return;
     }
@@ -54,11 +59,59 @@ function AuthPopup() {
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    let interval;
+
+    if (loading) {
+      // Reset to 0% when loading starts
+      setPercentage(0);
+
+      // Gradually increase percentage
+      interval = setInterval(() => {
+        setPercentage((prev) => {
+          if (prev >= 95) return prev; // don’t exceed 95% until complete
+          return prev + 5; // increment by 5%
+        });
+      }, 200); // every 200ms
+    } else {
+      // When loading stops, complete to 100%
+      setPercentage(100);
+
+      // Reset back to 0 after a short delay (for next time)
+      setTimeout(() => setPercentage(0), 500);
+    }
+
+    return () => clearInterval(interval);
+  }, [loading]);
+
+  useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleStop = () => setLoading(false);
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  }, [router]);
+
+  if (!hydrated) return <Loader status={true} percentage={"100%"} />;
 
   return (
     <ThemeProvider>
       <Head>
-        <html lang={router.locale} />
         <link
           rel="shortcut icon"
           href="Riyora-Logo-Favicon.ico"
@@ -71,6 +124,11 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <SessionProvider session={pageProps.session}>
+        {loading && <Loader status={loading} percentage={percentage + "%"} />}
+        {!loading && percentage > 0 && percentage < 100 && (
+          <Loader status={true} percentage={percentage + "%"} />
+        )}
+
         <Navbar />
 
         {/* WhatsApp Chat Button */}

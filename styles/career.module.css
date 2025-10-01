@@ -26,7 +26,7 @@
     min-height: fit-content;
     box-shadow: 0 0 20px -12px rgba(0, 0, 0, 0.589);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -58,12 +58,13 @@
 .text_area p {
     color: rgb(82, 77, 77);
     font-size: 14px;
+    text-transform: capitalize;
 }
 
 .text_area a {
     background-color: green;
     color: white;
-    padding: 10px 20px;
+    padding: 5px 15px;
     border-radius: 40px;
 }
 

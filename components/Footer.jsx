@@ -36,7 +36,7 @@ export default function Footer() {
         <section className="field">
           <input
             type="text"
-            placeholder="enter email address..."
+            placeholder="Enter Email Address..."
             onChange={(e) => setEmail(e.target.value)}
           />
           <button onClick={handleSubscribe}>Subscirbe</button>
@@ -56,60 +56,64 @@ export default function Footer() {
             />
           </div>
 
-          <div className="app-images payment-opt">
-            <Image
-              src={"/images/RuPay.png"}
-              width={70}
-              height={70}
-              alt="RuPay Card Logo"
-            />
-            <Image
-              src={"/images/maestro.png"}
-              width={70}
-              height={70}
-              alt="Maestro Card Logo"
-            />
-            <Image
-              src={"/images/master card.png"}
-              width={70}
-              height={70}
-              alt="MasterCard Logo"
-            />
-            <Image
-              src={"/images/visa.png"}
-              width={70}
-              height={70}
-              alt="Visa Card Logo"
-            />
-          </div>
+          <div className="appIcons">
 
-          <div className="app-images payment-opt">
-            <Image
-              src={"/images/phonepe.png"}
-              width={100}
-              height={80}
-              alt="PhonePe Logo"
-            />
-            <Image
-              src={"/images/gpay.png"}
-              width={100}
-              height={80}
-              alt="Google Pay Logo"
-            />
-            <Image
-              src={"/images/paytm.png"}
-              width={100}
-              height={80}
-              alt="Paytm Logo"
-            />
-            <Image
-              src={"/images/upi.png"}
-              width={100}
-              height={80}
-              alt="UPI Logo"
-            />
-          </div>
 
+            <div className="app-images payment-opt">
+              <Image
+                src={"/images/RuPay.png"}
+                width={70}
+                height={70}
+                alt="RuPay Card Logo"
+              />
+              <Image
+                src={"/images/maestro.png"}
+                width={70}
+                height={70}
+                alt="Maestro Card Logo"
+              />
+              <Image
+                src={"/images/master card.png"}
+                width={70}
+                height={70}
+                alt="MasterCard Logo"
+              />
+              <Image
+                src={"/images/visa.png"}
+                width={70}
+                height={70}
+                alt="Visa Card Logo"
+              />
+            </div>
+
+            <div className="app-images payment-opt">
+              <Image
+                src={"/images/phonepe.png"}
+                width={100}
+                height={80}
+                alt="PhonePe Logo"
+              />
+              <Image
+                src={"/images/gpay.png"}
+                width={100}
+                height={80}
+                alt="Google Pay Logo"
+              />
+              <Image
+                src={"/images/paytm.png"}
+                width={100}
+                height={80}
+                alt="Paytm Logo"
+              />
+              <Image
+                src={"/images/upi.png"}
+                width={100}
+                height={80}
+                alt="UPI Logo"
+              />
+            </div>
+
+          </div>
           <div className="otherPlatforms">
             <h2>We are Also Available on</h2>
 

@@ -29,7 +29,7 @@ export default function Navbar() {
   const [scrollY, setScrollY] = useState(0);
   const [mobile, setMobile] = useState(false);
   const userId = session?.user?.id;
-  const [productUrl, setProductUrl] = useState("/");
+  const [productUrl, setProductUrl] = useState("/products");
 
   const [resizeWidth, setResizeWidth] = useState(0);
 
@@ -153,9 +153,9 @@ export default function Navbar() {
             changeNavStyle
               ? navStyle
               : {
-                  background: toogleNavBar ? "white" : "transparent",
-                  transition: toogleNavBar ? "all 0s" : "all 0.05s",
-                }
+                background: toogleNavBar ? "white" : "transparent",
+                transition: toogleNavBar ? "all 0s" : "all 0.05s",
+              }
           }
         >
           {/* Nav left Code */}
@@ -185,8 +185,8 @@ export default function Navbar() {
               toogleNavBar
                 ? { display: "flex", transform: "translateX(0px)" }
                 : {
-                    transform: mobile ? "translateX(-100%)" : "translateX(0px)",
-                  }
+                  transform: mobile ? "translateX(-100%)" : "translateX(0px)",
+                }
             }
           >
             <div className="logo">

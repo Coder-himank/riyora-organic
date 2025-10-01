@@ -248,18 +248,18 @@ export default function Home({ highlightedProduct }) {
               <Link href={`/products/${highlightedProduct.slug}#reviews`} style={{ maxWidth: "fit-content" }}>
                 <section className={styles.product_rating}>
                   <StarRating rating={highlightedProduct.averageRating} />{" "}
-                  <span className={styles.review_count}>{highlightedProduct.averageRating} | ({highlightedProduct.numReviews})</span>
+                  <span className={styles.review_count}>{highlightedProduct.averageRating} ({highlightedProduct.numReviews})</span>
                 </section>
               </Link>
               <p> {highlightedProduct.description ||
                 "Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oilnourishes your scalp, strengthens roots, and promotes healthyhair growth. Free from parabens, sulfates, and artificialcolors."}
               </p>
               <div className={styles.product_bottom}>
-                {productUrl && (
-                  <Link href={productUrl} className={styles.product_shop_btn}>
-                    Shop Now for ₹ {highlightedProduct.price}
-                  </Link>
-                )}
+
+                <Link href={"/products/" + highlightedProduct.slug} className={styles.product_shop_btn}>
+                  Shop Now for ₹ {highlightedProduct.price}
+                </Link>
+
                 <p>MRP: {highlightedProduct.mrp}</p>
               </div>
             </div>
@@ -506,7 +506,7 @@ export default function Home({ highlightedProduct }) {
 }
 
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticProps = async ({ params }) => {
   try {
 
     await connectDB()

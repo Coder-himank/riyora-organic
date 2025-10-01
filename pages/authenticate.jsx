@@ -188,6 +188,7 @@ export default function AuthPage() {
             alt="Auth page"
             width={400}
             height={400}
+            
           />
         </div>
 

@@ -80,21 +80,24 @@
   transition: transform 0.2s;
   box-shadow: none;
   font-size: 2rem;
+  opacity: 0.7;
 }
 
 .smileBtn span {
   font-size: 8px;
- box-shadow: 0 0 10px -3px black;
 }
 
 .smileBtn:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
+  opacity: 1;
   box-shadow: none;
   color: green;
+  
 }
 
-.smileBtn.active {
-  color: green;
+.smileBtn.active{
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .rightPanel textarea {
@@ -105,6 +108,7 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 6px;
+  font-family: Poppins, sans-serif;
 }
 
 .submitBtn {
