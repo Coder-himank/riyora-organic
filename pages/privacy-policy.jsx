@@ -124,7 +124,7 @@ const PrivacyPolicy = () => {
             <h3 className={style.heading}>12. Contact Us</h3>
             <p className={style.text}>
               If you have any questions or concerns about this Privacy Policy or about Riyora Organic Hair Oil, please contact us at:{" "}
-              <a href="mailto:info@riyoraorganic.com">info@riyoraorganic.com</a>
+              <a href="mailto:care@riyoraorganic.com">care@riyoraorganic.com</a>
             </p>
           </section>
         </div>

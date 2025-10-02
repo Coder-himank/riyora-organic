@@ -27,8 +27,8 @@ export default function CustomerCare() {
                         <Mail className={styles.icon} />
                         <h2>Email Us</h2>
                         <p>Send us your queries or feedback anytime.</p>
-                        <a href="mailto:info@riyoraorganic.com">
-                            info@riyoraorganic.com
+                        <a href="mailto:care@riyoraorganic.com">
+                            care@riyoraorganic.com
                         </a>
                     </div>
 

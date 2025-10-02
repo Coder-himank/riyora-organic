@@ -8,6 +8,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { validatePromo } from "@/utils/promo";
 import { sanitizePromo, sanitizeProducts } from "@/utils/sanitize";
 import { rateLimit } from "@/utils/rateLimit";
+import User from "@/server/models/User";
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -43,9 +44,11 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
+  const user =await User.findById(session.user.id);
+
   const { products: clientProducts, promocode: rawPromo, deliveryAddress } = req.body || {};
   const promocode = sanitizePromo(rawPromo);
-  const productsInput = sanitizeProducts(clientProducts);
+  const productsInput =  clientProducts ? sanitizeProducts(clientProducts) :sanitizeProducts(user.cartData || []); // use user's cart if no products provided
 
   await dbConnect();
 

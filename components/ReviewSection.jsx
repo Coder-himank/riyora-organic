@@ -12,6 +12,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     const [comment, setComment] = useState("");
     const [images, setImages] = useState("")
     const { data: session } = useSession();
+    const [submitting, setSubmitting] = useState(false);
 
     // Calculate average rating & distribution
     const totalReviews = reviews.length;
@@ -67,6 +68,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
             return;
         }
         try {
+            setSubmitting(true);
             const response = await axios.post("/api/secure/feedback", {
                 productId,
                 name: session.user.name,
@@ -89,6 +91,10 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
             }
         } catch (error) {
             console.error("Error submitting feedback:", error);
+        }
+        finally {
+
+            setSubmitting(false);
         }
     };
 
@@ -144,8 +150,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                         fileFolder={`${productId}-reviews`}
                     />
 
-                    <button className={styles.submitBtn} onClick={handleSubmit}>
-                        Submit Review
+                    <button className={styles.submitBtn} onClick={handleSubmit} disabled={submitting}>
+                        {submitting ? "Submitting..." : "Submit Review"}
                     </button>
                 </div>
             </div>

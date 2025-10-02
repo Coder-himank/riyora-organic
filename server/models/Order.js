@@ -7,6 +7,8 @@ const orderSchema = new mongoose.Schema(
 
         products: [
             {
+                
+                complaintId: { type: mongoose.Schema.Types.ObjectId, ref: "Complaint", default: null },
                 productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
                 imageUrl: { type: String },
                 quantity: { type: Number, required: true },

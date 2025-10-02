@@ -179,7 +179,7 @@ export default function Footer() {
                 <span className="footer_icons">
                   <MdEmail />
                 </span>{" "}
-                info@riyoraorganic.com
+                care@riyoraorganic.com
               </li>
               <li>
                 <span className="footer_icons">

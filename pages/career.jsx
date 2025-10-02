@@ -49,7 +49,7 @@ export const career = () => {
                 oils. Work with a passionate team dedicated to healthy,
                 beautiful hair.
               </p>
-              <Link href="mailto:career.riyoraorganic@gmail.com">
+              <Link href="mailto:info.riyoraorganic@gmail.com">
                 Apply Now
               </Link>
             </div>
@@ -68,7 +68,7 @@ export const career = () => {
                 Partner with Riyora Organic to promote our premium hair oils.
                 Collaborate with us to inspire natural beauty and wellness.
               </p>
-              <Link href="mailto:career.riyoraorganic@gmail.com">
+              <Link href="mailto:info.riyoraorganic@gmail.com">
                 Apply Now
               </Link>
             </div>

@@ -19,7 +19,7 @@ export const Orders = () => {
       if (!userId) return;
       try {
         const response = await axios.get(`/api/secure/orders?userId=${userId}`);
-        setOrdersData(response.data.orderDetails);
+        setOrdersData(response.data.orders);
       } catch (error) {
         setOrdersData([]);
         setError(error);
@@ -28,24 +28,15 @@ export const Orders = () => {
     fetchOrdersData(session?.user?.id);
   }, [session?.user, query.status]);
 
-  const formatDate = (dateString) => new Date(dateString).toLocaleDateString();
+  const formatDate = (dateString) =>
+    dateString ? new Date(dateString).toLocaleDateString() : "N/A";
 
   const shouldDisplayOrder = (order) => {
     const statusQuery = query?.status;
-
-
-
     if (!statusQuery) return true;
     if (statusQuery === "all_orders") return true;
     if (statusQuery === "canceled" && order?.status === "cancelled")
       return true;
-    // if (statusQuery === "undelivered_or_old") {
-    //     const isNotDelivered = order?.status !== "delivered";
-    //     const deliveredMoreThan30DaysAgo =
-    //         order?.deliveredOn &&
-    //         new Date(order.deliveredOn) < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-    //     return isNotDelivered || deliveredMoreThan30DaysAgo;
-    // }
     return false;
   };
 
@@ -57,8 +48,7 @@ export const Orders = () => {
 
   return (
     <div className={styles.orders_container}>
-      <div className="navHolder"></div>
-      <h1>Orders</h1>
+      <h1 className={styles.page_title}>My Orders</h1>
 
       <div className={styles.orders_list}>
         {ordersData === null ? (
@@ -66,43 +56,58 @@ export const Orders = () => {
         ) : filteredOrders.length === 0 ? (
           <p>No orders found.</p>
         ) : (
-          filteredOrders.map((order, i) => (
+          filteredOrders.map((order) => (
             <Link
               key={order._id}
-              href={`/${session?.user?.id}/orderDetail?orderId=${order._id}&userId=${session?.user?.id}`}
+              href={`/${session?.user?.id}/orders/${order._id}`}
+              className={styles.order_card}
             >
-              <section key={order._id} className={styles.order_item}>
-                <div className={styles.order_head}>
-                  <span>{order._id}</span>
-                  <span>₹{order.amount}</span>
-                </div>
+              <div className={styles.order_header}>
+                <span className={styles.order_id}>Order #{order._id}</span>
+                <span className={styles.order_amount}>₹{order.amount}</span>
+              </div>
 
-                <div className={styles.order_products}>
-                  {order.products.map((product, index) => (
-                    <div key={index} className={styles.product_plate}>
-                      <Image
-                        src={
-                          product.imageUrl || "/images/placeholderProduct.png"
-                        }
-                        width={100}
-                        height={100}
-                        alt={`Product ${index + 1}`}
-                      />
-                      <span>Quantity: {product.quantity}</span>
-                      <span>Price : ₹{product.price}</span>
+              <div className={styles.products_section}>
+                {order.products.map((product, index) => (
+                  <div key={index} className={styles.product_item}>
+                    <Image
+                      src={product.imageUrl || "/images/placeholderProduct.png"}
+                      width={80}
+                      height={80}
+                      alt={product.name || `Product ${index + 1}`}
+                      className={styles.product_img}
+                    />
+                    <div className={styles.product_info}>
+                      <span className={styles.product_name}>
+                        {product.name || "Unnamed Product"}
+                      </span>
+                      <span>Qty: {product.quantity}</span>
+                      <span>Price: ₹{product.price}</span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
+              </div>
 
-                <div className={styles.order_details}>
-                  <span>Payment Status: {order.paymentStatus}</span>
-                  <span>Placed on: {formatDate(order.placedOn)}</span>
-                  <span>
-                    Expected Delivery: {formatDate(order.expectedDelivery)}
+              <div className={styles.order_details}>
+                <span>
+                  <strong>Payment Status:</strong> {order.paymentStatus}
+                </span>
+                <span>
+                  <strong>Placed on:</strong> {formatDate(order.placedOn)}
+                </span>
+                <span>
+                  <strong>Expected Delivery:</strong>{" "}
+                  {formatDate(order.expectedDelivery)}
+                </span>
+                <span>
+                  <strong>Order Status:</strong>{" "}
+                  <span
+                    className={`${styles.status} ${styles[order.status?.toLowerCase()]}`}
+                  >
+                    {order.status}
                   </span>
-                  <span>Status: {order.status}</span>
-                </div>
-              </section>
+                </span>
+              </div>
             </Link>
           ))
         )}
@@ -114,24 +119,11 @@ export const Orders = () => {
 const SkeletonLoading = () => {
   return (
     <>
-      {Array.from({ length: 6 }).map((_, index) => (
-        <div key={index} className={styles.order_item}>
-          <div className={styles.skeleton_order_head}></div>
-          <div className={styles.order_products}>
-            {Array.from({ length: 2 }).map((_, idx) => (
-              <div key={idx} className={styles.product_plate}>
-                <div className={styles.skeleton_img}></div>
-                <span className={styles.skeleton_small_text_1}></span>
-                <span></span>
-              </div>
-            ))}
-          </div>
-          <div className={styles.order_details}>
-            <span className={styles.skeleton_small_text}></span>
-            <span className={styles.skeleton_small_text}></span>
-            <span className={styles.skeleton_small_text}></span>
-            <span className={styles.skeleton_small_text}></span>
-          </div>
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div key={index} className={styles.skeleton_order_card}>
+          <div className={styles.skeleton_header}></div>
+          <div className={styles.skeleton_products}></div>
+          <div className={styles.skeleton_footer}></div>
         </div>
       ))}
     </>

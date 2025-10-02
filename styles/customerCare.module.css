@@ -23,19 +23,18 @@
 }
 
 .cards {
-  display: grid;
+  display: flex;
   gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   max-width: 1100px;
   margin: 0 auto;
 }
 
-@media (min-width: 768px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 .card {
+  height: 270px;
+  min-width: 300px;
   background: #fff;
   border-radius: 1rem;
   padding: 2rem;

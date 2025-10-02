@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth/next";
 import { validatePromo } from "@/utils/promo";
 import { sanitizePromo, sanitizeProducts } from "@/utils/sanitize";
 import { rateLimit } from "@/utils/rateLimit";
-
+import User from "@/server/models/User";
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
 /**
@@ -59,8 +59,11 @@ export default async function handler(req, res) {
      */
     const { products: clientProducts, promocode: rawPromo, addressId } =
       req.body || {};
+
+      const user  = await User.findById(session.user.id);
+
     const promocode = sanitizePromo(rawPromo);
-    const productsInput = sanitizeProducts(clientProducts);
+    const productsInput = clientProducts ? sanitizeProducts(clientProducts): sanitizeProducts(user.cartData); // if no products from client, use user's saved cart
 
     await dbConnect();
 
@@ -70,6 +73,7 @@ export default async function handler(req, res) {
     const items = [];
     if (productsInput && productsInput.length) {
       for (const { productId, quantity, variantId } of productsInput) {
+        // console.log(productId, quantity, variantId);
         const product = await Product.findById(productId).lean();
         if (!product || product.deleted) {
           return res.status(400).json({ error: "Invalid product" });
@@ -78,8 +82,11 @@ export default async function handler(req, res) {
         // added for variants → resolve variant price & name if variantId provided
         let variant = null;
         if (variantId && product.variants?.length) {
-          variant = product.variants.find((v) => String(v._id) === String(variantId));
-        }
+          if(variantId !== productId){
+
+            variant = product.variants.find((v) => String(v._id) === String(variantId));
+          }
+          }
 
         const price = variant ? variant.price : product.price;
         const name = variant ? `${product.name} - ${variant.name}` : product.name;

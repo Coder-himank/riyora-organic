@@ -74,7 +74,8 @@ export const authOptions = {
             name: user.name,
             phone: user.phone,
             email: user.email || null,
-            role: user.role
+            role: user.role,
+            cartData : user.cartData || []
           };
         } catch (err) {
           console.error("OTP authorization error:", err);
@@ -97,20 +98,24 @@ export const authOptions = {
         token.phone = user.phone;
         token.email = user.email || user.phone;
         token.role = user.role || "user";
+        token.cartData = user.cartData || [];
+        
       }
       return token;
     },
 
     /**
      * Make JWT values available in the session object
-     */
-    async session({ session, token }) {
-      if (!session.user) session.user = {};
-      session.user.id = token.id;
-      session.user.name = token.name;
-      session.user.phone = token.phone;
-      session.user.email = token.email;
-      session.user.role = token.role;
+    */
+   async session({ session, token }) {
+     if (!session.user) session.user = {};
+     session.user.id = token.id;
+     session.user.name = token.name;
+     session.user.phone = token.phone;
+     session.user.email = token.email;
+     session.user.role = token.role;
+     session.user.cartData = token.cartData || [];
+
       return session;
     }
   }

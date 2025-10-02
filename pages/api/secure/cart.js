@@ -104,7 +104,7 @@ export default async function handler(req, res) {
           
         }
         const existingItem = user.cartData.find(
-          (item) => item.productId.toString() === productId && isSameVariant(item.variantId, variantObjectId)
+          (item) => item.productId.toString() === productId && isSameVariant(item.variantId, variantObjectId) && item.variantId.toString() === productId
         );
 
         if(quantity > CART_ITEM_LIMIT){

@@ -69,8 +69,6 @@ export default function AuthPage() {
       toast.error("Invalid phone number");
       return;
     }
-    setCanResend(false);
-    setResendTimer(25);
 
     try {
       const res = await axios.post("/api/send-otp", {
@@ -81,6 +79,9 @@ export default function AuthPage() {
         toast.success("OTP sent successfully");
         setStep(2);
         setSentOtp(res.data.otp);
+
+        setCanResend(false);
+        setResendTimer(25);
       } else {
         toast.error(res.data.message || "Failed to send OTP");
       }
@@ -138,6 +139,14 @@ export default function AuthPage() {
           toast.success("Login successful");
           console.log(callbackUrl);
 
+          if (callbackUrl && callbackUrl.includes("checkout")) {
+            const url = new URL(callbackUrl, window.location.origin);
+            const params = new URLSearchParams(url.search);
+            const productId = params.get("productId");
+            const quantity = params.get("quantity") || 1;
+            router.push(`/${session?.user?.id}/checkout?productId=${productId}&quantity=${quantity}`);
+            return;
+          }
           // router.push(callbackUrl || "/");
         }
       } else {
@@ -188,7 +197,7 @@ export default function AuthPage() {
             alt="Auth page"
             width={400}
             height={400}
-            
+
           />
         </div>
 

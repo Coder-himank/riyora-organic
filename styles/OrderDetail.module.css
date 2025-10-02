@@ -1,131 +1,111 @@
-.page {
-  max-width: 900px;
-  margin: 0 auto;
+.container {
   padding: 2rem;
-  background: #f9fafb;
-  min-height: 100vh;
-  font-family: 'Inter', sans-serif;
-  text-transform: uppercase;
+  max-width: 950px;
+  margin: auto;
 }
 
 .title {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: bold;
   margin-bottom: 2rem;
-  color: #111827;
   text-align: center;
-}
-
-.card {
-  background: #fff;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(137, 137, 137, 0.05);
-  margin-bottom: 1.5rem;
-  transition: transform 0.2s ease;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-}
-
-.sectionTitle {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #1f2937;
-}
-
-.productItem {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 1rem 0;
-}
-
-.productItem:last-child {
-  border-bottom: none;
-}
-
-.productImage {
-  width: 70px;
-  height: 70px;
-  border-radius: 0.5rem;
-  object-fit: cover;
-}
-
-.productDetails {
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.productName {
-  font-weight: 600;
-  font-size: 1rem;
   color: #111827;
 }
 
-.productSku {
-  font-size: 0.85rem;
-  color: #6b7280;
+/* ✅ Success Section */
+.successBox {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+}
+.successIcon {
+  color: white;
+  margin-bottom: 1rem;
 }
 
-.productPrice {
-  font-weight: 500;
-  color: #2563eb;
+/* Progress Bar */
+.progressWrapper {
+  margin-bottom: 2.5rem;
 }
-
-.trackLink {
-  display: inline-block;
-  margin-top: 0.5rem;
-  color: #2563eb;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.2s;
+.progressBar {
+  position: relative;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
 }
-
-.trackLink:hover {
-  color: #1e40af;
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #4f46e5);
 }
-
-.historyItem {
-  border-bottom: 1px solid #e5e7eb;
-  padding: 0.8rem 0;
+.truck {
+  position: absolute;
+  top: -28px;
+  transform: translateX(-50%);
+  color: #4f46e5;
 }
-
-.historyNote {
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-
-.badge {
-  padding: 0.2rem 0.6rem;
-  border-radius: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-/* Status colors */
-.pending { background: #fef3c7; color: #92400e; }
-.confirmed { background: #e0f2fe; color: #0369a1; }
-.ready_to_ship { background: #dbeafe; color: #1d4ed8; }
-.shipped { background: #ddd6fe; color: #5b21b6; }
-.out_for_delivery { background: #fef9c3; color: #854d0e; }
-.delivered { background: #dcfce7; color: #166534; }
-.cancelled { background: #fee2e2; color: #991b1b; }
-.returned { background: #fef3c7; color: #92400e; }
-.payment_failed { background: #fee2e2; color: #991b1b; }
-
-.paid { background: #dcfce7; color: #166534; }
-.failed { background: #fee2e2; color: #991b1b; }
-.COD { background: #fef9c3; color: #854d0e; }
-.refunded { background: #e0f2fe; color: #0369a1; }
-
-.loadingWrapper {
+.steps {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.step {
+  text-align: center;
+  flex: 1;
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+.step.active {
+  color: #4f46e5;
+  font-weight: bold;
+}
+.stepIcon {
+  background: #f3f4f6;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  margin: auto;
+  display: flex;
   align-items: center;
-  height: 80vh;
-  color: #4b5563;
+  justify-content: center;
+}
+.step.active .stepIcon {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+/* Order Info Card */
+.orderCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+/* Products */
+.products {
+  margin-top: 2rem;
+}
+.productGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+.productCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease;
+}
+.productImg {
+  border-radius: 10px;
 }

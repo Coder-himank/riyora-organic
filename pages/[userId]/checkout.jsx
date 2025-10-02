@@ -64,23 +64,31 @@ export default function Checkout() {
      * - cart on the server (implicit), or
      * - immediate buy via query (?productId, ?variantId, ?quantity_demanded)
      */
-    const payload = {
-      promocode,
-      products: router.query.productId
-        ? [{
-          productId: router.query.productId,
-          variantId: router.query.variantId || null, // added for variants
-          quantity: Number(router.query.quantity_demanded || 1)
-        }]
-        : null,
-      addressId: selectedAddressId || null,
-    };
 
-    const { data } = await axios.post("/api/secure/checkout", payload, { withCredentials: true });
-    setSummary(data); // contains products & server-calculated amounts
-    // Set default addressId if available
-    if (!selectedAddressId && data.addresses?.length) {
-      setSelectedAddressId(data.addresses[0]._id);
+    try {
+
+      const payload = {
+        promocode,
+        products: router.query.productId
+          ? [{
+            productId: router.query.productId,
+            variantId: router.query.variantId || null, // added for variants
+            quantity: Number(router.query.quantity_demanded || 1)
+          }]
+          : null,
+        addressId: selectedAddressId || null,
+      };
+
+      const { data } = await axios.post("/api/secure/checkout", payload, { withCredentials: true });
+      setSummary(data); // contains products & server-calculated amounts
+      // Set default addressId if available
+      if (!selectedAddressId && data.addresses?.length) {
+        setSelectedAddressId(data.addresses[0]._id);
+      }
+    } catch (error) {
+      console.error("Error preparing checkout payload", error);
+      setError("Failed to prepare checkout data");
+      return;
     }
   };
 

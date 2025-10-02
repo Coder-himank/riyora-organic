@@ -5,11 +5,12 @@ export function sanitizePromo(code) {
 
 export function sanitizeProducts(arr) {
     if (!Array.isArray(arr)) return null;
+    // console.log(arr)
     return arr
         .map((x) => ({
             productId: String(x?.productId || "").trim(),
             variantId: String(x?.variantId || "").trim(),
-            quantity: Number(x?.quantity || 1),
+            quantity: Number(x?.quantity || x?.quantity_demanded || 1),
         }))
-        .filter((x) => x.productId && x.quantity > 0 && x.quantity <= 50); // set the maximum number of products a perosn can porder at a time
+        .filter((x) => x.productId && x.quantity > 0 && x.quantity <= 5); // set the maximum number of products a perosn can porder at a time
 }

@@ -31,7 +31,6 @@ export default function TrackOrder() {
       setOrderDetails(orders);
     } catch (err) {
       setError("Error fetching order");
-      console.log(err);
       setOrderDetails([]);
     } finally {
       setLoading(false);
@@ -44,18 +43,16 @@ export default function TrackOrder() {
     <>
       <div className="navHolder"></div>
       <div className={styles.track_order_container}>
-        <h1>Track Your Order</h1>
+        <h1 className={styles.page_title}>Track Your Orders</h1>
 
         {loading ? (
-          <div className={styles.order_skeleton}>
-            {[...Array(5)].map((_, index) => (
-              <div key={index} className={styles.order_item_skeleton}>
-                <div className={styles.order_text_skeleton}></div>
-              </div>
+          <div className={styles.skeleton_container}>
+            {[...Array(3)].map((_, index) => (
+              <div key={index} className={styles.skeleton_card}></div>
             ))}
           </div>
         ) : orderDetails.length === 0 ? (
-          <p>No orders to track</p>
+          <p>No active orders to track</p>
         ) : (
           orderDetails.map((order) => {
             const showOrder =
@@ -64,57 +61,64 @@ export default function TrackOrder() {
                 new Date(order.deliveredOn) >=
                 new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
 
+            if (!showOrder) return null;
+
             return (
-              showOrder && (
-                <Link
-                  key={order._id}
-                  href={`/${userId}/orders/${order._id}`}
-                  className={styles.order_link}
-                >
-                  <div className={styles.order_detail}>
-                    <section className={styles.order_images}>
-                      {order?.products?.map((product, idx) => (
-                        <Image
-                          key={idx}
-                          src={product.imageUrl}
-                          width={100}
-                          height={100}
-                          style={{ "--i": idx }}
-                          alt={product.name || "Product Image"}
-                        />
-                      ))}
-                    </section>
-                    <section className={styles.details}>
-                      <div className={styles.order_item}>
-                        <strong>Order ID:</strong>{" "}
-                        <span>{order.razorpayOrderId}</span>
-                      </div>
-                      <div className={styles.order_item}>
-                        <strong>Placed on:</strong>{" "}
-                        <span>
-                          {new Date(order.createdAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <div className={styles.order_item}>
-                        <strong>Expected delivery:</strong>{" "}
-                        <span>
-                          {new Date(
-                            order.deliveredOn || order.estimatedDelivery
-                          ).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <div className={styles.order_item}>
-                        <strong>Payment status:</strong>{" "}
-                        <span>{order.paymentStatus}</span>
-                      </div>
-                      <div className={styles.order_item}>
-                        <strong>Order status:</strong>{" "}
-                        <span>{order.status}</span>
-                      </div>
-                    </section>
+              <Link
+                key={order._id}
+                href={`/${userId}/orders/${order._id}`}
+                className={styles.order_card}
+              >
+                <div className={styles.order_header}>
+                  <span className={styles.order_id}>
+                    Order #{order.razorpayOrderId}
+                  </span>
+                  <span
+                    className={`${styles.status} ${styles[order.status?.toLowerCase()]}`}
+                  >
+                    {order.status}
+                  </span>
+                </div>
+
+                <div className={styles.order_content}>
+                  <div className={styles.order_images}>
+                    {order?.products?.slice(0, 3).map((product, idx) => (
+                      <Image
+                        key={idx}
+                        src={product.imageUrl || "/images/placeholderProduct.png"}
+                        width={80}
+                        height={80}
+                        alt={product.name || "Product Image"}
+                        className={styles.product_img}
+                      />
+                    ))}
+                    {order.products.length > 3 && (
+                      <span className={styles.more_products}>
+                        +{order.products.length - 3} more
+                      </span>
+                    )}
                   </div>
-                </Link>
-              )
+
+                  <div className={styles.details}>
+                    <div className={styles.detail_item}>
+                      <strong>Placed on:</strong>{" "}
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </div>
+                    <div className={styles.detail_item}>
+                      <strong>Expected delivery:</strong>{" "}
+                      {new Date(
+                        order.deliveredOn || order.estimatedDelivery
+                      ).toLocaleDateString()}
+                    </div>
+                    <div className={styles.detail_item}>
+                      <strong>Payment:</strong> {order.paymentStatus}
+                    </div>
+                    <div className={styles.detail_item}>
+                      <strong>Amount:</strong> ₹{order.amount}
+                    </div>
+                  </div>
+                </div>
+              </Link>
             );
           })
         )}

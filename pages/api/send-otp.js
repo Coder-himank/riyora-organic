@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     await redis.set(redisKey, otp, "EX", 300);
 
     // Store cooldown flag with a 1-minute expiry
-    await redis.set(cooldownKey, "true", "EX", 60);
+    await redis.set(cooldownKey, "true", "EX", 25);
 
     // Send SMS via Twilio
     await sendSms(`+${countryCode}${phone}`, `Your OTP is ${otp}`);

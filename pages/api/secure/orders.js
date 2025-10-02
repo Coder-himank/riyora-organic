@@ -62,55 +62,60 @@ export default async function handler(req, res) {
     }
 
     else if (method === "PUT") {
-      const { orderId } = req.query;
-      const updateFields = req.body;
+  const { orderId } = req.query;
+  const updateFields = req.body;
 
-      if (!orderId) {
-        return res.status(400).json({ success: false, message: "Order ID is required" });
-      }
+  if (!orderId) {
+    return res.status(400).json({ success: false, message: "Order ID is required" });
+  }
 
-      // Convert orderId to ObjectId if valid
-      let objectId = null;
-      if (mongoose.Types.ObjectId.isValid(orderId)) {
-        objectId = new mongoose.Types.ObjectId(orderId);
-      }
+  console.log("updating orderId", orderId, updateFields);
 
-      const order = await Order.findOne({
-        $or: [
-          { _id: objectId },
-          { razorpayOrderId: orderId }
-        ]
-      });
+  // Convert orderId to ObjectId if valid
+  let objectId = null;
+  if (mongoose.Types.ObjectId.isValid(orderId)) {
+    objectId = new mongoose.Types.ObjectId(orderId);
+  }
 
-      if (!order) {
-        return res.status(404).json({ success: false, message: "Order not found" });
-      }
+  const order = await Order.findOne({
+    $or: [{ _id: objectId }, { razorpayOrderId: orderId }]
+  });
 
-      const updateQuery = { $set: { ...updateFields } };
+  if (!order) {
+    return res.status(404).json({ success: false, message: "Order not found" });
+  }
 
-      // Handle status history update
-      if (
-        updateFields.status &&
-        ["pending", "shipped", "delivered", "cancelled"].includes(updateFields.status)
-      ) {
-        updateQuery.$push = {
-          statusHistory: { status: updateFields.status, updatedAt: new Date() },
-        };
-        delete updateQuery.$set.status;
-      }
+  let updateQuery = { $set: { ...updateFields } };
 
-      const updatedOrder = await Order.findOneAndUpdate(
-        { _id: order._id },
-        updateQuery,
-        { new: true }
-      );
+  // ✅ Corrected: update order.status + push to orderHistory
+  if (
+    updateFields.status &&
+    ["pending", "confirmed", "ready to ship", "shipped", "out_for_delivery", "delivered", "cancelled", "returned"].includes(updateFields.status)
+  ) {
+    updateQuery.$set.status = updateFields.status; // <-- main status field updated
+    updateQuery.$push = {
+      orderHistory: {
+        status: updateFields.status,
+        date: new Date(),
+        note: updateFields.note || "",
+        updatedBy: "user", // or "system"/"admin"
+      },
+    };
+  }
 
-      return res.status(200).json({
-        success: true,
-        message: "Order updated successfully",
-        order: updatedOrder,
-      });
-    }
+  const updatedOrder = await Order.findOneAndUpdate(
+    { _id: order._id },
+    updateQuery,
+    { new: true }
+  );
+
+  return res.status(200).json({
+    success: true,
+    message: "Order updated successfully",
+    order: updatedOrder,
+  });
+}
+
 
     else {
       return res.status(405).json({ success: false, message: `Method ${method} Not Allowed` });

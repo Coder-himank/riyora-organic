@@ -68,9 +68,13 @@ const ProductPage = ({ productId, productData }) => {
 
     if (productData.variants?.length) {
       const queryVariant = router.query.variantId;
-      const initialVariant = queryVariant
-        ? productData.variants.find((v) => String(v._id) === String(queryVariant))
-        : productData.variants[0];
+      let initialVariant;
+      if (queryVariant) {
+        const gotV = productData.variants.find((v) => String(v._id) === String(queryVariant))
+        initialVariant = gotV ? gotV : productData;
+      } else {
+        initialVariant = productData;
+      }
 
       setSelectedVariant(initialVariant || null);
     } else {
@@ -93,12 +97,14 @@ const ProductPage = ({ productId, productData }) => {
       stock: selectedVariant.stock,
       sku: selectedVariant.sku,
       quantity: selectedVariant.quantity,
-      imageUrl: [...normalizeVariantImages(selectedVariant), ...productData?.imageUrl],
+      imageUrl: normalizeVariantImages(selectedVariant).length > 0
+        ? normalizeVariantImages(selectedVariant)
+        : productData?.imageUrl,
+
       name: selectedVariant.name || productData.name,
     }
     : {
-      ...productData,
-      imageUrl: Array.isArray(productData.imageUrl) ? productData.imageUrl : [productData.imageUrl],
+      ...productData
     };
 
   // ================= Schema.org =================
@@ -268,7 +274,7 @@ const ProductPage = ({ productId, productData }) => {
               <div className={styles.quantity}>
                 <button onClick={() => setQuantityDemanded((q) => (q > 1 ? q - 1 : 1))}>-</button>
                 <span>{quantity_demanded}</span>
-                <button onClick={() => setQuantityDemanded(quantity_demanded + 1)}>+</button>
+                <button onClick={() => setQuantityDemanded(quantity_demanded + 1 > 5 ? 5 : quantity_demanded + 1)}>+</button>
               </div>
             </div>
 
@@ -300,7 +306,10 @@ const ProductPage = ({ productId, productData }) => {
             {displayProduct?.chooseUs?.length > 0 && (
               <section className={styles.icons}>
                 {displayProduct.chooseUs?.map((item, idx) => (
-                  <Image key={idx} src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
+                  <div className={styles.icon} key={idx}>
+                    <Image src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
+                    <p>{item.text}</p>
+                  </div>
                 ))}
               </section>
             )}
@@ -405,14 +414,16 @@ export async function getStaticProps({ params }) {
   if (!product) return { notFound: true };
 
   // Ensure imageUrl and variants.imageUrl are arrays (added for variants)
-  const normalizedProduct = {
-    ...product,
-    imageUrl: Array.isArray(product.imageUrl) ? product.imageUrl : product.imageUrl ? [product.imageUrl] : [],
-    variants: product.variants?.map(v => ({
-      ...v,
-      imageUrl: Array.isArray(v.imageUrl) ? v.imageUrl : v.imageUrl ? [v.imageUrl] : [],
-    })) || [],
-  };
+  const normalizedProduct = product
+  // {
+  //   ...product,
+  //   imageUrl: Array.isArray(product.imageUrl) ? product.imageUrl : product.imageUrl ? [product.imageUrl] : [],
+  //   variants: product.variants?.map(v => ({
+  //     ...v,
+  //     imageUrl: Array.isArray(v.imageUrl) ? v.imageUrl : v.imageUrl ? [v.imageUrl] : [],
+  //   })) || [],
+  // };
+
 
   return {
     props: {

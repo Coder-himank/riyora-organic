@@ -44,6 +44,8 @@ export default function UserProfile() {
         }
         setUser(res.data);
       } catch (err) {
+        console.log(err);
+
         setError(err.message);
       }
       setLoading(false);
