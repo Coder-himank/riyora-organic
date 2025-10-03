@@ -8,17 +8,27 @@ const Carousel = ({
   showControls = true,
   autoScroll = true,
   action_style = "overlap",
-  intervalTime = 3000, // auto slide speed
+  intervalTime = 3000,
 }) => {
   const scrollRef = useRef(null);
-  const containerRef = useRef(null);
   const lastManualScrollTime = useRef(Date.now());
 
   const [showActionButton, setShowActionButton] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(1); // start at 1 (real first)
   const [slidePositions, setSlidePositions] = useState([]);
 
-  // ✅ Calculates slide positions based on offsetLeft
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const scrollTimeout = useRef(null);
+
+  // ✅ Clone children
+  const clonedChildren = [
+    React.cloneElement(children[children.length - 1], { key: "clone-last" }),
+    ...children,
+    React.cloneElement(children[0], { key: "clone-first" }),
+  ];
+
+  // ✅ Calculate slide positions
   const checkOverflow = useCallback(() => {
     requestAnimationFrame(() => {
       const scrollElement = scrollRef.current;
@@ -26,20 +36,26 @@ const Carousel = ({
 
       const childrenArray = Array.from(scrollElement.children);
       const positions = childrenArray.map((child) => child.offsetLeft);
-      const uniquePositions = [...new Set(positions)];
 
-      setSlidePositions(uniquePositions);
-      showControls && setShowActionButton(uniquePositions.length > 1);
+      setSlidePositions(positions);
+      showControls && setShowActionButton(positions.length > 1);
+
+      // Snap to "real" first slide initially
+      if (positions.length > 1) {
+        scrollElement.scrollTo({
+          left: positions[1],
+          behavior: "instant",
+        });
+      }
     });
   }, [showControls]);
 
-  // ✅ Updates current index based on scrollLeft
+  // ✅ Update index during scroll
   const updateIndex = useCallback(() => {
     const scrollElement = scrollRef.current;
-    if (!scrollElement) return;
+    if (!scrollElement || slidePositions.length === 0) return;
 
     const scrollLeft = scrollElement.scrollLeft;
-
     let closestIndex = 0;
     let closestDistance = Infinity;
 
@@ -51,22 +67,45 @@ const Carousel = ({
       }
     });
 
-    setCurrentIndex(closestIndex + 1);
+    setCurrentIndex(closestIndex);
   }, [slidePositions]);
 
-  // ✅ Scroll left or right (with looping)
+  // ✅ Handle infinite looping after scroll ends
+  const handleScroll = () => {
+    lastManualScrollTime.current = Date.now();
+    updateIndex();
+
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+
+    scrollTimeout.current = setTimeout(() => {
+      const scrollElement = scrollRef.current;
+      if (!scrollElement || slidePositions.length === 0) return;
+
+      const scrollLeft = scrollElement.scrollLeft;
+
+      if (scrollLeft >= slidePositions[slidePositions.length - 1] - 1) {
+        // jumped to clone-first → reset to real first
+        scrollElement.scrollTo({ left: slidePositions[1], behavior: "instant" });
+        setCurrentIndex(1);
+      }
+
+      if (scrollLeft <= slidePositions[0] + 1) {
+        // jumped to clone-last → reset to real last
+        const lastReal = slidePositions.length - 2;
+        scrollElement.scrollTo({
+          left: slidePositions[lastReal],
+          behavior: "instant",
+        });
+        setCurrentIndex(lastReal);
+      }
+    }, 100); // debounce scroll end
+  };
+
+  // ✅ Scroll left/right
   const scroll = (direction, type = "auto") => {
     if (!scrollRef.current || slidePositions.length === 0) return;
 
-    const currentIdx = currentIndex - 1;
-    let targetIdx = direction === "right" ? currentIdx + 1 : currentIdx - 1;
-
-    // ✅ Loop around instead of clamping
-    if (targetIdx >= slidePositions.length) {
-      targetIdx = 0; // go back to first
-    } else if (targetIdx < 0) {
-      targetIdx = slidePositions.length - 1; // go to last
-    }
+    let targetIdx = currentIndex + (direction === "right" ? 1 : -1);
 
     scrollRef.current.scrollTo({
       left: slidePositions[targetIdx],
@@ -78,13 +117,9 @@ const Carousel = ({
     }
   };
 
-  // ✅ Watch for size changes of children
+  // ✅ Resize observer
   useEffect(() => {
     checkOverflow();
-
-    if (action_style === "images") {
-      setShowActionButton(true);
-    }
 
     const observer = new ResizeObserver(() => {
       checkOverflow();
@@ -102,13 +137,7 @@ const Carousel = ({
     };
   }, [checkOverflow, children]);
 
-  // ✅ Watch scroll and update index
-  const handleScroll = () => {
-    lastManualScrollTime.current = Date.now();
-    updateIndex();
-  };
-
-  // ✅ Auto-scroll effect
+  // ✅ Auto-scroll
   useEffect(() => {
     if (!autoScroll || slidePositions.length <= 1) return;
 
@@ -116,29 +145,42 @@ const Carousel = ({
       const now = Date.now();
       if (now - lastManualScrollTime.current < 5000) return;
 
-      if (currentIndex >= slidePositions.length) {
-        // ✅ loop back to first
-        setCurrentIndex(1);
-        scrollRef.current.scrollTo({
-          left: slidePositions[0],
-          behavior: "smooth",
-        });
-      } else {
-        scroll("right");
-      }
+      scroll("right");
     }, intervalTime);
 
     return () => clearInterval(interval);
   }, [autoScroll, currentIndex, slidePositions, intervalTime]);
 
+  // ✅ Swipe gestures
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX.current - touchEndX.current;
+    const threshold = 50;
+    if (distance > threshold) {
+      scroll("right", "manual");
+    } else if (distance < -threshold) {
+      scroll("left", "manual");
+    }
+  };
+
   return (
-    <div className={styles.carouselContainer} ref={containerRef}>
+    <div className={styles.carouselContainer}>
       <div
         className={styles.scrollContainer}
         ref={scrollRef}
         onScroll={handleScroll}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
-        {children}
+        {clonedChildren}
       </div>
 
       {showActionButton && slidePositions.length > 1 && (
@@ -149,59 +191,56 @@ const Carousel = ({
             ${action_style === "images" && styles.action_btn_img}
           `}
         >
-          {/* Left Button */}
           <button
             className={styles.scrollBtn}
             onClick={() => scroll("left", "manual")}
-            aria-label="Scroll Left"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && scroll("left", "manual")}
           >
             ◀
           </button>
 
           {/* Indicators */}
           <div className={styles.indicators}>
-            {action_style === "images"
-              ? React.Children.map(children, (child, i) => {
-                  const src = child.props?.src || "/fallback.jpg";
-                  return (
-                    <span 
-                      key={i}
-                      className={
-                        i + 1 === currentIndex
-                          ? styles.activeIndicator
-                          : styles.indicator
-                      }
-                    >
-                      <Image
-                        src={src}
-                        width={50}
-                        height={50}
-                        alt={`slide ${i + 1}`}
-                      />
-                    </span>
-                  );
-                })
-              : slidePositions.map((_, i) => (
-                  <span
-                    key={i}
-                    className={
-                      i + 1 === currentIndex
-                        ? styles.activeIndicator
-                        : styles.indicator
-                    }
-                  ></span>
-                ))}
+            {children.map((child, i) => {
+              const src = child.props?.src || "/fallback.jpg";
+              return action_style === "images" ? (
+                <span
+                  key={i}
+                  className={
+                    i + 1 === currentIndex
+                      ? styles.activeIndicator
+                      : styles.indicator
+                  }
+                  onClick={() =>
+                    scrollRef.current.scrollTo({
+                      left: slidePositions[i + 1],
+                      behavior: "smooth",
+                    })
+                  }
+                >
+                  <Image src={src} width={50} height={50} alt={`slide ${i}`} />
+                </span>
+              ) : (
+                <span
+                  key={i}
+                  className={
+                    i + 1 === currentIndex
+                      ? styles.activeIndicator
+                      : styles.indicator
+                  }
+                  onClick={() =>
+                    scrollRef.current.scrollTo({
+                      left: slidePositions[i + 1],
+                      behavior: "smooth",
+                    })
+                  }
+                ></span>
+              );
+            })}
           </div>
 
-          {/* Right Button */}
           <button
             className={styles.scrollBtn}
             onClick={() => scroll("right", "manual")}
-            aria-label="Scroll Right"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && scroll("right", "manual")}
           >
             ▶
           </button>

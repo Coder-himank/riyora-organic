@@ -1,7 +1,6 @@
 .carousel {
   width: 100%;
   max-width: 900px;
-  /* max-height: 500px; */
   margin: 0 auto;
   position: relative;
 }
@@ -14,7 +13,6 @@
 .sliderContainer {
   overflow: hidden;
   width: 100%;
-  max-width: 400px;
   margin: auto;
 }
 
@@ -29,17 +27,16 @@
 
 .image {
   width: 100%;
-  height: auto;
-  max-height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: contain;
-  /* border-radius: 10px; */
 }
 
 .navBtn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.153);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
   border: none;
   color: white;
   font-size: 2rem;
@@ -47,16 +44,17 @@
   cursor: pointer;
   z-index: 2;
   border-radius: 50%;
+  transition: background 0.3s;
 }
 
 .navBtn:first-of-type { left: 10px; }
 .navBtn:last-of-type { right: 10px; }
-
 .navBtn:hover { background: rgba(0,0,0,0.8); }
 
 .thumbnails {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   margin-top: 10px;
   gap: 10px;
 }
@@ -64,18 +62,16 @@
 .thumb {
   cursor: pointer;
   border: 2px solid transparent;
-  /* border-radius: 6px; */
   overflow: hidden;
-  transition: border 0.3s;
+  transition: border 0.3s, transform 0.2s;
 }
 
 .thumb img { border-radius: 6px; object-fit: cover; }
 
-.thumb:hover { border: 2px solid #666; }
-.active { border: 2px solid green; }
+.thumb:hover { border: 2px solid #666; transform: scale(1.05); }
+.active { border: 2px solid green; transform: scale(1.1); }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .image { max-height: 250px; }
-  .thumb img { width: 70px; height: 50px; }
+  .image { aspect-ratio: 4 / 3; }
+  .thumb img { width: 20vw; height: auto; }
 }

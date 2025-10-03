@@ -1,91 +1,115 @@
 // pages/product/[slug].js
+import { useRouter } from "next/router";
 import Image from "next/image";
 import styles from "@/styles/ProductInfo.module.css";
 import connectDB from "@/server/db";
-import ProductInfo from "@/server/models/productInfo";
+import productInfo from "@/server/models/productInfo";
+import InfiniteCarousel from "@/components/ImageCarousel";
+export default function ProductDetail({ product }) {
+  const router = useRouter();
 
-export default function ProductPage({ productInfo }) {
-  if (!productInfo) return <p className={styles.notFound}>Product not found.</p>;
+  if (router.isFallback) {
+    return <div className={styles.loading}>Loading...</div>;
+  }
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{productInfo.title}</h1>
+      {/* Product Header */}
+      <div className={styles.header}>
+        <div className={styles.imageGallery}>
+          {/* {product.imageUrl.map((img, idx) => ( */}
+          <div className={styles.imageWrapper}>
+            <InfiniteCarousel
+              images={product.imageUrl}
+            >
 
-      {productInfo.imageUrl?.[0] && (
-        <div className={styles.imageWrapper}>
-          <Image
-            src={productInfo.imageUrl[0]}
-            alt={productInfo.title}
-            width={500}
-            height={500}
-            className={styles.mainImage}
-          />
+              {/* 
+              <Image
+                src={img}
+                alt={`${product.title} image ${idx + 1}`}
+                fill
+                className={styles.image}
+              /> */}
+            </InfiniteCarousel>
+          </div>
+          {/* ))} */}
         </div>
-      )}
+        <div className={styles.info}>
+          <h1 className={styles.title}>{product.title}</h1>
+          <p className={styles.description}>{product.description}</p>
+        </div>
+      </div>
 
-      <p className={styles.description}>{productInfo.description}</p>
-
-      {productInfo.ingredients?.length > 0 && (
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Ingredients</h2>
+      {/* Ingredients */}
+      {product.ingredients?.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Key Ingredients</h2>
           <div className={styles.ingredientsGrid}>
-            {productInfo.ingredients.map((ing, idx) => (
+            {product.ingredients.map((ingredient, idx) => (
               <div key={idx} className={styles.ingredientCard}>
-                {ing.image && (
-                  <Image src={ing.image} alt={ing.name} width={80} height={80} />
+                <div className={styles.ingredientImage}>
+
+                  <Image
+                    src={product.imageUrl[0]}
+                    alt={ingredient.name}
+                    width={60}
+                    height={60}
+                  />
+                </div>
+                <h3>{ingredient.name}</h3>
+                {ingredient.notes?.length > 0 && (
+                  <ul className={styles.notes}>
+                    {ingredient.notes.map((note, i) => (
+                      <li key={i}>{note}</li>
+                    ))}
+                  </ul>
                 )}
-                <span>{ing.name}</span>
               </div>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
-      {productInfo.benefits?.list?.length > 0 && (
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>
-            {productInfo.benefits.heading || "Benefits"}
-          </h2>
+      {/* Benefits */}
+      {product.benefits && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>{product.benefits.heading}</h2>
           <ul className={styles.benefitsList}>
-            {productInfo.benefits.list.map((b, idx) => (
-              <li key={idx}>{b}</li>
+            {product.benefits.list.map((benefit, idx) => (
+              <li key={idx} className={styles.benefit}>
+                ✅ {benefit}
+              </li>
             ))}
           </ul>
-        </div>
+        </section>
       )}
 
-      {productInfo.suitability?.length > 0 && (
-        <div className={styles.section}>
+      {/* Suitability */}
+      {product.suitability?.length > 0 && (
+        <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Suitable For</h2>
-          <ul className={styles.suitabilityList}>
-            {productInfo.suitability.map((s, idx) => (
-              <li key={idx}>{s}</li>
+          <div className={styles.tags}>
+            {product.suitability.map((tag, idx) => (
+              <span key={idx} className={styles.tag}>
+                {tag}
+              </span>
             ))}
-          </ul>
-        </div>
+          </div>
+        </section>
       )}
     </div>
   );
 }
 
-// Generate static paths based on productInfo titles
-export async function getStaticPaths() {
+// ✅ Server-side rendering to fetch product by slug
+export async function getServerSideProps({ params }) {
   await connectDB();
-  const products = await ProductInfo.find({}).lean();
+  const product = await productInfo.findOne({ slug: params.slug }).lean();
 
-  const paths = products.map((p) => ({
-    params: { slug: p.slug },
-  }));
+  if (!product) {
+    return { notFound: true };
+  }
 
-  return { paths, fallback: false };
-}
-
-// Fetch product info based on slug
-export async function getStaticProps({ params }) {
-  await connectDB();
-  const product = await ProductInfo.findOne({
-    slug: params.slug,
-  }).lean();
-
-  return { props: { productInfo: JSON.parse(JSON.stringify(product)) || null } };
+  product._id = product._id.toString(); // serialize
+  return { props: { product: JSON.parse(JSON.stringify(product)) } };
 }

@@ -41,16 +41,18 @@ const ExpandableSection = ({ title, children }) => {
   );
 };
 
-const ProductPage = ({ productId, productData }) => {
+const ProductPage = ({ productId, pdata }) => {
   if (!productId) return <h1>Product not found</h1>;
 
   const { publicRuntimeConfig } = getConfig();
   const site_url = publicRuntimeConfig.BASE_URL;
   const { data: session } = useSession();
   const router = useRouter();
-
+  const [productData, setProductData] = useState(pdata);
   const [quantity_demanded, setQuantityDemanded] = useState(1);
   const [uMayLikeProducts, setUMayLikeProducts] = useState([]);
+
+  if (!productData) return <h1>Loading...</h1>
 
 
   // ============ Variants Support =============
@@ -108,30 +110,7 @@ const ProductPage = ({ productId, productData }) => {
     };
 
   // ================= Schema.org =================
-  const [productSchema, setProductSchema] = useState({
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: displayProduct.name,
-    image: displayProduct.imageUrl,
-    description: displayProduct.description,
-    brand: { "@type": "Brand", name: displayProduct.brand },
-    sku: displayProduct.sku,
-    offers: {
-      "@type": "Offer",
-      url: `${site_url}/products/${displayProduct.slug}`,
-      priceCurrency: displayProduct.currency,
-      price: displayProduct.price,
-      availability:
-        displayProduct.stock > 0
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: displayProduct.averageRating,
-      reviewCount: displayProduct.numReviews,
-    },
-  });
+  const [productSchema, setProductSchema] = useState(null);
 
   useEffect(() => {
     if (productData.variants?.length) {
@@ -158,6 +137,46 @@ const ProductPage = ({ productId, productData }) => {
 
   useEffect(() => { }, [displayProduct]);
 
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const res = await axios.get(`/api/getProducts?productId=${productId}`);
+        console.log(red.data);
+
+        if (res.status === 200) {
+          setProductData({ ...res.data });
+          setProductSchema({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: displayProduct?.name,
+            image: displayProduct?.imageUrl,
+            description: displayProduct?.description,
+            brand: { "@type": "Brand", name: displayProduct?.brand },
+            sku: displayProduct?.sku,
+            offers: {
+              "@type": "Offer",
+              url: `${site_url}/products/${displayProduct?.slug}`,
+              priceCurrency: displayProduct?.currency,
+              price: displayProduct?.price,
+              availability:
+                displayProduct?.stock > 0
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: displayProduct?.averageRating,
+              reviewCount: displayProduct?.numReviews,
+            },
+          })
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchProductData()
+  }, [])
+
 
   const VaraintCard = ({ variant }) => {
     const isSelected =
@@ -183,23 +202,24 @@ const ProductPage = ({ productId, productData }) => {
     );
   };
 
+  if (!productData) return <h1>Loading...</h1>
 
   return (
     <>
       <Head>
-        <title>{`${displayProduct.name} | ${displayProduct.brand}`}</title>
-        <meta name="description" content={displayProduct.description} />
-        <meta name="keywords" content={displayProduct.keywords?.join(", ")} />
+        <title>{`${displayProduct?.name} | ${displayProduct?.brand}`}</title>
+        <meta name="description" content={displayProduct?.description} />
+        <meta name="keywords" content={displayProduct?.keywords?.join(", ")} />
 
         {/* Open Graph */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={displayProduct.name} />
-        <meta property="og:description" content={displayProduct.description} />
-        <meta property="og:image" content={`${site_url}${displayProduct.imageUrl[0]}`} />
-        <meta property="og:url" content={`${site_url}/products/${displayProduct.slug}`} />
+        <meta property="og:title" content={displayProduct?.name} />
+        <meta property="og:description" content={displayProduct?.description} />
+        <meta property="og:image" content={`${site_url}${displayProduct?.imageUrl[0]}`} />
+        <meta property="og:url" content={`${site_url}/products/${displayProduct?.slug}`} />
 
         {/* Canonical */}
-        <link rel="canonical" href={`${site_url}/products/${displayProduct.slug}`} />
+        <link rel="canonical" href={`${site_url}/products/${displayProduct?.slug}`} />
 
         {/* Schema */}
         <script
@@ -214,7 +234,7 @@ const ProductPage = ({ productId, productData }) => {
       <div className={styles.product_container}>
         <section className={styles.sec_1}>
           <section className={styles.carousel}>
-            <InfiniteCarousel images={displayProduct.imageUrl} />
+            <InfiniteCarousel images={displayProduct?.imageUrl} />
 
           </section>
 
@@ -222,25 +242,22 @@ const ProductPage = ({ productId, productData }) => {
             <div className={styles.paths}>
               <Link href="/">Home</Link> <span>/</span>
               <Link href="/products">Products</Link> <span>/</span>
-              <Link href={`/products/${displayProduct.slug}`}>{displayProduct.name}</Link>
+              <Link href={`/products/${displayProduct?.slug}`}>{displayProduct?.name}</Link>
             </div>
 
-            <h1>{displayProduct.name}</h1>
+            <h1>{displayProduct?.name}</h1>
 
             <Link href={"#reviews"} style={{ maxWidth: "fit-content" }}>
               <div className={styles.ratings}>
-                <StarRating rating={displayProduct.averageRating} />
+                <StarRating rating={displayProduct?.averageRating} />
                 <span>
-                  {displayProduct.averageRating} ({displayProduct.numReviews})
+                  {displayProduct?.averageRating} ({displayProduct?.numReviews})
                 </span>
               </div>
             </Link>
 
             <div className={styles.description}>
-              <p>{displayProduct.description}</p>
-            </div>
-
-            <div className={styles.description}>
+              <p>{displayProduct?.description}</p><br />
               <Link href={`/info/${productData.slug}`}>Know More...</Link>
             </div>
 
@@ -261,14 +278,14 @@ const ProductPage = ({ productId, productData }) => {
             {/* Pricing + Quantity */}
             <div className={styles.price_quantity}>
               <div className={styles.price}>
-                {displayProduct.discountPercentage > 0 && (
+                {displayProduct?.discountPercentage > 0 && (
                   <>
-                    <span className={styles.discount_perc}>{displayProduct.discountPercentage}% OFF</span>
-                    <span className={styles.originalPrice}>₹{displayProduct.mrp}</span>
+                    <span className={styles.discount_perc}>{displayProduct?.discountPercentage}% OFF</span>
+                    <span className={styles.originalPrice}>₹{displayProduct?.mrp}</span>
                   </>
                 )}
-                <span className={styles.salePrice}>₹{displayProduct.price}</span>
-                <p className={styles.price_text}>{displayProduct.quantity} | no extra charges</p>
+                <span className={styles.salePrice}>₹{displayProduct?.price}</span>
+                <p className={styles.price_text}>{displayProduct?.quantity} | no extra charges</p>
               </div>
 
               <div className={styles.quantity}>
@@ -286,7 +303,7 @@ const ProductPage = ({ productId, productData }) => {
             <div className={styles.action_btn}>
               <button
                 onClick={() =>
-                  onAddToCart(router, displayProduct._id, session, quantity_demanded, selectedVariant?._id)
+                  onAddToCart(router, displayProduct?._id, session, quantity_demanded, selectedVariant?._id)
                     .success === false
                     ? toast.error("Unable To Add to Cart")
                     : toast.success("Added To Cart")
@@ -295,7 +312,7 @@ const ProductPage = ({ productId, productData }) => {
                 Add To Cart
               </button>
               <button
-                onClick={() => onBuy(router, displayProduct._id, quantity_demanded, session, selectedVariant?._id)}
+                onClick={() => onBuy(router, displayProduct?._id, quantity_demanded, session, selectedVariant?._id)}
               >
                 Buy Now
               </button>
@@ -305,7 +322,7 @@ const ProductPage = ({ productId, productData }) => {
             {/* Choose Us */}
             {displayProduct?.chooseUs?.length > 0 && (
               <section className={styles.icons}>
-                {displayProduct.chooseUs?.map((item, idx) => (
+                {displayProduct?.chooseUs?.map((item, idx) => (
                   <div className={styles.icon} key={idx}>
                     <Image src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
                     <p>{item.text}</p>
@@ -317,25 +334,25 @@ const ProductPage = ({ productId, productData }) => {
             {/* Expandable Sections */}
             <ExpandableSection title="Top Highlights">
               <div className={styles.highlights}>
-                <p><strong>Key Ingredients - </strong>{displayProduct.details?.keyIngredients?.join(", ")}</p>
-                <p><strong>Ingredients - </strong>{displayProduct.details?.ingredients?.join(", ")}</p>
+                <p><strong>Key Ingredients - </strong>{displayProduct?.details?.keyIngredients?.join(", ")}</p>
+                <p><strong>Ingredients - </strong>{displayProduct?.details?.ingredients?.join(", ")}</p>
                 <p><strong>Material Type Free - </strong>Alcohol Free, Cruelty Free, Dye Free, Hexane Free, Paraben Free, Mineral Oil Free, Palm oill Free, SLS Free, Silicone Free, Free From Toxic Chemicals, No Artificial Colours, No Artificial Fragrance </p>
-                <p><strong>Hair Type - </strong>{displayProduct.details.hairType}</p>
-                <p><strong>Product Benefits - </strong> {displayProduct.details?.benefits?.join(", ")}</p>
-                <p><strong>Item Form - </strong>{displayProduct.details.itemForm}</p>
-                <p><strong>Item Volume - </strong>{displayProduct.details.itemVolume}</p>
+                <p><strong>Hair Type - </strong>{displayProduct?.details?.hairType}</p>
+                <p><strong>Product Benefits - </strong> {displayProduct?.details?.benefits?.join(", ")}</p>
+                <p><strong>Item Form - </strong>{displayProduct?.details?.itemForm}</p>
+                <p><strong>Item Volume - </strong>{displayProduct?.details?.itemVolume}</p>
               </div>
             </ExpandableSection>
 
             <ExpandableSection title="Specifications">
               <table className={styles.specifications}>
                 <tbody>
-                  {Object.entries(displayProduct.specifications || {}).map(([k, v]) => (
+                  {Object.entries(displayProduct?.specifications || {}).map(([k, v]) => (
                     <tr key={k}>
                       {k === "weight" ? (
                         <>
                           <td className={styles.strong}>{camelToNormal(k)}</td>
-                          <td>{displayProduct.quantity || "-"}</td>
+                          <td>{displayProduct?.quantity || "-"}</td>
                         </>
                       ) : (
                         <>
@@ -352,7 +369,7 @@ const ProductPage = ({ productId, productData }) => {
 
             <ExpandableSection title="Disclaimer">
               <ol className={styles.disclaimer}>
-                {Object.entries(displayProduct.disclaimers || {}).map(([k, v]) => (
+                {Object.entries(displayProduct?.disclaimers || {}).map(([k, v]) => (
                   <li key={k}>{v}</li>
                 ))}
               </ol>
@@ -360,7 +377,7 @@ const ProductPage = ({ productId, productData }) => {
 
             <ExpandableSection title="Suitable For">
               <div className={styles.suitable_cards}>
-                {displayProduct.suitableFor?.map((s, idx) => (
+                {displayProduct?.suitableFor?.map((s, idx) => (
                   <div key={idx} className={styles.suitable_images}>
                     <Image src={s?.imageUrl} width={300} height={300} alt={s.text} />
                     <p>{s.text}</p>
@@ -375,7 +392,7 @@ const ProductPage = ({ productId, productData }) => {
         < section >
           <h2>How <span>to Apply</span></h2>
           <div className={styles.apply_section}>
-            {displayProduct.howToApply?.map((step, idx) => (
+            {displayProduct?.howToApply?.map((step, idx) => (
               <div key={idx} className={styles.apply_box}>
                 <Image src={step?.imageUrl} width={300} height={300} alt={step.title} />
                 <div>
@@ -389,7 +406,7 @@ const ProductPage = ({ productId, productData }) => {
 
         {/* Reviews */}
         < section id="reviews" >
-          <ReviewSection reviews={displayProduct.reviews} productId={productId} />
+          <ReviewSection reviews={displayProduct?.reviews} productId={productId} />
         </ section>
       </div >
     </>
@@ -428,7 +445,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       productId: product._id.toString(),
-      productData: JSON.parse(JSON.stringify(normalizedProduct)),
+      pdata: JSON.parse(JSON.stringify(normalizedProduct)),
     },
     revalidate: 600,
   };
