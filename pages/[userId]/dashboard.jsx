@@ -122,12 +122,16 @@ export default function UserProfile() {
 
 
   if (error)
-    return (
-      <div className={styles.profile_container_loading}>
-        <div className="navHolder"></div>
-        <p className="error">Error Loading Profile Page : {error}</p>
-      </div>
-    );
+    setTimeout(() => {
+      router.push("/authenticate");
+    }, 3000);
+  return (
+    <div className={styles.profile_container_loading}>
+      <div className="navHolder"></div>
+      <p className="error">Error Loading Profile Page : {error}</p>
+      <p>redirecting to authenticate</p>
+    </div>
+  );
 
   if (loading) return <SkeletonLoader />;
 
