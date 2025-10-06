@@ -45,12 +45,19 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     // ======================Image Upload Function =============================
     // 
     const setReviewImage = (url) => {
-        setImages((prev) => [...prev, Array.isArray(url) ? url[0] : url]);
+        if (Array.isArray(url)) {
+            setImages((prev) => [...prev, ...url]);
+
+        } else {
+
+            setImages((prev) => [...prev, url]);
+        }
     }
 
     const removeReviewImage = (idx) => {
+        console.log("remobeig", idx);
 
-        setImages((prev) => prev.filter((p, index) => index === idx))
+        setImages((prev) => prev.filter((p, index) => index !== idx))
     }
 
     const handleSubmit = async () => {

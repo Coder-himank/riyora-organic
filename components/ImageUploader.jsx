@@ -12,7 +12,6 @@ const uploadImage = async (e, ftype, setUploading, setDataFunction, fileFolder, 
             await handleImageDrop(e, setDataFunction, fileFolder, setDragOver)
         }
         if (ftype === "File Select") {
-            console.log(e, setDataFunction, fileFolder);
             await handleFileSelect(e, setDataFunction, fileFolder)
         }
     } catch (err) {

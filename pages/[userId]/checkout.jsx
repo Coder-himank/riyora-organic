@@ -12,12 +12,21 @@ export default function Checkout() {
   const [error, setError] = useState(null);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
-  const [summary, setSummary] = useState(null);        // server-calculated summary
+  const [summary, setSummary] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
-  const [newAddress, setNewAddress] = useState({ label: "", address: "", city: "", country: "", pincode: "" });
+  const [newAddress, setNewAddress] = useState({
+    label: "",
+    address: "",
+    city: "",
+    country: "",
+    pincode: "",
+  });
   const [promocode, setPromocode] = useState("");
+
+  // ✅ NEW STATE: Product list (productId, variantId, quantity)
+  const [products, setProducts] = useState([]);
 
   // Load Razorpay script safely
   useEffect(() => {
@@ -30,11 +39,8 @@ export default function Checkout() {
       document.body.appendChild(script);
     };
 
-    if (!window.Razorpay) {
-      loadScript();
-    } else {
-      setRazorpayLoaded(true);
-    }
+    if (!window.Razorpay) loadScript();
+    else setRazorpayLoaded(true);
   }, []);
 
   // Redirect if not logged in
@@ -42,13 +48,54 @@ export default function Checkout() {
     if (status === "unauthenticated") router.push("/auth?type=login");
   }, [status, router]);
 
-  // Fetch summary & addresses after session available
+  // 🧩 Initialize products from query (for "Buy Now" or cart)
   useEffect(() => {
-    if (!session) return;
+    async function fetchProducts() {
+
+      if (!router.isReady || !session) return;
+      if (router.query.productId) {
+        setProducts([
+          {
+            productId: router.query.productId,
+            variantId: router.query.variantId || null,
+            quantity: Number(router.query.quantity_demanded || 1),
+          },
+        ]);
+      }
+      else {
+        // Fetch cart items from backend if no productId in query
+        try {
+
+          const { data } = await axios.get(
+            `/api/secure/cart?userId=${session?.user?.id}`,
+            { withCredentials: true }
+          );
+
+          console.log(data);
+          const cartProducts = data.map(item => ({
+            productId: item.productId,
+            variantId: item.variantId || null,
+            quantity: item.quantity_demanded || 1,
+          }));
+          setProducts(cartProducts);
+
+        } catch (e) {
+          console.log(e);
+          setError("Failed to load cart items");
+        }
+      }
+    }
+
+    fetchProducts();
+  }, [router.query, router.isReady, session]);
+
+  // Fetch addresses & summary once session & products are ready
+  useEffect(() => {
+    if (!session || products.length === 0) return;
     (async () => {
       try {
         await fetchAddresses();
-        await fetchSummary(); // initial summary
+        await fetchSummary();
       } catch (e) {
         setError("Failed to initialize checkout");
       } finally {
@@ -56,44 +103,35 @@ export default function Checkout() {
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, [session, products]);
 
   const fetchSummary = async () => {
-    /**
-     * We only send minimal data: either
-     * - cart on the server (implicit), or
-     * - immediate buy via query (?productId, ?variantId, ?quantity_demanded)
-     */
-
     try {
-
       const payload = {
         promocode,
-        products: router.query.productId
-          ? [{
-            productId: router.query.productId,
-            variantId: router.query.variantId || null, // added for variants
-            quantity: Number(router.query.quantity_demanded || 1)
-          }]
-          : null,
+        products, // ✅ using state
         addressId: selectedAddressId || null,
       };
 
-      const { data } = await axios.post("/api/secure/checkout", payload, { withCredentials: true });
-      setSummary(data); // contains products & server-calculated amounts
-      // Set default addressId if available
+      const { data } = await axios.post("/api/secure/checkout", payload, {
+        withCredentials: true,
+      });
+      setSummary(data);
+
       if (!selectedAddressId && data.addresses?.length) {
         setSelectedAddressId(data.addresses[0]._id);
       }
     } catch (error) {
-      console.error("Error preparing checkout payload", error);
+      console.error("Error fetching summary", error);
       setError("Failed to prepare checkout data");
-      return;
     }
   };
 
   const fetchAddresses = async () => {
-    const { data } = await axios.get(`/api/secure/userProfile?userId=${session?.user?.id}`, { withCredentials: true });
+    const { data } = await axios.get(
+      `/api/secure/userProfile?userId=${session?.user?.id}`,
+      { withCredentials: true }
+    );
     setAddresses(data.addresses || []);
     if (data.addresses?.length) {
       setSelectedAddressId(data.addresses[0]._id || "");
@@ -101,14 +139,49 @@ export default function Checkout() {
   };
 
   const addNewAddress = async () => {
-    if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
+    if (
+      !newAddress.address ||
+      !newAddress.city ||
+      !newAddress.country ||
+      !newAddress.pincode
+    ) {
       alert("Please fill all address fields");
       return;
     }
-    await axios.post("/api/secure/userProfile", { userId: session?.user?.id, address: newAddress }, { withCredentials: true });
+    await axios.post(
+      "/api/secure/userProfile",
+      { userId: session?.user?.id, address: newAddress },
+      { withCredentials: true }
+    );
     await fetchAddresses();
     setShowNewAddressForm(false);
     setNewAddress({ label: "", address: "", city: "", country: "", pincode: "" });
+  };
+
+  // ✅ Handle quantity change
+  const updateQuantity = (productId, variantId, change) => {
+    setProducts((prev) => {
+      const updated = prev
+        .map((p) => {
+          if (p.productId === productId && p.variantId === variantId) {
+            const newQty = p.quantity + change;
+            if (newQty < 1) return null; // mark for removal
+            return { ...p, quantity: Math.min(5, newQty) };
+          }
+          return p;
+        })
+        .filter(Boolean); // remove nulls
+
+      return updated;
+    });
+
+    // also sync with summary
+    setSummary((prev) => ({
+      ...prev,
+      products: prev.products.filter(
+        (p) => !(p.productId === productId && p.variantId === variantId)
+      ),
+    }));
   };
 
   const initiatePayment = async () => {
@@ -118,39 +191,22 @@ export default function Checkout() {
     }
 
     if (!selectedAddressId) return alert("Please select a delivery address");
-
     if (!razorpayLoaded) return alert("Payment gateway not ready");
 
     try {
-      const selectedAddr = addresses.find(addr => addr._id === selectedAddressId);
+      const selectedAddr = addresses.find((addr) => addr._id === selectedAddressId);
       if (!selectedAddr) return alert("Selected address not found");
-
-      const { _id, label, address, city, country, pincode } = selectedAddr;
 
       const deliveryPayload = {
         name: session?.user?.name,
         phone: session?.user?.phone,
         email: session?.user?.email,
-        label,
-        address,
-        city,
-        country,
-        pincode
+        ...selectedAddr,
       };
 
       const { data: order } = await axios.post(
         "/api/razorpay/create-order",
-        {
-          promocode,
-          deliveryAddress: deliveryPayload,
-          products: router.query.productId
-            ? [{
-              productId: router.query.productId,
-              variantId: router.query.variantId || null, // added for variants
-              quantity: Number(router.query.quantity_demanded || 1)
-            }]
-            : null,
-        },
+        { promocode, deliveryAddress: deliveryPayload, products }, // ✅ using products array
         { withCredentials: true }
       );
 
@@ -168,7 +224,11 @@ export default function Checkout() {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             };
-            const { data: verify } = await axios.post("/api/razorpay/verify-payment", verifyPayload, { withCredentials: true });
+            const { data: verify } = await axios.post(
+              "/api/razorpay/verify-payment",
+              verifyPayload,
+              { withCredentials: true }
+            );
 
             if (verify?.status === "success") {
               router.push(`/${session?.user?.id}/order-success?orderId=${response.razorpay_order_id}`);
@@ -205,26 +265,58 @@ export default function Checkout() {
         <h1 className={styles.checkout_head}>Checkout</h1>
 
         <section className={styles.productList}>
-          {summary.products.map((p) => (
-            <div key={`${p.productId}-${p.variantId || "default"}`} className={styles.product}>
-              <img src={p.imageUrl} alt={p.name} />
-              <div>
-                <h3>{p.name}</h3>
-                {p.variantName && <p>Variant: {p.variantName}</p> /* added for variants */}
-                <p>Price: ₹{p.price}</p>
-                <p>Quantity: {p.quantity}</p>
+          {summary.products.map((p) => {
+            const productState = products.find(
+              (prod) =>
+                prod.productId === p.productId && prod.variantId === (p.variantId || null)
+            );
+
+            return (
+              <div key={`${p.productId}-${p.variantId || "default"}`} className={styles.product}>
+                <img src={p.imageUrl} alt={p.name} />
+                <div>
+                  <h3>{p.name}</h3>
+                  {p.variantName && <p>Variant: {p.variantName}</p>}
+                  <p>Price: ₹{p.price}</p>
+                  <div className={styles.quantity_setter}>
+                    <button
+                      onClick={() => {
+
+                        updateQuantity(p.productId, p.variantId || null, -1)
+
+                      }
+                      }
+                      // disabled={productState?.quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <p>{productState?.quantity || 1}</p>
+                    <button
+                      onClick={() =>
+                        updateQuantity(p.productId, p.variantId || null, +1)
+                      }
+                      disabled={productState?.quantity >= 5}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
 
         <div className={styles.address_section}>
           <h3>Select Delivery Address</h3>
           <div className={styles.address_section_in}>
-            <select value={selectedAddressId} onChange={(e) => setSelectedAddressId(e.target.value)}>
+            <select
+              value={selectedAddressId}
+              onChange={(e) => setSelectedAddressId(e.target.value)}
+            >
               {addresses.map((addr) => (
                 <option key={addr._id} value={addr._id}>
-                  {addr.label} - {addr.address}, {addr.city}, {addr.country}, {addr.pincode}
+                  {addr.label} - {addr.address}, {addr.city}, {addr.country},{" "}
+                  {addr.pincode}
                 </option>
               ))}
             </select>
@@ -236,30 +328,82 @@ export default function Checkout() {
 
         {showNewAddressForm && (
           <div className={styles.new_address_form}>
-            <input type="text" placeholder="Label" value={newAddress.label} onChange={(e) => setNewAddress({ ...newAddress, label: e.target.value })} />
-            <input type="text" placeholder="Address" value={newAddress.address} onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })} />
-            <input type="text" placeholder="City" value={newAddress.city} onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })} />
-            <input type="text" placeholder="Country" value={newAddress.country} onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })} />
-            <input type="text" placeholder="Pincode" value={newAddress.pincode} onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })} />
+            <input
+              type="text"
+              placeholder="Label"
+              value={newAddress.label}
+              onChange={(e) =>
+                setNewAddress({ ...newAddress, label: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Address"
+              value={newAddress.address}
+              onChange={(e) =>
+                setNewAddress({ ...newAddress, address: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="City"
+              value={newAddress.city}
+              onChange={(e) =>
+                setNewAddress({ ...newAddress, city: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Country"
+              value={newAddress.country}
+              onChange={(e) =>
+                setNewAddress({ ...newAddress, country: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Pincode"
+              value={newAddress.pincode}
+              onChange={(e) =>
+                setNewAddress({ ...newAddress, pincode: e.target.value })
+              }
+            />
             <button onClick={addNewAddress}>Add Address</button>
           </div>
         )}
 
         <section className={styles.promo_section}>
-          <input type="text" placeholder="Promo Code" value={promocode} onChange={(e) => setPromocode(e.target.value.trim())} />
+          <input
+            type="text"
+            placeholder="Promo Code"
+            value={promocode}
+            onChange={(e) => setPromocode(e.target.value.trim())}
+          />
           <button onClick={fetchSummary}>Apply</button>
         </section>
 
         <section className={styles.amount_section}>
           <h2>Amount Break Down</h2>
-          <span><strong>Amount</strong>: ₹{summary.beforeTaxAmount}</span>
-          <span><strong>Discount</strong>: ₹{summary.discount}</span>
-          <span><strong>Taxes</strong>: ₹{summary.taxedAmount}</span>
-          <span><strong>Delivery Charges</strong>: ₹{summary.deliveryCharges}</span>
-          <span><strong>Total</strong>: ₹{summary.finalAmount}</span>
+          <span>
+            <strong>Amount</strong>: ₹{summary.beforeTaxAmount}
+          </span>
+          <span>
+            <strong>Discount</strong>: ₹{summary.discount}
+          </span>
+          <span>
+            <strong>Taxes</strong>: ₹{summary.taxedAmount}
+          </span>
+          <span>
+            <strong>Delivery Charges</strong>: ₹{summary.deliveryCharges}
+          </span>
+          <span>
+            <strong>Total</strong>: ₹{summary.finalAmount}
+          </span>
         </section>
 
-        <button onClick={initiatePayment} className={styles.pay_btn}>Proceed To Pay</button>
+        <button onClick={initiatePayment} className={styles.pay_btn}>
+          Proceed To Pay
+        </button>
       </div>
     </>
   );

@@ -15,7 +15,19 @@ export const uploadFile = async (e, setDataFunction, files, fileFolder) => {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
-        const uploadedUrls = Array.isArray(res.data.urls) ? res.data.urls : [res.data.urls]; // array from API
+        const uploads = res.data.uploads;
+        if (!uploads || uploads.length === 0) {
+            toast.error("No files were uploaded.");
+            return false;
+        }
+
+        // getting urls from uploads array having object of url and file type
+
+
+        const uploadedUrls  = uploads.map((upload) => upload.url);
+
+
+        // const uploadedUrls = Array.isArray(res.data.urls) ? res.data.urls : [res.data.urls]; // array from API
 
         setDataFunction(uploadedUrls);
         toast.success("Images uploaded successfully");
