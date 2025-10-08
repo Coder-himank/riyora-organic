@@ -1,103 +1,113 @@
+'use client'
 import { useEffect, useRef, useState } from "react";
-import styles from "@/styles/ImageCarousel.module.css";
 import Image from "next/image";
+import styles from "@/styles/ImageCarousel.module.css";
 
-export default function InfiniteCarousel({ images, autoPlay = true, interval = 3000 }) {
-    const [currentIndex, setCurrentIndex] = useState(0);
+export default function InfiniteCarousel({ images = [], autoPlay = true, interval = 3000 }) {
+    const total = images.length;
+    const [currentIndex, setCurrentIndex] = useState(1); // start at first real slide
     const [isTransitioning, setIsTransitioning] = useState(true);
     const intervalRef = useRef(null);
-    const total = images.length;
 
-    // Touch handling
+    // Touch
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
 
-    // Autoplay
+    // ------------------------
+    // Reset currentIndex if images change or empty
+    // ------------------------
     useEffect(() => {
-        if (!autoPlay || total <= 1) return; // no autoplay if only one image
+        if (!images || images.length === 0 || currentIndex > images.length) {
+            setCurrentIndex(1); // reset to first slide
+            setIsTransitioning(false);
+        }
+    }, [images, currentIndex]);
+
+    // ------------------------
+    // Autoplay
+    // ------------------------
+    useEffect(() => {
+        if (!autoPlay || total <= 1) return;
         startAutoPlay();
         return () => clearInterval(intervalRef.current);
     }, [autoPlay, interval, total]);
 
     const startAutoPlay = () => {
-        if (total <= 1) return;
         clearInterval(intervalRef.current);
-        intervalRef.current = setInterval(() => {
-            nextSlide();
-        }, interval);
+        intervalRef.current = setInterval(nextSlide, interval);
     };
 
     const resetAutoPlay = () => {
         clearInterval(intervalRef.current);
-        if (autoPlay && total > 1) {
-            startAutoPlay();
-        }
+        if (autoPlay && total > 1) startAutoPlay();
     };
 
-    // Slide functions
+    // ------------------------
+    // Slide navigation
+    // ------------------------
     const nextSlide = () => {
-        setCurrentIndex((prev) => prev + 1);
+        if (total === 0) return;
+        setCurrentIndex(prev => prev + 1);
         setIsTransitioning(true);
         resetAutoPlay();
     };
 
     const prevSlide = () => {
-        setCurrentIndex((prev) => prev - 1);
+        if (total === 0) return;
+        setCurrentIndex(prev => prev - 1);
         setIsTransitioning(true);
         resetAutoPlay();
     };
 
     const goToSlide = (index) => {
-        setCurrentIndex(index);
+        if (total === 0) return;
+        setCurrentIndex(index + 1); // +1 because of clone at start
         setIsTransitioning(true);
         resetAutoPlay();
     };
 
-    // Infinite loop fix with clones
+    // ------------------------
+    // Handle transition end for infinite loop
+    // ------------------------
     const handleTransitionEnd = () => {
-        if (currentIndex === total) {
-            // at clone of first slide → jump to 0
+        if (currentIndex === 0) {
             setIsTransitioning(false);
-            setCurrentIndex(0);
-        } else if (currentIndex === -1) {
-            // at clone of last slide → jump to last index
+            setCurrentIndex(total);
+        } else if (currentIndex === total + 1) {
             setIsTransitioning(false);
-            setCurrentIndex(total - 1);
+            setCurrentIndex(1);
         }
     };
 
+    // Re-enable transition after index jump
+    useEffect(() => {
+        if (!isTransitioning) {
+            const timeout = setTimeout(() => setIsTransitioning(true), 50);
+            return () => clearTimeout(timeout);
+        }
+    }, [isTransitioning]);
+
+    // ------------------------
     // Swipe gestures
-    const handleTouchStart = (e) => {
-        touchStartX.current = e.touches[0].clientX;
-    };
-
-    const handleTouchMove = (e) => {
-        touchEndX.current = e.touches[0].clientX;
-    };
-
+    // ------------------------
+    const handleTouchStart = (e) => (touchStartX.current = e.touches[0].clientX);
+    const handleTouchMove = (e) => (touchEndX.current = e.touches[0].clientX);
     const handleTouchEnd = () => {
         const distance = touchStartX.current - touchEndX.current;
-        const threshold = 50; // minimum swipe distance
-        if (distance > threshold) {
-            nextSlide(); // swipe left → next
-        } else if (distance < -threshold) {
-            prevSlide(); // swipe right → prev
-        }
+        const threshold = 50;
+        if (distance > threshold) nextSlide();
+        else if (distance < -threshold) prevSlide();
     };
+
+    if (!images || total === 0) return <div className={styles.carousel}>No images</div>;
 
     return (
         <div className={styles.carousel}>
-            {/* Slider */}
             <div className={styles.sliderWrapper}>
                 {total > 1 && (
-                    <button
-                        className={styles.navBtn}
-                        onClick={prevSlide}
-                        aria-label="Previous Slide"
-                    >
-                        ❮
-                    </button>
+                    <button className={styles.navBtn} onClick={prevSlide}>❮</button>
                 )}
+
                 <div
                     className={styles.sliderContainer}
                     onTouchStart={handleTouchStart}
@@ -107,62 +117,36 @@ export default function InfiniteCarousel({ images, autoPlay = true, interval = 3
                     <div
                         className={styles.slider}
                         style={{
-                            transform: `translateX(-${(currentIndex + 1) * 100}%)`,
-                            transition: isTransitioning ? "transform 0.5s ease-in-out" : "none",
+                            transform: `translateX(-${currentIndex * 100}%)`,
+                            transition: isTransitioning ? 'transform 0.5s ease-in-out' : 'none',
                         }}
                         onTransitionEnd={handleTransitionEnd}
                     >
-                        {/* Clone of last slide at beginning */}
+                        {/* Clone last slide at start */}
                         {total > 1 && (
-                            <div className={styles.slide} id="slide-clone-last">
-                                <Image
-                                    src={images[total - 1]}
-                                    alt="Slide clone last"
-                                    width={900}
-                                    height={500}
-                                    className={styles.image}
-                                    priority
-                                />
+                            <div className={styles.slide}>
+                                <Image src={images[total - 1]} alt="clone-last" width={900} height={900} />
                             </div>
                         )}
 
                         {/* Real slides */}
                         {images.map((img, idx) => (
-                            <div className={styles.slide} key={idx} id={`slide-${idx}`}>
-                                <Image
-                                    src={img}
-                                    alt={`Slide ${idx}`}
-                                    width={900}
-                                    height={500}
-                                    className={styles.image}
-                                    priority
-                                />
+                            <div className={styles.slide} key={idx}>
+                                <Image src={img} alt={`Slide ${idx}`} width={900} height={900} />
                             </div>
                         ))}
 
-                        {/* Clone of first slide at end */}
+                        {/* Clone first slide at end */}
                         {total > 1 && (
-                            <div className={styles.slide} id="slide-clone-first">
-                                <Image
-                                    src={images[0]}
-                                    alt="Slide clone first"
-                                    width={900}
-                                    height={500}
-                                    className={styles.image}
-                                    priority
-                                />
+                            <div className={styles.slide}>
+                                <Image src={images[0]} alt="clone-first" width={900} height={900} />
                             </div>
                         )}
                     </div>
                 </div>
+
                 {total > 1 && (
-                    <button
-                        className={styles.navBtn}
-                        onClick={nextSlide}
-                        aria-label="Next Slide"
-                    >
-                        ❯
-                    </button>
+                    <button className={styles.navBtn} onClick={nextSlide}>❯</button>
                 )}
             </div>
 
@@ -172,9 +156,8 @@ export default function InfiniteCarousel({ images, autoPlay = true, interval = 3
                     {images.map((img, idx) => (
                         <div
                             key={idx}
-                            className={`${styles.thumb} ${currentIndex === idx ? styles.active : ""}`}
+                            className={`${styles.thumb} ${currentIndex - 1 === idx ? styles.active : ''}`}
                             onClick={() => goToSlide(idx)}
-                            id={`thumb-${idx}`}
                         >
                             <Image src={img} alt={`Thumb ${idx}`} width={100} height={70} />
                         </div>

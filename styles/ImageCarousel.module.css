@@ -1,77 +1,109 @@
 .carousel {
+  position: relative;
   width: 100%;
   max-width: 900px;
-  margin: 0 auto;
-  position: relative;
+  margin: auto;
+  overflow: hidden;
+  user-select: none;
 }
 
 .sliderWrapper {
   position: relative;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .sliderContainer {
   overflow: hidden;
   width: 100%;
-  margin: auto;
+  /* height: 100%; Fill carousel height */
+  max-height: 500px; /* Set max height */
 }
 
 .slider {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  height: 100%; /* Keep slides full height */
 }
 
 .slide {
-  min-width: 100%;
+  min-width: 100%; /* Each slide takes full container width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Fill slider container height */
 }
 
+.slide img,
 .image {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: contain;
+  height: 100%; /* Make image fill slide height */
+  max-height: 500px;
+  object-fit: contain; /* Crop to fit without distortion */
+  border-radius: 8px;
 }
 
 .navBtn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-  border: none;
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  z-index: 10;
+  height: 100%;
+  /* background: rgba(0, 0, 0, 0.4); */
   color: white;
-  font-size: 2rem;
-  padding: 5px 12px;
+  border: none;
+  /* border-radius: 50%; */
+  /* width: 40px;
+  height: 40px; */
   cursor: pointer;
-  z-index: 2;
-  border-radius: 50%;
-  transition: background 0.3s;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* visibility: hidden; */
+  opacity: 0.001;
 }
 
-.navBtn:first-of-type { left: 10px; }
-.navBtn:last-of-type { right: 10px; }
-.navBtn:hover { background: rgba(0,0,0,0.8); }
+.navBtn:hover {
+  opacity: 1;
+  /* visibility: visible; */
+  background: rgba(0, 0, 0, 0.268);
+}
+
+.navBtn:first-of-type {
+  left: 10px;
+}
+
+.navBtn:last-of-type {
+  right: 10px;
+}
 
 .thumbnails {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  gap: 8px;
   margin-top: 10px;
-  gap: 10px;
+  /* flex-wrap: wrap; */
+  overflow: auto;
+}
+.thumbnails::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
 }
 
 .thumb {
-  cursor: pointer;
   border: 2px solid transparent;
+  cursor: pointer;
+  border-radius: 6px;
   overflow: hidden;
-  transition: border 0.3s, transform 0.2s;
+  width: 70px;
 }
 
-.thumb img { border-radius: 6px; object-fit: cover; }
+.thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
-.thumb:hover { border: 2px solid #666; transform: scale(1.05); }
-.active { border: 2px solid green; transform: scale(1.1); }
-
-@media (max-width: 768px) {
-  .image { aspect-ratio: 4 / 3; }
-  .thumb img { width: 20vw; height: auto; }
+.thumb.active {
+  border-color: green;
 }

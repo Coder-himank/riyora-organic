@@ -134,7 +134,7 @@ function MyApp({ Component, pageProps }) {
         {/* WhatsApp Chat Button */}
         <Link
           className="chat_Button"
-          href="https://wa.me/919521666123?text=I%20Want%20To%20Buy%20Your%20Products"
+          href="https://wa.me/9680886889?text=I%20Want%20To%20Buy%20Your%20Products"
           target="_blank"
           rel="noopener noreferrer"
         >

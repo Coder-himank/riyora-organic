@@ -213,7 +213,7 @@ export default function Footer() {
                   alt="follow our Instagram account"
                 />
               </Link>
-              <Link href={"https://wa.me/919521666123"} target="_blank">
+              <Link href={"https://wa.me/9680886889"} target="_blank">
                 <Image
                   src={"/images/whatsapp.png"}
                   width={100}
@@ -221,7 +221,7 @@ export default function Footer() {
                   alt="chat with us WhatsApp account"
                 />
               </Link>
-              <Link href={"/"}>
+              <Link href={"https://youtube.com/@riyoraorganic?si=GmKyigJhTDzDvdFL"} target="_blank">
                 <Image
                   src={"/images/youtube.png"}
                   width={100}
@@ -229,7 +229,7 @@ export default function Footer() {
                   alt="subscribe our YouTube account"
                 />
               </Link>
-              <Link href={"/"}>
+              <Link href={"https://www.facebook.com/share/1Goa6YijLn/?mibextid=wwXIfr"} target="_blank">
                 <Image
                   src={"/images/facebook.png"}
                   width={100}
@@ -237,7 +237,7 @@ export default function Footer() {
                   alt="follow our Facebook account"
                 />
               </Link>
-              <Link href={"/"}>
+              <Link href={" https://x.com/riyoraorganic?s=21"} target="_blank">
                 <Image
                   src={"/images/twitter.png"}
                   width={100}

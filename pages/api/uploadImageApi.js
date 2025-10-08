@@ -11,7 +11,7 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Disable Next.js body parsing (Formidable handles file streams)
+// Disable Next.js body parsing
 export const config = {
   api: {
     bodyParser: false,
@@ -27,7 +27,6 @@ export default async function handler(req, res) {
   const form = formidable({ multiples: true, keepExtensions: true });
 
   try {
-    // Parse the form data
     const [fields, files] = await new Promise((resolve, reject) => {
       form.parse(req, (err, fields, files) => {
         if (err) reject(err);
@@ -39,10 +38,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No files uploaded." });
     }
 
-    // Normalize files into an array
     const fileArray = Array.isArray(files.file) ? files.file : [files.file];
 
-    // Upload all files concurrently
     const uploadResults = await Promise.allSettled(
       fileArray.map(async (file) => {
         const ext = path.extname(file.originalFilename || "").toLowerCase();
@@ -50,27 +47,26 @@ export default async function handler(req, res) {
         try {
           let uploadOptions = {
             folder: fileFolder || "uploads",
-            resource_type: "auto", // auto-detect image or video
+            resource_type: ["mp4", "mov", "avi", "webm"].includes(ext.slice(1))
+              ? "video"
+              : "image", // auto-detect type
           };
 
           let buffer;
 
-          // Only process images with sharp
           if ([".jpg", ".jpeg", ".png", ".webp", ".avif", ".tiff"].includes(ext)) {
+            // Image processing with sharp
             const metadata = await sharp(file.filepath).metadata();
-
             let pipeline = sharp(file.filepath).resize({ width: 1920 });
             pipeline = metadata.hasAlpha
               ? pipeline.png({ quality: 80, compressionLevel: 8 })
               : pipeline.jpeg({ quality: 80 });
-
             buffer = await pipeline.toBuffer();
           } else {
-            // For videos or unsupported image formats → read as buffer directly
+            // Videos → read as buffer
             buffer = await fs.readFile(file.filepath);
           }
 
-          // Upload to Cloudinary
           const result = await new Promise((resolve, reject) => {
             const stream = cloudinary.v2.uploader.upload_stream(
               uploadOptions,
@@ -92,7 +88,6 @@ export default async function handler(req, res) {
           console.error(`❌ Error processing ${file.originalFilename}:`, err);
           return { success: false, error: err.message || "Processing failed" };
         } finally {
-          // Always clean up temporary files
           try {
             await fs.unlink(file.filepath);
           } catch {
@@ -102,7 +97,6 @@ export default async function handler(req, res) {
       })
     );
 
-    // Separate successes and failures
     const success = uploadResults
       .filter((r) => r.status === "fulfilled" && r.value.success)
       .map((r) => r.value);
@@ -110,7 +104,6 @@ export default async function handler(req, res) {
       (r) => r.status === "fulfilled" && !r.value.success
     );
 
-    // Response formatting
     if (success.length === 0) {
       return res.status(500).json({
         error: "All uploads failed",
