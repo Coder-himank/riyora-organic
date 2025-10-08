@@ -258,7 +258,6 @@ const ProductPage = ({ productId, pdata }) => {
 
             <div className={styles.description}>
               <p>{displayProduct?.description}</p><br />
-              <Link href={`/info/${productData.slug}`}>Know More...</Link>
             </div>
 
 
@@ -385,7 +384,14 @@ const ProductPage = ({ productId, pdata }) => {
                 ))}
               </div>
             </ExpandableSection>
+            <Link href={`/info/${productData.slug}`}>
+              <div className={styles.productInfoBtn}>
+
+                Know More
+              </div>
+            </Link>
           </div>
+
         </section >
 
         {/* How to Apply */}

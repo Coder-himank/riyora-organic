@@ -436,6 +436,17 @@
     padding: 50px 0;
 }
 
+.productInfoBtn{
+    width: 80%;
+    margin: auto;
+    color: green;
+    border: 1px solid;
+    padding: 15px 20px;
+    border-radius: 30px;
+    text-align: center;
+
+}
+
 .apply_box {
     max-width: 300px;
     display: flex;
