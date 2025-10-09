@@ -712,12 +712,23 @@ gap:20px;
 padding: 20px;
 }
 
-.otherPlatformsin img{
-  /* width: 120px; */
-  max-width: 80px;
-  height: 30px;
+.otherPlatformsin .amazon{
+  max-width: 100px;
+  height: 50px;
   width: auto;
-  aspect-ratio: 4 / 1;
+  aspect-ratio: 2 / 1;
+}
+.otherPlatformsin .flipkart{
+  max-width: 100px;
+  height: 50px;
+  width: auto;
+  aspect-ratio: 2 / 1;
+}
+.otherPlatformsin .meesho{
+  max-width: 100px;
+  height: 50px;
+  width: auto;
+  aspect-ratio: 2 / 1;
 }
 
 footer h3 {

@@ -57,7 +57,7 @@ export default function Checkout() {
         setProducts([
           {
             productId: router.query.productId,
-            variantId: router.query.variantId || null,
+            variantId: router.query.productId === router.query.variantId ? null : router.query.variantId || null,
             quantity: Number(router.query.quantity_demanded || 1),
           },
         ]);
@@ -158,31 +158,47 @@ export default function Checkout() {
     setNewAddress({ label: "", address: "", city: "", country: "", pincode: "" });
   };
 
-  // ✅ Handle quantity change
   const updateQuantity = (productId, variantId, change) => {
     setProducts((prev) => {
-      const updated = prev
-        .map((p) => {
-          if (p.productId === productId && p.variantId === variantId) {
-            const newQty = p.quantity + change;
-            if (newQty < 1) return null; // mark for removal
-            return { ...p, quantity: Math.min(5, newQty) };
-          }
-          return p;
-        })
-        .filter(Boolean); // remove nulls
+      const index = prev.findIndex(
+        (p) =>
+          p.productId === productId &&
+          (variantId ? p.variantId === variantId : !p.variantId || p.variantId === p.productId)
+      );
 
+      if (index === -1) return prev; // product not found
+
+      const updated = [...prev];
+      const item = updated[index];
+      const newQty = Math.max(1, Math.min(5, item.quantity + change)); // clamp between 1 and 5
+
+      // if quantity didn't change, no need to update (prevents extra re-render)
+      if (newQty === item.quantity) return prev;
+
+      updated[index] = { ...item, quantity: newQty };
       return updated;
     });
 
-    // also sync with summary
-    setSummary((prev) => ({
-      ...prev,
-      products: prev.products.filter(
-        (p) => !(p.productId === productId && p.variantId === variantId)
-      ),
-    }));
+    // ✅ Keep summary in sync — only update the matched product
+    setSummary((prev) => {
+      const productIndex = prev.products.findIndex(
+        (p) => p.productId === productId && p.variantId === variantId
+      );
+      if (productIndex === -1) return prev;
+
+      const updatedSummary = { ...prev };
+      const newProducts = [...prev.products];
+      const current = newProducts[productIndex];
+      const newQty = Math.max(1, Math.min(5, current.quantity + change)); // same clamping logic
+
+      if (newQty === current.quantity) return prev; // skip update if no change
+
+      newProducts[productIndex] = { ...current, quantity: newQty };
+      updatedSummary.products = newProducts;
+      return updatedSummary;
+    });
   };
+
 
   const initiatePayment = async () => {
     if (!window.Razorpay) {
@@ -266,10 +282,19 @@ export default function Checkout() {
 
         <section className={styles.productList}>
           {summary.products.map((p) => {
-            const productState = products.find(
-              (prod) =>
-                prod.productId === p.productId && prod.variantId === (p.variantId || null)
-            );
+            const productState = products.find((prod) => {
+              const sameProduct = prod.productId === p.productId;
+              const sameVariant =
+                p.variantId
+                  ? p.variantId === (prod.variantId || prod.productId)
+                  : prod.variantId === null || prod.variantId === prod.productId;
+              return sameProduct && sameVariant;
+            });
+
+
+
+            console.log(p);
+            console.log(products);
 
             return (
               <div key={`${p.productId}-${p.variantId || "default"}`} className={styles.product}>
@@ -286,11 +311,11 @@ export default function Checkout() {
 
                       }
                       }
-                      // disabled={productState?.quantity <= 1}
+                    disabled={productState?.quantity <= 1}
                     >
                       -
                     </button>
-                    <p>{productState?.quantity || 1}</p>
+                    <p>{productState?.quantity || "hsad"}</p>
                     <button
                       onClick={() =>
                         updateQuantity(p.productId, p.variantId || null, +1)
@@ -328,14 +353,21 @@ export default function Checkout() {
 
         {showNewAddressForm && (
           <div className={styles.new_address_form}>
-            <input
-              type="text"
-              placeholder="Label"
-              value={newAddress.label}
-              onChange={(e) =>
-                setNewAddress({ ...newAddress, label: e.target.value })
-              }
-            />
+
+            <div className={styles.addressLabels}>
+              <span
+                className={newAddress.label === "Home" ? styles.active : ""}
+                onClick={() => setNewAddress({ ...newAddress, label: "Home" })}
+              >Home</span>
+              <span
+                className={newAddress.label === "Office" ? styles.active : ""}
+                onClick={() => setNewAddress({ ...newAddress, label: "Office" })}
+              >office</span>
+              <span
+                className={newAddress.label === "Other" ? styles.active : ""}
+                onClick={() => setNewAddress({ ...newAddress, label: "Other" })}
+              >other</span>
+            </div>
             <input
               type="text"
               placeholder="Address"

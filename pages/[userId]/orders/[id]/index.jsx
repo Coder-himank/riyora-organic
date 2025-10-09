@@ -56,6 +56,29 @@ export default function OrderDetails() {
     };
   }, [orderId, session]);
 
+
+  const handleOrderCancel = () => {
+    if (!order) return;
+    if (!["pending", "confirmed", "ready_to_ship"].includes(order.status.toLowerCase())) {
+      alert("Order cannot be cancelled at this stage.");
+      return;
+    }
+    if (confirm("Are you sure you want to cancel this order?")) {
+      axios.put(`/api/secure/orders?orderId=${order._id}&userId=${session.user.id}`, {
+        status: "cancelled",
+
+      })
+        .then(response => {
+          alert("Order cancelled successfully.");
+          setOrder(prev => ({ ...prev, status: 'cancelled' }));
+        })
+        .catch(error => {
+          console.error("Error cancelling order", error);
+          alert("Failed to cancel order. Please try again.");
+        });
+
+    }
+  }
   if (status === "loading") {
     return (
       <div className={styles.loaderWrapper}>
@@ -110,7 +133,7 @@ export default function OrderDetails() {
       )}
 
       {/* Progress Tracker */}
-      {!isDelivered && (
+      {!isDelivered && order.status !== "cancelled" && (
         <div className={styles.progressWrapper} aria-label="Order Progress">
           <div className={styles.progressBar}>
             <motion.div
@@ -147,8 +170,9 @@ export default function OrderDetails() {
       )}
 
       {/* Order Info */}
-      <div className={styles.orderCard}>
-        <h2>Order #{order.razorpayOrderId}</h2>
+      <div className={`${styles.orderCard} ${isDelivered ? styles.successColor : order.status === "cancelled" ? styles.danger : styles.progressColor}`}
+      >
+        <h3>Order #{order.razorpayOrderId}</h3>
         <p>
           <strong>Placed on:</strong>{" "}
           {new Date(order.createdAt).toLocaleDateString()}
@@ -188,8 +212,7 @@ export default function OrderDetails() {
                 />
                 <div>
                   <h3>{p.name}</h3>
-                  <p>Qty: {p.quantity}</p>
-                  <p>₹ {p.price}</p>
+                  <p>₹ {p.price}  x {p.quantity}</p>
                 </div>
               </motion.div>
             ))
@@ -197,6 +220,18 @@ export default function OrderDetails() {
             <p>No items found in this order.</p>
           )}
         </div>
+      </div>
+
+      <div className={styles.actionBtns}>
+
+        <button className={styles.backButton} onClick={() => router.back()}>
+          &larr; Back to Orders
+        </button>
+        {/* cancelButton */}
+        {["pending", "confirmed", "ready_to_ship"].includes(order.status.toLowerCase()) && (
+          <button className={styles.cancelBtn}
+            onClick={handleOrderCancel}>Cancel</button>
+        )}
       </div>
     </div>
   );

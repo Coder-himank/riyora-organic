@@ -125,3 +125,25 @@
   width: 100%;
   border-radius: 8px;
 }
+
+.filePickerBtn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-accent);
+    color: black;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 0.5rem;
+}
+
+.uploadingFile{
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    background-color: #cccccca7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

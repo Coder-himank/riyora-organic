@@ -123,6 +123,7 @@ export default function Footer() {
                 alt="Amazon India"
                 width={200}
                 height={100}
+                className="amazon"
               />
 
               <Image
@@ -130,6 +131,7 @@ export default function Footer() {
                 alt="Amazon India"
                 width={200}
                 height={100}
+                className="flipkart"
               />
 
               <Image
@@ -137,6 +139,7 @@ export default function Footer() {
                 alt="Amazon India"
                 width={200}
                 height={100}
+                className="meesho"
               />
             </div>
           </div>

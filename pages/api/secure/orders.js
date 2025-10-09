@@ -8,14 +8,15 @@ export default async function handler(req, res) {
   await connectDB();
 
   try {
+    
+    const { userId } = req.query;
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required" });
+    }
     const { method } = req;
 
     if (method === "GET") {
       const { orderId, userId, status } = req.query;
-
-      if (!userId) {
-        return res.status(400).json({ success: false, message: "User ID is required" });
-      }
 
       let orders;
 
@@ -78,6 +79,7 @@ export default async function handler(req, res) {
   }
 
   const order = await Order.findOne({
+    userId,
     $or: [{ _id: objectId }, { razorpayOrderId: orderId }]
   });
 

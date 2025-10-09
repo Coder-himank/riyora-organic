@@ -70,6 +70,7 @@
 .order_content {
   display: flex;
   gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .order_images {

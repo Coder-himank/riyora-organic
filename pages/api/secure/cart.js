@@ -15,6 +15,12 @@ const validateProduct = async (id) => {
 const validateVariant = async (productId, variantId) => {
   if (!mongoose.Types.ObjectId.isValid(productId) || !mongoose.Types.ObjectId.isValid(variantId)) return false;
 
+  if(productId.toString() === variantId.toString()){
+    const product = await Product.findOne(
+      { _id: productId },
+    );
+    return !!product; // if both are same, no need to check variants
+  }
   const product = await Product.findOne(
     { _id: productId, "variants._id": variantId },
     { "variants.$": 1 }
