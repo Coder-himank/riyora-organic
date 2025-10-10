@@ -1,16 +1,5 @@
 /* === OrderDetail.module.css === */
 
-/* 🎨 Color Palette */
-:root {
-  --success: #22c55e;
-  --danger: #ef4444;
-  --progress: #3b82f6;
-  --text-dark: #1f2937;
-  --text-light: #6b7280;
-  --bg-light: #f9fafb;
-  --card-bg: #ffffff;
-  --border-color: #e5e7eb;
-}
 
 /* === Layout === */
 .container {
