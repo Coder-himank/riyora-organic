@@ -59,7 +59,7 @@ export const TrendingProduct = ({ products }) => {
 };
 
 
-export default function Home({ highlightedProduct }) {
+export default function Home({ prouctsAvailable, highlightedProduct }) {
   const { locale } = useRouter(); // Get the current locale
 
   const [products, setProducts] = useState(null);
@@ -256,7 +256,7 @@ export default function Home({ highlightedProduct }) {
               </p>
               <div className={styles.product_bottom}>
 
-                <Link href={"/products/" + highlightedProduct.slug} className={styles.product_shop_btn}>
+                <Link href={prouctsAvailable > 1 ? "/products" : "/products/" + highlightedProduct.slug} className={styles.product_shop_btn}>
                   Shop Now for ₹ {highlightedProduct.price}
                 </Link>
 
@@ -264,13 +264,20 @@ export default function Home({ highlightedProduct }) {
               </div>
             </div>
             <div className={styles.product_image_wrapper}>
-              <div className={styles.bg_circel}></div>
-              <Image
-                src={highlightedProduct.imageUrl[0] || "/products/root_strength_hair_oil_2.png"}
-                width={500}
-                height={500}
-                alt={highlightedProduct.name || "Riyora Root Strength Hair Oil Bottle"}
-              />
+              {/* <div className={styles.bg_circel}></div> */}
+              <Carousel
+                showControls={false}
+              >
+                {highlightedProduct.imageUrl.map((img, index) => (
+
+                  <Image
+                    src={img || "/products/root_strength_hair_oil_2.png"}
+                    width={500}
+                    height={500}
+                    alt={highlightedProduct.name || "Riyora Root Strength Hair Oil Bottle"}
+                  />
+                ))}
+              </Carousel>
             </div>
           </section>
         </motion.section>
@@ -510,10 +517,12 @@ export const getStaticProps = async ({ params }) => {
   try {
 
     await connectDB()
-    const highlightedProduct = await Product.findOne({});
+    const highlightedProduct = await Product.find({});
+
     return {
       props: {
-        highlightedProduct: JSON.parse(JSON.stringify(highlightedProduct))
+        prouctsAvailable: 0,//highlightedProduct.length,
+        highlightedProduct: JSON.parse(JSON.stringify(highlightedProduct[0]))
       }
     }
 

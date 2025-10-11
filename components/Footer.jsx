@@ -18,9 +18,9 @@ export default function Footer() {
   const handleSubscribe = async () => {
     if (!email) return;
     try {
-      await subscribe(email);
+      const response = await subscribe(email);
       setEmail("");
-      alert("Subscribed successfully!");
+      alert(response.data.message || "Subscribed successfully!");
     } catch (error) {
       alert("Subscription failed.");
     }
@@ -37,6 +37,7 @@ export default function Footer() {
           <input
             type="text"
             placeholder="Enter Email Address..."
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <button onClick={handleSubscribe}>Subscirbe</button>
@@ -118,6 +119,10 @@ export default function Footer() {
             <h2>We are Also Available on</h2>
 
             <div className="otherPlatformsin">
+              <Link
+                href={""}
+                alt={"Amazon Link"}
+              ></Link>
               <Image
                 src={"/images/amazon.png"}
                 alt="Amazon India"
@@ -195,8 +200,7 @@ export default function Footer() {
                   <FaMapMarkerAlt />
                 </span>
                 <span>
-                  61 LG, Manglam Fun Square Mall, Durga Nursery Rd, Shakti
-                  Nagar, Udaipur, Rajasthan -313001 India
+                  LG 61, Manglam Fun Square Mall, Durga Nursery Rd, Udaipur, Rajasthan -313001 India
                 </span>
               </li>
             </ul>

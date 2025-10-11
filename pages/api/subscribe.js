@@ -49,6 +49,12 @@ export default async function handler(req, res) {
       // Check if user already exists in the database
       const existingUser = await SubscribeUser.findOne({ email });
 
+      if(existingUser) {
+        // Send confirmation email even if already subscribed
+        await sendMail(email, mailSubject, mailHtml);
+        return res.status(200).json({ message: "Already subscribed" });
+      }
+
       // Send confirmation email regardless of subscription status
       await sendMail(email, mailSubject, mailHtml);
 

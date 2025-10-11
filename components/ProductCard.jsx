@@ -63,10 +63,10 @@ export default function ProductCard({ product }) {
   return (
     <div className={styles.card || "productCard"}>
       <Link href={`/products/${product.slug}`}>
-        <a className={styles.link}>
-          <img src={selectedVariant.imageUrl?.[0] || product.imageUrl?.[0] || "/images/placeholder.png"} alt={product.name} className={styles.image} />
-          <h3 className={styles.title}>{product.name}</h3>
-        </a>
+        {/* <a className={styles.link}> */}
+        <img src={selectedVariant.imageUrl?.[0] || product.imageUrl?.[0] || "/images/placeholder.png"} alt={product.name} className={styles.image} />
+        <h3 className={styles.title}>{product.name}</h3>
+        {/* </a> */}
       </Link>
 
       <div className={styles.variantRow}>

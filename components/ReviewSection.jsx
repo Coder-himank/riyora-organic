@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaGrinStars, FaSmile, FaMeh, FaFrown, FaAngry } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -8,16 +8,20 @@ import styles from "@/styles/reviewSection.module.css";
 import { MultiImageUploader } from "@/components/ImageUploader";
 
 export const ReviewSection = ({ productId, reviews = [] }) => {
+    const { data: session } = useSession();
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [images, setImages] = useState([]);
-    const { data: session } = useSession();
     const [submitting, setSubmitting] = useState(false);
+    const [canWriteReview, setCanWriteReview] = useState(true);
+
+    // Show/Hide All Reviews Box
+    const [showReviewLimit, setShowReviewLimit] = useState(5);
 
     // Modal state
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxSrc, setLightboxSrc] = useState("");
-    const [lightboxType, setLightboxType] = useState("image"); // image or video
+    const [lightboxType, setLightboxType] = useState("image");
 
     const totalReviews = reviews.length;
     const averageRating =
@@ -38,6 +42,18 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         { value: 5, icon: <FaGrinStars />, label: "Excellent", color: "#4CAF50" },
     ];
 
+    // ✅ Fix canWriteReview logic
+    useEffect(() => {
+        if (!session) {
+            setCanWriteReview(false);
+            return;
+        }
+
+        const hasReviewed = reviews.some((r) => r.userId === session.user.id);
+        // Can write only if NOT reviewed yet
+        setCanWriteReview(!hasReviewed);
+    }, [session, reviews]);
+
     const setReviewImage = (urls) => {
         if (Array.isArray(urls)) setImages((prev) => [...prev, ...urls]);
         else setImages((prev) => [...prev, urls]);
@@ -50,14 +66,13 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     const handleSubmit = async () => {
         if (!rating || !comment) {
             toast.error("Please select a rating and write a review.");
-            return
+            return;
         }
         if (!session || !session.user) {
             toast.error("Please login to submit a review.");
             return;
         }
 
-        console.log("submiting review", { rating, comment, images });
         try {
             setSubmitting(true);
             const response = await axios.post("/api/secure/feedback", {
@@ -74,7 +89,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                 setRating(0);
                 setComment("");
                 setImages([]);
-                return response.data;
+                setCanWriteReview(false); // user just reviewed
             } else {
                 toast.error("Failed to submit feedback");
             }
@@ -86,7 +101,6 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         }
     };
 
-    const topReviews = reviews.slice().sort((a, b) => b.rating - a.rating).slice(0, 4);
     const latestReviews = reviews.slice(-3).reverse();
 
     // Lightbox open
@@ -96,9 +110,37 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         setLightboxOpen(true);
     };
 
+    const renderMedia = (media, idx) => {
+        const isVideo = /\.(mp4|mov|webm)$/i.test(media);
+        return isVideo ? (
+            <video
+                key={idx}
+                width={150}
+                height={150}
+                onClick={() => openLightbox(media, "video")}
+                style={{ cursor: "pointer" }}
+                controls={false}
+            >
+                <source src={media} type="video/mp4" />
+            </video>
+        ) : (
+            <Image
+                key={idx}
+                src={media}
+                alt={`Review Media ${idx}`}
+                width={150}
+                height={150}
+                onClick={() => openLightbox(media, "image")}
+                style={{ cursor: "pointer" }}
+            />
+        );
+    };
+
     return (
         <section className={styles.reviewSection} id="reviews">
-            <h2>Customer <span>Reviews</span></h2>
+            <h2>
+                Customer <span>Reviews</span>
+            </h2>
 
             <div className={styles.reviewContainer}>
                 {/* Ratings Summary */}
@@ -108,52 +150,73 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                     {distribution.map((d) => (
                         <div key={d.star} className={styles.ratingRow}>
                             <span>{d.star}★</span>
-                            <div className={styles.progressBar}><div style={{ width: `${d.percent}%` }} /></div>
+                            <div className={styles.progressBar}>
+                                <div style={{ width: `${d.percent}%` }} />
+                            </div>
                             <span>{d.count}</span>
                         </div>
                     ))}
                 </div>
 
-                {/* Write Review */}
-                <div className={styles.rightPanel}>
-                    <h3>Write Your Review</h3>
-                    <div className={styles.smileOptions}>
-                        {smileOptions.map((s) => (
-                            <button
-                                key={s.value}
-                                className={`${styles.smileBtn} ${rating === s.value ? styles.active : ""}`}
-                                style={{ color: s.color }}
-                                onClick={() => setRating(s.value)}
-                            >
-                                {s.icon}<span>{s.label}</span>
-                            </button>
-                        ))}
+                {/* Right Panel */}
+                {canWriteReview ? (
+                    <div className={styles.rightPanel}>
+                        <h3>Write Your Review</h3>
+                        <div className={styles.smileOptions}>
+                            {smileOptions.map((s) => (
+                                <button
+                                    key={s.value}
+                                    className={`${styles.smileBtn} ${rating === s.value ? styles.active : ""}`}
+                                    style={{ color: s.color }}
+                                    onClick={() => setRating(s.value)}
+                                >
+                                    {s.icon}
+                                    <span>{s.label}</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <textarea
+                            placeholder="Share your experience..."
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                        />
+
+                        <MultiImageUploader
+                            images={images}
+                            setDataFunction={setReviewImage}
+                            removeDataFunction={removeReviewImage}
+                            fileFolder={`${productId}-reviews`}
+                        />
+
+                        <button
+                            className={styles.submitBtn}
+                            onClick={handleSubmit}
+                            disabled={submitting}
+                        >
+                            {submitting ? "Submitting..." : "Submit Review"}
+                        </button>
                     </div>
-
-                    <textarea
-                        placeholder="Share your experience..."
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
-
-                    <MultiImageUploader
-                        images={images}
-                        setDataFunction={setReviewImage}
-                        removeDataFunction={removeReviewImage}
-                        fileFolder={`${productId}-reviews`}
-                    />
-
-                    <button className={styles.submitBtn} onClick={handleSubmit} disabled={submitting}>
-                        {submitting ? "Submitting..." : "Submit Review"}
-                    </button>
-                </div>
+                ) : (
+                    <div>
+                        {/* <h3>You’ve already reviewed this product.</h3> */}
+                    </div>
+                )}
             </div>
 
             {/* Reviews */}
             <div className={styles.reviewList}>
-                {latestReviews.map((r, i) => (
+                <h3>Recent Reviews</h3>
+                {latestReviews.length === 0 && <p>No reviews yet.</p>}
+                {reviews.slice(0, showReviewLimit).map((r, i) => (
                     <div key={i} className={styles.reviewCard}>
-                        <Image src="/images/user.png" width={50} height={50} alt="user" className={styles.userImage} />
+                        <Image
+                            src="/images/user.png"
+                            width={50}
+                            height={50}
+                            alt="user"
+                            className={styles.userImage}
+                        />
                         <div>
                             <div className={styles.reviewHeader}>
                                 <strong>{r.name || "Anonymous"}</strong>
@@ -162,73 +225,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                             <p>{r.comment}</p>
                             {r.images?.length > 0 && (
                                 <section className={styles.reviewImages}>
-                                    {r.images.map((media, idx) => {
-                                        const isVideo = media.endsWith(".mp4") || media.endsWith(".mov") || media.endsWith(".webm");
-                                        return isVideo ? (
-                                            <video
-                                                key={idx}
-                                                width={150}
-                                                height={150}
-                                                onClick={() => openLightbox(media, "video")}
-                                                style={{ cursor: "pointer" }}
-                                                controls={false}
-                                            >
-                                                <source src={media} type="video/mp4" />
-                                            </video>
-                                        ) : (
-                                            <Image
-                                                key={idx}
-                                                src={media}
-                                                alt={`Review Media ${idx}`}
-                                                width={150}
-                                                height={150}
-                                                onClick={() => openLightbox(media, "image")}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                        );
-                                    })}
-                                </section>
-                            )}
-                        </div>
-                    </div>
-                ))}
-
-                {topReviews.map((r, i) => (
-                    <div key={i} className={styles.reviewCard}>
-                        <Image src="/images/user.png" width={50} height={50} alt="user" className={styles.userImage} />
-                        <div>
-                            <div className={styles.reviewHeader}>
-                                <strong>{r.name || "Anonymous"}</strong>
-                                <span>{r.rating}★</span>
-                            </div>
-                            <p>{r.comment}</p>
-                            {r.images?.length > 0 && (
-                                <section className={styles.reviewImages}>
-                                    {r.images.map((media, idx) => {
-                                        const isVideo = media.endsWith(".mp4") || media.endsWith(".mov") || media.endsWith(".webm");
-                                        return isVideo ? (
-                                            <video
-                                                key={idx}
-                                                width={150}
-                                                height={150}
-                                                onClick={() => openLightbox(media, "video")}
-                                                style={{ cursor: "pointer" }}
-                                                controls={false}
-                                            >
-                                                <source src={media} type="video/mp4" />
-                                            </video>
-                                        ) : (
-                                            <Image
-                                                key={idx}
-                                                src={media}
-                                                alt={`Review Media ${idx}`}
-                                                width={150}
-                                                height={150}
-                                                onClick={() => openLightbox(media, "image")}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                        );
-                                    })}
+                                    {r.images.map((m, idx) => renderMedia(m, idx))}
                                 </section>
                             )}
                         </div>
@@ -236,6 +233,23 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                 ))}
             </div>
 
+
+            {/* See All Reviews Button */}
+            {showReviewLimit <= reviews.length ? (
+                <button
+                    className={styles.showAllBtn}
+                    onClick={() => setShowReviewLimit((prev) => prev + 10)}
+                >
+                    Show More
+                </button>
+            ) : (
+                <button
+                    className={styles.showAllBtn}
+                    onClick={() => setShowReviewLimit((prev) => 5)}
+                >
+                    Hide All
+                </button>
+            )}
             {/* Lightbox */}
             {lightboxOpen && (
                 <div

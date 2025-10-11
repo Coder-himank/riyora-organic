@@ -11,6 +11,7 @@
 
 .expandable_title {
     padding: 10px;
+    cursor: pointer;
 }
 
 .expandable_content {
@@ -112,6 +113,7 @@
     /* justify-content: center; */
     gap: 5px;
     font-size: 12px;
+    text-align: center;
     color: #555;
     width: fit-content;
     height: 100px;
@@ -120,9 +122,9 @@
 
 .icon p{
     visibility: hidden;
+    visibility: visible;
 }
 .icon:hover p{
-    visibility: visible;
 }
 .sec_1 .details .icons img {
     width: 70px;
@@ -351,8 +353,13 @@
 
 }
 
+.product_info{
+    display: flex;
+    flex-wrap: wrap;
+}
 .highlights{
     width: 100%;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -362,6 +369,7 @@
 
 .specifications{
     width: 100%;
+    max-width: 600px;
     font-weight: 300;
 }
 .specifications tr{
@@ -374,6 +382,7 @@
 
 
 .disclaimer{
+    /* min-width: 80vh; */
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -440,7 +449,7 @@
 
 .productInfoBtn{
     width: 80%;
-    margin: auto;
+    margin: 50px auto;
     color: green;
     border: 1px solid;
     padding: 15px 20px;
@@ -538,6 +547,7 @@
     
     .expandable_title{
         padding: 0;
+        
     }
     
     .expandable_content{
@@ -546,4 +556,83 @@
         letter-spacing: 0.01rem;
     }
     
+}
+
+.description_tab{
+    width: 100%;
+    /* max-width: 800px; */
+    padding: 20px;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.6;
+}
+.description_tab h3{
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.description_tab p{
+    margin-bottom: 10px;
+    padding-left: clamp(20px, 5vw, 80px);
+}
+.ingredients_tab{
+    width: 100%;
+        padding: 20px;
+    max-height: 500px;
+}
+
+.ingredients_tab h3{
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.ingredient_card{
+    padding: 20px;
+    width: 100%;
+    /* max-width: 600px; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.ingredient_card img{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+}
+.ingredient_card h4{
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.ingredient_card ul{
+    padding-left: clamp(20px, 5vw, 80px);
+}
+.ingredient_card ul li{
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 300;
+    line-height: 1.5;
+}
+.benefits_tab{
+        padding: 20px;
+    width: 100%;
+
+}
+.benefits_tab h3{
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.benefits_tab ul{
+    list-style: disc;
+    padding-left: clamp(20px, 5vw, 50px);
+}
+.benefits_tab ul li{
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 300;
+    line-height: 1.5;
 }

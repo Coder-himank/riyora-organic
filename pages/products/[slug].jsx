@@ -17,6 +17,10 @@ import StarRating from "@/components/StartRating";
 import { ToastContainer, toast } from "react-toastify";
 import ReviewSection from "@/components/ReviewSection";
 import InfiniteCarousel from "@/components/ImageCarousel";
+import InfinteScroller from "@/components/InfinteScroller";
+
+import Tabs from "@/components/Tabs";
+import ProductInfo from "@/server/models/productInfo";
 
 function camelToNormal(text) {
   return text
@@ -27,6 +31,7 @@ function camelToNormal(text) {
     // capitalize the first letter
     .replace(/^./, str => str.toUpperCase());
 }
+
 
 
 const ExpandableSection = ({ title, children }) => {
@@ -41,7 +46,7 @@ const ExpandableSection = ({ title, children }) => {
   );
 };
 
-const ProductPage = ({ productId, pdata }) => {
+const ProductPage = ({ productId, pdata, pInfodata }) => {
   if (!productId) return <h1>Product not found</h1>;
 
   const { publicRuntimeConfig } = getConfig();
@@ -204,6 +209,153 @@ const ProductPage = ({ productId, pdata }) => {
 
   if (!productData) return <h1>Loading...</h1>
 
+  const SpecSection = () => {
+    return (
+      <>
+
+        <ExpandableSection title="Specifications">
+          <table className={styles.specifications}>
+            <tbody>
+              {Object.entries(displayProduct?.specifications || {}).map(([k, v]) => (
+                <tr key={k}>
+                  {k === "weight" ? (
+                    <>
+                      <td className={styles.strong}>{camelToNormal(k)}</td>
+                      <td>{displayProduct?.quantity || "-"}</td>
+                    </>
+                  ) : (
+                    <>
+                      <td className={styles.strong}>{camelToNormal(k)}</td>
+                      <td>{v || "-"}</td>
+                    </>
+                  )
+                  }
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ExpandableSection>
+
+
+      </>
+    )
+  }
+
+
+  const DisclaimerSection = () => {
+    return (
+      <>
+
+        <ExpandableSection title="Disclaimer">
+          <ol className={styles.disclaimer}>
+            {Object.entries(displayProduct?.disclaimers || {}).map(([k, v]) => (
+              <li key={k}>{v}</li>
+            ))}
+          </ol>
+        </ExpandableSection>
+
+
+      </>
+    )
+  }
+
+  const SuitableSection = () => {
+    return (
+      <>
+        <ExpandableSection title="Suitable For">
+          <div className={styles.suitable_cards}>
+            {displayProduct?.suitableFor?.map((s, idx) => (
+              <div key={idx} className={styles.suitable_images}>
+                <Image src={s?.imageUrl} width={300} height={300} alt={s.text} />
+                <p>{s.text}</p>
+              </div>
+            ))}
+          </div>
+        </ExpandableSection>
+
+      </>
+    )
+  }
+
+  const TopHeighlights = () => {
+    return (
+      <>
+
+        {/* Expandable Sections */}
+        <ExpandableSection title="Top Highlights">
+          <div className={styles.highlights}>
+            <p><strong>Key Ingredients - </strong>{displayProduct?.details?.keyIngredients?.join(", ")}</p>
+            <p><strong>Ingredients - </strong>{displayProduct?.details?.ingredients?.join(", ")}</p>
+            <p><strong>Material Type Free - </strong>Alcohol Free, Cruelty Free, Dye Free, Hexane Free, Paraben Free, Mineral Oil Free, Palm oill Free, SLS Free, Silicone Free, Free From Toxic Chemicals, No Artificial Colours, No Artificial Fragrance </p>
+            <p><strong>Hair Type - </strong>{displayProduct?.details?.hairType}</p>
+            <p><strong>Product Benefits - </strong> {displayProduct?.details?.benefits?.join(", ")}</p>
+            <p><strong>Item Form - </strong>{displayProduct?.details?.itemForm}</p>
+            <p><strong>Item Volume - </strong>{displayProduct?.details?.itemVolume}</p>
+          </div>
+        </ExpandableSection>
+
+      </>
+    )
+  }
+
+  const DescriptionTab = () => {
+    return (
+      <div className={styles.description_tab}>
+
+        <h3>Description</h3>
+        <p>{pInfodata?.description}</p>
+      </div>
+    );
+  }
+
+
+  const IngredientsTab = () => {
+    return (
+      <div className={styles.ingredients_tab}>
+        <h3>Ingredients</h3>
+
+        <Carousel
+          showControls={false}>
+          {pInfodata?.ingredients?.map((ingredient, idx) => (
+            <div className={styles.ingredient_card}>
+
+              <Image src={ingredient?.image} width={150} height={150} alt={ingredient.name} />
+              <div className={styles.text_wrapper}>
+
+                <h4>{ingredient.name}</h4>
+                <ul>
+                  {ingredient?.notes?.map((note, nidx) => (
+                    <li key={nidx}>{note}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+
+      </div>
+    );
+  }
+
+  const BenefitsTab = () => {
+    return (
+      <div className={styles.benefits_tab}>
+        <h3>Benefits Products</h3>
+        <ul>
+          {pInfodata?.benefits?.list?.map((benefit, idx) => (
+            <li key={idx}>{benefit}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  const tabsObject = {
+    "Description": <DescriptionTab />,
+    "Ingredients": <IngredientsTab />,
+    "Benefits": <BenefitsTab />,
+    // add more tabs as needed
+  };
+
   return (
     <>
       <Head>
@@ -284,7 +436,7 @@ const ProductPage = ({ productId, pdata }) => {
                   </>
                 )}
                 <span className={styles.salePrice}>₹{displayProduct?.price}</span>
-                <p className={styles.price_text}>{displayProduct?.quantity} | no extra charges</p>
+                <p className={styles.price_text}>{displayProduct?.quantity} | GST included</p>
               </div>
 
               <div className={styles.quantity}>
@@ -321,78 +473,48 @@ const ProductPage = ({ productId, pdata }) => {
             {/* Choose Us */}
             {displayProduct?.chooseUs?.length > 0 && (
               <section className={styles.icons}>
-                {displayProduct?.chooseUs?.map((item, idx) => (
-                  <div className={styles.icon} key={idx}>
-                    <Image src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
-                    <p>{item.text}</p>
-                  </div>
-                ))}
+                {/* <Carousel
+                  showControls={false}
+                > */}
+
+                <InfinteScroller>
+
+
+                  {displayProduct?.chooseUs?.map((item, idx) => (
+                    <div className={styles.icon} key={idx}>
+                      <Image src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
+                      <p>{item.text}</p>
+                    </div>
+                  ))}
+                </InfinteScroller>
+                {/* </Carousel> */}
               </section>
             )}
 
-            {/* Expandable Sections */}
-            <ExpandableSection title="Top Highlights">
-              <div className={styles.highlights}>
-                <p><strong>Key Ingredients - </strong>{displayProduct?.details?.keyIngredients?.join(", ")}</p>
-                <p><strong>Ingredients - </strong>{displayProduct?.details?.ingredients?.join(", ")}</p>
-                <p><strong>Material Type Free - </strong>Alcohol Free, Cruelty Free, Dye Free, Hexane Free, Paraben Free, Mineral Oil Free, Palm oill Free, SLS Free, Silicone Free, Free From Toxic Chemicals, No Artificial Colours, No Artificial Fragrance </p>
-                <p><strong>Hair Type - </strong>{displayProduct?.details?.hairType}</p>
-                <p><strong>Product Benefits - </strong> {displayProduct?.details?.benefits?.join(", ")}</p>
-                <p><strong>Item Form - </strong>{displayProduct?.details?.itemForm}</p>
-                <p><strong>Item Volume - </strong>{displayProduct?.details?.itemVolume}</p>
-              </div>
-            </ExpandableSection>
-
-            <ExpandableSection title="Specifications">
-              <table className={styles.specifications}>
-                <tbody>
-                  {Object.entries(displayProduct?.specifications || {}).map(([k, v]) => (
-                    <tr key={k}>
-                      {k === "weight" ? (
-                        <>
-                          <td className={styles.strong}>{camelToNormal(k)}</td>
-                          <td>{displayProduct?.quantity || "-"}</td>
-                        </>
-                      ) : (
-                        <>
-                          <td className={styles.strong}>{camelToNormal(k)}</td>
-                          <td>{v || "-"}</td>
-                        </>
-                      )
-                      }
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ExpandableSection>
-
-            <ExpandableSection title="Disclaimer">
-              <ol className={styles.disclaimer}>
-                {Object.entries(displayProduct?.disclaimers || {}).map(([k, v]) => (
-                  <li key={k}>{v}</li>
-                ))}
-              </ol>
-            </ExpandableSection>
-
-            <ExpandableSection title="Suitable For">
-              <div className={styles.suitable_cards}>
-                {displayProduct?.suitableFor?.map((s, idx) => (
-                  <div key={idx} className={styles.suitable_images}>
-                    <Image src={s?.imageUrl} width={300} height={300} alt={s.text} />
-                    <p>{s.text}</p>
-                  </div>
-                ))}
-              </div>
-            </ExpandableSection>
             <Link href={`/info/${productData.slug}`}>
               <div className={styles.productInfoBtn}>
 
                 Know More
               </div>
             </Link>
+
+            <TopHeighlights />
+            <SpecSection />
+            <DisclaimerSection />
+            <SuitableSection />
+
           </div>
 
+
+
         </section >
+
+
+        {/* Product Info Sections */}
+
+        < Tabs
+          tabs={tabsObject}
+        ></ Tabs>
 
         {/* How to Apply */}
         < section >
@@ -408,12 +530,12 @@ const ProductPage = ({ productId, pdata }) => {
               </div>
             ))}
           </div>
-        </ section>
+        </ section >
 
         {/* Reviews */}
         < section id="reviews" >
           <ReviewSection reviews={displayProduct?.reviews} productId={productId} />
-        </ section>
+        </ section >
       </div >
     </>
   );
@@ -433,11 +555,15 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   await dbConnect();
   const product = await Product.findOne({ slug: params.slug }).lean();
+  const productInfo = await ProductInfo.findOne({ slug: params.slug }).lean();
+
 
   if (!product) return { notFound: true };
 
   // Ensure imageUrl and variants.imageUrl are arrays (added for variants)
   const normalizedProduct = product
+
+  const normalizedProductInfo = productInfo;
   // {
   //   ...product,
   //   imageUrl: Array.isArray(product.imageUrl) ? product.imageUrl : product.imageUrl ? [product.imageUrl] : [],
@@ -452,6 +578,7 @@ export async function getStaticProps({ params }) {
     props: {
       productId: product._id.toString(),
       pdata: JSON.parse(JSON.stringify(normalizedProduct)),
+      pInfodata: JSON.parse(JSON.stringify(normalizedProductInfo)),
     },
     revalidate: 600,
   };

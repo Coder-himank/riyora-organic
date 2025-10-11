@@ -1,0 +1,56 @@
+
+
+.container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    touch-action: pan-y; /* allow horizontal pointer events for our handler */
+}
+
+.strip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    will-change: transform;
+    transform: translateX(0);
+}
+
+.set {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+}
+
+.item {
+    margin: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    pointer-events: auto; /* allow gestures over items */
+}
+
+.controls {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    display: flex;
+    gap: 6px;
+}
+
+.btn {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    padding: 6px 8px;
+    cursor: pointer;
+    display: none;
+}
+
+.btn:active { transform: scale(0.98) }
+
+/* small helper for child elements if they are images or cards */
+.item > * {
+    display: block;
+}

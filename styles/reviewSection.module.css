@@ -26,8 +26,8 @@
 .leftPanel {
   flex: 1;
   min-width: 280px;
-  border-right: 1px solid #ddd;
-  padding-right: 20px;
+  max-width: 900px;
+  margin: auto;
 }
 
 .leftPanel h3 {
@@ -59,6 +59,11 @@
 .rightPanel {
   flex: 2;
   min-width: 300px;
+  /* display: none; */
+  
+  border-left: 1px solid #ddd;
+  
+  padding-left: 20px;
 }
 
 .smileOptions {
@@ -128,6 +133,8 @@
 
 /* Reviews List */
 .reviewList {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
   margin-top: 40px;
 }
 
@@ -186,6 +193,8 @@
   cursor: zoom-out;
 }
 
+
+
 .lightboxContent img,
 .lightboxContent video {
   max-width: 500px;
@@ -194,3 +203,24 @@
   width: 100%;
   border-radius: 8px;
 }
+
+
+.showAllBtn {
+
+  background: white;
+  color: green;
+  border: none;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 30px;
+  padding: 10px 16px;
+  margin: 15px auto;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border: 1px solid green;
+}
+.showAllBtn:hover {
+  color: white;
+  background: rgb(2, 73, 2);
+}
+
