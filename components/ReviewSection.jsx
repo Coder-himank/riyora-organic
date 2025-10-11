@@ -14,6 +14,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     const [images, setImages] = useState([]);
     const [submitting, setSubmitting] = useState(false);
     const [canWriteReview, setCanWriteReview] = useState(true);
+    const [uploadingImage, setUploadingImage] = useState(false);
 
     // Show/Hide All Reviews Box
     const [showReviewLimit, setShowReviewLimit] = useState(5);
@@ -73,8 +74,14 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
             return;
         }
 
+        if (uploadingImage) {
+            toast.error("Please wait for image upload to complete.");
+            return;
+        }
+
         try {
             setSubmitting(true);
+
             const response = await axios.post("/api/secure/feedback", {
                 productId,
                 name: session.user.name,
@@ -101,7 +108,17 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         }
     };
 
-    const latestReviews = reviews.slice(-3).reverse();
+    // ✅ Sort reviews so newest first
+    const sortedReviews = [...reviews].reverse();
+
+    // ✅ If user already reviewed, put their review at the top
+    const userReview = session
+        ? sortedReviews.find((r) => r.userId === session.user.id)
+        : null;
+    const otherReviews = userReview
+        ? sortedReviews.filter((r) => r.userId !== session.user.id)
+        : sortedReviews;
+    const orderedReviews = userReview ? [userReview, ...otherReviews] : sortedReviews;
 
     // Lightbox open
     const openLightbox = (src, type) => {
@@ -187,6 +204,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                             setDataFunction={setReviewImage}
                             removeDataFunction={removeReviewImage}
                             fileFolder={`${productId}-reviews`}
+                            setUploadingImage={setUploadingImage}
+                            uploadingImage={uploadingImage}
                         />
 
                         <button
@@ -198,17 +217,15 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                         </button>
                     </div>
                 ) : (
-                    <div>
-                        {/* <h3>You’ve already reviewed this product.</h3> */}
-                    </div>
+                    <div>{/* user already reviewed */}</div>
                 )}
             </div>
 
             {/* Reviews */}
             <div className={styles.reviewList}>
                 <h3>Recent Reviews</h3>
-                {latestReviews.length === 0 && <p>No reviews yet.</p>}
-                {reviews.slice(0, showReviewLimit).map((r, i) => (
+                {orderedReviews.length === 0 && <p>No reviews yet.</p>}
+                {orderedReviews.slice(0, showReviewLimit).map((r, i) => (
                     <div key={i} className={styles.reviewCard}>
                         <Image
                             src="/images/user.png"
@@ -233,7 +250,6 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                 ))}
             </div>
 
-
             {/* See All Reviews Button */}
             {showReviewLimit <= reviews.length ? (
                 <button
@@ -245,17 +261,15 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
             ) : (
                 <button
                     className={styles.showAllBtn}
-                    onClick={() => setShowReviewLimit((prev) => 5)}
+                    onClick={() => setShowReviewLimit(5)}
                 >
                     Hide All
                 </button>
             )}
+
             {/* Lightbox */}
             {lightboxOpen && (
-                <div
-                    className={styles.lightboxOverlay}
-                    onClick={() => setLightboxOpen(false)}
-                >
+                <div className={styles.lightboxOverlay} onClick={() => setLightboxOpen(false)}>
                     <div className={styles.lightboxContent}>
                         {lightboxType === "image" ? (
                             <img src={lightboxSrc} alt="Preview" />

@@ -91,7 +91,7 @@ export const ImageUploader = ({ image, setDataFunction, removeDataFunction, file
     );
 };
 
-export const MultiImageUploader = ({ images, setDataFunction, removeDataFunction, fileFolder }) => {
+export const MultiImageUploader = ({ images, setDataFunction, removeDataFunction, fileFolder, setUploadingImage, uploadingImage }) => {
     const [dragOver, setDragOver] = useState(false);
     const [uploading, setUploading] = useState(false);
 
@@ -113,17 +113,35 @@ export const MultiImageUploader = ({ images, setDataFunction, removeDataFunction
                 accept="image/*,video/*"
                 style={{ display: "none" }}
                 id="fileInput"
-                onChange={(e) => uploadImage(e, "File Select", setUploading, setDataFunction, fileFolder, setDragOver)}
+                onChange={(e) =>
+                    uploadImage(
+                        e,
+                        "File Select",
+                        setUploadingImage || setUploading,
+                        setDataFunction,
+                        fileFolder,
+                        setDragOver
+                    )
+                }
             />
 
             <div
                 className={`${styles.MultiDropZone} ${dragOver ? styles.dragOver : ""}`}
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
-                onDrop={(e) => uploadImage(e, "Image Drop", setUploading, setDataFunction, fileFolder, setDragOver)}
+                onDrop={(e) =>
+                    uploadImage(
+                        e,
+                        "Image Drop",
+                        setUploadingImage || setUploading,
+                        setDataFunction,
+                        fileFolder,
+                        setDragOver
+                    )
+                }
             >
                 <label htmlFor="fileInput" className={styles.filePickerBtn}>
-                    {uploading ? "Uploading..." : "Drag & drop OR click here to upload images/videos"}
+                    {uploading || uploadingImage ? "Uploading..." : "Drag & drop OR click here to upload images/videos"}
                 </label>
 
                 {images?.length > 0 && (
