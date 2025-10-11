@@ -2,12 +2,12 @@
 import { useState } from "react";
 import styles from "@/styles/tabs.module.css";
 
-export default function Tabs({ tabs }) {
+export default function Tabs({ id = "tabs", tabs }) {
     const tabNames = Object.keys(tabs);
     const [activeTab, setActiveTab] = useState(tabNames[0]);
 
     return (
-        <div className={styles.tabsContainer}>
+        <div className={styles.tabsContainer} id={id}>
             <div className={styles.tabHeader}>
                 {tabNames.map((tab) => (
                     <div

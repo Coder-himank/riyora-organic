@@ -491,9 +491,8 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
               </section>
             )}
 
-            <Link href={`/info/${productData.slug}`}>
+            <Link href={`#product_info_tabs`}>
               <div className={styles.productInfoBtn}>
-
                 Know More
               </div>
             </Link>
@@ -512,9 +511,10 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
 
         {/* Product Info Sections */}
 
-        < Tabs
+        <Tabs
+          id={"product_info_tabs"}
           tabs={tabsObject}
-        ></ Tabs>
+        />
 
         {/* How to Apply */}
         < section >
