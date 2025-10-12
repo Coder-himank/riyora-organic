@@ -395,21 +395,18 @@
 
 .suitable_cards {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 10px;
-    flex-wrap: wrap;
     margin: auto;
+    
 }
 
 
 
 .suitable_cards .suitable_images {
-    width: 30vw;
-    max-width: fit-content;
-    max-height: fit-content;
-    height: fit-content;
+    width: 100%;
+    height: 150px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -436,20 +433,23 @@
 }
 
 .apply_section {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: center; */
+    /* flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     width: 100%;
-    margin: auto;
+    margin: 30px auto;
     max-width: 1000px;
-    padding: 50px 0;
+    padding: 50px 20px;
 }
 
 .productInfoBtn{
-    width: 80%;
-    margin: 50px auto;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
     color: green;
     border: 1px solid;
     padding: 15px 20px;
@@ -459,7 +459,7 @@
 }
 
 .apply_box {
-    max-width: 300px;
+    /* max-width: 300px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -478,11 +478,12 @@
     width: 100%;
     height: auto;
     object-fit: contain;
-    max-width: 300px;
+    /* max-width: 300px; */
     /* fill the space nicely */
 }
 
 .apply_box div {
+    width: 100%;
     flex: 1 1 100%;
     display: flex;
     flex-direction: column;
@@ -573,11 +574,11 @@
 
 .description_tab p{
     margin-bottom: 10px;
-    padding-left: clamp(20px, 5vw, 80px);
+    padding-left: clamp(0, 5vw, 80px);
 }
 .ingredients_tab{
     width: 100%;
-        padding: 20px;
+    padding: 20px;
     max-height: 500px;
 }
 
@@ -586,12 +587,12 @@
     margin-bottom: 10px;
 }
 .ingredient_card{
-    padding: 20px;
+    padding-left: clamp(0, 5vw, 80px);
     width: 100%;
-    /* max-width: 600px; */
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+    /* border: 1px solid #ccc; */
     margin-bottom: 20px;
 }
 
@@ -609,7 +610,8 @@
 }
 
 .ingredient_card ul{
-    padding-left: clamp(20px, 5vw, 80px);
+    
+    padding-left: clamp(0, 5vw, 80px);
 }
 .ingredient_card ul li{
     margin-bottom: 5px;

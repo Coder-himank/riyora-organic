@@ -167,15 +167,31 @@
 }
 .reviewImages img{
   max-width: 100px;
-  max-height: 100px;
+  object-fit: cover;
   flex: 1 1 auto;
   border-radius: 5px;
+}
+.reviewImages video{
+  max-width: 100px;
+  object-fit: cover;
+  flex: 1 1 auto;
+  border-radius: 5px;
+  position: relative;
 }
 .reviewHeader {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
+  flex-direction: column;
   margin-bottom: 5px;
+}
+
+.customersRating{
+  color: gold;
+}
+.customersName{
+  color: green;
+  text-transform: capitalize;
 }
 
 

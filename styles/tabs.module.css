@@ -1,7 +1,7 @@
 .tabsContainer {
   width: 100%;
   /* max-width: 800px; */
-  margin: 0 auto;
+  margin: 0 auto 30px;
   min-height: 400px;
   font-family: Poopins, sans-serif;
   
@@ -13,6 +13,11 @@
   border-bottom: 2px solid #e5e7eb;
   gap: 8px;
   padding: 10px;
+  overflow: auto;
+}
+
+.tabHeader::-webkit-scrollbar{
+  display: none;
 }
 
 .tabButton {

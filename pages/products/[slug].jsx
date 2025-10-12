@@ -408,9 +408,11 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
               </div>
             </Link>
 
-            <div className={styles.description}>
-              <p>{displayProduct?.description}</p><br />
-            </div>
+            <Link href={"#product_info_tabs"}>
+              <div className={styles.description}>
+                <p>{displayProduct?.description.length > 200 ? displayProduct.description.slice(0, 200) + "..." : displayProduct.description}</p><br />
+              </div>
+            </Link>
 
 
             {/* Variants section */}

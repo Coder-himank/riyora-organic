@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Image from "next/image";
 import styles from "@/styles/reviewSection.module.css";
+import StarRating from "./StartRating";
 import { MultiImageUploader } from "@/components/ImageUploader";
 
 export const ReviewSection = ({ productId, reviews = [] }) => {
@@ -137,6 +138,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                 onClick={() => openLightbox(media, "video")}
                 style={{ cursor: "pointer" }}
                 controls={false}
+                autoPlay
+                muted
             >
                 <source src={media} type="video/mp4" />
             </video>
@@ -236,8 +239,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                         />
                         <div>
                             <div className={styles.reviewHeader}>
-                                <strong>{r.name || "Anonymous"}</strong>
-                                <span>{r.rating}★</span>
+                                <span className={styles.customersRating}><StarRating rating={r.rating} /></span>
+                                <strong className={styles.customersName}>{r.name || "Anonymous"}</strong>
                             </div>
                             <p>{r.comment}</p>
                             {r.images?.length > 0 && (

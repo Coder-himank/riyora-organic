@@ -251,7 +251,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                   <span className={styles.review_count}>{highlightedProduct.averageRating} ({highlightedProduct.numReviews})</span>
                 </section>
               </Link>
-              <p> {highlightedProduct.description ||
+              <p> {highlightedProduct.description.length > 190 ? highlightedProduct.description.slice(0, 190) + "..." : highlightedProduct.description ||
                 "Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oilnourishes your scalp, strengthens roots, and promotes healthyhair growth. Free from parabens, sulfates, and artificialcolors."}
               </p>
               <div className={styles.product_bottom}>
