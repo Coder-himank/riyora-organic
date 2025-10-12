@@ -1,46 +1,64 @@
 .container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #333;
+  line-height: 1.7;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2f7b3f;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.updated {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 2rem;
+}
+
+.section h2 {
     width: 100%;
-    min-height: 500px;
+    border-left: 4px solid;
+    padding-left: 9px;
+  color: #2f7b3f;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
-.header {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    flex-direction: column;
+.section p {
+  margin-bottom: 1rem;
 }
 
-.header h1 {
-    font-size: 3rem;
+.section ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+  list-style: disc;
 }
 
-.header p {
-    font-weight: 300;
-    font-size: 12px;
+.section a {
+  color: #2f7b3f;
+  text-decoration: underline;
 }
 
-.policies {
-    width: 100%;
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px 0;
+.section a:hover {
+  color: #1d5428;
 }
 
-.policies section {
-    padding: 20px;
+.contactBox {
+  background-color: #f8f9f8;
+  border: 1px solid #e0e0e0;
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-top: 10px;
 }
 
-.policies section p {
-    font-weight: 300;
-    padding: 20px;
-}
-
-.list {
-    padding: 0 40px;
-    font-weight: 300;
+.contactBox p {
+  margin: 6px 0;
 }

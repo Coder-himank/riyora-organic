@@ -119,6 +119,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
 
             setDisplayReviews(orderedReviews.filter(r => r.rating === rate))
         }
+
+        setShowReviewLimit(5)
     }
 
     // ✅ Sort reviews so newest first
@@ -196,6 +198,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                     {distribution.map((d) => (
                         <div key={d.star} className={styles.ratingRow}
                             onClick={() => filterReviewByRate(d.star)}
+                            role="button"
+                            tabIndex={0}
                         >
                             <span>{d.star}★</span>
                             <div className={styles.progressBar}>
@@ -258,6 +262,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                     onClick={() => {
                         setFiltered(0)
                         filterReviewByRate(0)
+                        setShowReviewLimit(5)
                     }}
                 >{!filtered ? "Recent Reviews" : "Showing results for " + filtered + " star reviews. Tap to reset"}</h3>
                 {displayReviews.length === 0 && <p>No reviews yet.</p>}
@@ -288,7 +293,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
             </div>
 
             {/* See All Reviews Button */}
-            {showReviewLimit <= reviews.length ? (
+            {showReviewLimit < displayReviews.length ? (
                 <button
                     className={styles.showAllBtn}
                     onClick={() => setShowReviewLimit((prev) => prev + 10)}

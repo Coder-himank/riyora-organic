@@ -37,7 +37,7 @@ export default function CustomerCare() {
                         <Phone className={styles.icon} />
                         <h2>Call Us</h2>
                         <p>Our team is available Mon–Sat, 9 AM – 6 PM.</p>
-                        <a href="tel:++919680886889">++91 96808 86889</a>
+                        <a href="tel:+919680886889">+91 96808 86889</a>
                     </div>
 
                     {/* Office Card */}
