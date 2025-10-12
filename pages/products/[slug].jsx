@@ -349,10 +349,32 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
       </div>
     );
   }
+
+
+  const HowToUse = () => {
+    return (
+      < section className={styles.howtouse_tab} >
+        {/* How to Apply */}
+        <h3>How <span>to Apply</span></h3>
+        <div className={styles.apply_section}>
+          {displayProduct?.howToApply?.map((step, idx) => (
+            <div key={idx} className={styles.apply_box}>
+              {/* <Image src={step?.imageUrl} width={300} height={300} alt={step.title} /> */}
+              <div>
+                <h4>Step {step.step}</h4>
+                <p>{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ section >
+    )
+  }
   const tabsObject = {
     "Description": <DescriptionTab />,
     "Ingredients": <IngredientsTab />,
     "Benefits": <BenefitsTab />,
+    "How To Use": <HowToUse />
     // add more tabs as needed
   };
 
@@ -508,8 +530,19 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
 
 
 
+
         </section >
 
+        <section className={styles.banner}>
+
+          <Image
+            src={"/images/banner1.png"}
+            width={1080}
+            height={500}
+            alt="Banner"
+          />
+
+        </section>
 
         {/* Product Info Sections */}
 
@@ -518,21 +551,42 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
           tabs={tabsObject}
         />
 
-        {/* How to Apply */}
-        < section >
-          <h2>How <span>to Apply</span></h2>
-          <div className={styles.apply_section}>
-            {displayProduct?.howToApply?.map((step, idx) => (
-              <div key={idx} className={styles.apply_box}>
-                <Image src={step?.imageUrl} width={300} height={300} alt={step.title} />
-                <div>
-                  <h4>Step {step.step}</h4>
-                  <p>{step.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </ section >
+
+        <section className={styles.banner}>
+
+          <Image
+            src={"/images/banner1.png"}
+            width={1080}
+            height={500}
+            alt="Banner"
+          />
+
+        </section>
+
+
+        <section className={styles.banner}>
+
+          <Image
+            src={"/images/banner1.png"}
+            width={1080}
+            height={500}
+            alt="Banner"
+          />
+
+        </section>
+
+
+        <section className={styles.banner}>
+
+          <Image
+            src={"/images/banner1.png"}
+            width={1080}
+            height={500}
+            alt="Banner"
+          />
+
+        </section>
+
 
         {/* Reviews */}
         < section id="reviews" >

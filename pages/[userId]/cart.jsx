@@ -224,7 +224,7 @@ export default function Cart() {
                 <div className={styles.cart_item_details}>
                   <Link href={`/products/${item.productId}`}>
                     <h3>{item.name}</h3>
-                    <p>{item.description}</p>
+                    <p>{item.description.length > 120 ? item.description.slice(0, 120) + "..." : item.description}</p>
                   </Link>
 
                   <span className={styles.quantity_controls}>

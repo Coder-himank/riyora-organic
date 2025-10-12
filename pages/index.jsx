@@ -214,7 +214,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                 className={`${styles.hero_section_slides} ${styles.hero_section_slide_1}`}
               >
                 <Image
-                  src={"/images/hero_banner_3.png"}
+                  src={"/images/banner1.png"}
                   width={1920}
                   height={500}
                   alt="Riyora Organic Ayurvedic Hair Oil Banner"
@@ -225,7 +225,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                 className={`${styles.hero_section_slides} ${styles.hero_section_slide_2}`}
               >
                 <Image
-                  src={"/images/hero_banner_2.png"}
+                  src={"/images/banner1.png"}
                   width={1920}
                   height={500}
                   alt="Natural Hair Oil for Hair Growth"

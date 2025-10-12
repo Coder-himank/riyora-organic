@@ -25,6 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   font-size: 2rem;
   /* padding: 20px; */
   color: green;
@@ -53,7 +54,7 @@
 .userid {
   font-size: 12px;
   color: rgb(22, 22, 22);
-  padding: 20px;
+  padding: 0 20px 0 0;
 }
 
 .profile_card .user_detail {
@@ -290,6 +291,9 @@
     font-size: 0.8rem;
   }
 
+  .top_name{
+
+  }
   .top_name_left .bars,
   .aside button {
     display: inline-flex;

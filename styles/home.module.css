@@ -46,21 +46,7 @@
 }
 
 
-.hero_section_in1 .hero_section_slide_1::after {
-  content: '';
-  display: block;
-  position: absolute;
-  right: 23%;
-  top: 30%;
-  width: 10%;
-  /* border: 1px solid; */
-  height: 48%;
-  background: url("/images/oil bottle.png");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
 
-}
 
 .hero_section_slides {
   width: 100%;

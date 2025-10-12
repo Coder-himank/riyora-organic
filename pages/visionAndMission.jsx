@@ -15,7 +15,7 @@ const VisionAndMission = () => {
                 />
                 <meta
                     name="keywords"
-                    content="Riyora Organic, Ayurvedic hair oil, natural hair care, herbal hair oil, vision, mission, organic beauty, chemical-free, hair growth, scalp health"
+                    content="Riyora Organic, Ayurvedic hair oil, natural hair care, herbal hair oil, vision, mission, natural beauty, chemical-free, hair growth, scalp health"
                 />
                 <meta property="og:title" content="Riyora Organic | Ayurvedic Hair Oil - Vision & Mission" />
                 <meta
@@ -23,7 +23,7 @@ const VisionAndMission = () => {
                     content="Riyora Organic is dedicated to providing pure, herbal hair oil inspired by Ayurveda and modern science. Explore our vision and mission for holistic hair wellness."
                 />
                 <meta property="og:image" content="/images/logo.png" />
-                <meta property="og:url" content="https://riyora-organic.vercel.app/visionAndMission" />
+                <meta property="og:url" content="https://riyora-natural.vercel.app/visionAndMission" />
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <div className={styles.container}>
@@ -60,7 +60,7 @@ const VisionAndMission = () => {
                     <div className={styles.textContent}>
                         <h2 className={styles.sectionTitle}>Our Mission</h2>
                         <p className={styles.sectionText}>
-                            Our mission is to craft high-quality, organic hair oil using time-tested Ayurvedic herbs and modern botanical science. We strive to provide effective, honest, and safe hair care solutions that support holistic wellness and sustainable beauty.
+                            Our mission is to craft high-quality, natural hair oil using time-tested Ayurvedic herbs and modern botanical science. We strive to provide effective, honest, and safe hair care solutions that support holistic wellness and sustainable beauty.
                         </p>
                         <p>
                             Every bottle of Riyora Organic Hair Oil is a blend of tradition and innovation—free from toxic chemicals, parabens, and artificial fragrances. We are dedicated to educating our community about the benefits of natural hair care and inspiring confidence through visible, healthy results.
@@ -81,7 +81,7 @@ const VisionAndMission = () => {
                     <h2 className={styles.sectionTitle}>Our Core Values</h2>
                     <ul className={styles.valuesList}>
                         <li className={styles.valueItem}>
-                            <strong>Purity:</strong> We use only natural, organic ingredients, ensuring every drop of our hair oil is safe and effective.
+                            <strong>Purity:</strong> We use only natural, natural ingredients, ensuring every drop of our hair oil is safe and effective.
                         </li>
                         <li className={styles.valueItem}>
                             <strong>Integrity:</strong> Transparency and honesty guide every step, from sourcing herbs to delivering results.

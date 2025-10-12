@@ -33,6 +33,7 @@
   transition: all 0.2s ease;
   color: black;
   margin-bottom: 20px;
+  font-size: clamp(10px, 2vw, 16px);
 }
 
 .tabButton:hover {

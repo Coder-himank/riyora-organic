@@ -120,32 +120,47 @@ export default function Footer() {
 
             <div className="otherPlatformsin">
               <Link
-                href={""}
+                href={"https://www.amazon.in/dp/B0FS7M9P5B?ref=cm_sw_r_cso_wa_apin_dp_4DFHN65QH7XCDWMPP81A&ref_=cm_sw_r_cso_wa_apin_dp_4DFHN65QH7XCDWMPP81A&social_share=cm_sw_r_cso_wa_apin_dp_4DFHN65QH7XCDWMPP81A"}
                 alt={"Amazon Link"}
-              ></Link>
-              <Image
-                src={"/images/amazon.png"}
-                alt="Amazon India"
-                width={200}
-                height={100}
-                className="amazon"
-              />
+                target="_blank"
+              >
 
-              <Image
-                src={"/images/flipkart.png"}
-                alt="Amazon India"
-                width={200}
-                height={100}
-                className="flipkart"
-              />
+                <Image
+                  src={"/images/amazon.png"}
+                  alt="Amazon India"
+                  width={200}
+                  height={100}
+                  className="amazon"
+                />
+              </Link>
 
-              <Image
-                src={"/images/meesho.png"}
-                alt="Amazon India"
-                width={200}
-                height={100}
-                className="meesho"
-              />
+              <Link
+                href={"https://www.flipkart.com/product/p/itme?pid=HOLHF9BGGYUMSYMC&lid=LSTHOLHF9BGGYUMSYMCCBTP2B&_refId=&_appId=WA"}
+                alt={"Flipkart Link"}
+                target="_blank"
+              >
+                <Image
+                  src={"/images/flipkart.png"}
+                  alt="Flipkart"
+                  width={200}
+                  height={100}
+                  className="flipkart"
+                />
+              </Link>
+
+              <Link
+                href={"https://www.meesho.com/s/p/9hgajf?utm_source=si"}
+                alt={"Meesho Link"}
+                target="_blank"
+              >
+                <Image
+                  src={"/images/meesho.png"}
+                  alt="Amazon India"
+                  width={200}
+                  height={100}
+                  className="meesho"
+                />
+              </Link>
             </div>
           </div>
         </div>

@@ -276,167 +276,151 @@ export default function Checkout() {
 
   return (
     <>
-      <div className="navHolder"></div>
-      <div className={styles.checkout_container}>
-        <h1 className={styles.checkout_head}>Checkout</h1>
+      <div className={styles.navHolder}></div>
 
-        <section className={styles.productList}>
-          {summary.products.map((p) => {
-            const productState = products.find((prod) => {
-              const sameProduct = prod.productId === p.productId;
-              const sameVariant =
-                p.variantId
-                  ? p.variantId === (prod.variantId || prod.productId)
-                  : prod.variantId === null || prod.variantId === prod.productId;
-              return sameProduct && sameVariant;
-            });
+      {loading ? (
+        <div className={styles.loaderContainer}>
+          <div className={styles.loader}></div>
+          <p>Calculating your summary...</p>
+        </div>
+      ) : (
+        <div className={styles.checkout_container}>
+          <h1 className={styles.checkout_head}>Checkout</h1>
 
+          {/* 🛒 Product List */}
+          <section className={styles.productList}>
+            {summary.products.map((p) => {
+              const productState = products.find((prod) => {
+                const sameProduct = prod.productId === p.productId;
+                const sameVariant =
+                  p.variantId
+                    ? p.variantId === (prod.variantId || prod.productId)
+                    : prod.variantId === null || prod.variantId === prod.productId;
+                return sameProduct && sameVariant;
+              });
 
-
-            console.log(p);
-            console.log(products);
-
-            return (
-              <div key={`${p.productId}-${p.variantId || "default"}`} className={styles.product}>
-                <img src={p.imageUrl} alt={p.name} />
-                <div>
-                  <h3>{p.name}</h3>
-                  {p.variantName && <p>Variant: {p.variantName}</p>}
-                  <p>Price: ₹{p.price}</p>
-                  <div className={styles.quantity_setter}>
-                    <button
-                      onClick={() => {
-
-                        updateQuantity(p.productId, p.variantId || null, -1)
-
-                      }
-                      }
-                    disabled={productState?.quantity <= 1}
-                    >
-                      -
-                    </button>
-                    <p>{productState?.quantity || "hsad"}</p>
-                    <button
-                      onClick={() =>
-                        updateQuantity(p.productId, p.variantId || null, +1)
-                      }
-                      disabled={productState?.quantity >= 5}
-                    >
-                      +
-                    </button>
+              return (
+                <div key={`${p.productId}-${p.variantId || "default"}`} className={styles.product}>
+                  <img src={p.imageUrl} alt={p.name} className={styles.product_img} />
+                  <div className={styles.product_details}>
+                    <h3>{p.name}</h3>
+                    {p.variantName && <p className={styles.variant}>Variant: {p.variantName}</p>}
+                    <p className={styles.price}>₹{p.price}</p>
+                    <div className={styles.quantity_setter}>
+                      <button
+                        onClick={() => updateQuantity(p.productId, p.variantId || null, -1)}
+                        disabled={productState?.quantity <= 1}
+                      >
+                        −
+                      </button>
+                      <span>{productState?.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(p.productId, p.variantId || null, +1)}
+                        disabled={productState?.quantity >= 5}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </section>
+              );
+            })}
+          </section>
 
-        <div className={styles.address_section}>
-          <h3>Select Delivery Address</h3>
-          <div className={styles.address_section_in}>
-            <select
-              value={selectedAddressId}
-              onChange={(e) => setSelectedAddressId(e.target.value)}
-            >
-              {addresses.map((addr) => (
-                <option key={addr._id} value={addr._id}>
-                  {addr.label} - {addr.address}, {addr.city}, {addr.country},{" "}
-                  {addr.pincode}
-                </option>
-              ))}
-            </select>
-            <button onClick={() => setShowNewAddressForm(!showNewAddressForm)}>
-              {showNewAddressForm ? "-" : "+"}
-            </button>
-          </div>
-        </div>
-
-        {showNewAddressForm && (
-          <div className={styles.new_address_form}>
-
-            <div className={styles.addressLabels}>
-              <span
-                className={newAddress.label === "Home" ? styles.active : ""}
-                onClick={() => setNewAddress({ ...newAddress, label: "Home" })}
-              >Home</span>
-              <span
-                className={newAddress.label === "Office" ? styles.active : ""}
-                onClick={() => setNewAddress({ ...newAddress, label: "Office" })}
-              >office</span>
-              <span
-                className={newAddress.label === "Other" ? styles.active : ""}
-                onClick={() => setNewAddress({ ...newAddress, label: "Other" })}
-              >other</span>
+          {/* 🏠 Address Section */}
+          <div className={styles.address_section}>
+            <h3>Select Delivery Address</h3>
+            <div className={styles.address_section_in}>
+              <select value={selectedAddressId} onChange={(e) => setSelectedAddressId(e.target.value)}>
+                {addresses.map((addr) => (
+                  <option key={addr._id} value={addr._id}>
+                    {addr.label} - {addr.address}, {addr.city}, {addr.country}, {addr.pincode}
+                  </option>
+                ))}
+              </select>
+              <button onClick={() => setShowNewAddressForm(!showNewAddressForm)}>
+                {showNewAddressForm ? "−" : "+"}
+              </button>
             </div>
-            <input
-              type="text"
-              placeholder="Address"
-              value={newAddress.address}
-              onChange={(e) =>
-                setNewAddress({ ...newAddress, address: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="City"
-              value={newAddress.city}
-              onChange={(e) =>
-                setNewAddress({ ...newAddress, city: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Country"
-              value={newAddress.country}
-              onChange={(e) =>
-                setNewAddress({ ...newAddress, country: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Pincode"
-              value={newAddress.pincode}
-              onChange={(e) =>
-                setNewAddress({ ...newAddress, pincode: e.target.value })
-              }
-            />
-            <button onClick={addNewAddress}>Add Address</button>
+
+            {showNewAddressForm && (
+              <div className={styles.new_address_form}>
+                <div className={styles.addressLabels}>
+                  {["Home", "Office", "Other"].map((label) => (
+                    <span
+                      key={label}
+                      className={newAddress.label === label ? styles.active : ""}
+                      onClick={() => setNewAddress({ ...newAddress, label })}
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+                <input
+                  type="text"
+                  placeholder="Address"
+                  value={newAddress.address}
+                  onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="City"
+                  value={newAddress.city}
+                  onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Country"
+                  value={newAddress.country}
+                  onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Pincode"
+                  value={newAddress.pincode}
+                  onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
+                />
+                <button onClick={addNewAddress}>Add Address</button>
+              </div>
+            )}
           </div>
-        )}
 
-        <section className={styles.promo_section}>
-          <input
-            type="text"
-            placeholder="Promo Code"
-            value={promocode}
-            onChange={(e) => setPromocode(e.target.value.trim())}
-          />
-          <button onClick={fetchSummary}>Apply</button>
-        </section>
+          {/* 🎟️ Promo Section */}
+          <section className={styles.promo_section}>
+            <input
+              type="text"
+              placeholder="Promo Code"
+              value={promocode}
+              onChange={(e) => setPromocode(e.target.value.trim())}
+            />
+            <button onClick={fetchSummary}>Apply</button>
+          </section>
 
-        <section className={styles.amount_section}>
-          <h2>Amount Break Down</h2>
-          <span>
-            <strong>Amount</strong>: ₹{summary.beforeTaxAmount}
-          </span>
-          <span>
-            <strong>Discount</strong>: ₹{summary.discount}
-          </span>
-          <span>
-            <strong>Taxes</strong>: ₹{summary.taxedAmount}
-          </span>
-          <span>
-            <strong>Delivery Charges</strong>: ₹{summary.deliveryCharges}
-          </span>
-          <span>
-            <strong>Total</strong>: ₹{summary.finalAmount}
-          </span>
-        </section>
+          {/* 💰 Amount Section */}
+          <section className={styles.amount_section}>
+            <h2>Amount Breakdown</h2>
+            <div className={styles.amountSummary}>
+              <span>
+                <strong>Item Total:</strong> ₹{summary.beforeTaxAmount}
+              </span>
+              <span>
+                <strong>Discount:</strong> ₹{summary.discount}
+              </span>
+              <span>
+                <strong>Delivery:</strong> ₹{summary.deliveryCharges}
+              </span>
+              <span className={styles.total}>
+                <strong>Total Payable:</strong> ₹{summary.finalAmount}
+              </span>
+            </div>
+          </section>
 
-        <button onClick={initiatePayment} className={styles.pay_btn}>
-          Proceed To Pay
-        </button>
-      </div>
+          <button onClick={initiatePayment} className={styles.pay_btn}>
+            Proceed To Pay
+          </button>
+        </div>
+      )}
     </>
   );
+
 }

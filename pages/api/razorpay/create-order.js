@@ -94,7 +94,7 @@ export default async function handler(req, res) {
   const { discountValue } = await validatePromo(promocode, subtotal, session.user.id);
 
   const taxableBase = Math.max(0, subtotal - discountValue);
-  const tax = Math.round(taxableBase * 0.18);
+  const tax = Math.round(taxableBase * 0);
   const shipping = taxableBase > 999 ? 0 : 49;
   const total = taxableBase + tax + shipping;
 

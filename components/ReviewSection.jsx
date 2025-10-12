@@ -15,6 +15,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     const [images, setImages] = useState([]);
     const [submitting, setSubmitting] = useState(false);
     const [canWriteReview, setCanWriteReview] = useState(true);
+    const [filtered, setFiltered] = useState(0)
     const [uploadingImage, setUploadingImage] = useState(false);
 
     // Show/Hide All Reviews Box
@@ -109,6 +110,17 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         }
     };
 
+
+    const filterReviewByRate = (rate) => {
+        setFiltered(rate)
+        if (rate === 0) {
+            setDisplayReviews(orderedReviews);
+        } else {
+
+            setDisplayReviews(orderedReviews.filter(r => r.rating === rate))
+        }
+    }
+
     // ✅ Sort reviews so newest first
     const sortedReviews = [...reviews].reverse();
 
@@ -121,12 +133,26 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
         : sortedReviews;
     const orderedReviews = userReview ? [userReview, ...otherReviews] : sortedReviews;
 
+    const [displayReviews, setDisplayReviews] = useState(orderedReviews)
+
     // Lightbox open
     const openLightbox = (src, type) => {
         setLightboxSrc(src);
         setLightboxType(type);
         setLightboxOpen(true);
     };
+
+    const formatdate = (date) => {
+        const formattedDate = new Date(date).toLocaleDateString("en-IN", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            // hour: "2-digit",
+            // minute: "2-digit",
+        });
+
+        return formattedDate
+    }
 
     const renderMedia = (media, idx) => {
         const isVideo = /\.(mp4|mov|webm)$/i.test(media);
@@ -168,7 +194,9 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                     <h3>{averageRating.toFixed(1)} / 5</h3>
                     <p>Based on {totalReviews} reviews</p>
                     {distribution.map((d) => (
-                        <div key={d.star} className={styles.ratingRow}>
+                        <div key={d.star} className={styles.ratingRow}
+                            onClick={() => filterReviewByRate(d.star)}
+                        >
                             <span>{d.star}★</span>
                             <div className={styles.progressBar}>
                                 <div style={{ width: `${d.percent}%` }} />
@@ -226,9 +254,14 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
 
             {/* Reviews */}
             <div className={styles.reviewList}>
-                <h3>Recent Reviews</h3>
-                {orderedReviews.length === 0 && <p>No reviews yet.</p>}
-                {orderedReviews.slice(0, showReviewLimit).map((r, i) => (
+                <h3
+                    onClick={() => {
+                        setFiltered(0)
+                        filterReviewByRate(0)
+                    }}
+                >{!filtered ? "Recent Reviews" : "Showing results for " + filtered + " star reviews. Tap to reset"}</h3>
+                {displayReviews.length === 0 && <p>No reviews yet.</p>}
+                {displayReviews.slice(0, showReviewLimit).map((r, i) => (
                     <div key={i} className={styles.reviewCard}>
                         <Image
                             src="/images/user.png"
@@ -241,6 +274,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                             <div className={styles.reviewHeader}>
                                 <span className={styles.customersRating}><StarRating rating={r.rating} /></span>
                                 <strong className={styles.customersName}>{r.name || "Anonymous"}</strong>
+                                <span className={styles.reviewDate}>{formatdate(r.createdAt)}</span>
                             </div>
                             <p>{r.comment}</p>
                             {r.images?.length > 0 && (

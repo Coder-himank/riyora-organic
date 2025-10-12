@@ -178,21 +178,13 @@ export default function UserProfile() {
                 <thead>
                   <tr>
                     <th>Address</th>
-                    <th>City</th>
-                    <th>Country</th>
-                    <th>Label</th>
-                    <th>Pincode</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {user?.addresses?.map((item, index) => (
                     <tr key={index}>
-                      <td>{item.address}</td>
-                      <td>{item.city}</td>
-                      <td>{item.country}</td>
-                      <td>{item.label || "-"}</td>
-                      <td>{item.pincode}</td>
+                      <td>{`${item.label} - ${item.address}, ${item.city}, ${item.country}, ${item.pincode}`}</td>
                       <td className={styles.addr_action}>
                         <span onClick={() => openAddressForm(index)}>
                           <FaEdit />
