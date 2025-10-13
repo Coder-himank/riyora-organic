@@ -287,41 +287,65 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                                     {r.images.map((m, idx) => renderMedia(m, idx))}
                                 </section>
                             )}
+
+                            {r.replies.length > 0 ? (
+                                <div className={styles.replyList}>
+                                    {
+                                        r.replies.map((reply, replyIdx) => (
+
+
+                                            <div key={replyIdx} className={styles.reply}>
+                                                <strong>{reply.name}</strong>
+                                                <span>{formatdate(reply.createdAt)}</span>
+                                                <p><span>@{r.name}</span> {reply.comment}</p>
+                                            </div>
+                                        )
+                                        )
+                                    }
+                                </div>
+                            ) : (<></>)
+                            }
+
                         </div>
+
                     </div>
                 ))}
             </div>
 
             {/* See All Reviews Button */}
-            {showReviewLimit < displayReviews.length ? (
-                <button
-                    className={styles.showAllBtn}
-                    onClick={() => setShowReviewLimit((prev) => prev + 10)}
-                >
-                    Show More
-                </button>
-            ) : (
-                <button
-                    className={styles.showAllBtn}
-                    onClick={() => setShowReviewLimit(5)}
-                >
-                    Hide All
-                </button>
-            )}
+            {
+                showReviewLimit < displayReviews.length ? (
+                    <button
+                        className={styles.showAllBtn}
+                        onClick={() => setShowReviewLimit((prev) => prev + 10)}
+                    >
+                        Show More
+                    </button>
+                ) : (
+                    <button
+                        className={styles.showAllBtn}
+                        onClick={() => setShowReviewLimit(5)}
+                    >
+                        Hide All
+                    </button>
+                )
+            }
 
             {/* Lightbox */}
-            {lightboxOpen && (
-                <div className={styles.lightboxOverlay} onClick={() => setLightboxOpen(false)}>
-                    <div className={styles.lightboxContent}>
-                        {lightboxType === "image" ? (
-                            <img src={lightboxSrc} alt="Preview" />
-                        ) : (
-                            <video src={lightboxSrc} controls autoPlay />
-                        )}
+            {
+                lightboxOpen && (
+                    <div className={styles.lightboxOverlay} onClick={() => setLightboxOpen(false)}>
+                        <div className={styles.lightboxContent}>
+                            {lightboxType === "image" ? (
+                                <img src={lightboxSrc} alt="Preview" />
+                            ) : (
+                                <video src={lightboxSrc} controls autoPlay />
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
-        </section>
+                )
+            }
+        </section >
     );
 };
 

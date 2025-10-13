@@ -32,6 +32,27 @@ function camelToNormal(text) {
     .replace(/^./, str => str.toUpperCase());
 }
 
+const RenderBanners = ({ position, banners }) => {
+  return (
+    <>
+      {banners.filter((b) => b.position === position).map((b, idx) => (
+
+
+        < section className={styles.banner} key={idx}>
+
+          <Image
+            src={b.imageUrl || "/images/banner1.png"}
+            width={1080}
+            height={500}
+            alt="Banner"
+          />
+
+        </ section >
+      ))}
+    </>
+  )
+}
+
 
 
 const ExpandableSection = ({ title, children }) => {
@@ -107,6 +128,13 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
       imageUrl: normalizeVariantImages(selectedVariant).length > 0
         ? normalizeVariantImages(selectedVariant)
         : productData?.imageUrl,
+
+      specifications: {
+        ...productData.specifications,
+
+        productDimensions: selectedVariant.dimensions || productData.specifications.productDimensions,
+        weight: selectedVariant.weight,
+      },
 
       name: selectedVariant.name || productData.name,
     }
@@ -221,7 +249,7 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
                   {k === "weight" ? (
                     <>
                       <td className={styles.strong}>{camelToNormal(k)}</td>
-                      <td>{displayProduct?.quantity || "-"}</td>
+                      <td>{displayProduct?.specifications?.weight || displayProduct?.quantity || "-"}</td>
                     </>
                   ) : (
                     <>
@@ -405,6 +433,8 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
       <div className="navHolder" />
       <ToastContainer position="top-right" autoClose={3000} />
 
+      <RenderBanners position={"top"} banners={productData.banners} />
+
       <div className={styles.product_container}>
         <section className={styles.sec_1}>
           <section className={styles.carousel}>
@@ -533,16 +563,6 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
 
         </section >
 
-        <section className={styles.banner}>
-
-          <Image
-            src={"/images/banner1.png"}
-            width={1080}
-            height={500}
-            alt="Banner"
-          />
-
-        </section>
 
         {/* Product Info Sections */}
 
@@ -552,46 +572,18 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
         />
 
 
-        <section className={styles.banner}>
+        <RenderBanners position={"mid"} banners={productData.banners} />
 
-          <Image
-            src={"/images/banner1.png"}
-            width={1080}
-            height={500}
-            alt="Banner"
-          />
-
-        </section>
-
-
-        <section className={styles.banner}>
-
-          <Image
-            src={"/images/banner1.png"}
-            width={1080}
-            height={500}
-            alt="Banner"
-          />
-
-        </section>
-
-
-        <section className={styles.banner}>
-
-          <Image
-            src={"/images/banner1.png"}
-            width={1080}
-            height={500}
-            alt="Banner"
-          />
-
-        </section>
 
 
         {/* Reviews */}
         < section id="reviews" >
           <ReviewSection reviews={displayProduct?.reviews} productId={productId} />
         </ section >
+
+
+        <RenderBanners position={"bottom"} banners={productData.banners} />
+
       </div >
     </>
   );

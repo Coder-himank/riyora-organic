@@ -2,7 +2,9 @@
 .reviewSection {
   margin: 40px 0;
   padding: 20px;
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1400px;
+  /* max-width: 1200px; */
   margin: auto;
 }
 
@@ -145,7 +147,11 @@
 .reviewCard {
     display: grid;
     grid-template-columns: 50px 1fr;
-  border-bottom: 1px solid #eee;
+  /* border-bottom: 1px solid #cfcfcf; */
+  background-color: #fff9f0;
+  margin-top: 10px;
+  border-radius: 8px;
+  /* padding: 4px; */
   padding: 10px 0;
     font-weight: 300;
 }
@@ -247,3 +253,37 @@
   background: rgb(2, 73, 2);
 }
 
+.replyList{
+  width: 100%;
+  padding: 10px ;
+  
+}
+
+.reply{
+  background-color: rgba(213, 255, 183, 0.463);
+  border-radius: 8px;
+  /* border-bottom: 1px solid #ccc; */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.reply strong{
+  color: green;
+  font-weight: bold;
+}
+.reply span{
+  font-size: 12px;
+  font-weight: lighter;
+  padding: 8px 0;
+}
+
+.reply p{
+  color: black;
+  
+}
+
+.reply p span{
+  font-size: inherit;
+  font-weight: bold;
+  color: green;
+}
