@@ -94,7 +94,7 @@ export default function InfiniteCarousel({ images = [], autoPlay = true, interva
     const handleTouchMove = (e) => (touchEndX.current = e.touches[0].clientX);
     const handleTouchEnd = () => {
         const distance = touchStartX.current - touchEndX.current;
-        const threshold = 50;
+        const threshold = 80;
         if (distance > threshold) nextSlide();
         else if (distance < -threshold) prevSlide();
     };

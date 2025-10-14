@@ -127,15 +127,19 @@ export default async function handler(req, res) {
     const deliveryCharges = totals.totalPrice > 999 ? 0 : 49;
 
     // 7️⃣ Final amount (includes GST)
-    const finalAmount = totals.totalPrice - promoDiscount + deliveryCharges;
+    const finalAmount = totals.totalPrice - promoDiscount;
+    const totalAmount = totals.totalPrice + deliveryCharges
 
     /** Step 7: Respond with detailed checkout breakdown */
     return res.json({
       products: items,
+      itemTotal : totals.totalPrice,
       beforeTaxAmount: totals.totalMrp,
-      discount: totalDiscount.toFixed(2),
+      promoDiscount: promoDiscount.toFixed(2),
+      discount : totalDiscount.toFixed(2),
       taxedAmount: taxedAmount.toFixed(2),
       deliveryCharges: deliveryCharges.toFixed(2),
+      totalAmount : totalAmount.toFixed(2),
       finalAmount: finalAmount.toFixed(2),
       addressId: addressId || null,
     });

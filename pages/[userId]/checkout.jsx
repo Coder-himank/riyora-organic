@@ -401,13 +401,22 @@ export default function Checkout() {
             <h2>Amount Breakdown</h2>
             <div className={styles.amountSummary}>
               <span>
-                <strong>Item Total:</strong> ₹{summary.beforeTaxAmount}
+                <strong>Item Total:</strong> ₹{summary.itemTotal}
               </span>
-              <span>
-                <strong>Discount:</strong> ₹{summary.discount}
-              </span>
+              {
+                summary.promoDiscount > 0 &&
+                <span>
+                  <strong>Promo Discount:</strong> ₹{summary.promoDiscount}
+                </span>
+              }
               <span>
                 <strong>Delivery:</strong> ₹{summary.deliveryCharges}
+              </span>
+              <span>
+                <strong>Total : </strong> ₹{summary.totalAmount}
+              </span>
+              <span>
+                <strong>Free Delivery:</strong> -₹{summary.deliveryCharges}
               </span>
               <span className={styles.total}>
                 <strong>Total Payable:</strong> ₹{summary.finalAmount}
@@ -416,7 +425,7 @@ export default function Checkout() {
           </section>
 
           <button onClick={initiatePayment} className={styles.pay_btn}>
-            Proceed To Pay
+            Proceed To Pay ₹{summary.finalAmount}
           </button>
         </div>
       )}

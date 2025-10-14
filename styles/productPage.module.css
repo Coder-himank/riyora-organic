@@ -4,18 +4,18 @@
 }
 
 .expandable_section {
-    padding: 10px;
+    /* padding: 10px; */
     border-radius: 4px;
     margin: 10px 0;
 }
 
 .expandable_title {
-    padding: 10px;
+    /* padding: 10px; */
     cursor: pointer;
 }
 
 .expandable_content {
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
 }
 
 /* section {
@@ -364,7 +364,7 @@
     max-width: 600px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     font-weight: 300;
 }
 
@@ -510,7 +510,7 @@
 
 
     .expandable_section{
-        padding: 10px 0;
+        /* padding: 10px 0; */
     }
     
     .expandable_title{
@@ -519,7 +519,7 @@
     }
     
     .expandable_content{
-        padding: 5px;
+        padding: 5px 0;
         font-size: 14px;
         letter-spacing: 0.01rem;
     }

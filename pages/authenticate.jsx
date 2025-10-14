@@ -147,7 +147,7 @@ export default function AuthPage() {
             router.push(`/${session?.user?.id}/checkout?productId=${productId}&quantity=${quantity}`);
             return;
           }
-          // router.push(callbackUrl || "/");
+          router.push(callbackUrl || "/");
         }
       } else {
         // Sign up flow
