@@ -22,7 +22,7 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #14532d;
+  color: #14532d; /* Riyora Organic green tone */
 }
 
 .date {
@@ -47,7 +47,21 @@
   margin-bottom: 0.5rem;
   width: 100%;
   padding-left: 10px;
-  border-right: 5px solid;
+  border-left: 4px solid;
+}
+
+.container h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  color: #15803d;
+}
+
+.container ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  color: #374151;
 }
 
 .container p {
@@ -65,8 +79,10 @@
   color: #1d4ed8;
 }
 
-.container strong {
-  color: #14532d;
+.container address {
+  font-style: normal;
+  color: #374151;
+  line-height: 1.6;
 }
 
 .footer {
@@ -77,6 +93,17 @@
   color: #6b7280;
 }
 
+/* Step highlighting */
+.container  strong {
+  color: #14532d;
+}
+
+/* Lists inside steps */
+.container ul li {
+  margin-bottom: 0.4rem;
+}
+
+/* Responsive adjustments */
 @media (min-width: 768px) {
   .container {
     padding: 3rem;

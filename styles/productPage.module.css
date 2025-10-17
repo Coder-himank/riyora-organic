@@ -365,14 +365,13 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-weight: 300;
+    color: rgba(0, 0, 0, 0.695);
 }
 
 
 .specifications{
     width: 100%;
     max-width: 600px;
-    font-weight: 300;
 }
 .specifications tr{
     border-bottom: 1px solid #ccc;
@@ -390,7 +389,7 @@
     flex-direction: column;
     gap: 10px;
     padding: 0 30px;
-    font-weight: 300;
+    /* font-weight: 300; */
 }
 
 
@@ -529,7 +528,7 @@
 .description_tab{
     width: 100%;
     /* max-width: 800px; */
-    padding: 20px;
+    /* padding: 20px; */
     font-weight: 300;
     color: #555;
     line-height: 1.6;
@@ -545,7 +544,7 @@
 }
 .ingredients_tab{
     width: 100%;
-    padding: 20px;
+    /* padding: 20px; */
     max-height: 500px;
 }
 
@@ -587,7 +586,7 @@
     line-height: 1.5;
 }
 .benefits_tab{
-        padding: 20px;
+        /* padding: 20px; */
     width: 100%;
 
 }
@@ -643,7 +642,7 @@
 
 .apply_box h4 {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .apply_box p {

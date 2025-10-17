@@ -20,7 +20,7 @@ const Blog = (blog, flexDirection, showContent = true) => {
         {/* {showContent && */}
         <p>
           {blog.description.length > 100
-            ? blog.description.slice(0, 400) + "..."
+            ? blog.description.slice(0, 400) + "..." + " learn more"
             : blog.description}
         </p>
         {/* } */}

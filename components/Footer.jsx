@@ -174,10 +174,16 @@ export default function Footer() {
               <Link href={"/visionAndMission"}>Vision and Mission</Link>
             </li>
             <li>
-              <Link href={"/termsAndCondition"}>Terms and Condition</Link>
+              <Link href={"/termsAndCondition"}>Terms of Service</Link>
             </li>
             <li>
               <Link href={"/privacy-policy"}>Privacy Policy</Link>
+            </li>
+            <li>
+              <Link href={"/refund-policy"}>Return & Refund Policy</Link>
+            </li>
+            <li>
+              <Link href={"/shipping-policy"}>Shipping Policy</Link>
             </li>
             <li>
               <Link href={"/Faqs"}>FAQs</Link>

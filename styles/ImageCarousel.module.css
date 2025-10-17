@@ -45,29 +45,25 @@
 
 .navBtn {
   position: absolute;
-  /* top: 50%; */
-  /* transform: translateY(-50%); */
   z-index: 10;
   height: 100%;
-  /* background: rgba(0, 0, 0, 0.4); */
-  color: white;
+  color: black;
   border: none;
-  /* border-radius: 50%; */
-  /* width: 40px;
-  height: 40px; */
   cursor: pointer;
   font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* visibility: hidden; */
   opacity: 0.001;
+  background-color: transparent;
 }
 
 .navBtn:hover {
+  box-shadow: none;
   opacity: 1;
   /* visibility: visible; */
-  background: rgba(0, 0, 0, 0.268);
+  /* background: rgba(255, 255, 255, 0.268); */
+  background-color: transparent;
 }
 
 .navBtn:first-of-type {

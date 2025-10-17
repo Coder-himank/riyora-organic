@@ -216,7 +216,7 @@
 .product_section {
   width: 100%;
   min-height: 500px;
-  background-color: white;
+  background-color: rgb(252, 255, 247);
 }
 
 .product_section_in {
@@ -421,37 +421,35 @@
 
 
 .about_image {
+  height: 30vw;
+  width: 30vw;
+  max-width: 30%;
+  max-height: 450px;
   position: relative;
-  min-height: clamp(200px, 40vw, 460px);
-  width: 30%;
   height: fit-content;
 
 }
 
 .about_image div {
   background-color: var(--card-background);
-  width: 30vw;
-  height: 30vw;
+  width: 20vw;
+  height: 20vw;
   border: 5px solid green;
-  max-width: clamp(200px, 40%, 200px);
-  max-height: clamp(200px, 40%, 350px);
-  position: absolute;
-  top: 10;
-  left: 30;
   overflow: hidden;
   border-radius: 9px;
+  max-height: 300px;
+  max-width: 300px;
 
 }
 
-.about_image div:nth-child(1) {
-  top: 15%;
-  left: clamp(30px, 10%, 50px);
+.about_img_1{
+  transform: translateX(-20%) translateY(10%);
 }
 
-.about_image div:nth-child(2) {
-  top: 40%;
-  left: clamp(50px, 30%, 250px);
+.about_img_2{
+  transform: translateY(-40%) translateX(30%)
 }
+
 
 .about_image img {
   width: 100%;
@@ -539,7 +537,7 @@
   width: 90%;
   max-width: 90%;
   margin: auto;
-
+  
   height: fit-content;
   display: flex;
   align-items: center;
@@ -550,6 +548,7 @@
   gap: 20px;
   flex-wrap: wrap;
   padding: 50px 0;
+  display:  none;
 }
 
 
@@ -767,7 +766,7 @@
 @media screen and (max-width: 1300px) {}
 
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 900px) {
 
   .about_in {
     justify-content: center;
@@ -777,6 +776,7 @@
 
   .product_section_in {
     justify-content: center;
+    padding: 0;
   }
 
 
@@ -814,10 +814,6 @@
     flex-direction: column;
   }
 
-  .about_image {
-    width: 200px;
-    height: fit-content;
-  }
 
   .about_text {
     width: 90%;

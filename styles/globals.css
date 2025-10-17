@@ -102,9 +102,11 @@
 }
 
 
+html{
 
-body {
   scroll-behavior: smooth;
+}
+body {
   background: rgba(255, 255, 255, 0.733) url('/images/body-background.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -336,6 +338,9 @@ button:disabled {
   height: calc(100vh);
   overflow: auto;
   padding: 150px 0 0px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .authform .closebtn{
@@ -511,9 +516,44 @@ header {
 
 .nav-mid .nav-links {
   /* font-weight: bold; */
-  font-size: 12px;
+  font-size: 13px;
 }
 
+.nav-links a{
+  position: relative;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.nav-links .subMenu{
+  font-size: 14px;
+padding: 5px 2px;
+width: 100%;
+min-width: 150px;
+max-width: 300px;
+position: absolute;
+top: 110%;
+left: 20px;
+background-color: white;
+display: none;
+box-shadow: 0 0 18px -13px black;
+transition: all 0.4s;
+opacity: 0;
+display: block;
+}
+
+.nav-links a:hover .subMenu, .subMenu:hover{
+  opacity: 1;
+  z-index: 10;
+}
+.nav-links .subMenu a{
+  padding: 6px 0;
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid  #ccc;
+}
 .nav-links a::after {
   content: '';
   display: block;
@@ -1006,6 +1046,8 @@ footer p {
 
   .nav-links a,
   .nav-links select {
+    flex-direction: row;
+    height: unset;
     width: 100%;
     display: flex;
     justify-content: left;
@@ -1014,6 +1056,10 @@ footer p {
     font-size: 1.1rem;
   }
 
+  .nav-links a .subMenu{
+    width: 100%;
+    max-width: 300px;
+  }
   .nav-links .activeLink::after {
     display: none;
   }

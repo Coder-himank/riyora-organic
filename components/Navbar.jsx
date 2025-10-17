@@ -9,6 +9,8 @@ import {
   FaBriefcase,
   FaEnvelope,
   FaBars,
+  FaArrowDown,
+  FaAngleDown,
 } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -116,6 +118,14 @@ export default function Navbar() {
       name: "About Us",
       path: "/about", // Or use "/about" if that's more accurate
       icon: <FaServicestack />,
+
+      subMenu: [{
+
+        name: "Our Vision",
+        path: "/visionAndMission", // Or use "/about" if that's more accurate
+        icon: <FaServicestack />,
+
+      }]
     },
     {
       name: "Blogs",
@@ -136,6 +146,28 @@ export default function Navbar() {
 
   const pathname = router.pathname;
 
+
+  const RenderSubMenu = ({ items }) => {
+    return (
+      <div className="subMenu">
+
+        {items.map((link, index) => {
+          const isActive = router.asPath === link.path || router.asPath.startsWith(`${link.path}/`)
+          return <Link
+            key={index}
+            href={link.path}
+            className={`nav-link ${isActive ? "activeLink" : ""}`}
+          >
+            <span className="icon_label">{link.icon}</span> {link.name} {link.subMenu && <i>^</i>}
+
+            {link?.subMenu && <RenderSubMenu items={link.subMenu} />}
+
+          </Link>
+        })
+        }
+      </div >
+    )
+  }
   return (
     <>
       <Head>
@@ -204,15 +236,24 @@ export default function Navbar() {
               />
             </div>
             <div className="nav-links">
-              {navLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  href={link.path}
-                  className={`${pathname === link.path && "activeLink"}`}
-                >
-                  <span className={`icon_label`}>{link.icon}</span> {link.name}
-                </Link>
-              ))}
+              {navLinks.map((link, index) => {
+                const isActive = router.asPath === link.path || router.asPath.startsWith(`${link.path}/`);
+                return (
+                  <Link
+                    key={index}
+                    href={link.path}
+                    className={`nav-link ${isActive ? "activeLink" : ""}`}
+                  >
+                    <div>
+
+                      <span className="icon_label">{link.icon}</span> {link.name} {link?.subMenu && <i><FaAngleDown /></i>}
+                    </div>
+
+                    {link?.subMenu && <RenderSubMenu items={link.subMenu} />}
+                  </Link>
+                );
+              })}
+
             </div>
           </div>
 
@@ -234,6 +275,7 @@ export default function Navbar() {
                 ) : (
                   <FaRegUser />
                 )}
+
                 <span className="hide">User Dashboard</span>
               </Link>
 
@@ -245,7 +287,7 @@ export default function Navbar() {
         </nav>
 
         {/* navbar ensds */}
-      </header>
+      </header >
       <div className="subheader">
         <ul className="subheader-links">
           <li>

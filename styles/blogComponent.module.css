@@ -77,7 +77,8 @@
 
 .blog p {
 
-    font-weight: 200;
+    color: rgba(0, 0, 0, 0.448);
+    font-weight: 400;
     /* font-size: clamp(10px, 2vw, 16px); */
 }
 

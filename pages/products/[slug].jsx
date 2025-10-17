@@ -55,8 +55,8 @@ const RenderBanners = ({ position, banners }) => {
 
 
 
-const ExpandableSection = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const ExpandableSection = ({ title, children, defaultOpen = true }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
     <div className={styles.expandable_section}>
       <h3 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
@@ -241,7 +241,7 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
     return (
       <>
 
-        <ExpandableSection title="Specifications">
+        <ExpandableSection title="Specifications" defaultOpen={false}>
           <table className={styles.specifications}>
             <tbody>
               {Object.entries(displayProduct?.specifications || {}).map(([k, v]) => (
@@ -274,7 +274,7 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
     return (
       <>
 
-        <ExpandableSection title="Disclaimer">
+        <ExpandableSection title="Disclaimer" defaultOpen={false}>
           <ol className={styles.disclaimer}>
             {Object.entries(displayProduct?.disclaimers || {}).map(([k, v]) => (
               <li key={k}>{v}</li>
@@ -486,10 +486,10 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
                 {displayProduct?.discountPercentage > 0 && (
                   <>
                     <span className={styles.discount_perc}>{displayProduct?.discountPercentage}% OFF</span>
-                    <span className={styles.originalPrice}>₹{displayProduct?.mrp}</span>
+                    <span className={styles.originalPrice}>MRP : ₹{displayProduct?.mrp}</span>
                   </>
                 )}
-                <span className={styles.salePrice}>₹{displayProduct?.price}</span>
+                <span className={styles.salePrice}>MRP : ₹{displayProduct?.price}</span>
                 <p className={styles.price_text}>{displayProduct?.quantity} | GST included</p>
               </div>
 
@@ -551,10 +551,10 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
               </div>
             </Link>
 
-            <TopHeighlights />
-            <SpecSection />
-            <DisclaimerSection />
             <SuitableSection />
+            <TopHeighlights />
+            <SpecSection op />
+            <DisclaimerSection />
 
           </div>
 

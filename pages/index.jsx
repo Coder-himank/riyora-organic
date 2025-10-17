@@ -251,9 +251,11 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                   <span className={styles.review_count}>{highlightedProduct.averageRating} ({highlightedProduct.numReviews})</span>
                 </section>
               </Link>
-              <p> {highlightedProduct.description.length > 190 ? highlightedProduct.description.slice(0, 190) + "..." : highlightedProduct.description ||
-                "Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oilnourishes your scalp, strengthens roots, and promotes healthyhair growth. Free from parabens, sulfates, and artificialcolors."}
-              </p>
+              <Link href={prouctsAvailable > 1 ? "/products" : "/products/" + highlightedProduct.slug}>
+                <p> {highlightedProduct.description.length > 190 ? highlightedProduct.description.slice(0, 190) + "..." + " learn more" : highlightedProduct.description ||
+                  "Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oilnourishes your scalp, strengthens roots, and promotes healthyhair growth. Free from parabens, sulfates, and artificialcolors."}
+                </p>
+              </ Link>
               <div className={styles.product_bottom}>
 
                 <Link href={prouctsAvailable > 1 ? "/products" : "/products/" + highlightedProduct.slug} className={styles.product_shop_btn}>
@@ -293,7 +295,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
             <div className={styles.choose_us_text_content}>
               <ul>
                 <li>
-                  Handcrafted ayurvedic oils in small, quality-controlled
+                  Handcrafted natural oils in small, quality-controlled
                   batches
                 </li>
                 <li>
@@ -303,7 +305,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                   Free from parabens, sulfates, silicones, and synthetic
                   perfumes
                 </li>
-                <li>Formulated with Ayurvedic wisdom and modern science</li>
+                <li>Formulated with natural wisdom and modern science</li>
                 <li>Trusted by thousands for visible hair transformation</li>
               </ul>
             </div>
@@ -507,7 +509,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
 
         {/* Trending Products Section (again for SEO and engagement) */}
         <TrendingProduct products={products} />
-      </div>
+      </div >
     </>
   );
 }

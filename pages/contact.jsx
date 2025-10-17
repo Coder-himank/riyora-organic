@@ -22,6 +22,10 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!session.user) {
+            alert("Please Login")
+        }
         // Here you would typically send the form data to your backend
         try {
             await axios.post(`/api/secure/submitFeedback`, {
@@ -46,6 +50,7 @@ const Contact = () => {
                 <meta property="og:image" content="https://riyora-organic.vercel.app/images/Riyora-hair-oil-og.jpg" />
             </Head>
             <section className={styles.header_section}>
+                {!session?.user && <p>User not signed in</p>}
                 <h1>Contact Riyora Organic</h1>
                 <p>
                     Have questions about our <strong>natural hair oil</strong> or want to share your experience with Riyora Organic? Fill out the form below and our team will respond promptly. Your feedback helps us provide the best organic hair care solutions.

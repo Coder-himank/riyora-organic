@@ -1,140 +1,139 @@
-import React from "react";
-import Head from "next/head";
+import React, { useState } from "react";
 import styles from "@/styles/PrivacyPolicy.module.css";
 
 export default function PrivacyPolicy() {
+  const [showCookieBanner, setShowCookieBanner] = useState(true);
+
   return (
-    <>
-      <Head>
-        <title>Privacy Policy | Riyora Organic</title>
-        <meta
-          name="description"
-          content="Privacy Policy for Riyora Organic — learn how we collect, use, and protect your information."
-        />
-      </Head>
+    <main className={styles.container}>
+      <article className={styles.article}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Privacy Policy</h1>
+          <p className={styles.date}>Effective Date: 19th October, 2025</p>
+          <p className={styles.intro}>Thank you for visiting our website. This policy explains how Riyora Organic collects, uses, discloses, and protects your personal information when you use our Website and services.</p>
+        </div>
 
-      <main className={styles.container}>
-        <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.updated}>
-          Last updated: {new Date().toLocaleDateString("en-IN")}
-        </p>
+        <section>
+          <h2>1. Scope of this Policy</h2>
+          <p>This Privacy Policy applies to all users of our Website, online store, social media pages, and any other digital or online services operated by Riyora Organic.</p>
+        </section>
 
-        <section className={styles.section}>
-          <p>
-            Welcome to <strong>Riyora Organic</strong> (“we”, “our”, “us”). This
-            Privacy Policy explains how we collect, use, and protect your
-            personal information when you visit or make a purchase from{" "}
-            <a href="https://riyoraorganic.com" target="_blank" rel="noopener noreferrer">
-              riyoraorganic.com
-            </a>
-            .
-          </p>
+        <section>
+          <h2>2. Information We Collect</h2>
+          <div>
+            <h3>a. Personal Information</h3>
+            <ul>
+              <li>Name, phone number, email address, shipping and billing address</li>
+              <li>Account details and login credentials (if applicable)</li>
+              <li>Communication preferences, reviews, and customer feedback</li>
+            </ul>
 
-          <h2>1. Information We Collect</h2>
-          <p>We collect the following types of information:</p>
-          <ul>
-            <li>
-              <strong>Personal details:</strong> such as your name and email
-              address when you make a purchase or subscribe to our newsletter.
-            </li>
-            <li>
-              <strong>Usage data:</strong> collected automatically through
-              cookies, Google Analytics, and similar technologies.
-            </li>
-            <li>
-              <strong>Communication data:</strong> when you contact us for
-              support or inquiries.
-            </li>
-          </ul>
+            <h3>b. Financial Information</h3>
+            <p>Payment details such as credit/debit card, UPI, or other payment methods. <strong>Note:</strong> All transactions are securely processed by third-party payment gateways. Riyora Organic does not store or access your financial information.</p>
 
-          <h2>2. How We Use Your Information</h2>
-          <ul>
-            <li>Process and fulfill your orders.</li>
-            <li>Send you updates about your purchase or delivery.</li>
-            <li>Improve our website, products, and user experience.</li>
-            <li>Send promotional or newsletter emails (only with your consent).</li>
-            <li>Analyze website traffic using Google Analytics.</li>
-          </ul>
-
-          <h2>3. Cookies & Analytics</h2>
-          <p>
-            Our website uses cookies and Google Analytics to help us understand
-            visitor behavior and improve our services. Cookies are small data
-            files stored on your device. You can disable cookies in your browser
-            settings, but some parts of the website may not function properly.
-          </p>
-
-          <h2>4. Data Sharing & Disclosure</h2>
-          <p>
-            We do not sell or rent your personal information. We may share data
-            only with trusted third-party service providers (e.g., payment
-            processors, logistics partners) who assist us in running our
-            business — and only as necessary to provide their services.
-          </p>
-
-          <h2>5. Data Security</h2>
-          <p>
-            We use appropriate security measures to protect your personal data
-            against unauthorized access, alteration, disclosure, or destruction.
-          </p>
-
-          <h2>6. Your Rights</h2>
-          <p>Under applicable laws in India, you have the right to:</p>
-          <ul>
-            <li>Access, update, or delete your personal information.</li>
-            <li>Withdraw consent for marketing communications.</li>
-            <li>Request details of how your information is used.</li>
-          </ul>
-
-          <h2>7. Newsletter & Marketing Emails</h2>
-          <p>
-            If you subscribe to our newsletter, we will use your email address
-            to send you information about new products, offers, or wellness
-            tips. You may unsubscribe at any time by clicking the “unsubscribe”
-            link in any email or contacting us directly.
-          </p>
-
-          <h2>8. Third-Party Links</h2>
-          <p>
-            Our website may contain links to external websites. We are not
-            responsible for the privacy practices or content of those sites.
-          </p>
-
-          <h2>9. Updates to This Policy</h2>
-          <p>
-            We may update this Privacy Policy periodically to reflect changes in
-            our practices or legal requirements. The updated version will be
-            posted on this page with a new “Last Updated” date.
-          </p>
-
-          <h2>10. Contact Us</h2>
-          <p>
-            For questions or concerns about this Privacy Policy or your personal
-            data, please contact us:
-          </p>
-
-          <div className={styles.contactBox}>
-            <p>
-              <strong>Email:</strong>{" "}
-              <a href="mailto:care@riyoraorganic.com">care@riyoraorganic.com</a>
-            </p>
-            <p>
-              <strong>Phone:</strong>{" "}
-              <a href="tel:+919680886889">+91 96808 86889</a>
-            </p>
-            <p>
-              <strong>Website:</strong>{" "}
-              <a
-                href="https://riyoraorganic.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                riyoraorganic.com
-              </a>
-            </p>
+            <h3>c. Technical & Usage Information</h3>
+            <ul>
+              <li>IP address, device type, browser type, operating system</li>
+              <li>Browsing behavior, location data, and cookies</li>
+              <li>Website interaction, analytics, and session data</li>
+            </ul>
           </div>
         </section>
-      </main>
-    </>
+
+        <section>
+          <h2>3. How We Use Your Information</h2>
+          <ul>
+            <li>To process and fulfill your orders, payments, and deliveries</li>
+            <li>To send order updates, invoices, and transaction confirmations</li>
+            <li>To provide customer support and respond to inquiries</li>
+            <li>To improve our products, services, and overall user experience</li>
+            <li>To personalize your experience and display relevant content</li>
+            <li>For marketing, promotional emails, and targeted advertisements</li>
+            <li>For fraud prevention, data security, and compliance with applicable laws</li>
+            <li>To analyze usage trends and improve our Website performance</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. Sharing of Information</h2>
+          <p>We may share your personal data with trusted third parties, including:</p>
+          <ul>
+            <li><strong>Service Providers:</strong> Payment gateways, shipping partners, logistics providers, and IT support companies</li>
+            <li><strong>Advertising Partners:</strong> Google, Meta, and other platforms for remarketing or personalized advertisements</li>
+            <li><strong>Analytics & Cloud Providers:</strong> To analyze performance and store data securely</li>
+            <li><strong>Legal Authorities:</strong> When required by law or to protect our rights, property, or safety</li>
+          </ul>
+          <p><strong>We do not sell or rent your personal information to anyone.</strong></p>
+        </section>
+
+        <section>
+          <h2>5. User Rights & Choices</h2>
+          <ul>
+            <li>Access, update, or delete your personal information</li>
+            <li>Withdraw consent for marketing or promotional communications</li>
+            <li>Opt out of cookies or targeted advertising via your browser settings</li>
+            <li>Request information on how your data is processed</li>
+          </ul>
+          <p>To exercise these rights, please contact us at <a href="mailto:care@riyoraorganic.com">care@riyoraorganic.com</a>. We will respond to legitimate requests within 30 days.</p>
+        </section>
+
+        <section>
+          <h2>6. Cookies & Tracking Technologies</h2>
+          <ul>
+            <li>Enable essential website functions and improve user experience</li>
+            <li>Analyze traffic and measure website performance</li>
+            <li>Deliver relevant advertisements (e.g., Google Ads, Meta Ads)</li>
+          </ul>
+          <p>By using our Website, you consent to the use of cookies in accordance with this Privacy Policy. You may disable cookies in your browser settings; however, some features may not function properly.</p>
+        </section>
+
+        <section>
+          <h2>7. Data Security</h2>
+          <ul>
+            <li>SSL encryption for secure online transactions</li>
+            <li>Restricted access to personal data by authorized personnel only</li>
+            <li>Regular monitoring and updates to our systems for enhanced protection</li>
+          </ul>
+          <p>While we follow strict data protection practices, no method of transmission or storage is completely secure. Therefore, we cannot guarantee absolute security of your data.</p>
+        </section>
+
+        <section>
+          <h2>8. Policy Updates</h2>
+          <p>We may update this Privacy Policy periodically. Revised versions will be posted on this page with an updated Effective Date. Continued use of our Website after any changes signifies your acceptance of the updated policy.</p>
+        </section>
+
+        <section>
+          <h2>9. Contact Us</h2>
+          <address>
+            <p>Riyora Organic</p>
+            <p>Unit: LG 61, Manglam Fun Square Mall, Durga Nursery Road,</p>
+            <p>Udaipur, Rajasthan – 313001</p>
+            <p>Email: <a href="mailto:care@riyoraorganic.com">care@riyoraorganic.com</a></p>
+          </address>
+        </section>
+
+        <section>
+          <h2>10. Legal Compliance</h2>
+          <p>This Privacy Policy complies with applicable Indian data protection laws, including the Information Technology (IT) Act, 2000, and the Personal Data Protection Bill (PDPB), 2019.</p>
+        </section>
+
+        <footer className={styles.footer}>
+          <p>If you have questions or concerns related to your personal data, please contact us at <a href="mailto:care@riyoraorganic.com">care@riyoraorganic.com</a>.</p>
+        </footer>
+      </article>
+
+      {showCookieBanner && (
+        <div className={styles.cookieBanner}>
+          <div>
+            <p>We use cookies to improve your experience.</p>
+            <p>By continuing to use this site, you agree to our use of cookies in accordance with our Privacy Policy.</p>
+          </div>
+          <div className={styles.cookieButtons}>
+            <button onClick={() => setShowCookieBanner(false)}>Accept</button>
+            <a href="#cookies">Manage</a>
+          </div>
+        </div>
+      )}
+    </main>
   );
 }

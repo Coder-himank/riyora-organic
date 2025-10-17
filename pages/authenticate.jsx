@@ -32,11 +32,15 @@ export default function AuthPage() {
   const { data: session } = useSession();
 
   const router = useRouter();
-  const { type: pageType, callbackUrl } = router.query;
+  const { pageType, callbackUrl } = router.query;
 
   // Adjust mode based on query param
   useEffect(() => {
-    if (pageType !== "login") setIsLogin(false);
+    // alert(pageType)
+    if (pageType === "signup") setIsLogin(false)
+    else {
+      setIsLogin(true)
+    }
     // signOut()
   }, [pageType]);
 

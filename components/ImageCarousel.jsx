@@ -113,6 +113,7 @@ export default function InfiniteCarousel({ images = [], autoPlay = true, interva
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
+                    onClick={(e) => { e.preventDefault() }}
                 >
                     <div
                         className={styles.slider}

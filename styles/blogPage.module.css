@@ -40,14 +40,14 @@
 .mainContentBox h1 {
     font-size: clamp(1rem, 4vw, 3rem);
     color: green;
-    font-weight: 400;
+    /* font-weight: 400; */
 
 }
 
 .description {
     font-size: 1rem;
     color: #374151;
-    font-weight: 300;
+    /* font-weight: 300; */
 }
 
 .sections {
@@ -89,7 +89,7 @@
 .sectionContent p {
     font-size: 1rem;
     color: #4b5563;
-    font-weight: 300;
+    /* font-weight: 300; */
 }
 
 .listSection {

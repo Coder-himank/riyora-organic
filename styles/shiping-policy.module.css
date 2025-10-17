@@ -47,7 +47,17 @@
   margin-bottom: 0.5rem;
   width: 100%;
   padding-left: 10px;
-  border-right: 5px solid;
+  border-left: 5px solid;
+}
+
+.container ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  color: #374151;
+}
+
+.container ul li {
+  margin-bottom: 0.4rem;
 }
 
 .container p {
@@ -67,14 +77,6 @@
 
 .container strong {
   color: #14532d;
-}
-
-.footer {
-  border-top: 1px solid #e5e7eb;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  font-size: 0.9rem;
-  color: #6b7280;
 }
 
 @media (min-width: 768px) {

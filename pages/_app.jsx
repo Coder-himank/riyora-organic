@@ -28,12 +28,18 @@ function AuthPopup() {
     if (!session) {
       // First popup after 10s
       const firstTimer = setTimeout(() => {
+        if (router.pathname === "/authenticate") {
+          return;
+        }
         setShowAuth(true);
         setPopupCount(1);
       }, 10000); // 10,000 ms = 10 seconds
 
       // Then every 2 minutes after first popup
       const interval = setInterval(() => {
+        if (router.pathname === "/authenticate") {
+          return;
+        }
         setShowAuth(true);
         setPopupCount((prev) => prev + 1);
       }, 120000); // 120,000 ms = 2 minutes
@@ -46,6 +52,8 @@ function AuthPopup() {
   }, [session]);
 
   if (!showAuth || session) return null;
+
+  if (router.pathname === "/authenticate") return null
 
   return (
     <div className="authform">
