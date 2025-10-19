@@ -23,13 +23,13 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!session.user) {
-            alert("Please Login")
-        }
+        // if (!session.user) {
+        //     alert("Please Login")
+        // }
         // Here you would typically send the form data to your backend
         try {
             await axios.post(`/api/secure/submitFeedback`, {
-                userId: session?.user?.id, ...form
+                userId: session?.user?.id || null, ...form
             })
             setSubmitted(true);
         } catch (e) {

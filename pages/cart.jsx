@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import styles from "@/styles/cart.module.css";
 import UnAuthorizedUser from "@/components/UnAuthorizedUser";
+import getProductUrl from "@/utils/productsUtils";
+
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
@@ -42,6 +44,7 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   const [notification, setNotification] = useState(null);
   const [cartTotal, setCartTotal] = useState(0);
+  const [shopNowLink, setShopNowLink] = useState(null);
 
   useEffect(() => {
     if (!cartItems || cartItems.length === 0) {
@@ -108,6 +111,14 @@ export default function Cart() {
       )
     );
   }, [cart]);
+
+  useEffect(() => {
+    const fetchShopNowLink = async () => {
+      const url = await getProductUrl();
+      setShopNowLink(url);
+    };
+    fetchShopNowLink()
+  }, []);
 
   const showNotification = (message) => {
     setNotification(message);
@@ -199,9 +210,11 @@ export default function Cart() {
         {cart.length === 0 ? (
           <div className={styles.empty_cart}>
             <p>Your cart is empty</p>
-            <Link href="/">
-              <button className="shop-now">Shop Now</button>
-            </Link>
+            {shopNowLink &&
+              <Link href={shopNowLink || "/"}>
+                <button className="shop-now">Shop Now</button>
+              </Link>
+            }
           </div>
         ) : (
           <>
@@ -268,7 +281,7 @@ export default function Cart() {
               <div className={styles.cart_total}>
                 Total: ₹{cartTotal.toFixed(2)}
               </div>
-              <Link href={`/${userId}/checkout`}>
+              <Link href={`/checkout`}>
                 <button>Checkout</button>
               </Link>
             </div>

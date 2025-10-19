@@ -81,7 +81,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
     { img: "/images/choose_us_icon_6.png", text: "Gluten Free" },
     { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
     { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
-    { img: "/images/choose_us_icon_10.png", text: "Mineral Free" },
+    { img: "/images/choose_us_icon_10.png", text: "Mineral Oil Free" },
   ];
 
   useEffect(() => {
@@ -252,7 +252,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                 </section>
               </Link>
               <Link href={prouctsAvailable > 1 ? "/products" : "/products/" + highlightedProduct.slug}>
-                <p> {highlightedProduct.description.length > 190 ? highlightedProduct.description.slice(0, 190) + "..." + " learn more" : highlightedProduct.description ||
+                <p> {highlightedProduct.description.length > 250 ? highlightedProduct.description.slice(0, 250) + "..." + " learn more" : highlightedProduct.description ||
                   "Experience the power of Ayurveda with Riyora's Root Strength Hair Oil. Formulated with natural plant extracts, this oilnourishes your scalp, strengthens roots, and promotes healthyhair growth. Free from parabens, sulfates, and artificialcolors."}
                 </p>
               </ Link>
@@ -262,7 +262,15 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                   Shop Now for ₹ {highlightedProduct.price}
                 </Link>
 
-                <p>MRP: {highlightedProduct.mrp}</p>
+                {highlightedProduct.discountPercentage && (
+                  <>
+                    <span className={styles.product_discount}>
+                      {highlightedProduct.discountPercentage}% Off
+                    </span>
+                    <p>MRP: {highlightedProduct.mrp}</p>
+                  </>
+                )}
+
               </div>
             </div>
             <div className={styles.product_image_wrapper}>
@@ -306,7 +314,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                   perfumes
                 </li>
                 <li>Formulated with natural wisdom and modern science</li>
-                <li>Trusted by thousands for visible hair transformation</li>
+                {/* <li>Trusted by thousands for visible hair transformation</li> */}
               </ul>
             </div>
             <div className={styles.choose_us_image_wrapper}>

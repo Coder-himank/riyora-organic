@@ -47,7 +47,7 @@ export async function onAddToWishlist(router, productId, session) {
 
 export const onBuy = (router, productId, quantity_demanded, session, variantId = null) => { // modified for variants
     router.push({
-        pathname: `/${session?.user?.id}/checkout`,
+        pathname: `/checkout`,
         query: { productId, quantity_demanded, variantId } // added for variants
     })
 }

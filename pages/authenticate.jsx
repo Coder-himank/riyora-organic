@@ -94,6 +94,23 @@ export default function AuthPage() {
     }
   };
 
+
+  const handleReRouteAfterLogin = () => {
+    if (callbackUrl && callbackUrl.includes("checkout")) {
+      const url = new URL(callbackUrl, window.location.origin);
+      const params = new URLSearchParams(url.search);
+      const productId = params.get("productId");
+      const quantity = params.get("quantity") || 1;
+      router.push(`/checkout?productId=${productId}&quantity=${quantity}`);
+      return;
+    }
+    if (callbackUrl && callbackUrl.includes("cart")) {
+      router.push(callbackUrl);
+      return;
+    }
+    router.push(callbackUrl || "/");
+  }
+
   const handleVerifyOtp = async () => {
     if (!otp || otp.length < 4) {
       toast.error("Please enter a valid OTP");
@@ -142,16 +159,7 @@ export default function AuthPage() {
         } else {
           toast.success("Login successful");
           console.log(callbackUrl);
-
-          if (callbackUrl && callbackUrl.includes("checkout")) {
-            const url = new URL(callbackUrl, window.location.origin);
-            const params = new URLSearchParams(url.search);
-            const productId = params.get("productId");
-            const quantity = params.get("quantity") || 1;
-            router.push(`/${session?.user?.id}/checkout?productId=${productId}&quantity=${quantity}`);
-            return;
-          }
-          router.push(callbackUrl || "/");
+          handleReRouteAfterLogin();
         }
       } else {
         // Sign up flow
@@ -173,7 +181,8 @@ export default function AuthPage() {
 
         if (res.ok) {
           toast.success("Sign up successful");
-          router.push(callbackUrl || "/");
+
+          handleReRouteAfterLogin();
         } else {
           toast.error("Sign up Failed");
         }

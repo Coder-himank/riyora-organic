@@ -87,8 +87,8 @@
 
   --list-hover-bg: rgba(143, 151, 143, 0.114);
 
-  --heading-font-family: Roboto;
-  --normal-font-family: Roboto;
+  --heading-font-family: Poppins, sans-serif;
+  --normal-font-family: Poppins, sans-serif;
 
   
   --success: #22c55e;
@@ -516,10 +516,25 @@ header {
 
 .nav-mid .nav-links {
   /* font-weight: bold; */
-  font-size: 13px;
+  font-size: 0.8rem;
 }
 
+.nav-links a div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.nav-links .dropDownBtn{
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding: -10px; */
+}
 .nav-links a{
+  /* border: 1px solid green; */
+  border-bottom: 2px solid transparent;
   position: relative;
   height: 30px;
   display: flex;
@@ -528,7 +543,7 @@ header {
   justify-content: center;
 }
 .nav-links .subMenu{
-  font-size: 14px;
+  /* font-size: 1rem; */
 padding: 5px 2px;
 width: 100%;
 min-width: 150px;
@@ -538,10 +553,13 @@ top: 110%;
 left: 20px;
 background-color: white;
 display: none;
-box-shadow: 0 0 18px -13px black;
+box-shadow: 2px 3px 13px -7px black;
+/* background-color: rgb(209, 209, 209); */
 transition: all 0.4s;
 opacity: 0;
 display: block;
+border-radius: 4px;
+padding: 5px;
 }
 
 .nav-links a:hover .subMenu, .subMenu:hover{
@@ -551,21 +569,14 @@ display: block;
 .nav-links .subMenu a{
   padding: 6px 0;
   display: block;
+  text-align: left;
   width: 100%;
   border-bottom: 1px solid  #ccc;
 }
-.nav-links a::after {
-  content: '';
-  display: block;
-  width: 1px;
-  height: 2px;
-  transition: all 0.3s ease-in-out;
-  margin: 5px auto 0;
-}
 
-.nav-links .activeLink::after {
-  background-color: green;
-  width: 100%;
+.nav-links .activeLink {
+  border-bottom: 2px solid green;
+  /* width: 100%; */
 }
 
 .toogleNavBar {

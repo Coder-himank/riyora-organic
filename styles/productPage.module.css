@@ -165,8 +165,8 @@
 .price {
     width: 50%;
     max-width: fit-content;
-    font-size: 2.2rem;
-    /* border-bottom: 1px solid #ccc; */
+    font-size: clamp(16px, 3vw, 1.5rem);
+    border-bottom: 1px solid #ccc;
 }
 
 .discount_perc {
@@ -365,6 +365,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 10px 0;
     color: rgba(0, 0, 0, 0.695);
 }
 

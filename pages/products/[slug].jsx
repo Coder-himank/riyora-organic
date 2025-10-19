@@ -462,7 +462,10 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
 
             <Link href={"#product_info_tabs"}>
               <div className={styles.description}>
-                <p>{displayProduct?.description.length > 200 ? displayProduct.description.slice(0, 200) + "..." : displayProduct.description}</p><br />
+                {/* <ExpandableSection> */}
+
+                <p>{displayProduct?.description.length > 300 ? displayProduct.description.slice(0, 300) + "..." : displayProduct.description}</p><br />
+                {/* </ExpandableSection> */}
               </div>
             </Link>
 
@@ -489,7 +492,7 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
                     <span className={styles.originalPrice}>MRP : ₹{displayProduct?.mrp}</span>
                   </>
                 )}
-                <span className={styles.salePrice}>MRP : ₹{displayProduct?.price}</span>
+                <span className={styles.salePrice}> ₹{displayProduct?.price}</span>
                 <p className={styles.price_text}>{displayProduct?.quantity} | GST included</p>
               </div>
 
@@ -566,7 +569,7 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
 
         {/* Product Info Sections */}
 
-        <Tabs
+        < Tabs
           id={"product_info_tabs"}
           tabs={tabsObject}
         />

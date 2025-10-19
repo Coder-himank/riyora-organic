@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FaGrinStars, FaSmile, FaMeh, FaFrown, FaAngry } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import Image from "next/image";
 import styles from "@/styles/reviewSection.module.css";
@@ -186,6 +186,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
 
     return (
         <section className={styles.reviewSection} id="reviews">
+
+            <ToastContainer position="top-right" autoClose={3000} />
             <h2>
                 Customer <span>Reviews</span>
             </h2>
@@ -211,49 +213,47 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                 </div>
 
                 {/* Right Panel */}
-                {canWriteReview ? (
-                    <div className={styles.rightPanel}>
-                        <h3>Write Your Review</h3>
-                        <div className={styles.smileOptions}>
-                            {smileOptions.map((s) => (
-                                <button
-                                    key={s.value}
-                                    className={`${styles.smileBtn} ${rating === s.value ? styles.active : ""}`}
-                                    style={{ color: s.color }}
-                                    onClick={() => setRating(s.value)}
-                                >
-                                    {s.icon}
-                                    <span>{s.label}</span>
-                                </button>
-                            ))}
-                        </div>
 
-                        <textarea
-                            placeholder="Share your experience..."
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                        />
-
-                        <MultiImageUploader
-                            images={images}
-                            setDataFunction={setReviewImage}
-                            removeDataFunction={removeReviewImage}
-                            fileFolder={`${productId}-reviews`}
-                            setUploadingImage={setUploadingImage}
-                            uploadingImage={uploadingImage}
-                        />
-
-                        <button
-                            className={styles.submitBtn}
-                            onClick={handleSubmit}
-                            disabled={submitting}
-                        >
-                            {submitting ? "Submitting..." : "Submit Review"}
-                        </button>
+                <div className={styles.rightPanel}>
+                    <h3>Write Your Review</h3>
+                    <div className={styles.smileOptions}>
+                        {smileOptions.map((s) => (
+                            <button
+                                key={s.value}
+                                className={`${styles.smileBtn} ${rating === s.value ? styles.active : ""}`}
+                                style={{ color: s.color }}
+                                onClick={() => setRating(s.value)}
+                            >
+                                {s.icon}
+                                <span>{s.label}</span>
+                            </button>
+                        ))}
                     </div>
-                ) : (
-                    <div>{/* user already reviewed */}</div>
-                )}
+
+                    <textarea
+                        placeholder="Share your experience..."
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                    />
+
+                    <MultiImageUploader
+                        images={images}
+                        setDataFunction={setReviewImage}
+                        removeDataFunction={removeReviewImage}
+                        fileFolder={`${productId}-reviews`}
+                        setUploadingImage={setUploadingImage}
+                        uploadingImage={uploadingImage}
+                    />
+
+                    <button
+                        className={styles.submitBtn}
+                        onClick={handleSubmit}
+                        disabled={submitting}
+                    >
+                        {submitting ? "Submitting..." : "Submit Review"}
+                    </button>
+                </div>
+
             </div>
 
             {/* Reviews */}

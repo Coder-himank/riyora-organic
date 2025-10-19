@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const FeedbackSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
     },
     name: {
         type: String,

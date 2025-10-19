@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
     const { userId, name, email, message } = req.body;
 
-    if (!userId || !name || !email || !message) {
+    if ( !name || !email || !message) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
