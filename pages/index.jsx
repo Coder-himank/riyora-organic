@@ -213,13 +213,17 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
               <div
                 className={`${styles.hero_section_slides} ${styles.hero_section_slide_1}`}
               >
-                <Image
-                  src={"/images/banner1.png"}
-                  width={1920}
-                  height={500}
-                  alt="Riyora Organic Ayurvedic Hair Oil Banner"
-                  priority
-                />
+                <Link
+                  href={"/products/" + (highlightedProduct.slug || "")}
+                >
+                  <Image
+                    src={"/images/banner1.png"}
+                    width={1920}
+                    height={500}
+                    alt="Riyora Organic Ayurvedic Hair Oil Banner"
+                    priority
+                  />
+                </Link>
               </div>
               <div
                 className={`${styles.hero_section_slides} ${styles.hero_section_slide_2}`}

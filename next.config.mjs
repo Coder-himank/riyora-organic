@@ -17,8 +17,12 @@ const nextConfig = {
         destination: "/api/sitemap.xml",
       },
       {
-        source: "/checkout",
+        source: "/sitemap",
         destination: "/api/sitemap.xml",
+      },
+      {
+        source: "/products",
+        destination: "/",
       },
     ];
   },

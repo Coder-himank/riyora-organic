@@ -260,8 +260,8 @@ export default function Navbar() {
           {/* Nav right Starts */}
           <div className="nav-right">
             <div className="nav-user-option">
-              <Link href={`/${userId}/cart`}>
-                {pathname === `/[userId]/cart` ? (
+              <Link href={`/cart`}>
+                {pathname === `/cart` ? (
                   <FaShoppingCart />
                 ) : (
                   <AiOutlineShoppingCart />
@@ -269,7 +269,7 @@ export default function Navbar() {
                 <span className="hide">Cart</span>
               </Link>
 
-              <Link href={!session ? "/authenticate" : `/${userId}/dashboard`}>
+              <Link href={!session ? "/authenticate" : `/dashboard`}>
                 {pathname === `/[userId]/dashboard` ? (
                   <FaUser />
                 ) : (

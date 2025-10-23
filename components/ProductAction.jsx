@@ -1,6 +1,7 @@
 // components/ProductAction.js
+export async function onAddToCart({ router, productId, session, quantity_demanded, variantId = null }) { // modified for variants
 
-export async function onAddToCart(router, productId, session, quantity_demanded, variantId = null) { // modified for variants
+
     if (!session?.user) {
         router.push({ pathname: `/authenticate`, query: { callback: `/cart`, productId } })
         return

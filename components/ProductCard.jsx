@@ -2,62 +2,62 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/styles/ProductCard.module.css"; // optional: create/adjust
-
+import { onAddToCart } from "@/components/ProductAction";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 export default function ProductCard({ product }) {
   // fallback: if product.variants is empty, treat base as single variant
-  const variants = product.variants && product.variants.length ? product.variants : [{
-    _id: "base",
+  const variants = [{
+    _id: product._id,
     name: "Default",
     price: product.price,
     mrp: product.mrp,
     stock: product.stock,
     imageUrl: product.imageUrl || [],
     quantity: product.quantity
-  }];
+  },
+  ...((product.variants && product.variants.length > 0) ? product.variants : [])
+  ];
 
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const selectedVariant = variants[selectedVariantIdx];
 
+  const { router } = useRouter()
+  const { data: session } = useSession()
   useEffect(() => {
     // ensure quantity is within stock bounds
     if ((selectedVariant?.stock || 0) === 0) {
       setQuantity(0);
     } else if (quantity === 0) {
       setQuantity(1);
-    } else if (quantity > (selectedVariant?.stock || 9999)) {
-      setQuantity(selectedVariant?.stock || 9999);
+    } else if (quantity > 5) {
+      setQuantity(5);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVariantIdx]);
 
-  const addToCart = () => {
+  const handleAddToCart = () => {
     if ((selectedVariant.stock || 0) < quantity) {
       alert("Not enough stock for selected variant");
       return;
     }
-    const cart = JSON.parse(localStorage.getItem("cart_v1") || "[]");
-    const variantId = selectedVariant._id || "base";
 
-    const existingIdx = cart.findIndex(c => c.productId === product._id && c.variantId === variantId);
-    if (existingIdx > -1) {
-      cart[existingIdx].quantity += quantity;
-      cart[existingIdx].price = selectedVariant.price; // update snapshot price
+    const res = onAddToCart({
+      productId: product._id,
+      variantId: selectedVariant._id,
+      quantity_demanded: quantity,
+      session, // to be handled in onAddToCart
+      router  // to be handled in onAddToCart
+
+    });
+
+    if (res.success) {
+      toast.success("Added to cart successfully");
     } else {
-      cart.push({
-        productId: product._id,
-        variantId,
-        variantName: selectedVariant.name || "Default",
-        productName: product.name,
-        price: selectedVariant.price,
-        mrp: selectedVariant.mrp || product.mrp,
-        imageUrl: (selectedVariant.imageUrl && selectedVariant.imageUrl[0]) || product.imageUrl?.[0] || "",
-        quantity,
-      });
+      toast.error("Failed to add to cart");
     }
-    localStorage.setItem("cart_v1", JSON.stringify(cart));
-    // nice UX - you can replace with toast
-    alert("Added to cart");
   };
 
   return (
@@ -70,7 +70,7 @@ export default function ProductCard({ product }) {
       </Link>
 
       <div className={styles.variantRow}>
-        <label>Variant</label>
+        {/* <label>Variant</label> */}
         <select value={selectedVariantIdx} onChange={(e) => setSelectedVariantIdx(Number(e.target.value))}>
           {variants.map((v, idx) => (
             <option key={v._id || idx} value={idx}>
@@ -92,12 +92,12 @@ export default function ProductCard({ product }) {
           <input
             type="number"
             min={1}
-            max={selectedVariant.stock || 9999}
+            max={5}
             value={quantity}
             onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
             className={styles.qty}
           />
-          <button onClick={addToCart} disabled={(selectedVariant.stock || 0) <= 0} className={styles.addBtn}>
+          <button onClick={handleAddToCart} disabled={(selectedVariant.stock || 0) <= 0} className={styles.addBtn}>
             Add to Cart
           </button>
         </div>

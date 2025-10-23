@@ -53,7 +53,7 @@ export default function Checkout() {
     async function fetchProducts() {
 
       if (!router.isReady || !session) return;
-      if (router.query.productId) {
+      if (router.query.productId && router.query.productId !== "null") {
         setProducts([
           {
             productId: router.query.productId,
@@ -77,6 +77,12 @@ export default function Checkout() {
             variantId: item.variantId || null,
             quantity: item.quantity_demanded || 1,
           }));
+
+          if (cartProducts.length === 0) {
+            setError("Your cart is empty. Please add items to cart before checkout.");
+            setLoading(false);
+            return;
+          }
           setProducts(cartProducts);
 
         } catch (e) {
@@ -116,6 +122,10 @@ export default function Checkout() {
       const { data } = await axios.post("/api/secure/checkout", payload, {
         withCredentials: true,
       });
+      if (data.length === 0) {
+        setError("No products found for checkout");
+        return;
+      }
       setSummary(data);
 
       if (!selectedAddressId && data.addresses?.length) {
