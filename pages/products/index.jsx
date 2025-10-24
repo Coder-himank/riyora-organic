@@ -5,6 +5,8 @@ import ProductSkeleton from "@/components/ProductSkeleton";
 import styles from "@/styles/products.module.css";
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -24,6 +26,9 @@ export default function Products() {
     }
     fetchProducts();
   }, []);
+
+  const { router } = useRouter()
+  const { data: session } = useSession()
 
   return (
     <>
@@ -72,7 +77,7 @@ export default function Products() {
             ))
             : products.length > 0
               ? products.map((product) => (
-                <ProductCard key={product._id} product={product} />
+                <ProductCard key={product._id} product={product} session={session} router={router} />
               ))
               : <p className={styles.empty}>No Products Available</p>}
         </div>

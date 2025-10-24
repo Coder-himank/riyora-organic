@@ -18,7 +18,7 @@ import { ToastContainer, toast } from "react-toastify";
 import ReviewSection from "@/components/ReviewSection";
 import InfiniteCarousel from "@/components/ImageCarousel";
 import InfinteScroller from "@/components/InfinteScroller";
-
+import { FaAngleDown } from "react-icons/fa";
 import Tabs from "@/components/Tabs";
 import ProductInfo from "@/server/models/productInfo";
 
@@ -59,8 +59,8 @@ const ExpandableSection = ({ title, children, defaultOpen = true }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
     <div className={styles.expandable_section}>
-      <h3 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
-        {title} {isOpen ? "-" : "+"}
+    <h3 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
+        {title} {isOpen ? <FaAngleDown /> : ">"}
       </h3>
       {isOpen && <div className={styles.expandable_content}>{children}</div>}
     </div>

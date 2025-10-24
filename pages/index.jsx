@@ -247,6 +247,22 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
             <h2>Shop Now</h2>
           </div>
           <section className={styles.product_section_in}>
+            <div className={styles.product_image_wrapper}>
+              {/* <div className={styles.bg_circel}></div> */}
+              <Carousel
+                showControls={false}
+              >
+                {highlightedProduct.imageUrl.map((img, index) => (
+
+                  <Image
+                    src={img || "/products/root_strength_hair_oil_2.png"}
+                    width={1000}
+                    height={1000}
+                    alt={highlightedProduct.name || "Riyora Root Strength Hair Oil Bottle"}
+                  />
+                ))}
+              </Carousel>
+            </div>
             <div className={styles.product_text_content}>
               <h1>{highlightedProduct.name}</h1>
               <Link href={`/products/${highlightedProduct.slug}#reviews`} style={{ maxWidth: "fit-content" }}>
@@ -277,22 +293,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
 
               </div>
             </div>
-            <div className={styles.product_image_wrapper}>
-              {/* <div className={styles.bg_circel}></div> */}
-              <Carousel
-                showControls={false}
-              >
-                {highlightedProduct.imageUrl.map((img, index) => (
 
-                  <Image
-                    src={img || "/products/root_strength_hair_oil_2.png"}
-                    width={500}
-                    height={500}
-                    alt={highlightedProduct.name || "Riyora Root Strength Hair Oil Bottle"}
-                  />
-                ))}
-              </Carousel>
-            </div>
           </section>
         </motion.section>
 
@@ -306,19 +307,11 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
           <section className={styles.choose_us_section_in}>
             <div className={styles.choose_us_text_content}>
               <ul>
-                <li>
-                  Handcrafted natural oils in small, quality-controlled
-                  batches
-                </li>
-                <li>
-                  Ethically sourced, cruelty-free, and eco-conscious packaging
-                </li>
-                <li>
-                  Free from parabens, sulfates, silicones, and synthetic
-                  perfumes
-                </li>
-                <li>Formulated with natural wisdom and modern science</li>
-                {/* <li>Trusted by thousands for visible hair transformation</li> */}
+                <li>Powered by Potent Ingredients Enriched with Saw Palmetto, Rosemary, Bhringraj, Jojoba, and Cold-Pressed Coconut Oil for strong and healthy roots.</li>
+                <li>Free from mineral oil, palm oil, parabens, sulfates, silicones, and synthetic fragrances — only pure, natural care.</li>
+                <li>Clinically and dermatologically tested to ensure unmatched purity, safety, and visible performance.</li>
+                <li>Crafted with complete transparency — every ingredient is honestly listed and purposefully chosen.</li>
+                <li>Enriched with potent Ayurvedic herbs and cold-pressed oils for deep nourishment and scalp rejuvenation.</li>
               </ul>
             </div>
             <div className={styles.choose_us_image_wrapper}>

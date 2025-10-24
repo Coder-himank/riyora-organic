@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/styles/ProductCard.module.css"; // optional: create/adjust
 import { onAddToCart } from "@/components/ProductAction";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+
 import toast from "react-hot-toast";
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, router, session }) {
   // fallback: if product.variants is empty, treat base as single variant
   const variants = [{
     _id: product._id,
@@ -24,8 +23,6 @@ export default function ProductCard({ product }) {
   const [quantity, setQuantity] = useState(1);
   const selectedVariant = variants[selectedVariantIdx];
 
-  const { router } = useRouter()
-  const { data: session } = useSession()
   useEffect(() => {
     // ensure quantity is within stock bounds
     if ((selectedVariant?.stock || 0) === 0) {
@@ -48,8 +45,8 @@ export default function ProductCard({ product }) {
       productId: product._id,
       variantId: selectedVariant._id,
       quantity_demanded: quantity,
-      session, // to be handled in onAddToCart
-      router  // to be handled in onAddToCart
+      session : session, // to be handled in onAddToCart
+      router:router  // to be handled in onAddToCart
 
     });
 
