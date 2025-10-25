@@ -186,7 +186,7 @@
 }
 
 .price .salePrice {
-    font-size: clamp(24px, 4vw, 2.5rem);
+    font-size: 2.5rem;
     color: rgb(47, 101, 47);
     font-weight: bold;
 }
@@ -268,7 +268,7 @@
     width: 100%;
     max-width: 600px;
     border-radius: 30px;
-    padding: 20px;
+    padding: 12px;
 }
 
 .action_btn button:nth-child(1) {
@@ -511,10 +511,20 @@
         position: static;
         top: 0;
         width: 90%;
-        /* max-width: 400px; */
         margin-bottom: 20px;
     }
 
+    .price_quantity {
+        width: 100%;
+        /* height: ; */
+    }
+
+    .salePrice{
+        display: block;
+    }
+    .action_btn {
+        flex-direction: column;
+}
 }
 @media screen and  (max-width: 768px) {
     
@@ -523,10 +533,6 @@
         max-width: 100%;
     }
 
-    .price_quantity {
-        /* flex-direction: column; */
-        /* align-items: start; */
-    }
 
     .price, .quantity {
         /* width: 100%; */

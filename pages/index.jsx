@@ -69,20 +69,27 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
 
   const [productUrl, setProductUrl] = useState(null);
 
-  const choose_us_list_1 = [
-    { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
-    { img: "/images/choose_us_icon_2.png", text: "Eco Friendly" },
-    { img: "/images/choose_us_icon_3.png", text: "Non Sticky" },
-    { img: "/images/choose_us_icon_4.png", text: "Vegan" },
-    { img: "/images/choose_us_icon_5.png", text: "No Artificial Color" },
-  ];
-  const choose_us_list_2 = [
-    { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
-    { img: "/images/choose_us_icon_6.png", text: "Gluten Free" },
-    { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
-    { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
-    { img: "/images/choose_us_icon_10.png", text: "Mineral Oil Free" },
-  ];
+  const choose_us_list = [
+    [
+
+      { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
+      { img: "/images/choose_us_icon_2.png", text: "Eco Friendly" },
+      { img: "/images/choose_us_icon_3.png", text: "Non Sticky" },
+    ],
+    [
+
+      { img: "/images/choose_us_icon_4.png", text: "Vegan" },
+      { img: "/images/choose_us_icon_5.png", text: "No Artificial Color" },
+      { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
+    ],
+    [
+
+      { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
+      { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
+      { img: "/images/choose_us_icon_10.png", text: "Mineral Oil Free" },
+    ],
+
+  ]
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -315,50 +322,30 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
               </ul>
             </div>
             <div className={styles.choose_us_image_wrapper}>
-              <section className={styles.choose_us_image_row}>
-                {choose_us_list_1.map((choose_us, index) => (
-                  <motion.div
-                    key={index}
-                    className={styles.choose_us_card}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.2, duration: 0.5 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className={styles.choose_us_card_icon}>
-                      <Image
-                        src={choose_us.img}
-                        width={50}
-                        height={50}
-                        alt={choose_us.text}
-                      />
-                    </div>
-                    <span>{choose_us.text}</span>
-                  </motion.div>
-                ))}
-              </section>
-              <section className={styles.choose_us_image_row}>
-                {choose_us_list_2.map((choose_us, index) => (
-                  <motion.div
-                    key={index}
-                    className={styles.choose_us_card}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.2, duration: 0.5 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className={styles.choose_us_card_icon}>
-                      <Image
-                        src={choose_us.img}
-                        width={50}
-                        height={50}
-                        alt={choose_us.text}
-                      />
-                    </div>
-                    <span>{choose_us.text}</span>
-                  </motion.div>
-                ))}
-              </section>
+              {choose_us_list.map((ch, index) => (
+                <section className={styles.choose_us_image_row}>
+                  {ch.map((choose_us, index) => (
+                    <motion.div
+                      key={index}
+                      className={styles.choose_us_card}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.2, duration: 0.5 }}
+                      viewport={{ once: true }}
+                    >
+                      <div className={styles.choose_us_card_icon}>
+                        <Image
+                          src={choose_us.img}
+                          width={50}
+                          height={50}
+                          alt={choose_us.text}
+                        />
+                      </div>
+                      <span>{choose_us.text}</span>
+                    </motion.div>
+                  ))}
+                </section>
+              ))}
             </div>
           </section>
         </motion.section>
