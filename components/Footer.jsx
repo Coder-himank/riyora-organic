@@ -31,7 +31,7 @@ export default function Footer() {
       <div className="newsLetter">
         <section className="text-content">
           <h2>Subscribe to Our News Letter</h2>
-          <p>Get Lates Update On Your Favourite Products and many More</p>
+          <p>Get Latest Update On Your Favourite Products and many More</p>
         </section>
         <section className="field">
           <input
@@ -89,6 +89,7 @@ export default function Footer() {
 
             <div className="app-images payment-opt">
               <Image
+              className="phonepayLogoFooter"
                 src={"/images/phonepe.png"}
                 width={100}
                 height={80}

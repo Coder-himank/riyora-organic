@@ -75,19 +75,21 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
       { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
       { img: "/images/choose_us_icon_2.png", text: "Eco Friendly" },
       { img: "/images/choose_us_icon_3.png", text: "Non Sticky" },
-    ],
-    [
-
       { img: "/images/choose_us_icon_4.png", text: "Vegan" },
       { img: "/images/choose_us_icon_5.png", text: "No Artificial Color" },
-      { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
     ],
     [
 
+      { img: "/images/choose_us_icon_6.png", text: "glute free" },
+      { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
       { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
       { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
-      { img: "/images/choose_us_icon_10.png", text: "Mineral Oil Free" },
+      { img: "/images/choose_us_icon_10.png", text: "Chemical Free" },
     ],
+    // [
+
+    //   { img: "/images/choose_us_icon_10.png", text: "Mineral Oil Free" },
+    // ],
 
   ]
 
@@ -314,11 +316,31 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
           <section className={styles.choose_us_section_in}>
             <div className={styles.choose_us_text_content}>
               <ul>
-                <li>Powered by Potent Ingredients Enriched with Saw Palmetto, Rosemary, Bhringraj, Jojoba, and Cold-Pressed Coconut Oil for strong and healthy roots.</li>
-                <li>Free from mineral oil, palm oil, parabens, sulfates, silicones, and synthetic fragrances — only pure, natural care.</li>
-                <li>Clinically and dermatologically tested to ensure unmatched purity, safety, and visible performance.</li>
-                <li>Crafted with complete transparency — every ingredient is honestly listed and purposefully chosen.</li>
-                <li>Enriched with potent Ayurvedic herbs and cold-pressed oils for deep nourishment and scalp rejuvenation.</li>
+                <li>
+
+                  Powered by potent Ayurvedic ingredients — Saw Palmetto, Rosemary, Bhringraj & Jojoba for strong roots.
+
+                </li>
+                <li>
+
+                  100% Pure & Chemical-Free — no mineral oil, parabens, sulfates, or silicones.
+                </li>
+                <li>
+
+
+                  Clinically & Dermatologically Tested — safe, pure, and visibly effective.
+                </li>
+                <li>
+
+
+                  Honest & Transparent Formulation — every ingredient has a purpose.
+                </li>
+
+                <li>
+
+
+                  Deep Nourishment & Scalp Renewal — infused with cold-pressed natural oils.
+                </li>
               </ul>
             </div>
             <div className={styles.choose_us_image_wrapper}>

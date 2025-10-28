@@ -5,6 +5,10 @@
   margin: auto;
   overflow: hidden;
   user-select: none;
+  display: grid;
+  grid-template-columns: 10% 1fr;
+  gap: 10px;
+  
 }
 
 .sliderWrapper {
@@ -75,12 +79,17 @@
 }
 
 .thumbnails {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(auto-fit, 1fr);
+  /* flex-wrap: wrap; */
+  /* justify-content: center; */
+  /* gap: 8px; */
   margin-top: 10px;
   /* flex-wrap: wrap; */
   overflow: auto;
+  max-height: 100%;
+
 }
 .thumbnails::-webkit-scrollbar {
   display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
@@ -91,15 +100,21 @@
   cursor: pointer;
   border-radius: 6px;
   overflow: hidden;
-  width: 70px;
+  width: 100%;
+  max-height: fit-content;
+  max-width: fit-content;
+
 }
 
 .thumb img {
   display: block;
+  object-fit: contain;
   width: 100%;
+  max-height: 60px;
   height: auto;
 }
 
 .thumb.active {
   border-color: green;
 }
+

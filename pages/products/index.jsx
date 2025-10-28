@@ -27,7 +27,7 @@ export default function Products() {
     fetchProducts();
   }, []);
 
-  const { router } = useRouter()
+  const router = useRouter()
   const { data: session } = useSession()
 
   return (

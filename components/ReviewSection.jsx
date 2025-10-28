@@ -7,6 +7,7 @@ import Image from "next/image";
 import styles from "@/styles/reviewSection.module.css";
 import StarRating from "./StartRating";
 import { MultiImageUploader } from "@/components/ImageUploader";
+import { useRouter } from "next/router";
 
 export const ReviewSection = ({ productId, reviews = [] }) => {
     const { data: session } = useSession();
@@ -17,6 +18,8 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
     const [canWriteReview, setCanWriteReview] = useState(true);
     const [filtered, setFiltered] = useState(0)
     const [uploadingImage, setUploadingImage] = useState(false);
+
+    const router = useRouter();
 
     // Show/Hide All Reviews Box
     const [showReviewLimit, setShowReviewLimit] = useState(5);
@@ -112,16 +115,16 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
 
 
     const filterReviewByRate = (rate) => {
-        setFiltered(rate)
-        if (rate === 0) {
-            setDisplayReviews(orderedReviews);
-        } else {
+        setFiltered(rate);
+        setDisplayReviews(rate === 0 ? orderedReviews : orderedReviews.filter(r => r.rating === rate));
+        setShowReviewLimit(5);
 
-            setDisplayReviews(orderedReviews.filter(r => r.rating === rate))
-        }
+        requestAnimationFrame(() => {
+            const element = document.getElementById("reviewList");
+            if (element) element.scrollIntoView({ behavior: "smooth" });
+        });
+    };
 
-        setShowReviewLimit(5)
-    }
 
     // ✅ Sort reviews so newest first
     const sortedReviews = [...reviews].reverse();
@@ -257,7 +260,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
             </div>
 
             {/* Reviews */}
-            <div className={styles.reviewList}>
+            <div className={styles.reviewList} id="reviewList">
                 <h3
                     onClick={() => {
                         setFiltered(0)
@@ -321,7 +324,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                     >
                         Show More
                     </button>
-                ) : (
+                ) : displayReviews.length > 5 && (
                     <button
                         className={styles.showAllBtn}
                         onClick={() => setShowReviewLimit(5)}

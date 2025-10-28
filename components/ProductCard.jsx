@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "@/styles/ProductCard.module.css"; // optional: create/adjust
 import { onAddToCart } from "@/components/ProductAction";
 
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 export default function ProductCard({ product, router, session }) {
   // fallback: if product.variants is empty, treat base as single variant
   const variants = [{
@@ -45,8 +45,8 @@ export default function ProductCard({ product, router, session }) {
       productId: product._id,
       variantId: selectedVariant._id,
       quantity_demanded: quantity,
-      session : session, // to be handled in onAddToCart
-      router:router  // to be handled in onAddToCart
+      session: session, // to be handled in onAddToCart
+      router: router  // to be handled in onAddToCart
 
     });
 

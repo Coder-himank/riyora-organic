@@ -460,7 +460,7 @@
     width: 100%;
     text-align: center;
     font-weight: 300;
-    text-shadow: 0 0 10px white;
+    text-shadow: 0 0 20px white;
     color: #000000;
     line-height: 18px;
     position: absolute;
@@ -468,7 +468,7 @@
     font-weight: bold;
     font-size: 12px;
     line-height: 200%;
-    background: linear-gradient(40deg, rgba(149, 149, 149, 0.4), rgba(0,0,0,0));
+    background: linear-gradient(40deg, rgba(193, 193, 193, 0.803), rgba(0, 0, 0, 0.282));
     /* border-color: ; */
     /* font-size: 1; */
 }
@@ -515,7 +515,7 @@
     }
 
     .price_quantity {
-        width: 100%;
+        /* width: 100%; */
         /* height: ; */
     }
 
@@ -524,6 +524,7 @@
     }
     .action_btn {
         flex-direction: column;
+        gap: 20px;
 }
 }
 @media screen and  (max-width: 768px) {
@@ -575,6 +576,7 @@
     font-weight: 300;
     color: #555;
     line-height: 1.6;
+    font-family: Poppins, sans-serif;
 }
 .description_tab h3{
     font-size: 2rem;
@@ -583,7 +585,10 @@
 
 .description_tab p{
     margin-bottom: 10px;
+    /* width: 100%; */
+    /* border: 1px solid #ccc; */
     padding-left: clamp(0, 5vw, 80px);
+    text-align:justify;
 }
 .ingredients_tab{
     width: 100%;

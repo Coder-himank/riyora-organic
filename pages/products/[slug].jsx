@@ -318,7 +318,7 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
             <p><strong>Hair Type - </strong>{displayProduct?.details?.hairType}</p>
             <p><strong>Product Benefits - </strong> {displayProduct?.details?.benefits?.join(", ")}</p>
             <p><strong>Item Form - </strong>{displayProduct?.details?.itemForm}</p>
-            <p><strong>Item Volume - </strong>{displayProduct?.details?.itemVolume}</p>
+            {/* <p><strong>Item Volume - </strong>{displayProduct?.details?.itemVolume}</p> */}
           </div>
         </ExpandableSection>
 

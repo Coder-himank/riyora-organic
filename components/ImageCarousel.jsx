@@ -103,6 +103,22 @@ export default function InfiniteCarousel({ images = [], autoPlay = true, interva
 
     return (
         <div className={styles.carousel}>
+
+            {/* Thumbnails */}
+            {total > 1 && (
+                <div className={styles.thumbnails}>
+                    {images.map((img, idx) => (
+                        <div
+                            key={idx}
+                            className={`${styles.thumb} ${currentIndex - 1 === idx ? styles.active : ''}`}
+                            onClick={() => goToSlide(idx)}
+                        >
+                            <Image src={img} alt={`Thumb ${idx}`} width={100} height={70} />
+                        </div>
+                    ))}
+                </div>
+            )}
+
             <div className={styles.sliderWrapper}>
                 {total > 1 && (
                     <button className={styles.navBtn} onClick={prevSlide}>❮</button>
@@ -150,21 +166,6 @@ export default function InfiniteCarousel({ images = [], autoPlay = true, interva
                     <button className={styles.navBtn} onClick={nextSlide}>❯</button>
                 )}
             </div>
-
-            {/* Thumbnails */}
-            {total > 1 && (
-                <div className={styles.thumbnails}>
-                    {images.map((img, idx) => (
-                        <div
-                            key={idx}
-                            className={`${styles.thumb} ${currentIndex - 1 === idx ? styles.active : ''}`}
-                            onClick={() => goToSlide(idx)}
-                        >
-                            <Image src={img} alt={`Thumb ${idx}`} width={100} height={70} />
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     );
 }
