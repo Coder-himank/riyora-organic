@@ -136,6 +136,7 @@
 }
 
 .addressLabels {
+  /* background-color: red; */
   display: flex;
   gap: 1rem;
   margin-bottom: 0.5rem;
@@ -145,14 +146,16 @@
   cursor: pointer;
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(255, 255, 255);
   transition: all 0.2s;
+  border: 1px solid #ccc;
+  color: black;
 }
 
 .addressLabels .active {
   background: #126031;
-  color: #222;
-  font-weight: bold;
+  color: #ffffff;
+  /* font-weight: bold; */
 }
 
 .promo_section {
@@ -162,7 +165,12 @@
   gap: 0.5rem;
   margin-bottom: 2rem;
 }
-
+.new_address_form input{
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
 .promo_section input {
   flex: 1;
   padding: 0.6rem;

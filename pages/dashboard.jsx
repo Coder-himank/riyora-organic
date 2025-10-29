@@ -44,7 +44,7 @@ export default function UserProfile() {
       try {
         const res = await axios.get(`/api/secure/userProfile?userId=${session.user.id}`);
         if (res.status !== 200) throw new Error("Error fetching user data");
-        setUser(res.data);
+        setUser(res.data.user);
       } catch (err) {
         setError(err.message);
       }

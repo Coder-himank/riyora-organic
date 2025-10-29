@@ -142,9 +142,10 @@ export default function Checkout() {
       `/api/secure/userProfile?userId=${session?.user?.id}`,
       { withCredentials: true }
     );
-    setAddresses(data.addresses || []);
-    if (data.addresses?.length) {
-      setSelectedAddressId(data.addresses[0]._id || "");
+    console.log(data.user);
+    setAddresses(data.user.addresses || []);
+    if (data.user.addresses?.length) {
+      setSelectedAddressId(data.user.addresses[0]._id || "");
     }
   };
 

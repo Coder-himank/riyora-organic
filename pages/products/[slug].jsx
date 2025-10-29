@@ -59,7 +59,7 @@ const ExpandableSection = ({ title, children, defaultOpen = true }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
     <div className={styles.expandable_section}>
-    <h3 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
+      <h3 onClick={() => setIsOpen(!isOpen)} className={styles.expandable_title}>
         {title} {isOpen ? <FaAngleDown /> : ">"}
       </h3>
       {isOpen && <div className={styles.expandable_content}>{children}</div>}
@@ -511,7 +511,7 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
             <div className={styles.action_btn}>
               <button
                 onClick={() =>
-                  onAddToCart(router, displayProduct?._id, session, quantity_demanded, selectedVariant?._id)
+                  onAddToCart({ router: router, productId: displayProduct?._id, session: session, quantity_demanded, variantId: selectedVariant?._id })
                     .success === false
                     ? toast.error("Unable To Add to Cart")
                     : toast.success("Added To Cart")

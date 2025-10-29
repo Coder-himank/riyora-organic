@@ -376,6 +376,8 @@
 .choose_us_card {
   width: fit-content;
   max-width: 70px;
+  min-height: 120px;
+  /* border: 1px solid #ccc; */
   height: fit-content;
   display: flex;
   align-items: center;
@@ -802,7 +804,7 @@
   }
 
   .product_image_wrapper {
-    max-width: 100%;
+    /* max-width: 100%; */
     aspect-ratio: 1 /1;
   }
 

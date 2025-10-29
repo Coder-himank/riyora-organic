@@ -533,7 +533,7 @@ export const getStaticProps = async ({ params }) => {
   try {
 
     await connectDB()
-    const highlightedProduct = await Product.find({});
+    const highlightedProduct = await Product.find({ visible: true });
 
     return {
       props: {

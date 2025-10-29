@@ -11,6 +11,8 @@ import connectDB from "@/server/db";
  *  - GET /api/getblogs?blogId=x → Fetch a single blog by ID
  */
 const handler = async (req, res) => {
+
+  console.log(req);
   await connectDB();
 
   if (req.method === "GET") {
