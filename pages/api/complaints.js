@@ -6,7 +6,7 @@ import connectDB from "@/server/db";
 import Complaint from "@/server/models/Complaint";
 import Order from "@/server/models/Order";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]"; // adjust path if needed
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const config = {
   api: {

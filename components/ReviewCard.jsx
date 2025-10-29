@@ -1,4 +1,4 @@
-import styles from "../styles/reviewCard.module.css";
+import styles from "@/styles/reviewCard.module.css";
 import Image from "next/image";
 import StarRating from "@/components/StartRating";
 export const ReviewCard = ({ review }) => {

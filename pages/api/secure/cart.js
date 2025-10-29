@@ -4,7 +4,7 @@ import User from "@/server/models/User";
 import mongoose, {Types} from "mongoose";
 import Product from "@/server/models/Product";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]"; // adjust path if your auth file is located elsewhere
+import {authOptions} from "@/pages/api/auth/[...nextauth]"; // adjust path if your auth file is located elsewhere
 
 const CART_ITEM_LIMIT = 5;
 
