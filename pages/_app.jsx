@@ -155,7 +155,7 @@ function MyApp({ Component, pageProps }) {
         </Link>
 
         {/* Auth Popup */}
-        <AuthPopup />
+        {/* <AuthPopup /> */}
 
         <Component {...pageProps} />
         <Footer />

@@ -46,13 +46,9 @@
     height: auto;
     width: 100%;
     max-width: 800px;
-    /* width: clamp(400px, 100%, 460px); */
     overflow: hidden;
     min-height: fit-content;
-    /* z-index: -1; */
     max-height: 500px;
-    /* overflow: hidden; */
-    /* border: 1px solid #ccc; */
 }
 
 
@@ -266,7 +262,7 @@
 .action_btn button {
     border-radius: 1px;
     width: 100%;
-    max-width: 600px;
+    /* max-width: 600px; */
     border-radius: 30px;
     padding: 12px;
 }
@@ -476,7 +472,7 @@
 
 .productInfoBtn{
     width: 100%;
-    max-width: 500px;
+    /* max-width: 500px; */
     margin: 20px auto;
     color: green;
     border: 1px solid;
@@ -507,6 +503,10 @@
 
 @media screen and  (max-width: 1400px) {
 
+    .sec_1 .details {
+        max-width: 1000px;
+    }
+
     .carousel {
         position: static;
         top: 0;
@@ -522,10 +522,7 @@
     .salePrice{
         display: block;
     }
-    .action_btn {
-        flex-direction: column;
-        gap: 20px;
-}
+ 
 }
 @media screen and  (max-width: 768px) {
     
@@ -533,6 +530,10 @@
     .sec_1 .details {
         max-width: 100%;
     }
+       .action_btn {
+        flex-direction: column;
+        gap: 20px;
+}
 
 
     .price, .quantity {

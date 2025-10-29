@@ -344,21 +344,25 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
 
         <Carousel
           showControls={false}>
-          {pInfodata?.ingredients?.map((ingredient, idx) => (
-            <div className={styles.ingredient_card}>
+          {pInfodata?.ingredients?.map((ingredient, idx) => {
+            console.log(ingredient);
+            return (
+              <div className={styles.ingredient_card}>
 
-              <Image src={ingredient?.image} width={150} height={150} alt={ingredient.name} />
-              <div className={styles.text_wrapper}>
+                <Image src={ingredient?.imageUrl} width={150} height={150} alt={ingredient.name} />
+                <div className={styles.text_wrapper}>
 
-                <h4>{ingredient.name}</h4>
-                <ul>
-                  {ingredient?.notes?.map((note, nidx) => (
-                    <li key={nidx}>{note}</li>
-                  ))}
-                </ul>
+                  <h4>{ingredient.name}</h4>
+                  <ul>
+                    {ingredient?.notes?.map((note, nidx) => (
+                      <li key={nidx}>{note}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
+
         </Carousel>
 
       </div>
