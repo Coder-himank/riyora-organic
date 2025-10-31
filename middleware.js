@@ -2,41 +2,25 @@
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-/**
- * Middleware for security, authentication, and request control.
- *
- * Features:
- * 1. Enforces HTTPS in production
- * 2. Rate limiting per IP
- * 3. Blocks suspicious URL patterns (XSS, SQL injection, path traversal)
- * 4. Protects authenticated routes with NextAuth
- * 5. Adds security headers to all responses, including video/media support
- */
-
 // ===== Rate Limit Settings =====
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const RATE_LIMIT_MAX = 300;          // Max requests per IP in the window
+const RATE_LIMIT_MAX = 300;          // Max requests per IP
 const ipStore = new Map();
 
 export async function middleware(req) {
   const res = NextResponse.next();
-  const { pathname, searchParams } = req.nextUrl;
+  const { pathname } = req.nextUrl;
 
   // 1️⃣ Force HTTPS in production
-  if (
-    process.env.NODE_ENV === "production" &&
-    req.headers.get("x-forwarded-proto") !== "https"
-  ) {
-    return NextResponse.redirect(
-      `https://${req.headers.get("host")}${req.nextUrl.pathname}`
-    );
+  if (process.env.NODE_ENV === "production" && req.headers.get("x-forwarded-proto") !== "https") {
+    return NextResponse.redirect(`https://${req.headers.get("host")}${pathname}`);
   }
 
   // 2️⃣ Rate limiting per IP
   const ip = req.ip ?? req.headers.get("x-forwarded-for") ?? "unknown";
   const now = Date.now();
   const requests = ipStore.get(ip) || [];
-  const recentRequests = requests.filter((ts) => now - ts < RATE_LIMIT_WINDOW);
+  const recentRequests = requests.filter(ts => now - ts < RATE_LIMIT_WINDOW);
   recentRequests.push(now);
   ipStore.set(ip, recentRequests);
 
@@ -54,19 +38,18 @@ export async function middleware(req) {
     /union.*select/i,   // SQL injection
     /%27|'/,            // Unescaped quotes
   ];
-  if (suspiciousPatterns.some((regex) => regex.test(pathname) || regex.test(searchParams.toString()))) {
+  if (suspiciousPatterns.some(regex => regex.test(pathname))) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
-  // 4️⃣ Protected routes
-  const protectedPathPattern =
-    /^\/(?:api\/secure|profile(?:\/.*)?|checkout(?:\/.*)?|cart(?:\/.*)?|wishlist(?:\/.*)?|[^/]+\/(?:checkout|cart|wishlist)(?:\/.*)?)$/;
+  // 4️⃣ Protected routes — ONLY profile & wishlist require login
+  const protectedPathPattern = /^\/(?:profile(?:\/.*)?|wishlist(?:\/.*)?|[^/]+\/wishlist(?:\/.*)?)$/;
 
   if (protectedPathPattern.test(pathname)) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     if (!token) {
       if (pathname.startsWith("/api")) {
-        return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+        return new NextResponse(JSON.stringify({ error: "Login required" }), {
           status: 401,
           headers: { "Content-Type": "application/json" },
         });
@@ -86,8 +69,6 @@ export async function middleware(req) {
     "Permissions-Policy",
     "camera=(self), microphone=(self), geolocation=(self)"
   );
-
-  // 6️⃣ Content Security Policy (CSP) updated for images and videos
   res.headers.set(
     "Content-Security-Policy",
     `
@@ -105,7 +86,7 @@ export async function middleware(req) {
   return res;
 }
 
-// Middleware applies globally except static assets and favicon
+// Apply middleware globally except static assets and favicon
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

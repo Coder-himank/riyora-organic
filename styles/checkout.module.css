@@ -5,7 +5,7 @@
   backdrop-filter: blur(16px);
   border-radius: 16px;
   padding: 2rem;
-  color: #fff;
+  color: black;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.4s ease-in-out;
 }
@@ -96,17 +96,32 @@
   font-size: 1rem;
 }
 
+.phone_section, .name_section{
+  width: 100%;
+  display: flex;
+  color: black;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+}
+.phone_section input, .name_section input {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
 .address_section {
   margin-bottom: 2rem;
 }
 
 .address_section h3 {
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0;
 }
 
 .address_section_in {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
@@ -116,6 +131,7 @@
   border-radius: 8px;
   border: none;
   font-size: 0.9rem;
+  width: 100%;
   border: 1px solid #ccc;
 }
 

@@ -1,6 +1,5 @@
 // pages/api/secure/razorpay/create-order.js
 import Razorpay from "razorpay";
-import dbConnect from "@/server/db";
 import Product from "@/server/models/Product";
 import Order from "@/server/models/Order";
 import User from "@/server/models/User";
@@ -9,7 +8,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { validatePromo } from "@/utils/promo";
 import { sanitizePromo, sanitizeProducts } from "@/utils/sanitize";
 import { rateLimit } from "@/utils/rateLimit";
-
+import connectDB from "@/server/db";
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
 const razorpay = new Razorpay({
@@ -18,12 +17,10 @@ const razorpay = new Razorpay({
 });
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
 
   try {
-    /** ✅ Step 1: Verify request origin (CSRF guard) */
+    // ===== Step 1: Verify request origin (CSRF protection) =====
     const origin = req.headers.origin || req.headers.referer || "";
     if (ALLOWED_ORIGIN) {
       const normalizedOrigin = origin.replace(/\/$/, "");
@@ -33,59 +30,54 @@ export default async function handler(req, res) {
       }
     }
 
-    /** ✅ Step 2: Rate limit to prevent abuse */
+    // ===== Step 2: Rate limit =====
     await rateLimit(req, res, { key: "createorder", points: 10, duration: 60 });
 
-    /** ✅ Step 3: Authenticate user */
+    // ===== Step 3: Connect DB =====
+    await connectDB();
+    
+
+    // ===== Step 4: Authenticate or identify guest =====
     const session = await getServerSession(req, res, authOptions);
-    if (!session || !session.user?.id) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
+    const isGuest = !session?.user?.id;
 
-    /** ✅ Step 4: Connect DB */
-    await dbConnect();
-    const user = await User.findById(session.user.id).lean();
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+    // ===== Step 5: Sanitize input =====
+    const { products: clientProducts, promocode: rawPromo, deliveryAddress, phone } = req.body || {};
 
-    /** ✅ Step 5: Sanitize input */
-    const { products: clientProducts, promocode: rawPromo, deliveryAddress } = req.body || {};
-    const promocode = sanitizePromo(rawPromo);
-    const productsInput = clientProducts
-      ? sanitizeProducts(clientProducts)
-      : sanitizeProducts(user.cartData || []);
-
-    if (!deliveryAddress?.address || !deliveryAddress?.pincode) {
-      return res.status(400).json({ error: "Invalid or missing delivery address" });
-    }
-
-    if (!productsInput.length) {
+    if (!clientProducts || !Array.isArray(clientProducts) || clientProducts.length === 0) {
       return res.status(400).json({ error: "No products supplied" });
     }
 
-    /** ✅ Step 6: Validate and sanitize products */
+    if (!deliveryAddress?.address || !deliveryAddress?.pincode) {
+      return res.status(400).json({ error: "Invalid delivery address" });
+    }
+
+    const promocode = sanitizePromo(rawPromo);
+    const sanitizedProducts = sanitizeProducts(clientProducts);
+
+    if (!sanitizedProducts.length) return res.status(400).json({ error: "Invalid products" });
+
+    // ===== Step 6: Verify products & variants =====
+    // console.log(sanitizedProducts);
     const products = [];
-    for (const { productId, quantity, variantId } of productsInput) {
+    for (const { productId, quantity, variantId } of sanitizedProducts) {
       const product = await Product.findOne({
         _id: productId,
         deleted: { $ne: true },
         isVisible: { $ne: false },
       }).lean();
 
-      if (!product) {
-        return res.status(400).json({ error: `Invalid or hidden product (${productId})` });
-      }
+      if (!product) return res.status(400).json({ error: `Invalid product: ${productId}` });
 
       let price = product.price;
       let variantData = null;
 
+
       if (variantId && product.variants?.length) {
+        
         variantData = product.variants.find((v) => String(v._id) === String(variantId));
-        if (!variantData) {
-          return res.status(400).json({ error: `Invalid variant for product (${productId})` });
-        }
-        price = variantData.price || product.price;
+        if (!variantData && String(product._id) !== String(variantId)) return res.status(400).json({ error: `Invalid variant for product: ${productId}` });
+        price = variantData?.price || product.price;
       }
 
       products.push({
@@ -96,81 +88,75 @@ export default async function handler(req, res) {
         quantity: Math.max(1, Number(quantity || 1)),
         sku: variantData?.sku || product.sku || null,
         variantId: variantId || null,
-        variant: variantData || null,
       });
     }
 
-    /** ✅ Step 7: Price calculation */
+    // ===== Step 7: Price calculation =====
     const subtotal = products.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const { discountValue } = await validatePromo(promocode, subtotal, session.user.id);
+
+    // Promo validation isolated per user or guest
+    const userIdForPromo = session?.user?.id ?? `guest_${phone || "unknown"}`;
+    const { discountValue } = await validatePromo(promocode, subtotal, userIdForPromo);
 
     const taxableBase = Math.max(0, subtotal - discountValue);
-    const tax = 0; // Modify if tax calculation needed
     const shipping = taxableBase > 999 ? 0 : 49;
-    const total = taxableBase + shipping - shipping ;
+    const total = taxableBase + shipping - shipping;
 
-    if (total <= 0) {
-      return res.status(400).json({ error: "Invalid total amount" });
-    }
+    if (total <= 0) return res.status(400).json({ error: "Invalid total amount" });
 
-    /** ✅ Step 8: Create Razorpay order securely */
+    // ===== Step 8: Create Razorpay order =====
     const rpOrder = await razorpay.orders.create({
-      amount: total * 100, // amount in paise
+      amount: total * 100, // paise
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
       notes: {
-        userId: session.user.id,
+        userId: session?.user?.id || "guest",
         promo: promocode || "",
       },
     });
 
-    /** ✅ Step 9: Store order securely in DB */
+    // ===== Step 9: Create guest user if needed =====
+    let userIdToStore = session?.user?.id;
+    if (isGuest && phone) {
+      // console.log("cerating guest user");
+      const existingUser = await User.findOne({ phone });
+      if (!existingUser) {
+        const newUser = await User.create({ phone, name: "Guest User" });
+        userIdToStore = newUser._id;
+      } else {
+        userIdToStore = existingUser._id;
+      }
+    }
+
+    // console.log(isGuest, phone);
+
+    // ===== Step 10: Store order securely =====
     await Order.create({
-      userId: session.user.id,
+      userId: userIdToStore,
       products,
       promoCode: promocode || null,
-      amountBreakDown: {
-        subtotal,
-        discount: discountValue,
-        tax,
-        shipping,
-        total,
-      },
+      amountBreakDown: { subtotal, discount: discountValue, shipping, total },
       amount: total,
       currency: "INR",
-      address: {
-        name: deliveryAddress.name,
-        phone: deliveryAddress.phone,
-        email: deliveryAddress.email,
-        label: deliveryAddress.label,
-        address: deliveryAddress.address,
-        city: deliveryAddress.city,
-        state: deliveryAddress.state || "",
-        country: deliveryAddress.country,
-        pincode: deliveryAddress.pincode,
-      },
+      address: deliveryAddress,
       razorpayOrderId: rpOrder.id,
       status: "pending",
       paymentStatus: "pending",
       orderHistory: [
-        {
-          status: "pending",
-          note: "Order created via Razorpay",
-          updatedBy: "system",
-          date: new Date(),
-        },
+        { status: "pending", note: "Order created via Razorpay", updatedBy: "system", date: new Date() },
       ],
     });
 
-    /** ✅ Step 10: Respond securely */
+    // ===== Step 11: Respond to frontend =====
     return res.status(200).json({
       id: rpOrder.id,
       amount: rpOrder.amount,
       currency: rpOrder.currency,
       message: "Razorpay order created successfully",
+      isGuest,
     });
   } catch (error) {
-    console.error("🔴 Razorpay Order Error:", error);
+    console.error("🔴 Razorpay Create Order Error:", error);
     return res.status(500).json({ error: "Failed to create Razorpay order" });
   }
 }
