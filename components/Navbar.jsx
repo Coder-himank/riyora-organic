@@ -174,7 +174,7 @@ export default function Navbar() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <div className="offerBanner">
-        <span>Launch offer 8%</span>
+        <span>Launch offer 8% off</span>
       </div>
       <header>
         {/* Nav bar starts */}
