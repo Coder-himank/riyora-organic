@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import styles from "@/styles/checkout.module.css";
 
 const LOCAL_CART_KEY = "guest_cart";
@@ -67,6 +67,20 @@ export default function Checkout() {
     if (!window?.Razorpay) loadScript();
     else setRazorpayLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (!session?.user && typeof window !== "undefined") {
+      const storedGuest = localStorage.getItem("guest_user");
+      if (storedGuest) {
+        try {
+          const guest = JSON.parse(storedGuest);
+          if (guest.name) setName(guest.name);
+          if (guest.phone) setPhone(guest.phone);
+        } catch { }
+      }
+    }
+  }, []);
+
 
   // Redirect if not logged in (you previously had this). Keep but non-blocking — we still support guest checkout.
   useEffect(() => {
@@ -324,17 +338,34 @@ export default function Checkout() {
             city: newAddress.city,
             country: newAddress.country,
             pincode: newAddress.pincode,
-          }
+          },
         },
         { withCredentials: true }
       );
-      // Expect backend to return at least an id / user object.
-      // Example: { user: { id: 'abc', phone: '...' } }
-      console.log(data);
-      return data?.user ?? null;
+
+      const guestUser = data?.user ?? null;
+
+      if (guestUser && typeof window !== "undefined") {
+        // Save guest user info to localStorage
+        localStorage.setItem(
+          "guest_user",
+          JSON.stringify({
+            id: guestUser._id ?? guestUser.id,
+            name: guestUser.name,
+            phone: guestUser.phone,
+          })
+        );
+      }
+
+      signIn("credentials", {
+        redirect: false,
+        userId: guestUser._id ?? guestUser.id,
+      });
+
+      return guestUser;
     } catch (err) {
       console.error("Failed to create guest user", err);
-      throw new Error("Could not create user account");
+      throw new Error("Could not create guest account");
     }
   };
 
@@ -376,6 +407,7 @@ export default function Checkout() {
     try {
       // If guest, create a user account first (backend should return a minimal user object with id)
       let userForOrder = session?.user ?? null;
+
       if (!session?.user) {
         const createdUser = await createGuestUser(phone.trim());
         if (!createdUser || !createdUser._id) {
@@ -383,6 +415,7 @@ export default function Checkout() {
         }
         userForOrder = createdUser;
       }
+
 
       // Build order payload — ensure `products` is sent as null if empty (backend expectation)
       const orderPayload = {

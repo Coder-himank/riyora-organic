@@ -9,6 +9,24 @@ export default function OrderSuccess() {
   const router = useRouter();
   const [order, setOrder] = useState(null);
   const { data: session } = useSession();
+  const [userId, setUserId] = useState(null); // either session user or guest
+
+  useEffect(() => {
+    // 1️⃣ Determine the user ID: session or guest
+    if (session?.user?.id) {
+      setUserId(session.user.id);
+    } else if (typeof window !== "undefined") {
+      const storedGuest = localStorage.getItem("guest_user");
+      if (storedGuest) {
+        try {
+          const guest = JSON.parse(storedGuest);
+          setUserId(guest.id ?? guest._id);
+        } catch (e) {
+          console.error("Failed to parse guest user from localStorage", e);
+        }
+      }
+    }
+  }, [session]);
 
   useEffect(() => {
     const fetchOrderDetails = async (orderId, userId) => {
@@ -27,10 +45,10 @@ export default function OrderSuccess() {
       }
     };
 
-    if (!router.isReady || !session?.user?.id) return;
+    if (!router.isReady || !userId) return;
 
-    fetchOrderDetails(router.query.orderId, session.user.id);
-  }, [router.isReady, router.query, session?.user?.id]);
+    fetchOrderDetails(router.query.orderId, userId);
+  }, [router.isReady, router.query, userId]);
 
   if (!order) {
     return (
@@ -84,7 +102,7 @@ export default function OrderSuccess() {
         </div>
 
         <Link
-          href={`/${session?.user?.id}/orders/${order._id}`}
+          href={`/${userId}/orders/${order._id}`}
           className={styles.ctaButton}
         >
           View Order Details →

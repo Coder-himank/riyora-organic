@@ -1,4 +1,3 @@
-// pages/api/razorpay/verify-payment.js
 import crypto from "crypto";
 import dbConnect from "@/server/db";
 import Order from "@/server/models/Order";
@@ -8,14 +7,10 @@ import { rateLimit } from "@/utils/rateLimit";
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
-/**
- * API Route: Verify Razorpay Payment
- */
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).end("Method Not Allowed");
-  }
+  if (req.method !== "POST") return res.status(405).end("Method Not Allowed");
 
+  // ✅ Origin Protection
   const origin = req.headers.origin || req.headers.referer || "";
   if (ALLOWED_ORIGIN) {
     const normalizedOrigin = origin.replace(/\/$/, "");
@@ -25,53 +20,59 @@ export default async function handler(req, res) {
     }
   }
 
+  // ✅ Rate limit
   await rateLimit(req, res, { key: "verify", points: 20, duration: 60 });
 
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body || {};
 
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, method } = req.body || {};
   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-    return res.status(400).json({ error: "Missing fields" });
+    return res.status(400).json({ error: "Missing payment fields" });
   }
 
   await dbConnect();
 
-  const order = await Order.findOne({
-    razorpayOrderId: razorpay_order_id,
-    userId: session.user.id,
-  });
+  // ✅ Try session (if user logged in)
+  let session = null;
+  try {
+    session = await getServerSession(req, res, authOptions);
+  } catch {}
+
+  // ✅ Fetch order with razorpay order ID only
+  // Guest users have `userId` saved as demo user.
+  const order = await Order.findOne({ razorpayOrderId: razorpay_order_id });
 
   if (!order) {
     return res.status(404).json({ error: "Order not found" });
   }
+
+  // ✅ If logged in, user must match the order
+  if (session?.user?.id && session.user.id !== order.userId?.toString()) {
+    return res.status(403).json({ error: "Unauthorized user for this order" });
+  }
+
+  // ✅ If already paid
   if (order.paymentStatus === "paid") {
     return res.json({ status: "success" });
   }
 
-  // Signature Verification
-  const body = `${razorpay_order_id}|${razorpay_payment_id}`;
+  // ✅ Verify Razorpay Signature
   const expectedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-    .update(body)
+    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest("hex");
 
   if (expectedSignature !== razorpay_signature) {
     order.paymentStatus = "failed";
     order.orderHistory.push({
       status: "payment_failed",
-      note: "Signature verification failed",
+      note: "Signature mismatch",
       updatedBy: "system",
     });
     await order.save();
-
     return res.status(400).json({ status: "failed", error: "Invalid signature" });
   }
 
-  // modified for variants: Ensure existing product variants info remains intact
-  // We do not overwrite order.products; variants info is already saved in create-order
+  // ✅ Mark order paid
   order.paymentId = razorpay_payment_id;
   order.signature = razorpay_signature;
   order.paymentStatus = "paid";
@@ -79,7 +80,7 @@ export default async function handler(req, res) {
     transactionId: razorpay_payment_id,
     paymentGateway: "razorpay",
     paymentDate: new Date(),
-    method: method || "unknown",
+    method: req.body.method || "card/upi",
   };
   order.orderHistory.push({
     status: "confirmed",
@@ -88,7 +89,6 @@ export default async function handler(req, res) {
   });
 
   await order.save();
-  // TODO: trigger side effects like reducing inventory, sending confirmation email, creating shipment, etc.
 
-  return res.status(200).json({ status: "success" });
+  res.json({ status: "success" });
 }
