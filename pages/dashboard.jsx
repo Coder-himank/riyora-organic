@@ -1,3 +1,5 @@
+// File: components/UserProfile.jsx
+
 import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import styles from "@/styles/userProfile.module.css";
@@ -17,36 +19,47 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState("");
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [showUserEditForm, setShowUserEditForm] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+
   const [formData, setFormData] = useState({
     address: "",
     city: "",
     country: "",
     pincode: "",
-    label: "",
+    label: "Home",
   });
 
-  // ✅ Logout Function
+  const [editUserData, setEditUserData] = useState({ name: "", email: "" });
+
+  // Notifications helper (auto-dismiss)
+  useEffect(() => {
+    if (!notification) return;
+    const id = setTimeout(() => setNotification(""), 4500);
+    return () => clearTimeout(id);
+  }, [notification]);
+
+  // Logout
   const UserLogOut = () => {
     try {
       signOut({ callbackUrl: "/authenticate" });
-    } catch {
+    } catch (err) {
       setNotification("Error Signing Out");
     }
   };
 
-  // ✅ Fetch User Profile
+  // Fetch User Profile
   useEffect(() => {
     if (!session?.user) return;
 
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/secure/userProfile?userId=${session.user.id}`);
+        const res = await axios.get(`/api/secure/userProfile?userId=${encodeURIComponent(session.user.id)}`);
         if (res.status !== 200) throw new Error("Error fetching user data");
         setUser(res.data.user);
       } catch (err) {
-        setError(err.message);
+        setError(err?.response?.data?.message || err.message || "Unknown error");
       }
       setLoading(false);
     };
@@ -54,59 +67,92 @@ export default function UserProfile() {
     fetchUserProfile();
   }, [session]);
 
-  // ✅ Show Form for Add/Edit
+  // Open user edit form
+  const openUserEditForm = () => {
+    setEditUserData({ name: user?.name || "", email: user?.email || "" });
+    setShowUserEditForm(true);
+  };
+
+  // Save user data (name required, email optional)
+  const saveUserData = async () => {
+    if (!editUserData.name || !editUserData.name.trim()) return setNotification("Name is required");
+
+    if (!session?.user?.id) return setNotification("Authentication error");
+
+    try {
+      const payload = {
+        userId: session.user.id,
+        updates: {
+          name: editUserData.name.trim(),
+        },
+      };
+      // only include email if user provided it (optional)
+      if (editUserData.email && editUserData.email.trim()) payload.updates.email = editUserData.email.trim();
+
+      await axios.put("/api/secure/userProfile", payload);
+
+      setUser((prev) => ({ ...prev, ...payload.updates }));
+      setShowUserEditForm(false);
+      setNotification("Profile updated successfully");
+    } catch (err) {
+      setNotification(err?.response?.data?.message || err.message || "Failed to update profile");
+    }
+  };
+
+  // Open Address form
   const openAddressForm = (index = null) => {
     if (index !== null) {
       const addr = user.addresses[index];
       setFormData({ ...addr });
       setEditIndex(index);
     } else {
-      setFormData({
-        address: "",
-        city: "",
-        country: "",
-        pincode: "",
-        label: "",
-      });
+      setFormData({ address: "", city: "", country: "", pincode: "", label: "Home" });
       setEditIndex(null);
     }
     setShowAddressForm(true);
   };
 
-  // ✅ Add or Edit Address
+  // Save address (reuses same PUT endpoint)
   const saveAddress = async () => {
-    if (!formData.address || !formData.city || !formData.country || !formData.pincode) {
-      return setNotification("All fields are required!");
-    }
+    if (!formData.address.trim() || !formData.city.trim() || !formData.country.trim() || !formData.pincode.trim())
+      return setNotification("All address fields are required");
+
+    if (!session?.user?.id) return setNotification("Authentication error");
 
     const updatedAddresses = [...(user.addresses || [])];
-    if (editIndex !== null) {
-      // Edit mode
-      updatedAddresses[editIndex] = formData;
-    } else {
-      // Add mode
-      updatedAddresses.push(formData);
-    }
+    const normalized = {
+      address: formData.address.trim(),
+      city: formData.city.trim(),
+      country: formData.country.trim(),
+      pincode: formData.pincode.trim(),
+      label: formData.label || "Other",
+    };
+
+    if (editIndex !== null) updatedAddresses[editIndex] = normalized;
+    else updatedAddresses.push(normalized);
 
     try {
       await axios.put("/api/secure/userProfile", {
         userId: session.user.id,
         updates: { addresses: updatedAddresses },
       });
-      setUser({ ...user, addresses: updatedAddresses });
+
+      setUser((prev) => ({ ...prev, addresses: updatedAddresses }));
       setNotification(editIndex !== null ? "Address updated!" : "Address added!");
       setShowAddressForm(false);
       setEditIndex(null);
     } catch (err) {
-      setNotification("Error saving address: " + err.message);
+      setNotification(err?.response?.data?.message || err.message || "Failed to save address");
     }
   };
 
-  // ✅ Delete Address
+  // Delete address
   const deleteAddress = async (index) => {
     if (!confirm("Are you sure you want to delete this address?")) return;
 
-    const updatedAddresses = [...user.addresses];
+    if (!session?.user?.id) return setNotification("Authentication error");
+
+    const updatedAddresses = [...(user.addresses || [])];
     updatedAddresses.splice(index, 1);
 
     try {
@@ -114,194 +160,179 @@ export default function UserProfile() {
         userId: session.user.id,
         updates: { addresses: updatedAddresses },
       });
-      setUser({ ...user, addresses: updatedAddresses });
+      setUser((prev) => ({ ...prev, addresses: updatedAddresses }));
       setNotification("Address deleted successfully");
     } catch (err) {
-      setNotification("Error deleting address: " + err.message);
+      setNotification(err?.response?.data?.message || err.message || "Failed to delete address");
     }
   };
 
-  // ✅ Error Handling
   if (error) {
+    // if unauthorized or server error, redirect to authenticate
     router.push("/authenticate");
     return (
       <div className={styles.profile_container_loading}>
         <div className="navHolder"></div>
         <p className="error">Error Loading Profile Page: {error}</p>
-        <p>Redirecting to authenticate...</p>
       </div>
     );
   }
 
-  if (loading) return <SkeletonLoader />;
+  if (loading) return (
+    <div className={styles.skeleton_container}>
+      <div className={styles.skeleton_card}></div>
+    </div>
+  );
 
   return (
-    <>
+    <div className={styles.page_wrap}>
       <div className="navHolder"></div>
-      {notification && <div className="notification">{notification}</div>}
+
+      {notification && <div className={styles.notification}>{notification}</div>}
 
       <div className={styles.profile_container}>
         {session?.user ? (
           <div className={styles.profile_card}>
-            <div className={styles.top_name}>
-              <div className={styles.top_name_left}>
-                <span className={styles.username}>{user?.name}</span>
+
+            <div className={styles.profile_header}>
+              <div className={styles.avatar}>{user?.name?.[0] || "U"}</div>
+              <div className={styles.header_info}>
+                <h2 className={styles.username}>{user?.name}</h2>
+                <p className={styles.userid}>ID: <span>#{user?._id}</span></p>
               </div>
-              <div>
-                <span className={styles.userid}>#{user?._id}</span>
+
+              <div className={styles.header_actions}>
+                <button className={styles.icon_btn} onClick={openUserEditForm} title="Edit profile">
+                  <FaEdit />
+                </button>
+                <button className={styles.signout_btn} onClick={UserLogOut}>Sign Out</button>
               </div>
             </div>
 
-            <table className={styles.user_detail}>
-              <tbody>
-                <tr>
-                  <td>Email</td>
-                  <td>{user?.email}</td>
-                </tr>
-                <tr>
-                  <td>Phone</td>
-                  <td>{user?.phone}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            {/* ✅ Address Section */}
-            <section>
-              <h3>Addresses <span className={styles.add_btn}
-                onClick={() => openAddressForm(null)}
-              >
-                +
-              </span></h3>
-
-
-              <table className={styles.address_plate}>
-                <thead>
-                  <tr>
-                    <th>Address</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {user?.addresses?.map((item, index) => (
-                    <tr key={index}>
-                      <td>{`${item.label} - ${item.address}, ${item.city}, ${item.country}, ${item.pincode}`}</td>
-                      <td className={styles.addr_action}>
-                        <span onClick={() => openAddressForm(index)}>
-                          <FaEdit />
-                        </span>
-                        <span
-                          onClick={() => deleteAddress(index)}
-                          style={{ background: "red" }}
-                        >
-                          <MdDelete />
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </section>
-
-            {/* ✅ Address Form Modal */}
-            {showAddressForm && (
-              <div className={styles.addressFormBack}>
-                <div className={styles.new_address_form}>
-                  <h4>{editIndex !== null ? "Edit Address" : "Add New Address"}</h4>
-
-                  <div className={styles.addressLabels}>
-                    {["Home", "Office", "Other"].map((label) => (
-                      <span
-                        key={label}
-                        className={formData.label === label ? styles.active : ""}
-                        onClick={() => setFormData({ ...formData, label })}
-                      >
-                        {label}
-                      </span>
-                    ))}
-                  </div>
-
-                  <input
-                    type="text"
-                    placeholder="Address"
-                    value={formData.address}
-                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    placeholder="City"
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Country"
-                    value={formData.country}
-                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Pincode"
-                    value={formData.pincode}
-                    onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                  />
-
-                  <div className={styles.formButtons}>
-                    <button onClick={saveAddress}>
-                      {editIndex !== null ? "Update Address" : "Add Address"}
-                    </button>
-                    <button
-                      className={styles.cancelBtn}
-                      onClick={() => setShowAddressForm(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+            <div className={styles.profile_body}>
+              <div className={styles.info_grid}>
+                <div className={styles.info_card}>
+                  <h4>Email</h4>
+                  <p>{user?.email || "—"}</p>
+                </div>
+                <div className={styles.info_card}>
+                  <h4>Phone</h4>
+                  <p>{user?.phone || "—"}</p>
+                </div>
+                <div className={styles.info_card}>
+                  <h4>Orders</h4>
+                  <p className={styles.link_like}>
+                    <Link href={`/${user._id}/orders?status=all_orders`}>View orders</Link>
+                  </p>
                 </div>
               </div>
-            )}
 
-            {/* ✅ Other Sections */}
-            <section className={styles.orders}>
-              <h3>Orders</h3>
-              <Link href={`/${user._id}/track-order?orderId=all&userId=${user?._id}`}>
-                Track Orders
-              </Link>
-              <Link href={`/${user._id}/orders?status=canceled`}>Canceled Orders</Link>
-              <Link href={`/${user._id}/orders?status=all_orders`}>All Orders</Link>
-            </section>
+              <section className={styles.address_section}>
+                <div className={styles.address_header}>
+                  <h3>Addresses</h3>
+                  <button className={styles.add_btn} onClick={() => openAddressForm(null)}>+ Add</button>
+                </div>
 
-            <section className={styles.customer_services}>
-              <h3>More Services</h3>
-              <Link href="/customer-care">Customer Care</Link>
-            </section>
+                <div className={styles.address_list}>
+                  {user?.addresses?.length ? (
+                    user.addresses.map((item, idx) => (
+                      <div className={styles.address_item} key={idx}>
+                        <div>
+                          <div className={styles.addr_label}>{item.label}</div>
+                          <div className={styles.addr_text}>{`${item.address}, ${item.city}, ${item.country} - ${item.pincode}`}</div>
+                        </div>
+                        <div className={styles.addr_actions}>
+                          <button className={styles.icon_btn} onClick={() => openAddressForm(idx)} title="Edit address"><FaEdit /></button>
+                          <button className={styles.delete_btn} onClick={() => deleteAddress(idx)} title="Delete address"><MdDelete /></button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className={styles.empty}>No addresses yet</p>
+                  )}
+                </div>
+              </section>
 
-            <section>
-              <button
-                onClick={() => UserLogOut()}
-                style={{ background: "var(--danger)" }}
-              >
-                Sign Out
-              </button>
-            </section>
+            </div>
+
           </div>
         ) : (
           <UnAuthorizedUser />
         )}
       </div>
-    </>
-  );
-}
 
-function SkeletonLoader() {
-  return (
-    <div className={styles.skeleton_container}>
-      <div className={styles.skeleton_card}>
-        <div className={styles.skeleton_header}></div>
-        <div className={styles.skeleton_section}></div>
-        <div className={styles.skeleton_row}></div>
-        <div className={styles.skeleton_row}></div>
-        <div className={styles.skeleton_row}></div>
-      </div>
+      {/* User Edit Modal */}
+      {showUserEditForm && (
+        <div className={styles.modal_back} onMouseDown={() => setShowUserEditForm(false)}>
+          <div className={styles.modal_card} onMouseDown={(e) => e.stopPropagation()}>
+            <h3>Edit Profile</h3>
+            <div className={styles.field_group}>
+              <label>Full name</label>
+              <input value={editUserData.name} onChange={(e) => setEditUserData({ ...editUserData, name: e.target.value })} placeholder="Full name" />
+            </div>
+            <div className={styles.field_group}>
+              <label>Email (optional)</label>
+              <input value={editUserData.email} onChange={(e) => setEditUserData({ ...editUserData, email: e.target.value })} placeholder="Email address" />
+            </div>
+            <div className={styles.form_row}>
+              <button className={styles.primary_btn} onClick={saveUserData}>Save</button>
+              <button className={styles.ghost_btn} onClick={() => setShowUserEditForm(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Address Modal */}
+      {showAddressForm && (
+        <div className={styles.modal_back} onMouseDown={() => setShowAddressForm(false)}>
+          <div className={styles.modal_card} onMouseDown={(e) => e.stopPropagation()}>
+            <h3>{editIndex !== null ? "Edit Address" : "Add Address"}</h3>
+
+            <div className={styles.labels_row}>
+              {["Home", "Office", "Other"].map((label) => (
+                <button
+                  key={label}
+                  className={`${styles.label_chip} ${formData.label === label ? styles.active_chip : ""}`}
+                  onClick={() => setFormData({ ...formData, label })}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <div className={styles.field_group}>
+              <label>Address</label>
+              <input value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} placeholder="Street / House No" />
+            </div>
+            <div className={styles.row_two}>
+              <div className={styles.field_group} style={{ flex: 1 }}>
+                <label>City</label>
+                <input value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} placeholder="City" />
+              </div>
+              <div className={styles.field_group} style={{ flex: 1 }}>
+                <label>Country</label>
+                <input value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })} placeholder="Country" />
+              </div>
+            </div>
+            <div className={styles.row_two}>
+              <div className={styles.field_group} style={{ flex: 1 }}>
+                <label>Pincode</label>
+                <input value={formData.pincode} onChange={(e) => setFormData({ ...formData, pincode: e.target.value })} placeholder="Pincode" />
+              </div>
+              <div className={styles.field_group} style={{ flex: 1 }}>
+                <label>Label</label>
+                <input value={formData.label} onChange={(e) => setFormData({ ...formData, label: e.target.value })} placeholder="Home / Office / Other" />
+              </div>
+            </div>
+
+            <div className={styles.form_row}>
+              <button className={styles.primary_btn} onClick={saveAddress}>{editIndex !== null ? "Update" : "Add"}</button>
+              <button className={styles.ghost_btn} onClick={() => setShowAddressForm(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

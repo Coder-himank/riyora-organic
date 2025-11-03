@@ -9,83 +9,70 @@ import { rateLimit } from "@/utils/rateLimit";
 export default async function handler(req, res) {
   await connectDB();
 
-  // ✅ Step 1: Authenticate the session
   const session = await getServerSession(req, res, authOptions);
-  if (!session?.user?.id) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+  if (!session?.user?.id) return res.status(401).json({ message: "Unauthorized" });
 
   const userId = session.user.id;
 
   try {
-    // ✅ Step 2: Apply rate limiting per user to prevent abuse
     await rateLimit(req, res, { key: `user-${userId}`, points: 30, duration: 60 });
 
-    // ✅ Step 3: Handle API methods securely
     switch (req.method) {
-      /** --------------------- 📍 GET: Fetch Logged-in User --------------------- */
+      /** ------------------ GET USER ------------------ */
       case "GET": {
         const user = await User.findById(userId).select("-password -__v");
-
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        return res.status(200).json({user});
+        return res.status(200).json({ user });
       }
 
-      /** --------------------- 🏠 POST: Add Address --------------------- */
+      /** ------------------ ADD ADDRESS ------------------ */
       case "POST": {
         const { address } = req.body;
-        if (!address) {
-          return res.status(400).json({ message: "Address is required" });
-        }
+        if (!address) return res.status(400).json({ message: "Address required" });
 
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        // Limit number of addresses (optional safety)
-        if (user.addresses.length >= 5) {
-          return res
-            .status(400)
-            .json({ message: "Maximum 5 addresses allowed per user" });
-        }
+        if (user.addresses.length >= 5)
+          return res.status(400).json({ message: "Max 5 addresses allowed" });
 
-        // Sanitize address fields
-        const safeAddress = {
-          name: String(address?.name || "").trim(),
-          street: String(address?.street || "").trim(),
-          city: String(address?.city || "").trim(),
-          state: String(address?.state || "").trim(),
-          country: String(address?.country || "").trim(),
-          postalCode: String(address?.postalCode || "").trim(),
-          phone: String(address?.phone || "").trim(),
-          pincode: String(address?.pincode || "").trim(),
-          address: String(address?.address || "").trim(),
-        };
+        user.addresses.push({
+          address: String(address.address).trim(),
+          city: String(address.city).trim(),
+          country: String(address.country).trim(),
+          pincode: String(address.pincode).trim(),
+          label: String(address.label || "Other").trim(),
+        });
 
-        user.addresses.push(safeAddress);
         await user.save();
 
-        return res
-          .status(200)
-          .json({ message: "Address added successfully", addresses: user.addresses });
+        return res.status(200).json({ message: "Address added", addresses: user.addresses });
       }
 
-      /** --------------------- ✏️ PUT: Update User Fields --------------------- */
+      /** ------------------ UPDATE USER ------------------ */
       case "PUT": {
         const { updates } = req.body;
-        if (!updates) {
-          return res.status(400).json({ message: "Updates object is required" });
-        }
+        if (!updates) return res.status(400).json({ message: "Updates object missing" });
 
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        // Only allow specific fields to be updated
-        const allowedFields = ["name", "phone", "avatar", "preferences"];
-        for (const key of Object.keys(updates)) {
-          if (allowedFields.includes(key) && updates[key] !== undefined) {
-            user[key] = updates[key];
-          }
+        const allowedFields = ["name", "email", "phone", "avatar", "preferences"];
+
+        for (const key of allowedFields) {
+          if (updates[key] !== undefined) user[key] = updates[key];
+        }
+
+        // ✅ Replace full addresses array (edit/add/delete)
+        if (Array.isArray(updates.addresses)) {
+          user.addresses = updates.addresses.map(addr => ({
+            address: String(addr.address || "").trim(),
+            city: String(addr.city || "").trim(),
+            country: String(addr.country || "").trim(),
+            pincode: String(addr.pincode || "").trim(),
+            label: String(addr.label || "Other").trim(),
+          }));
         }
 
         await user.save();
@@ -95,20 +82,21 @@ export default async function handler(req, res) {
           user: {
             id: user._id,
             name: user.name,
+            email: user.email,
             phone: user.phone,
             avatar: user.avatar,
             preferences: user.preferences,
+            addresses: user.addresses,
           },
         });
       }
 
-      /** --------------------- ❌ Default --------------------- */
       default:
         res.setHeader("Allow", ["GET", "POST", "PUT"]);
         return res.status(405).json({ message: "Method Not Allowed" });
     }
-  } catch (error) {
-    console.error("User API Error:", error);
+  } catch (err) {
+    console.error("User API Error:", err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
