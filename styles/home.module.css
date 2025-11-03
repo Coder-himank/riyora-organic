@@ -790,12 +790,13 @@
   .product_section_in {
     grid-template-columns: 1fr; /* Stack on smaller screens */
     text-align: center;
+    padding: 10px;
   }
 
   .product_section .product_text_content {
     /* align-items: center; */
     /* text-align: center; */
-    padding: 20px;
+    padding: 0;
   }
 
   .product_section .product_bottom{
@@ -811,6 +812,7 @@
   .choose_us_section_in{
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+    padding: 0;
   }
 }
 

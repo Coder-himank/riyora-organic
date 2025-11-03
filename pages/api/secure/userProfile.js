@@ -16,7 +16,6 @@ export default async function handler(req, res) {
   }
 
   const userId = session.user.id;
-  console.log(req.body);
 
   try {
     // ✅ Step 2: Apply rate limiting per user to prevent abuse

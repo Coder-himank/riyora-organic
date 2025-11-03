@@ -20,7 +20,6 @@ function AuthPopup() {
 
 
   useEffect(() => {
-    console.log(router.pathname);
 
     if (router.pathname === "/authenticate") {
       return;

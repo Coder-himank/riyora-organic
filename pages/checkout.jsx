@@ -3,6 +3,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import styles from "@/styles/checkout.module.css";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const LOCAL_CART_KEY = "guest_cart";
 
@@ -50,8 +52,10 @@ export default function Checkout() {
   const [products, setProducts] = useState([]);
 
   // Always gather phone from user (prefill if available)
-  const [phone, setPhone] = useState(session?.user?.phone || "");
-  const [name, setName] = useState(session?.user?.name || "");
+  // react-phone-input-2 expects country code like 'in' for India
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("in"); // use country iso
+  const [name, setName] = useState("");
 
   // Load Razorpay script safely
   useEffect(() => {
@@ -64,37 +68,41 @@ export default function Checkout() {
       document.body.appendChild(script);
     };
 
-    if (!window?.Razorpay) loadScript();
-    else setRazorpayLoaded(true);
+    if (typeof window !== "undefined") {
+      if (!window?.Razorpay) loadScript();
+      else setRazorpayLoaded(true);
+    }
   }, []);
 
+  // Prefill name/phone from session or guest_user local storage
   useEffect(() => {
-    if (!session?.user && typeof window !== "undefined") {
+    if (session?.user) {
+      if (session.user.name) setName(session.user.name);
+      if (session.user.phone) setPhone(session.user.phone);
+    } else if (typeof window !== "undefined") {
       const storedGuest = localStorage.getItem("guest_user");
       if (storedGuest) {
         try {
           const guest = JSON.parse(storedGuest);
           if (guest.name) setName(guest.name);
           if (guest.phone) setPhone(guest.phone);
-        } catch { }
+        } catch (e) {
+          // ignore
+        }
       }
     }
-  }, []);
+  }, [session?.user]);
 
-
-  // Redirect if not logged in (you previously had this). Keep but non-blocking — we still support guest checkout.
+  // Redirect if not logged in (kept non-blocking — guest checkout supported)
   useEffect(() => {
     if (status === "unauthenticated") {
-      // do not forcibly redirect — we allow guest checkout (the original code redirected to login)
-      // If you still want the redirect behavior, uncomment the next line:
-      // router.push("/auth?type=login");
+      // guest flows allowed — no redirect
     }
   }, [status, router]);
 
   // Initialize products from query or cart (backend or localStorage)
   useEffect(() => {
     async function initProducts() {
-      // wait until query is ready
       if (!router.isReady) return;
 
       // 1) If explicit buy-now via query
@@ -112,11 +120,11 @@ export default function Checkout() {
       // 2) If user is logged in, attempt to fetch backend cart
       if (session?.user?.id) {
         try {
-          const { data } = await axios.get(`/api/secure/cart?userId=${session.user.id}`, {
-            withCredentials: true,
-          });
+          const { data } = await axios.get(
+            `/api/secure/cart?userId=${session.user.id}`,
+            { withCredentials: true }
+          );
 
-          // normalize any backend representations
           const cartProducts = Array.isArray(data)
             ? data.map((item) => ({
               productId: item.productId,
@@ -125,37 +133,29 @@ export default function Checkout() {
             }))
             : [];
 
-          // If server cart has items, use them
           if (cartProducts.length > 0) {
             setProducts(cartProducts);
             return;
           }
 
-          // If server cart is empty, fallback to localStorage cart (guest_cart)
           const local = loadCartFromLocalStorage();
-          // console.log(local);
           if (local.length > 0) {
-            // Option A: show local cart for checkout and optionally send to backend to merge
-            // For now we only load it into UI. You may want to merge after login.
             setProducts(local);
             return;
           } else {
             router.push("/cart");
+            return;
           }
-
-          // nothing found
-          setProducts([]);
         } catch (err) {
           console.error("Failed to fetch server cart", err);
-          // fallback to local
           const local = loadCartFromLocalStorage();
           if (local.length > 0) {
             setProducts(local);
           } else {
             setProducts([]);
           }
+          return;
         }
-        return;
       }
 
       // 3) Not logged in: load localStorage cart
@@ -170,8 +170,8 @@ export default function Checkout() {
   // Fetch addresses & summary once session & products are ready
   useEffect(() => {
     if (!products) return;
+
     if (session?.user) {
-      // fetch addresses for logged in users
       (async () => {
         try {
           await fetchAddresses();
@@ -180,7 +180,7 @@ export default function Checkout() {
         }
       })();
     }
-    // fetch summary when products present (or products may be empty array)
+
     (async () => {
       try {
         await fetchSummary();
@@ -198,12 +198,20 @@ export default function Checkout() {
     try {
       setError(null);
 
-      if (products.length === 0) {
-        setSummary(null);
+      // If no products, return a default empty summary (prevents "stuck loading")
+      if (!products || products.length === 0) {
+        setSummary({
+          products: [],
+          itemTotal: 0,
+          promoDiscount: 0,
+          deliveryCharges: 0,
+          totalAmount: 0,
+          finalAmount: 0,
+          addresses: [],
+        });
         return;
       }
 
-      // backend expects null for products when there are none (you mentioned this)
       const payload = {
         promocode,
         products: products && products.length > 0 ? products : null,
@@ -214,7 +222,6 @@ export default function Checkout() {
         withCredentials: true,
       });
 
-      // backend should return a structured summary. guard against empty responses
       if (!data) {
         setError("Checkout service returned no data");
         return;
@@ -222,7 +229,6 @@ export default function Checkout() {
 
       setSummary(data);
 
-      // if backend provides addresses for convenience, set selectedAddressId
       if (!selectedAddressId && data.addresses?.length) {
         setSelectedAddressId(data.addresses[0]._id);
       }
@@ -238,22 +244,23 @@ export default function Checkout() {
       const { data } = await axios.get(`/api/secure/userProfile?userId=${session.user.id}`, {
         withCredentials: true,
       });
-      setAddresses(data.user?.addresses || []);
-      if (data.user?.addresses?.length) {
-        setSelectedAddressId((prev) => prev || data.user.addresses[0]._id || "");
+
+      const userAddresses = data.user?.addresses || [];
+      setAddresses(userAddresses);
+      if (userAddresses.length) {
+        setSelectedAddressId((prev) => prev || userAddresses[0]._id || "");
       }
-      // prefill phone if available in profile
+      // prefill phone and name correctly
       if (data.user?.phone) setPhone(data.user.phone);
-      if (data.user?.name) setPhone(data.user.name);
+      if (data.user?.name) setName(data.user.name);
     } catch (err) {
       console.error("Failed to fetch addresses", err);
     }
   };
 
   const addNewAddress = async () => {
-    // when logged in, post to backend. When guest, just attach locally (we'll use newAddress for delivery)
     if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
-      alert("Please fill all address fields");
+      alert("Please fill all address fields.");
       return;
     }
 
@@ -274,7 +281,7 @@ export default function Checkout() {
       return;
     }
 
-    // guest: simply close the form and keep newAddress in state (will be used for delivery)
+    // guest: keep new address in state and close form
     setShowNewAddressForm(false);
   };
 
@@ -292,12 +299,10 @@ export default function Checkout() {
       if (newQty === item.quantity) return prev;
       updated[idx] = { ...item, quantity: newQty };
 
-      // also persist guest changes to localStorage
+      // persist guest changes to localStorage
       try {
-        if (!session?.user) {
-          if (typeof window !== "undefined") {
-            localStorage.setItem(LOCAL_CART_KEY, JSON.stringify(updated));
-          }
+        if (!session?.user && typeof window !== "undefined") {
+          localStorage.setItem(LOCAL_CART_KEY, JSON.stringify(updated));
         }
       } catch (e) {
         console.error("Failed to save local cart", e);
@@ -310,7 +315,7 @@ export default function Checkout() {
     setSummary((prev) => {
       if (!prev || !Array.isArray(prev.products)) return prev;
       const productIndex = prev.products.findIndex(
-        (p) => p.productId === productId && p.variantId === variantId
+        (p) => p.productId === productId && (p.variantId ?? null) === (variantId ?? null)
       );
       if (productIndex === -1) return prev;
       const updatedSummary = { ...prev };
@@ -320,11 +325,11 @@ export default function Checkout() {
       if (newQty === current.quantity) return prev;
       newProducts[productIndex] = { ...current, quantity: newQty };
       updatedSummary.products = newProducts;
+      // Optionally recompute amounts here or re-fetch summary from server
       return updatedSummary;
     });
   };
 
-  // Create a guest user on-the-fly (simple example). Adjust endpoint/path to your backend.
   const createGuestUser = async (phoneNumber) => {
     try {
       const { data } = await axios.post(
@@ -346,7 +351,6 @@ export default function Checkout() {
       const guestUser = data?.user ?? null;
 
       if (guestUser && typeof window !== "undefined") {
-        // Save guest user info to localStorage
         localStorage.setItem(
           "guest_user",
           JSON.stringify({
@@ -357,7 +361,8 @@ export default function Checkout() {
         );
       }
 
-      signIn("credentials", {
+      // signIn with the returned guest id to give them a short-lived session (backend required)
+      await signIn("credentials", {
         redirect: false,
         userId: guestUser._id ?? guestUser.id,
       });
@@ -370,25 +375,22 @@ export default function Checkout() {
   };
 
   const initiatePayment = async () => {
-    if (!window.Razorpay) return alert("Payment gateway not ready yet. Try again in a second.");
+    if (typeof window === "undefined" || !window.Razorpay) return alert("Payment gateway not ready yet.");
     if (!razorpayLoaded) return alert("Payment gateway not ready");
-    if (!phone || phone.trim().length < 6) return alert("Please enter a valid phone number");
-    if (!name || name.trim().length < 2) return alert("Please enter a Name");
-    if (products.length === 0) return alert("Your cart is empty");
+    if (!phone || phone.trim().length < 6) return alert("Please enter a valid phone number.");
+    if (!name || name.trim().length < 2) return alert("Please enter a name.");
+    if (products.length === 0) return alert("Your cart is empty.");
 
-    // prepare delivery address data (if logged in use selectedAddressId from stored addresses,
-    // otherwise use newAddress filled by user)
+    // prepare delivery address data
     let deliveryAddressPayload = null;
     if (session?.user) {
       const selectedAddr = addresses.find((a) => a._id === selectedAddressId);
       if (!selectedAddr && !showNewAddressForm) {
         return alert("Please select a delivery address or add a new one.");
       }
-      // If they opened new address form and saved it, use that; else use selected stored address
       if (showNewAddressForm) {
-        // ensure newAddress has required fields
         if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
-          return alert("Please complete the new address form");
+          return alert("Please complete the new address form.");
         }
         deliveryAddressPayload = { ...newAddress };
       } else {
@@ -397,7 +399,7 @@ export default function Checkout() {
     } else {
       // Guest: take address from newAddress form
       if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
-        return alert("Please fill in your address details for delivery");
+        return alert("Please fill in your address details for delivery.");
       }
       deliveryAddressPayload = { ...newAddress };
     }
@@ -405,7 +407,7 @@ export default function Checkout() {
     setLoading(true);
 
     try {
-      // If guest, create a user account first (backend should return a minimal user object with id)
+      // If guest, create a user account first
       let userForOrder = session?.user ?? null;
 
       if (!session?.user) {
@@ -415,7 +417,6 @@ export default function Checkout() {
         }
         userForOrder = createdUser;
       }
-
 
       // Build order payload — ensure `products` is sent as null if empty (backend expectation)
       const orderPayload = {
@@ -435,13 +436,12 @@ export default function Checkout() {
         withCredentials: true,
       });
 
-      // Launch Razorpay
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: process.env.NEXT_PUBLIC_DEPLOYEMENT_MODE === "development" ? process.env.NEXT_PUBLIC_TEST_RAZORPAY_KEY_ID : process.env.NEXT_PUBLIC_LIVE_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         order_id: order.id,
-        name: "Organic Robust",
+        name: "Riyora Organic",
         description: "Order Payment",
         handler: async function (response) {
           try {
@@ -457,7 +457,7 @@ export default function Checkout() {
 
             if (verify?.status === "success") {
               // Clear guest local cart if present
-              if (!session?.user) {
+              if (!session?.user && typeof window !== "undefined") {
                 try {
                   localStorage.removeItem(LOCAL_CART_KEY);
                 } catch (e) {
@@ -475,9 +475,9 @@ export default function Checkout() {
         },
         prefill: {
           name: session?.user?.name || name,
-          phone: phone.trim() || "",
+          contact: phone.trim() || "",
         },
-        theme: { color: "#0ea5e9" },
+        theme: { color: "#136132" },
       };
 
       const rz = new window.Razorpay(options);
@@ -490,8 +490,8 @@ export default function Checkout() {
     }
   };
 
-  if (loading || !summary) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading || !summary) return <p className={styles.statusMessage}>Loading checkout...</p>;
+  if (error) return <p className={styles.statusMessage}>Error: {error}</p>;
 
   return (
     <>
@@ -503,114 +503,142 @@ export default function Checkout() {
         {/* Account label */}
         <div style={{ marginBottom: 12 }}>
           {session?.user ? (
-            <div>
+            <div className={styles.accountLabel}>
               <strong>Logged in as:</strong> {session.user.name} ({session.user.email || "no email"})
             </div>
           ) : (
-            <div>
-              <strong>Guest Checkout:</strong> An account will be created using the phone number you provide.
+            <div className={styles.accountLabel}>
+              <strong>Guest Checkout</strong> — an account will be created automatically with the phone number you provide.
             </div>
           )}
         </div>
 
         {/* Product List */}
         <section className={styles.productList}>
-          {summary.products.map((p) => {
-            const productState = products.find((prod) => {
-              const sameProduct = prod.productId === p.productId;
-              const sameVariant = p.variantId
-                ? p.variantId === (prod.variantId ?? prod.productId)
-                : prod.variantId === null || prod.variantId === prod.productId;
-              return sameProduct && sameVariant;
-            });
+          {summary.products && summary.products.length > 0 ? (
+            summary.products.map((p) => {
+              const productState = products.find((prod) => {
+                const sameProduct = prod.productId === p.productId;
+                const prodVariant = prod.variantId ?? null;
+                const pVariant = p.variantId ?? null;
+                const sameVariant = prodVariant === pVariant;
+                return sameProduct && sameVariant;
+              });
 
-            return (
-              <div key={`${p.productId}-${p.variantId ?? "default"}`} className={styles.product}>
-                <img src={p.imageUrl} alt={p.name} className={styles.product_img} />
-                <div className={styles.product_details}>
-                  <h3>{p.name}</h3>
-                  {p.variantName && <p className={styles.variant}>Variant: {p.variantName}</p>}
-                  <p className={styles.price}>₹{p.price}</p>
-                  <div className={styles.quantity_setter}>
-                    <button
-                      onClick={() => updateQuantity(p.productId, p.variantId ?? null, -1)}
-                      disabled={!productState || productState?.quantity <= 1}
-                    >
-                      −
-                    </button>
-                    <span>{productState?.quantity ?? 1}</span>
-                    <button
-                      onClick={() => updateQuantity(p.productId, p.variantId ?? null, +1)}
-                      disabled={!productState || productState?.quantity >= 5}
-                    >
-                      +
-                    </button>
+              return (
+                <div key={`${p.productId}-${p.variantId ?? "default"}`} className={styles.product}>
+                  <img src={p.imageUrl} alt={p.name} className={styles.product_img} />
+                  <div className={styles.product_details}>
+                    <h3>{p.name}</h3>
+                    {p.variantName && <p className={styles.variant}>Variant: {p.variantName}</p>}
+                    <p className={styles.price}>₹{p.price}</p>
+                    <div className={styles.quantity_setter}>
+                      <button
+                        onClick={() => updateQuantity(p.productId, p.variantId ?? null, -1)}
+                        disabled={!productState || productState?.quantity <= 1}
+                        aria-label={`Decrease quantity for ${p.name}`}
+                      >
+                        −
+                      </button>
+                      <span className={styles.qtyDisplay}>{productState?.quantity ?? 1}</span>
+                      <button
+                        onClick={() => updateQuantity(p.productId, p.variantId ?? null, +1)}
+                        disabled={!productState || productState?.quantity >= 5}
+                        aria-label={`Increase quantity for ${p.name}`}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <div className={styles.emptyCart}>Your cart is empty.</div>
+          )}
         </section>
 
         {/* customer name */}
         <div className={styles.name_section}>
-          <label>
-            Name number (required)
-          </label>
+          <label className={styles.label}>Full name (required)</label>
           <input
             type="text"
-            placeholder="Delivering to"
+            placeholder="Recipient name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            style={{ display: "block", padding: 8, marginTop: 6 }}
+            className={styles.input}
           />
         </div>
 
         {/* Phone input (always required) */}
         <div className={styles.phone_section}>
-          <label>
-            Phone number (required)
-          </label>
-          <input
-            type="text"
-            placeholder="Enter phone number"
+          <label className={styles.label}>Phone number (required)</label>
+          <PhoneInput
+            country={countryCode}
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            style={{ display: "block", padding: 8, marginTop: 6 }}
+            onChange={(value) => setPhone(value)}
+            inputProps={{ name: "phone", required: true }}
+            containerClass={styles.phoneInput}
           />
         </div>
 
-
         {/* Address Section */}
         <div className={styles.address_section}>
-          <h3>Select Delivery Address</h3>
-
+          <h3 className={styles.sectionTitle}>Delivery address</h3>
           {session?.user ? (
             <>
-              <div className={styles.address_section_in}>
-                <select value={selectedAddressId} onChange={(e) => setSelectedAddressId(e.target.value)}>
-                  {addresses.map((addr) => (
-                    <option key={addr._id} value={addr._id}>
-                      {addr.label} - {addr.address}, {addr.city}, {addr.country}, {addr.pincode}
-                    </option>
-                  ))}
-                </select>
-                <button onClick={() => setShowNewAddressForm((s) => !s)}>
-                  {showNewAddressForm ? "−" : "+"}
-                </button>
+              <div className={styles.address_list}>
+                {addresses.map((addr) => (
+                  <label
+                    key={addr._id}
+                    className={`${styles.address_card} ${selectedAddressId === addr._id ? styles.active : ""
+                      }`}
+                  >
+                    <input
+                      type="radio"
+                      name="address"
+                      value={addr._id}
+                      checked={selectedAddressId === addr._id}
+                      onChange={() => setSelectedAddressId(addr._id)}
+                    />
+
+                    <div className={styles.address_icon}>
+                      <i className="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <div className={styles.address_info}>
+                      <h4>{addr.label}</h4>
+                      <p>{addr.address}, {addr.city}, {addr.state}</p>
+                      <p>{addr.country} - {addr.pincode}</p>
+                      {/* <p>📞 {user.phone}</p> */}
+                    </div>
+                  </label>
+                ))}
+                <div
+                  role="button"
+                  className={styles.add_address_btn}
+                  onClick={() => setShowNewAddressForm((s) => !s)}
+                >
+                  {showNewAddressForm ? "Cancel" : "+ Add New Address"}
+                </div>
               </div>
+
+
+
+
 
               {showNewAddressForm && (
                 <div className={styles.new_address_form}>
                   <div className={styles.addressLabels}>
                     {["Home", "Office", "Other"].map((label) => (
-                      <span
+                      <button
                         key={label}
-                        className={newAddress.label === label ? styles.active : ""}
+                        type="button"
+                        className={`${styles.addressLabelBtn} ${newAddress.label === label ? styles.active : ""}`}
                         onClick={() => setNewAddress({ ...newAddress, label })}
                       >
                         {label}
-                      </span>
+                      </button>
                     ))}
                   </div>
                   <input
@@ -618,26 +646,34 @@ export default function Checkout() {
                     placeholder="Address"
                     value={newAddress.address}
                     onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
+                    className={styles.input}
                   />
                   <input
                     type="text"
                     placeholder="City"
                     value={newAddress.city}
                     onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                    className={styles.input}
                   />
                   <input
                     type="text"
                     placeholder="Country"
                     value={newAddress.country}
                     onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })}
+                    className={styles.input}
                   />
                   <input
                     type="text"
                     placeholder="Pincode"
                     value={newAddress.pincode}
                     onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
+                    className={styles.input}
                   />
-                  <button onClick={addNewAddress}>Add Address</button>
+                  <div style={{ marginTop: 8 }}>
+                    <button className={styles.primaryBtn} onClick={addNewAddress}>
+                      Save address
+                    </button>
+                  </div>
                 </div>
               )}
             </>
@@ -646,13 +682,14 @@ export default function Checkout() {
             <div className={styles.new_address_form}>
               <div className={styles.addressLabels}>
                 {["Home", "Office", "Other"].map((label) => (
-                  <span
+                  <button
                     key={label}
-                    className={newAddress.label === label ? styles.active : ""}
+                    type="button"
+                    className={`${styles.addressLabelBtn} ${newAddress.label === label ? styles.active : ""}`}
                     onClick={() => setNewAddress({ ...newAddress, label })}
                   >
                     {label}
-                  </span>
+                  </button>
                 ))}
               </div>
               <input
@@ -660,26 +697,29 @@ export default function Checkout() {
                 placeholder="Address"
                 value={newAddress.address}
                 onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
+                className={styles.input}
               />
               <input
                 type="text"
                 placeholder="City"
                 value={newAddress.city}
                 onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                className={styles.input}
               />
               <input
                 type="text"
                 placeholder="Country"
                 value={newAddress.country}
                 onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })}
+                className={styles.input}
               />
               <input
                 type="text"
                 placeholder="Pincode"
                 value={newAddress.pincode}
                 onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
+                className={styles.input}
               />
-              <button onClick={() => setShowNewAddressForm(false)}>Use This Address</button>
             </div>
           )}
         </div>
@@ -688,44 +728,55 @@ export default function Checkout() {
         <section className={styles.promo_section}>
           <input
             type="text"
-            placeholder="Promo Code"
+            placeholder="Promo code"
             value={promocode}
-            onChange={(e) => setPromocode(e.target.value.trim())}
+            onChange={(e) => setPromocode(e.target.value)}
+            className={styles.inputPromo}
           />
-          <button onClick={fetchSummary}>Apply</button>
+          <button className={styles.applyBtn} onClick={fetchSummary}>
+            Apply
+          </button>
         </section>
 
         {/* Amount Section */}
         <section className={styles.amount_section}>
-          <h2>Amount Breakdown</h2>
+          <h2 className={styles.sectionTitle}>Amount breakdown</h2>
           <div className={styles.amountSummary}>
-            <span>
-              <strong>Item Total:</strong> ₹{summary.itemTotal}
-            </span>
+            <div className={styles.row}>
+              <span>Item total</span>
+              <span>₹{summary.itemTotal ?? 0}</span>
+            </div>
             {summary.promoDiscount > 0 && (
-              <span>
-                <strong>Promo Discount:</strong> ₹{summary.promoDiscount}
-              </span>
+              <div className={styles.row}>
+                <span>Promo discount</span>
+                <span>-₹{summary.promoDiscount}</span>
+              </div>
             )}
-            <span>
-              <strong>Delivery:</strong> ₹{summary.deliveryCharges}
-            </span>
-            <span>
-              <strong>Total : </strong> ₹{summary.totalAmount}
-            </span>
-            <span>
-              <strong>Free Delivery:</strong> -₹{summary.deliveryCharges}
-            </span>
-            <span className={styles.total}>
-              <strong>Total Payable:</strong> ₹{summary.finalAmount}
-            </span>
+            <div className={styles.row}>
+              <span>Delivery</span>
+              <span>₹{summary.deliveryCharges ?? 0}</span>
+            </div>
+            <div className={styles.row}>
+              <strong>Total</strong>
+              <strong>₹{summary.totalAmount ?? 0}</strong>
+            </div>
+            {summary.deliveryCharges > 0 && (
+              <div className={styles.row}>
+                <span>Free Delivery</span>
+                <span>-₹{summary.deliveryCharges}</span>
+              </div>
+            )}
+            <div className={styles.rowTotal}>
+              <strong>Total payable</strong>
+              <strong>₹{summary.finalAmount ?? 0}</strong>
+            </div>
           </div>
         </section>
 
         <button onClick={initiatePayment} className={styles.pay_btn}>
-          Proceed To Pay ₹{summary.finalAmount}
+          Proceed to pay ₹{summary.finalAmount ?? 0}
         </button>
-      </div>
+      </div >
     </>
   );
 }

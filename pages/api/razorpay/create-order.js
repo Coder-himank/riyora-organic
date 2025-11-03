@@ -12,8 +12,9 @@ import connectDB from "@/server/db";
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
+  key_id: process.env.NEXT_PUBLIC_DEPLOYEMENT_MODE === "development" ?  process.env.RAZORPAY_TEST_KEY_ID : process.env.RAZORPAY_LIVE_KEY_ID,
+  key_secret: process.env.NEXT_PUBLIC_DEPLOYEMENT_MODE === "development" ?  process.env.RAZORPAY_TEST_KEY_SECRET : process.env.RAZORPAY_LIVE_KEY_SECRET,
+   
 });
 
 export default async function handler(req, res) {

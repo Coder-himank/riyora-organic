@@ -1,11 +1,14 @@
 .cart_container {
-    padding: 20px;
+    padding: 10px;
     background: #ffffff;
     border-radius: 10px;
     width: 100%;
     max-width: 800px;
     margin: auto;
-
+    min-height: calc(100vh - 80px);
+    position: relative;
+    border-radius: 8px;
+    border: 2px solid #cccccc9a;
 }
 
 .cart_loading,
@@ -21,7 +24,6 @@
     min-height: 50vh;
 }
 
-
 .cart_head {
     max-width: 900px;
     margin: auto;
@@ -29,7 +31,7 @@
 
 .cart_container a {
     text-decoration: none;
-    color: black;
+    color: #0f172a;
     height: fit-content;
     width: fit-content;
 }
@@ -39,9 +41,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #eee;
     max-width: 900px;
     margin: auto;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 2px solid #e6f2ea; /* very light green border */
+    background: #f8fffb; /* light green */
 }
 
 .cart_item img {
@@ -51,6 +56,7 @@
 
 .cart_item .qty {
     padding: 15px;
+    margin: 10px 0;
 }
 
 .cart_item_details {
@@ -61,11 +67,12 @@
 
 .cart_item_details h3 {
     font-size: 0.9rem;
+    color: #0f172a;
 }
 
 .cart_item_details p {
     font-size: 0.8rem;
-    opacity: 0.5;
+    opacity: 0.55;
 }
 
 .remove_btn {
@@ -74,7 +81,9 @@
     align-self: self-start;
     border-radius: 100%;
     padding: 0;
-    background-color: var(--danger);
+    background-color: #e74d3c; /* var(--danger fallback) */
+    color: white;
+    cursor: pointer;
 }
 
 .cart_total {
@@ -82,6 +91,7 @@
     font-weight: bold;
     text-align: right;
     margin-top: 10px;
+    color: #136132;
 }
 
 /* Skeleton Loader Styles */
@@ -91,22 +101,27 @@
     gap: 15px;
     padding: 10px;
     border-radius: 8px;
-    background: #f6f7f8;
-
-    /* min-height: 176px; */
+    background: #eef9f1; /* soft green background instead of gray */
 }
 
+/* qty buttons */
 .quantity_controls button {
     width: 20px;
     height: fit-content;
-    padding: 2px;
-    border-radius: 100%;
+
+    padding: 4px 20px;
+    /* border-radius: ; */
+    background: #136132; /* light green */
+    border: 1px solid #c2e7d0;
+    color: white;
+    cursor: pointer;
 }
 
+/* skeleton elements */
 .skeleton_image {
     width: 80px;
     height: 90px;
-    background: linear-gradient(90deg, #ececec 25%, #f3f3f3 50%, #ececec 75%);
+    background: linear-gradient(90deg, #e6f2ea 25%, #f3f7f4 50%, #e6f2ea 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite linear;
     border-radius: 8px;
@@ -115,9 +130,8 @@
 .skeleton_text,
 .skeleton_text_small {
     width: 60%;
-    /* width: 150px; */
     height: 16px;
-    background: linear-gradient(90deg, #ececec 25%, #f3f3f3 50%, #ececec 75%);
+    background: linear-gradient(90deg, #e6f2ea 25%, #f3f7f4 50%, #e6f2ea 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite linear;
     border-radius: 4px;
@@ -133,7 +147,7 @@
 .skeleton_btn {
     width: 43px;
     height: 30px;
-    background: linear-gradient(90deg, #ececec 25%, #f3f3f3 50%, #ececec 75%);
+    background: linear-gradient(90deg, #e6f2ea 25%, #f3f7f4 50%, #e6f2ea 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite linear;
     border-radius: 5px;
@@ -143,11 +157,10 @@
 
 .skeleton_qty {
     width: 30px;
-    height: 30px;
+    height: 20px;
     margin: 5px;
     display: inline-block;
-    height: 20px;
-    background: linear-gradient(90deg, #ececec 25%, #f3f3f3 50%, #ececec 75%);
+    background: linear-gradient(90deg, #e6f2ea 25%, #f3f7f4 50%, #e6f2ea 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite linear;
     border-radius: 4px;
@@ -157,20 +170,30 @@
     align-self: center;
 }
 
+/* cart billing */
 .cart_billing {
     max-width: 900px;
     margin: 10px auto;
     width: 100%;
 }
 
-
-
+/* update loading bar */
 .cart_updating {
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, var(--primary-color) 25%, #f3f3f3 50%, #ececec 75%);
+    background: linear-gradient(90deg, #136132 25%, #a5e2b7 50%, #dff4e8 75%);
     position: fixed;
     animation: skeleton-loading 0.3s infinite linear;
+}
+
+.checkoutbtn{
+    background-color: #136132;
+    width: 95%;
+    margin-top: 24px;
+    padding: 20px;
+    position: absolute;
+    bottom: 10px;
+    left: 2.5%;
 }
 
 @keyframes skeleton-loading {

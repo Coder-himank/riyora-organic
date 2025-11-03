@@ -49,9 +49,9 @@ export const handleImageDrop = async (e, setDataFunction, fileFolder) => {
 
 
 export const handleFileSelect = async (e, setDataFunction, fileFolder) => {
-    console.log("\n\n\n");
-    console.log(e, setDataFunction);
-    console.log("\n\n\n");
+    // console.log("\n\n\n");
+    // console.log(e, setDataFunction);
+    // console.log("\n\n\n");
     const files = Array.from(e.target.files);
     return uploadFile(e, setDataFunction, files, fileFolder)
 

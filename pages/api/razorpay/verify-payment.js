@@ -57,7 +57,7 @@ export default async function handler(req, res) {
 
   // ✅ Verify Razorpay Signature
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    .createHmac("sha256", process.env.NEXT_PUBLIC_DEPLOYEMENT_MODE === "development" ?  process.env.RAZORPAY_TEST_KEY_SECRET : process.env.RAZORPAY_LIVE_KEY_SECRET)
     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest("hex");
 

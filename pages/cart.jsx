@@ -32,18 +32,21 @@ const fetcher = (url) => axios.get(url).then((res) => res.data);
 const SkeletonCart = () => (
   <>
     {[...Array(3)].map((_, index) => (
-      <div key={index} className={styles.cart_item}>
-        <div className={styles.skeleton_image}></div>
-        <div className={styles.cart_item_details}>
-          <div className={styles.skeleton_text}></div>
-          <div className={styles.skeleton_text_small}></div>
-          <span className={styles.quantity_controls}>
-            <span className={styles.skeleton_btn}></span>
-            <span className={styles.skeleton_qty}></span>
-            <span className={styles.skeleton_btn}></span>
-          </span>
+      <div className={styles.cart_container}>
+
+        <div key={index} className={styles.cart_item}>
+          <div className={styles.skeleton_image}></div>
+          <div className={styles.cart_item_details}>
+            <div className={styles.skeleton_text}></div>
+            <div className={styles.skeleton_text_small}></div>
+            <span className={styles.quantity_controls}>
+              <span className={styles.skeleton_btn}></span>
+              <span className={styles.skeleton_qty}></span>
+              <span className={styles.skeleton_btn}></span>
+            </span>
+          </div>
+          <span className={styles.remove_btn}></span>
         </div>
-        <span className={styles.remove_btn}></span>
       </div>
     ))}
   </>
@@ -120,6 +123,7 @@ export default function Cart() {
               : product.imageUrl
             : null;
           const description = product ? product.description : "";
+          const slug = product ? product.slug : "";
 
           return {
             ...item,
@@ -127,6 +131,7 @@ export default function Cart() {
             price,
             imageUrl,
             description,
+            slug
           };
         });
 
@@ -175,6 +180,7 @@ export default function Cart() {
               : product.imageUrl
             : null;
           const description = product ? product.description : "";
+          const slug = product ? product.slug : "";
 
           return {
             ...item,
@@ -182,6 +188,7 @@ export default function Cart() {
             price,
             imageUrl,
             description,
+            slug
           };
         });
 
@@ -319,7 +326,6 @@ export default function Cart() {
     <>
       <div className="navHolder"></div>
 
-      {isValidating && <div className={styles.cart_updating}></div>}
 
       <div className={styles.cart_container}>
         <h1 className={styles.cart_head}>Your Cart</h1>
@@ -342,7 +348,7 @@ export default function Cart() {
               const qty = Number(item.quantity_demanded) || 1;
               return (
                 <div key={`${item.productId}-${item.variantId || ""}`} className={styles.cart_item}>
-                  <Link href={`/products/${item.productId}`}>
+                  <Link href={`/products/${item.slug}`}>
                     <motion.img
                       src={img}
                       alt={item.name || "Product"}
@@ -355,7 +361,7 @@ export default function Cart() {
                   </Link>
 
                   <div className={styles.cart_item_details}>
-                    <Link href={`/products/${item.productId}`}>
+                    <Link href={`/products/${item.slug}`}>
                       <h3>{item.name}</h3>
                       <p>
                         {item.description?.slice(0, 120)}
@@ -395,7 +401,7 @@ export default function Cart() {
             <div className={styles.cart_billing}>
               <div className={styles.cart_total}>Total: ₹{cartTotal.toFixed(2)}</div>
               <Link href="/checkout">
-                <button>Checkout</button>
+                <button className={styles.checkoutbtn}>Checkout</button>
               </Link>
             </div>
           </>

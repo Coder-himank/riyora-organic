@@ -158,7 +158,7 @@ export default function AuthPage() {
           toast.error("Login failed");
         } else {
           toast.success("Login successful");
-          console.log(callbackUrl);
+          // console.log(callbackUrl);
           handleReRouteAfterLogin();
         }
       } else {
