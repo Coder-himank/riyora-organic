@@ -6,7 +6,7 @@
 /* root variables removed */
 
 .page_wrap{
-  min-height: 100vh;
+  min-height: fit-content;
   background: linear-gradient(180deg, #f3faf3 0%, #f6f9f6 100%);
   padding: 28px 20px;
   display: flex;
@@ -46,6 +46,7 @@
   font-size: 22px;
   color: white;
   background: linear-gradient(135deg,#136132,#2a8a54);
+  text-transform: uppercase ;
 }
 
 .header_info{ flex: 1; }
@@ -66,13 +67,22 @@
 }
 .icon_btn:hover{ transform: translateY(-2px); box-shadow: 0 6px 18px rgba(19,97,50,0.06); }
 
+
+.signout_section{
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .signout_btn{
   background: #e74c3c;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 15px 12px;
   border-radius: 10px;
   cursor: pointer;
+  /* width: 100%; */
 }
 
 .profile_body{ margin-top: 6px; }
@@ -121,9 +131,16 @@
 
 /* Responsive */
 @media (max-width: 840px){
+  .page_wrap{ 
+    padding: 20px 6px; 
+  }
   .info_grid{ grid-template-columns: repeat(1,1fr); }
   .row_two{ flex-direction:column; }
   .modal_card{ max-width: 92%; }
+
+  .signout_btn{
+    width: 100%;
+  }
 }
 
 /* small touch ups */

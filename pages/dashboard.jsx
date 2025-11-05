@@ -205,7 +205,7 @@ export default function UserProfile() {
                 <button className={styles.icon_btn} onClick={openUserEditForm} title="Edit profile">
                   <FaEdit />
                 </button>
-                <button className={styles.signout_btn} onClick={UserLogOut}>Sign Out</button>
+
               </div>
             </div>
 
@@ -251,6 +251,10 @@ export default function UserProfile() {
                     <p className={styles.empty}>No addresses yet</p>
                   )}
                 </div>
+              </section>
+              <section className={styles.signout_section}>
+
+                <button className={styles.signout_btn} onClick={UserLogOut}>Sign Out</button>
               </section>
 
             </div>
@@ -298,6 +302,7 @@ export default function UserProfile() {
                   {label}
                 </button>
               ))}
+
             </div>
 
             <div className={styles.field_group}>
@@ -330,8 +335,11 @@ export default function UserProfile() {
               <button className={styles.ghost_btn} onClick={() => setShowAddressForm(false)}>Cancel</button>
             </div>
           </div>
+
         </div>
       )}
+
+
 
     </div>
   );

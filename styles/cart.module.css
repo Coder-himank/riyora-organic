@@ -5,10 +5,10 @@
     width: 100%;
     max-width: 800px;
     margin: auto;
-    min-height: calc(100vh - 80px);
+    min-height: 70vh;
     position: relative;
     border-radius: 8px;
-    border: 2px solid #cccccc9a;
+    /* border: 2px solid #cccccc9a; */
 }
 
 .cart_loading,
