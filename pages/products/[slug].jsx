@@ -294,8 +294,8 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
           <div className={styles.suitable_cards}>
             {displayProduct?.suitableFor?.map((s, idx) => (
               <div key={idx} className={styles.suitable_images}>
-                <Image src={s?.imageUrl} width={300} height={300} alt={s.text} />
-                <p>{s.text}</p>
+                <Image src={s?.imageUrl} width={300} height={300} alt={s.name} />
+                <p>{s.name}</p>
               </div>
             ))}
           </div>
@@ -352,10 +352,11 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
                 <Image src={ingredient?.imageUrl} width={150} height={150} alt={ingredient.name} />
                 <div className={styles.text_wrapper}>
 
-                  <h4>{ingredient.name}</h4>
+                  <h4>{ingredient?.name}</h4>
+                  <p>{ingredient?.description}</p>
                   <ul>
                     {ingredient?.notes?.map((note, nidx) => (
-                      <li key={nidx}>{note}</li>
+                      <li key={nidx}>{note} loda</li>
                     ))}
                   </ul>
                 </div>

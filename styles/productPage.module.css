@@ -594,7 +594,7 @@
 .ingredients_tab{
     width: 100%;
     /* padding: 20px; */
-    max-height: 500px;
+    /* max-height: 500px; */
 }
 
 .ingredients_tab h3{
@@ -603,23 +603,33 @@
 }
 .ingredient_card{
     padding-left: clamp(0, 5vw, 80px);
-    width:50%;
+    width:100%;
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
     /* border: 1px solid #ccc; */
     margin-bottom: 20px;
     min-width: 200px;
-    max-width: 800px;
+    /* max-width: 800px; */
+}
+
+.ingredient_card .text_wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    /* max-width: 500px; */
+    flex: 1 1 300px;
 }
 
 .ingredient_card img{
     width: 250px;
     height: 250px;
-    object-fit: contain;
+    object-fit: cover;
+    /* object-fit: contain; */
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 10px;
+    /* padding: 10px; */
 }
 .ingredient_card h4{
     font-size: 1.5rem;
