@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       .toArray();
     const blogs = await db
       .collection("blogs")
-      .find({visible : true}, { projection: { slug: 1, updatedAt: 1 } })
+      .find({published : true}, { projection: { slug: 1, updatedAt: 1 } })
       .toArray();
 
     await client.close();
