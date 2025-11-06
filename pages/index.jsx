@@ -133,78 +133,81 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
   return (
     <>
       <Head>
-        {/* Primary Meta Tags */}
-        <title>
-          Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth
-        </title>
+        {/* Primary SEO Tags */}
+        <title>Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth</title>
         <meta
           name="description"
-          content="Riyora Organic offers premium ayurvedic hair oil for strong, healthy, and shiny hair. 100% natural, cruelty-free, and eco-friendly hair care products. Shop now for the best hair oil in India."
+          content="Riyora Organic offers premium Ayurvedic hair oils for strong, healthy, and shiny hair. 100% natural, cruelty-free, and eco-friendly hair care products."
         />
         <meta
           name="keywords"
-          content="Riyora, ayurvedic hair oil, organic hair oil, hair growth oil, natural hair care, cruelty-free, eco-friendly, vegan hair oil, best hair oil India"
+          content="Riyora Organic, Ayurvedic Hair Oil, Natural Hair Care, Hair Growth Oil, Herbal Hair Oil, Organic Hair Oil, Cruelty-Free, Eco-Friendly"
         />
-        <meta name="author" content="Riyora Organic" />
         <meta name="robots" content="index, follow" />
-        <meta name="language" content="en" />
-        <link rel="canonical" href="https://riyora-organic.vercel.app/" />
+        <meta name="author" content="Riyora Organic" />
+        <link rel="canonical" href="https://riyoraorganic.com/" />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://riyora-organic.vercel.app/" />
-        <meta
-          property="og:title"
-          content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth"
-        />
+        <meta property="og:title" content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth" />
         <meta
           property="og:description"
-          content="Discover Riyora Organic's ayurvedic hair oil, crafted for stronger, healthier hair. 100% natural, vegan, and cruelty-free. Shop now!"
+          content="Discover Riyora Organic's Ayurvedic hair oil for strong, healthy hair. 100% natural, vegan, and cruelty-free."
         />
+        <meta property="og:url" content="https://riyoraorganic.com/" />
         <meta
           property="og:image"
-          content="https://riyora-organic.vercel.app/images/og-image.jpg"
+          content="https://riyoraorganic.com/images/og-image.jpg"
         />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Riyora Organic" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://riyora-organic.vercel.app/" />
-        <meta
-          name="twitter:title"
-          content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth"
-        />
+        <meta name="twitter:title" content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth" />
         <meta
           name="twitter:description"
-          content="Shop Riyora Organic's ayurvedic hair oil for natural hair growth and shine. 100% organic, cruelty-free, and eco-friendly."
+          content="Shop Riyora Organic Ayurvedic hair oils for natural hair growth, shine, and strength. 100% organic, cruelty-free, and eco-friendly."
         />
         <meta
           name="twitter:image"
-          content="https://riyora-organic.vercel.app/images/twitter-image.jpg"
+          content="https://riyoraorganic.com/images/twitter-image.jpg"
         />
 
-        {/* JSON-LD Breadcrumb Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://riyora-organic.vercel.app/",
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "name": "Riyora Organic Home",
+              "url": "https://riyoraorganic.com/",
+              "description": "Shop Riyora Organic Ayurvedic Hair Oil for strong, healthy hair. Natural, cruelty-free, and eco-friendly hair care products.",
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://riyoraorganic.com/" },
+                  { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://riyoraorganic.com/products" }
+                ]
               },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Products",
-                item: "https://riyora-organic.vercel.app/products",
-              },
-            ],
-          })}
-        </script>
+              "mainEntity": products?.map((p) => ({
+                "@type": "Product",
+                "name": p.name,
+                "image": p.imageUrl[0],
+                "description": p.description,
+                "sku": p.sku || "",
+                "offers": {
+                  "@type": "Offer",
+                  "priceCurrency": "INR",
+                  "price": p.price,
+                  "availability": "https://schema.org/InStock",
+                  "url": `https://riyoraorganic.com/products/${p.slug}`,
+                },
+              })),
+            }),
+          }}
+        />
       </Head>
 
       <div className="navHolder"></div>
@@ -224,6 +227,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
               >
                 <Link
                   href={"/products/" + (highlightedProduct.slug || "")}
+                  alt={highlightedProduct.slug + "image"}
                 >
                   <Image
                     src={"/images/banner1.png"}
@@ -274,7 +278,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
             </div>
             <div className={styles.product_text_content}>
               <h1>{highlightedProduct.name}</h1>
-              <Link href={`/products/${highlightedProduct.slug}#reviews`} style={{ maxWidth: "fit-content" }}>
+              <Link href={`/products/${highlightedProduct.slug}#reviews`} style={{ maxWidth: "fit-content" }} alt={highlightedProduct.name}>
                 <section className={styles.product_rating}>
                   <StarRating rating={highlightedProduct.averageRating} />{" "}
                   <span className={styles.review_count}>{highlightedProduct.averageRating} ({highlightedProduct.numReviews})</span>

@@ -3,11 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
 
   publicRuntimeConfig: {
-    BASE_URL: "https://riyora-organic.vercel.app",
+    BASE_URL: "https://riyoraorganic.com",
   },
 
   images: {
-    domains: ["res.cloudinary.com"],
+    domains: ["res.cloudinary.com", "riyoraorganic.com"],
   },
 
   async rewrites() {

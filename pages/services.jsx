@@ -1,22 +1,62 @@
 import styles from '@/styles/services.module.css';
 import Head from 'next/head';
 import Image from 'next/image';
+
 const Services = () => {
     return (
         <>
-            {/* <div className="navHolder"></div> */}
+            <Head>
+                {/* Primary SEO Tags */}
+                <title>Riyora Organic Hair Oil & Wellness Services | Premium Organic Care</title>
+                <meta
+                    name="description"
+                    content="Discover Riyora Organic's premium hair oil and holistic wellness services. Shop certified organic hair care, enjoy fast delivery, sustainable packaging, subscription boxes, gifting options, and expert support."
+                />
+                <meta
+                    name="keywords"
+                    content="Riyora Organic, organic hair oil, hair care, natural hair products, wellness, sustainable living, eco-friendly, subscription box, gifting, customer support, organic produce, healthy lifestyle"
+                />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://riyoraorganic.com/services" />
+
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Riyora Organic Hair Oil & Wellness Services | Premium Organic Care" />
+                <meta property="og:description" content="Explore Riyora Organic's hair oil and wellness services, including fast delivery, subscription boxes, sustainable packaging, and expert support for a healthier lifestyle." />
+                <meta property="og:image" content="https://riyoraorganic.com/images/riyora-hair-oil-banner.jpg" />
+                <meta property="og:url" content="https://riyoraorganic.com/services" />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Riyora Organic Hair Oil & Wellness Services | Premium Organic Care" />
+                <meta name="twitter:description" content="Shop Riyora Organic's hair oil and wellness services. Enjoy organic hair care, eco-friendly packaging, subscription options, and expert guidance." />
+                <meta name="twitter:image" content="https://riyoraorganic.com/images/riyora-hair-oil-banner.jpg" />
+
+                {/* Structured Data: WebPage */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "WebPage",
+                            "name": "Riyora Organic Hair Oil & Wellness Services",
+                            "description": "Riyora Organic offers premium organic hair oil and wellness services, including online shopping, subscription boxes, gifting, and eco-friendly delivery.",
+                            "url": "https://riyoraorganic.com/services",
+                            "publisher": {
+                                "@type": "Organization",
+                                "name": "Riyora Organic",
+                                "logo": {
+                                    "@type": "ImageObject",
+                                    "url": "https://riyoraorganic.com/Riyora-Logo-Favicon.png"
+                                }
+                            }
+                        })
+                    }}
+                />
+            </Head>
+
             <div className={styles.banner}></div>
             <div className={styles.service_container}>
-                <Head>
-                    <title>Riyora Organic Hair Oil Services | Organic Robust</title>
-                    <meta name="description" content="Discover Riyora Organic's premium hair oil and wellness services. Shop organic hair care, enjoy fast delivery, and explore our sustainable, eco-friendly offerings." />
-                    <meta name="keywords" content="Riyora Organic, hair oil, organic hair care, natural hair oil, organic products, wellness, sustainable, eco-friendly, delivery, subscription, gifting" />
-                    <meta property="og:title" content="Riyora Organic Hair Oil Services | Organic Robust" />
-                    <meta property="og:description" content="Experience the benefits of Riyora Organic Hair Oil and our full range of organic wellness services. Fast delivery, sustainable packaging, and expert support." />
-                    <meta property="og:image" content="/images/riyora-hair-oil-banner.jpg" />
-                    <meta property="og:url" content="https://riyora-organic.vercel.app/services" />
-                    <meta name="twitter:card" content="summary_large_image" />
-                </Head>
                 <div className={styles.hero}>
                     <Image
                         src="/images/riyora-hair-oil-banner.jpg"
@@ -27,82 +67,69 @@ const Services = () => {
                         style={{ width: '100%', height: 'auto', borderRadius: '12px' }}
                     />
                 </div>
+
                 <section className={styles.intro}>
                     <h1>Riyora Organic Hair Oil & Wellness Services</h1>
                     <p>
-                        Welcome to Riyora Organic, your trusted destination for premium organic hair oil and holistic wellness. Our signature hair oil is crafted with pure, natural ingredients to nourish, strengthen, and revitalize your hair. Explore our full suite of organic services designed for a healthier, more sustainable lifestyle.
-                    </p>
-                </section>
-                <h1>Our Services</h1>
-                <p>At Organic Robust, we're committed to making healthy living easy, accessible, and enjoyable. Our range of services is designed to provide a seamless and enriching shopping experience for those who value quality, sustainability, and wellness.</p>
-                <section className={styles.service_section}>
-                    <h2>1. Online Shopping</h2>
-                    <p>
-                        Shop from the comfort of your home with our user-friendly online store. Browse through a wide selection of certified organic groceries, pantry staples, fresh produce, personal care products, and eco-friendly household items.
+                        Welcome to Riyora Organic, your trusted destination for premium organic hair oil and holistic wellness. Our signature hair oil is crafted with pure, natural ingredients to nourish, strengthen, and revitalize your hair. Explore our full suite of organic services designed for a healthier, sustainable lifestyle.
                     </p>
                 </section>
 
+                {/* Updated heading hierarchy for SEO */}
+                <h2>Our Services</h2>
+                <p>
+                    At Organic Robust, we are committed to making healthy living easy, accessible, and enjoyable. Our range of services ensures a seamless shopping experience for those who value quality, sustainability, and wellness.
+                </p>
+
+                {/* Service Sections */}
                 <section className={styles.service_section}>
-                    <h2>2. Fast & Reliable Delivery</h2>
-                    <p>
-                        We deliver your organic essentials straight to your doorstep—fresh, fast, and hassle-free. Enjoy same-day or next-day delivery options in select areas, and track your order in real-time.
-                    </p>
+                    <h3>1. Online Shopping</h3>
+                    <p>Shop from home with our user-friendly online store. Browse certified organic groceries, pantry staples, fresh produce, personal care products, and eco-friendly household items.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>3. Subscription Boxes</h2>
-                    <p>
-                        Stay stocked up with our customizable subscription boxes. Choose your favorite organic products and get them delivered on a schedule that suits you—weekly, bi-weekly, or monthly.
-                    </p>
+                    <h3>2. Fast & Reliable Delivery</h3>
+                    <p>Receive your organic essentials directly at your doorstep—fast, fresh, and hassle-free. Track your order in real-time with same-day or next-day delivery options in select areas.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>4. Fresh Produce Delivery</h2>
-                    <p>
-                        Get farm-fresh, seasonal fruits and vegetables delivered regularly. We work directly with local organic farmers to bring you the best from the field to your table.
-                    </p>
+                    <h3>3. Subscription Boxes</h3>
+                    <p>Stay stocked with customizable subscription boxes. Get your favorite organic products delivered weekly, bi-weekly, or monthly according to your preference.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>5. Natural Health & Beauty Products</h2>
-                    <p>
-                        Explore a curated range of clean, cruelty-free, and organic skincare, haircare, and wellness products. We only partner with trusted brands that share our values.
-                    </p>
+                    <h3>4. Fresh Produce Delivery</h3>
+                    <p>Enjoy farm-fresh seasonal fruits and vegetables. We collaborate directly with local organic farmers to deliver the best quality produce to your table.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>6. Gifting Services</h2>
-                    <p>
-                        Celebrate sustainably with our eco-friendly gift hampers. Perfect for birthdays, holidays, and special occasions, our gifts are packed with love and handpicked organic goodies.
-                    </p>
+                    <h3>5. Natural Health & Beauty Products</h3>
+                    <p>Explore a curated range of clean, cruelty-free, and organic skincare, haircare, and wellness products sourced from trusted brands.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>7. Customer Support</h2>
-                    <p>
-                        Need help placing an order or finding the right product? Our friendly customer service team is always ready to assist via phone, chat, or email.
-                    </p>
+                    <h3>6. Gifting Services</h3>
+                    <p>Celebrate sustainably with our eco-friendly gift hampers. Ideal for birthdays, holidays, and special occasions with handpicked organic goodies.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>8. Sustainable Packaging</h2>
-                    <p>
-                        We care about the planet. All our orders are packed using recyclable, biodegradable, or reusable materials—no unnecessary plastics.
-                    </p>
+                    <h3>7. Customer Support</h3>
+                    <p>Need help placing an order or choosing the right product? Our friendly team is available via phone, chat, or email to assist you.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>9. Wellness Blog & Recipes</h2>
-                    <p>
-                        Get inspired with healthy tips, holistic wellness articles, and easy-to-follow organic recipes created by our nutrition experts and chefs.
-                    </p>
+                    <h3>8. Sustainable Packaging</h3>
+                    <p>We use recyclable, biodegradable, or reusable packaging for all orders, minimizing unnecessary plastic use.</p>
                 </section>
 
                 <section className={styles.service_section}>
-                    <h2>10. Click & Collect</h2>
-                    <p>
-                        Prefer to pick up your order? Use our Click & Collect service to shop online and collect from our store at your convenience.
-                    </p>
+                    <h3>9. Wellness Blog & Recipes</h3>
+                    <p>Get inspired with holistic wellness tips, organic recipes, and health insights curated by our nutrition experts and chefs.</p>
+                </section>
+
+                <section className={styles.service_section}>
+                    <h3>10. Click & Collect</h3>
+                    <p>Prefer to pick up your order? Use our Click & Collect service to shop online and collect at our store conveniently.</p>
                 </section>
             </div>
         </>

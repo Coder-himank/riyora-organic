@@ -1,0 +1,123 @@
+/* Footer Styles */
+footer {
+  width: 100%;
+  min-height: 40vh;
+  margin-top: 50px;
+  text-align: center;
+  color: var(--primary-color);
+  border-top: 2px solid green;
+  position: relative;
+}
+
+footer::after {
+  z-index: -1;
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+  background-image: url('/images/footer bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap-reverse;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.footer-content .footer-section {
+  width: 100%;
+  max-width: 350px;
+  min-width: fit-content;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.footer-content .footer-section ul {
+  padding: 0 20px;
+}
+
+.footer-content .footer-section li {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 400;
+  border-bottom: 1px solid #ccc;
+}
+
+.Footer-logo, .Footer-logo-mobile, .payment-opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Footer-logo img, .Footer-logo-mobile img {
+  width: 140px;
+  height: auto;
+  object-fit: contain;
+}
+
+.payment-opt img {
+  height: 30px;
+}
+
+.newsLetter .field {
+  width: 100%;
+  padding: 20px 0;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  margin: auto;
+}
+
+.newsLetter .field input {
+  outline: 1px solid green;
+  padding: 0 10px;
+  border-radius: 0;
+  border: none;
+}
+
+.newsLetter .field button {
+  outline: 1px solid var(--primary-color);
+  border-radius: 0;
+}
+
+.newsLetter .field button:hover {
+  transform: none;
+}
+
+/* Responsive Footer */
+@media screen and (max-width: 900px) {
+  .footer-content {
+    padding: 20px 0;
+  }
+
+  .footer-content .footer-section {
+    max-width: 100%;
+    align-items: start;
+  }
+
+  .footer-content .footer-section ul {
+    padding: 20px;
+  }
+
+  .Footer-logo {
+    display: none;
+  }
+
+  .Footer-logo-mobile {
+    display: flex;
+  }
+
+  .footer-content .payment-opt img {
+    width: clamp(30px, 17%, 70px);
+  }
+}

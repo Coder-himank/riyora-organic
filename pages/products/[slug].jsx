@@ -178,29 +178,39 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
 
         if (res.status === 200) {
           setProductData({ ...res.data });
+
           setProductSchema({
-            "@context": "https://schema.org",
+            "@context": "https://schema.org/",
             "@type": "Product",
-            name: displayProduct?.name,
-            image: displayProduct?.imageUrl,
-            description: displayProduct?.description,
-            brand: { "@type": "Brand", name: displayProduct?.brand },
-            sku: displayProduct?.sku,
+            name: displayProduct.name,
+            image: displayProduct.imageUrl,
+            description: displayProduct.description,
+            sku: displayProduct.sku,
+            brand: { "@type": "Brand", name: displayProduct.brand },
+            category: displayProduct.category || "Hair Care", // Optional
             offers: {
               "@type": "Offer",
-              url: `${site_url}/products/${displayProduct?.slug}`,
-              priceCurrency: displayProduct?.currency,
-              price: displayProduct?.price,
-              availability:
-                displayProduct?.stock > 0
-                  ? "https://schema.org/InStock"
-                  : "https://schema.org/OutOfStock",
+              url: `${site_url}/products/${displayProduct.slug}`,
+              priceCurrency: displayProduct.currency || "INR",
+              price: displayProduct.price,
+              availability: displayProduct.stock > 0
+                ? "https://schema.org/InStock"
+                : "https://schema.org/OutOfStock",
             },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: displayProduct?.averageRating,
-              reviewCount: displayProduct?.numReviews,
-            },
+            aggregateRating: displayProduct.averageRating
+              ? {
+                "@type": "AggregateRating",
+                ratingValue: displayProduct.averageRating,
+                reviewCount: displayProduct.numReviews,
+              }
+              : undefined,
+            review: displayProduct.reviews?.map((r) => ({
+              "@type": "Review",
+              author: r.user,
+              datePublished: r.date,
+              reviewBody: r.comment,
+              reviewRating: { "@type": "Rating", ratingValue: r.rating },
+            })),
           })
         }
       } catch (e) {
@@ -414,26 +424,30 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
   return (
     <>
       <Head>
-        <title>{`${displayProduct?.name} | ${displayProduct?.brand}`}</title>
-        <meta name="description" content={displayProduct?.description} />
+        <title>{`${displayProduct?.name} | ${displayProduct?.brand} - Riyora Organic`}</title>
+        <meta name="description" content={displayProduct?.description?.slice(0, 160)} />
         <meta name="keywords" content={displayProduct?.keywords?.join(", ")} />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={`${site_url}/products/${displayProduct?.slug}`} />
 
         {/* Open Graph */}
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={displayProduct?.name} />
-        <meta property="og:description" content={displayProduct?.description} />
+        <meta property="og:title" content={`${displayProduct?.name} | ${displayProduct?.brand}`} />
+        <meta property="og:description" content={displayProduct?.description?.slice(0, 160)} />
         <meta property="og:image" content={`${site_url}${displayProduct?.imageUrl[0]}`} />
         <meta property="og:url" content={`${site_url}/products/${displayProduct?.slug}`} />
 
-        {/* Canonical */}
-        <link rel="canonical" href={`${site_url}/products/${displayProduct?.slug}`} />
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${displayProduct?.name} | ${displayProduct?.brand}`} />
+        <meta name="twitter:description" content={displayProduct?.description?.slice(0, 160)} />
+        <meta name="twitter:image" content={`${site_url}${displayProduct?.imageUrl[0]}`} />
 
-        {/* Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-        />
+        {/* Structured Data (JSON-LD) */}
+        <script type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
       </Head>
+
 
       <div className="navHolder" />
       <ToastContainer position="top-right" autoClose={3000} />

@@ -1,76 +1,205 @@
+/* ----------------------------
+   CAREER PAGE STYLES — RIYORA ORGANIC
+   ---------------------------- */
+
+/* 🌐 GLOBAL CONTAINER */
 .container {
-    width: 100%;
-    min-height: 80vh;
-
-    font-family: Poppins, sans-serif;
-    text-transform: uppercase;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #222;
+  background-color: #fff;
 }
 
+/* 🧭 PAGE TITLE + INTRO */
+.pageTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.lead {
+  max-width: 700px;
+  text-align: center;
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+/* 🎴 JOB CARDS GRID */
 .cards {
-    margin: auto;
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 20px;
-    gap: 20px;
-    flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  width: 100%;
+  justify-items: center;
 }
 
+/* 🪄 INDIVIDUAL CARD */
 .career_card {
-    /* flex: 1; */
-    width: 100%;
-    max-width: 300px;
-    height: 550px;
-    min-height: fit-content;
-    box-shadow: 0 0 20px -12px rgba(0, 0, 0, 0.589);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
+  background: #fafafa;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.career_card img {
-    width: 100%;
-    max-height: fit-content;
-    height: fit-content;
-    object-fit: contain;
+.career_card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
 }
 
+/* 🖼️ IMAGE AREA */
+.imageWrap {
+  width: 100%;
+  background-color: #fff;
+}
+
+.imageWrap img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* 📝 TEXT AREA */
 .text_area {
-    width: 100%;
-    height: fit-content;
-    min-height: fit-content;
-    display: flex;
-    padding: 20px;
-    align-items: start;
-    justify-content: start;
-    flex-direction: column;
-    gap: 20px;
+  padding: 1.5rem 1.2rem 2rem;
 }
 
+.text_area h2,
 .text_area h4 {
-    font-size: 1rem;
-    text-decoration: underline green;
+  color: #111;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
 }
 
 .text_area p {
-    color: rgb(82, 77, 77);
-    font-size: 14px;
-    text-transform: capitalize;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
 }
 
+/* 🔗 LINKS & BUTTONS */
 .text_area a {
-    background-color: green;
-    color: white;
-    padding: 5px 15px;
-    border-radius: 40px;
+  display: inline-block;
+  background-color: #136132; /* Riyora green accent */
+  color: #fff;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.25s ease, transform 0.25s ease;
 }
 
+.text_area a:hover {
+  background-color: #00695c;
+  transform: scale(1.03);
+}
 
-@media screen and (max-width:800px) {
-    .career_card {
-        max-width: 400px;
-    }
+.text_area a[aria-label*="Learn"],
+.text_area a[href*="/partnerships"] {
+  background: transparent;
+  color: #136132;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.text_area a[aria-label*="Learn"]:hover,
+.text_area a[href*="/partnerships"]:hover {
+  text-decoration: underline;
+  transform: none;
+}
+
+/* 🧭 CAREER NAVIGATION */
+.careerNav {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.careerNav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.careerNav a {
+  color: #136132;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.25s ease;
+}
+
+.careerNav a:hover {
+  border-color: #136132;
+}
+
+/* 📱 RESPONSIVE TWEAKS */
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .text_area h2,
+  .text_area h4 {
+    font-size: 1.25rem;
+  }
+
+  .text_area p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+
+  .cards {
+    gap: 2rem;
+  }
+
+  .career_card {
+    max-width: 100%;
+  }
+
+  .text_area a {
+    padding: 0.55rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* ♿ ACCESSIBILITY HELPERS */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

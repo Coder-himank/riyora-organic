@@ -45,9 +45,9 @@ const Contact = () => {
                 <meta name="keywords" content="Riyora Organic, contact, hair oil, natural hair care, organic hair oil, feedback, support" />
                 <meta property="og:title" content="Contact Riyora Organic | Best Natural Hair Oil Brand" />
                 <meta property="og:description" content="Get in touch with Riyora Organic for all your natural hair oil needs. We value your feedback and are ready to assist you." />
-                <meta property="og:url" content="https://riyora-organic.vercel.app/contact" />
+                <meta property="og:url" content="https://riyoraorganic.com/contact" />
                 <meta property="og:type" content="website" />
-                <meta property="og:image" content="https://riyora-organic.vercel.app/images/Riyora-hair-oil-og.jpg" />
+                <meta property="og:image" content="https://riyoraorganic.com/images/Riyora-hair-oil-og.jpg" />
             </Head>
             <section className={styles.header_section}>
                 {!session?.user && <p>User not signed in</p>}

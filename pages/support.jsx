@@ -1,29 +1,71 @@
- import React from 'react';
+import React from 'react';
 import styles from "@/styles/support.module.css";
 import Head from "next/head";
 import Image from "next/image";
+
 const Support = () => {
     return (
         <>
             <Head>
-                <title>Support | Riyora Organic Hair Oil</title>
-                <meta name="description" content="Get support for Riyora Organic Hair Oil. Find answers to your questions, learn about our return policy, privacy policy, and how to contact our customer care team." />
-                <meta name="keywords" content="Riyora Organic, Hair Oil, Support, Customer Care, Returns, Privacy Policy, FAQ, Organic Hair Care" />
-                <meta property="og:title" content="Support | Riyora Organic Hair Oil" />
-                <meta property="og:description" content="Contact Riyora Organic for support, returns, privacy policy, and more. We're here to help you with your hair care journey." />
+                {/* Primary SEO Tags */}
+                <title>Support | Riyora Organic Hair Oil - Customer Care & FAQs</title>
+                <meta
+                    name="description"
+                    content="Get support for Riyora Organic Hair Oil. Find answers to your questions, learn about returns, privacy policy, and how to contact our customer care team."
+                />
+                <meta
+                    name="keywords"
+                    content="Riyora Organic, Hair Oil, Customer Support, Returns, Privacy Policy, FAQs, Organic Hair Care, Order Assistance, Contact"
+                />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://riyoraorganic.com/support" />
+
+                {/* Open Graph / Facebook */}
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://riyora-organic.vercel.app/support" />
-                <meta property="og:image" content="/images/riyora-hair-oil-banner.jpg" />
+                <meta property="og:title" content="Support | Riyora Organic Hair Oil" />
+                <meta property="og:description" content="Contact Riyora Organic for support, returns, privacy policy, and FAQs. We're here to help you with your hair care journey." />
+                <meta property="og:url" content="https://riyoraorganic.com/support" />
+                <meta property="og:image" content="https://riyoraorganic.com/images/riyora-hair-oil-banner.jpg" />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Support | Riyora Organic Hair Oil" />
+                <meta name="twitter:description" content="Get assistance with your Riyora Organic Hair Oil order, returns, privacy concerns, and FAQs. Contact our support team today." />
+                <meta name="twitter:image" content="https://riyoraorganic.com/images/riyora-hair-oil-banner.jpg" />
+
+                {/* Structured Data */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "WebPage",
+                            "name": "Riyora Organic Hair Oil Support Page",
+                            "description": "Support page for Riyora Organic Hair Oil including customer care, returns, privacy policy, and FAQs.",
+                            "url": "https://riyoraorganic.com/support",
+                            "publisher": {
+                                "@type": "Organization",
+                                "name": "Riyora Organic",
+                                "logo": {
+                                    "@type": "ImageObject",
+                                    "url": "https://riyoraorganic.com/Riyora-Logo-Favicon.png"
+                                }
+                            }
+                        })
+                    }}
+                />
             </Head>
+
             <div className={styles.banner}>
                 <Image
                     src="/images/riyora-hair-oil-banner.jpg"
-                    alt="Riyora Organic Hair Oil Banner"
+                    alt="Riyora Organic Hair Oil Banner - Natural Hair Care"
                     layout="fill"
                     objectFit="cover"
                     priority
                 />
             </div>
+
             <div className={styles.support_container}>
                 <h1>Support - Riyora Organic Hair Oil</h1>
                 <p>

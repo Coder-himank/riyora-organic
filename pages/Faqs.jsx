@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import styles from "@/styles/faqs.module.css";
 import Head from "next/head";
+import styles from "@/styles/faqs.module.css";
 import Image from "next/image";
-const faqs = [
+
+const faqsData = [
   {
     question: "Is this hair oil suitable for all genders?",
     answer:
@@ -11,42 +12,42 @@ const faqs = [
   {
     question: "How often should I use it?",
     answer:
-      "Use 3-4 times a week for best visible results. It can be used as overnight oil or few hours before washing and wash it with mild shampoo.",
+      "Use 3-4 times a week for best visible results. It can be used overnight or a few hours before washing, then wash with a mild shampoo.",
   },
   {
     question: "Will it leave my hair sticky or greasy?",
     answer:
-      "No. The Hair & Scalp Nourishment Oil (Coconut-based) is lightweight, while the Hair & Scalp Strengthening Oil (Sesame-based) is rich yet non-greasy. Both absorb quickly into the scalp and hair without leaving any sticky or oily residue.",
+      "No. The Coconut-based oil is lightweight, while the Sesame-based oil is rich but non-greasy. Both absorb quickly without residue.",
   },
   {
     question: "Can I use it after hair smoothing or coloring?",
     answer:
-      "Yes, it is safe for chemically treated hair. The herbal blend helps maintain strength and softness.",
+      "Yes, safe for chemically treated hair. The herbal blend maintains strength and softness.",
   },
   {
     question: "Is there any artificial fragrance or color?",
     answer:
-      "No. Only natural Herbs & essential oils are used for fragrance. No added colors.",
+      "No. Only natural herbs & essential oils are used. No added colors.",
   },
   {
     question: "How is this different from regular hair oils?",
     answer:
-      "Riyora oil is infused with 30 herbs, cold-pressed oils, and high-performance essential oils — inspired by Ayurveda, backed by modern quality.",
+      "Riyora oil is infused with 30 herbs, cold-pressed oils, and high-performance essential oils — Ayurvedic-inspired, modern quality.",
   },
   {
     question: "Can it help with hair fall or thin hair?",
     answer:
-      "It’s designed to support scalp health and root strength. Regular use helps reduce visible signs of hair stress.",
+      "Designed to support scalp health and root strength. Regular use helps reduce visible signs of hair stress.",
   },
   {
     question: "What’s the shelf life?",
     answer:
-      "24 months when unopened. Once opened, it is best used within 3–4 months for optimal results.",
+      "24 months unopened. Once opened, use within 3–4 months for optimal results.",
   },
   {
     question: "Is it tested for safety?",
     answer:
-      "Yes. Our oils are made in FDA & GMP-certified units and Dermatologist and lab-tested, safe ingredients.",
+      "Yes. Made in FDA & GMP-certified units and dermatologist-tested, safe ingredients.",
   },
 ];
 
@@ -54,26 +55,32 @@ function FaqItem({ question, answer }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className={styles.faqItem}>
-      <section
+    <article className={styles.faqItem}>
+      <button
         className={styles.question}
         onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+        aria-controls={question.replace(/\s+/g, "-")}
       >
         Q: {question}
-      </section>
+      </button>
       {open && (
-        <section className={styles.answer}>
+        <section
+          id={question.replace(/\s+/g, "-")}
+          className={styles.answer}
+        >
           <p>A: {answer}</p>
         </section>
       )}
-    </div>
+    </article>
   );
 }
 
-const Faqs = () => {
+export default function Faqs({ dynamicFaqs = [] }) {
   const [searchText, setSearchText] = useState("");
+  const allFaqs = [...faqsData, ...dynamicFaqs]; // Merge static + dynamic FAQs
 
-  const filteredFaqs = faqs.filter(
+  const filteredFaqs = allFaqs.filter(
     (faq) =>
       faq.question.toLowerCase().includes(searchText.toLowerCase()) ||
       faq.answer.toLowerCase().includes(searchText.toLowerCase())
@@ -82,9 +89,8 @@ const Faqs = () => {
   return (
     <>
       <Head>
-        <title>
-          Riyora Hair Oil FAQs | Natural Hair Care Questions Answered
-        </title>
+        {/* --- Primary SEO --- */}
+        <title>Riyora Hair Oil FAQs | Natural Hair Care Questions Answered</title>
         <meta
           name="description"
           content="Find answers to frequently asked questions about Riyora Hair Oil. Learn about ingredients, usage, safety, and benefits of our natural, Ayurvedic hair oil for all genders."
@@ -93,6 +99,10 @@ const Faqs = () => {
           name="keywords"
           content="Riyora, Hair Oil, FAQs, Natural Hair Oil, Ayurvedic, Unisex, Hair Care, Herbal Oil, Hair Fall, Hair Growth, Organic, Safe, Ingredients"
         />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://riyoraorganic.com/faqs" />
+
+        {/* --- Open Graph / Social Sharing --- */}
         <meta property="og:title" content="Riyora Hair Oil FAQs" />
         <meta
           property="og:description"
@@ -101,32 +111,46 @@ const Faqs = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content="https://riyora-organic.vercel.app/faqs"
+          content="https://riyoraorganic.com/faqs"
         />
         <meta
           property="og:image"
-          content="https://riyora-organic.vercel.app/og-image.jpg"
+          content="https://riyoraorganic.com/images/faqs-og.jpg"
         />
+        <meta property="og:site_name" content="Riyora Organic" />
+
+        {/* --- Twitter Card --- */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Riyora Hair Oil FAQs" />
+        <meta
+          name="twitter:description"
+          content="Find answers about Riyora Hair Oil usage, ingredients, and safety. Ayurvedic, natural, and effective hair care solutions."
+        />
+        <meta
+          name="twitter:image"
+          content="https://riyoraorganic.com/images/faqs-og.jpg"
+        />
+        <meta name="twitter:site" content="@riyora_organic" />
+
+        {/* --- Structured Data --- */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "FAQPage",
-              mainEntity: faqs.map((faq) => ({
+              mainEntity: allFaqs.map((faq) => ({
                 "@type": "Question",
                 name: faq.question,
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: faq.answer,
-                },
+                acceptedAnswer: { "@type": "Answer", text: faq.answer },
               })),
             }),
           }}
         />
       </Head>
-      <div className={styles.container}>
-        <h1 className={styles.heading}>Riyora Hair Oil FAQs</h1>
+
+      <main className={styles.container}>
+        <h1>Riyora Hair Oil FAQs</h1>
 
         <section className={styles.search_box}>
           <input
@@ -138,7 +162,8 @@ const Faqs = () => {
             aria-label="Search FAQs"
           />
         </section>
-        <div className={styles.faqItems}>
+
+        <section className={styles.faqItems}>
           {filteredFaqs.length > 0 ? (
             filteredFaqs.map((faq, idx) => (
               <FaqItem key={idx} question={faq.question} answer={faq.answer} />
@@ -146,10 +171,8 @@ const Faqs = () => {
           ) : (
             <p className={styles.noResults}>No FAQs match your search.</p>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   );
-};
-
-export default Faqs;
+}
