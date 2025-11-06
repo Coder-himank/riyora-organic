@@ -6,7 +6,7 @@ import connectDB from "@/server/db";
 
 export default async function handler(req, res) {
   try {
-    const baseUrl = "http://localhost:3000" || process.env.BASE_URL || "https://organic-robust.vercel.app";
+    const baseUrl =  process.env.BASE_URL || "https://organic-robust.vercel.app";
 
     // --- 1️⃣ Connect to DB ---
     await connectDB();
