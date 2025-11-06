@@ -114,19 +114,7 @@ export default function Navbar() {
       path: productUrl,
       icon: <FaProductHunt />,
     },
-    {
-      name: "About Us",
-      path: "/about", // Or use "/about" if that's more accurate
-      icon: <FaServicestack />,
 
-      subMenu: [{
-
-        name: "Our Vision",
-        path: "/visionAndMission", // Or use "/about" if that's more accurate
-        icon: <FaServicestack />,
-
-      }]
-    },
     {
       name: "Blogs",
       path: "/blogs",
@@ -141,6 +129,27 @@ export default function Navbar() {
       name: "Contact Us",
       path: "/contact",
       icon: <FaEnvelope />,
+    },
+    {
+      name: "More",
+      path: "/about", // Or use "/about" if that's more accurate
+      icon: <FaServicestack />,
+
+      subMenu: [{
+
+        name: "About Us",
+        path: "/about", // Or use "/about" if that's more accurate
+        icon: <FaServicestack />,
+
+      },
+      {
+
+        name: "Our Vision",
+        path: "/visionAndMission", // Or use "/about" if that's more accurate
+        icon: <FaServicestack />,
+
+      }
+      ]
     },
   ];
 

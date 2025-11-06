@@ -1,75 +1,117 @@
 // pages/api/sitemap.xml.js
+import fs from "fs";
+import path from "path";
 import { MongoClient } from "mongodb";
 import connectDB from "@/server/db";
 
-/**
- * API Route: Generate XML Sitemap
- *
- * - Supports static pages and product pages
- * - Uses MongoDB to fetch product IDs dynamically
- * - Returns an XML sitemap compliant with search engine requirements
- */
 export default async function handler(req, res) {
   try {
-    const baseUrl = process.env.BASE_URL || "https://organic-robust.vercel.app";
+    const baseUrl = "http://localhost:3000" || process.env.BASE_URL || "https://organic-robust.vercel.app";
 
-    // Supported locales (expand in the future if multi-language is needed)
-    const locales = ["en"];
-
-    // Ensure DB connection
+    // --- 1️⃣ Connect to DB ---
     await connectDB();
     const client = await MongoClient.connect(process.env.MONGODB_URI);
     const db = client.db();
 
-    // Fetch product IDs (only fetch _id for efficiency)
-    const products = await db.collection("products").find({}, { projection: { _id: 1, updatedAt: 1 } }).toArray();
+    // --- 2️⃣ Fetch product data ---
+    const products = await db
+      .collection("products")
+      .find({visible : true}, { projection: { slug: 1, updatedAt: 1 } })
+      .toArray();
+    const blogs = await db
+      .collection("blogs")
+      .find({visible : true}, { projection: { slug: 1, updatedAt: 1 } })
+      .toArray();
 
     await client.close();
 
-    // Static pages included in sitemap
+    // --- 3️⃣ Define static routes (based on your screenshot) ---
     const staticPages = [
       "",
       "about",
+      "authenticate",
+      "career",
+      "cart",
+      "checkout",
       "contact",
-      "products",
+      "customer-care",
+      "dashboard",
+      "Faqs",
       "privacy-policy",
+      "refund-policy",
       "services",
-      "authenticate"
+      "shipping-policy",
+      "support",
+      "termsAndCondition",
+      "visionAndMission",
+      "blogs",
     ];
 
-    // Generate XML for static pages
+    // --- 4️⃣ Dynamic routes (expand if more exist later) ---
+    // Assuming user pages like /[userId]
+    const dynamicUsers = []; // fetch from DB if applicable
+
+    // --- 5️⃣ Generate XML for static pages ---
     const staticUrls = staticPages
       .map(
         (page) => `
         <url>
           <loc>${baseUrl}/${page}</loc>
           <lastmod>${new Date().toISOString()}</lastmod>
+          <changefreq>monthly</changefreq>
+          <priority>0.7</priority>
         </url>`
       )
       .join("");
 
-    // Generate XML for product pages
+    // --- 6️⃣ Generate XML for product pages ---
     const productUrls = products
       .map(
-        (product) => `
+        (p) => `
         <url>
-          <loc>${baseUrl}/products/${product._id.toString()}</loc>
-          <lastmod>${new Date(product.updatedAt || Date.now()).toISOString()}</lastmod>
+          <loc>${baseUrl}/products/${p.slug || p._id}</loc>
+          <lastmod>${new Date(p.updatedAt || Date.now()).toISOString()}</lastmod>
           <changefreq>weekly</changefreq>
-          <priority>0.8</priority>
+          <priority>1</priority>
         </url>`
       )
       .join("");
 
-    // Final XML sitemap
+    // --- 6 Generate XML for blogs pages ---
+    const blogUrls = blogs
+      .map(
+        (b) => `
+        <url>
+          <loc>${baseUrl}/blogs/${b.slug || b._id}</loc>
+          <lastmod>${new Date(b.updatedAt || Date.now()).toISOString()}</lastmod>
+          <changefreq>weekly</changefreq>
+          <priority>0.9</priority>
+        </url>`
+      )
+      .join("");
+
+    // --- 7️⃣ Generate XML for user pages (optional) ---
+    const userUrls = dynamicUsers
+      .map(
+        (userId) => `
+        <url>
+          <loc>${baseUrl}/${userId}</loc>
+          <lastmod>${new Date().toISOString()}</lastmod>
+          <changefreq>monthly</changefreq>
+          <priority>0.5</priority>
+        </url>`
+      )
+      .join("");
+
+    // --- 8️⃣ Combine into final XML sitemap ---
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-              xmlns:xhtml="http://www.w3.org/1999/xhtml">
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${staticUrls}
         ${productUrls}
+        ${blogUrls}
+        ${userUrls}
       </urlset>`;
 
-    // Respond with XML content
     res.setHeader("Content-Type", "application/xml");
     return res.status(200).send(sitemap);
   } catch (error) {

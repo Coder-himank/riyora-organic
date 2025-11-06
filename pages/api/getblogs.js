@@ -31,7 +31,8 @@ const handler = async (req, res) => {
       }
 
       // Fetch all blogs
-      const blogs = await Blog.find({visible:true});
+      const blogs = await Blog.find({published:true});
+      // console.log(blogs);
       return res.status(200).json(blogs);
 
     } catch (error) {

@@ -92,6 +92,7 @@ const Blogs = () => {
                         viewport={{ once: true }}
                         aria-label="Latest Blog Posts"
                     >
+
                         <div className={styles.blogs_wrap}>
                             {blogs.map((blog, index) => (
                                 <article key={index} className={styles.blog_card}>
@@ -127,7 +128,7 @@ const Blogs = () => {
                                     </Head>
 
                                     {/* Blog Component */}
-                                    <Blog {...blog} />
+                                    <Blog blog={{ ...blog }} />
                                 </article>
                             ))}
                         </div>
