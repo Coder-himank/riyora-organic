@@ -133,6 +133,10 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
   return (
     <>
       <Head>
+
+        {/* google search console verfication code`` */}
+
+        <meta name="google-site-verification" content="1WG-oTVjwsg7Ao2HO7gti-pNdawLpflABelO3wayk7c" />
         {/* Primary SEO Tags */}
         <title>Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth</title>
         <meta

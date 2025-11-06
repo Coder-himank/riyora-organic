@@ -12,15 +12,20 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
   // 1️⃣ Force HTTPS in production
-  if (process.env.NODE_ENV === "production" && req.headers.get("x-forwarded-proto") !== "https") {
-    return NextResponse.redirect(`https://${req.headers.get("host")}${pathname}`);
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.headers.get("x-forwarded-proto") !== "https"
+  ) {
+    return NextResponse.redirect(
+      `https://${req.headers.get("host")}${pathname}`
+    );
   }
 
   // 2️⃣ Rate limiting per IP
   const ip = req.ip ?? req.headers.get("x-forwarded-for") ?? "unknown";
   const now = Date.now();
   const requests = ipStore.get(ip) || [];
-  const recentRequests = requests.filter(ts => now - ts < RATE_LIMIT_WINDOW);
+  const recentRequests = requests.filter((ts) => now - ts < RATE_LIMIT_WINDOW);
   recentRequests.push(now);
   ipStore.set(ip, recentRequests);
 
@@ -33,17 +38,18 @@ export async function middleware(req) {
 
   // 3️⃣ Block suspicious URL patterns
   const suspiciousPatterns = [
-    /\.\./,             // Directory traversal
-    /<script>/i,        // XSS attempt
-    /union.*select/i,   // SQL injection
-    /%27|'/,            // Unescaped quotes
+    /\.\./, // Directory traversal
+    /<script>/i, // XSS attempt
+    /union.*select/i, // SQL injection
+    /%27|'/, // Unescaped quotes
   ];
-  if (suspiciousPatterns.some(regex => regex.test(pathname))) {
+  if (suspiciousPatterns.some((regex) => regex.test(pathname))) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
   // 4️⃣ Protected routes — ONLY profile & wishlist require login
-  const protectedPathPattern = /^\/(?:profile(?:\/.*)?|wishlist(?:\/.*)?|[^/]+\/wishlist(?:\/.*)?)$/;
+  const protectedPathPattern =
+    /^\/(?:profile(?:\/.*)?|wishlist(?:\/.*)?|[^/]+\/wishlist(?:\/.*)?)$/;
 
   if (protectedPathPattern.test(pathname)) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -65,10 +71,14 @@ export async function middleware(req) {
   res.headers.set("X-Frame-Options", "DENY");
   res.headers.set("X-Content-Type-Options", "nosniff");
   res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+
+  // ✅ Permissions Policy: removed invalid entries and warnings
   res.headers.set(
     "Permissions-Policy",
-    "camera=(self), microphone=(self), geolocation=(self)"
+    "camera=(), microphone=(), geolocation=()" // disables them cleanly without console warnings
   );
+
+  // ✅ Updated CSP — allows Razorpay API & checkout, fixes connect-src issue
   res.headers.set(
     "Content-Security-Policy",
     `
@@ -78,9 +88,14 @@ export async function middleware(req) {
       script-src 'self' 'unsafe-inline' https://checkout.razorpay.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src 'self' https://fonts.gstatic.com;
-      connect-src 'self' https://api.razorpay.com https://lumberjack.razorpay.com;
-      frame-src https://checkout.razorpay.com https://api.razorpay.com;
-    `.replace(/\s+/g, " ").trim()
+      connect-src 'self' https://api.razorpay.com https://lumberjack.razorpay.com https://checkout.razorpay.com;
+      frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self' https://checkout.razorpay.com;
+    `
+      .replace(/\s+/g, " ")
+      .trim()
   );
 
   return res;
