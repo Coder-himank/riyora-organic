@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       const normalizedOrigin = origin.replace(/\/$/, "");
       const normalizedAllowed = ALLOWED_ORIGIN.replace(/\/$/, "");
       if (!normalizedOrigin.startsWith(normalizedAllowed)) {
-        return res.status(403).json({ error: "Invalid request origin" });
+        return res.status(403).json({ error: "Invalid request origin " + normalizedAllowed +" "+ normalizedOrigin});
       }
     }
 
