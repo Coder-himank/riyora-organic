@@ -1,4 +1,6 @@
-import "@/styles/globals.css";
+import '@/styles/globals.css';
+import '@/styles/navbar.css';
+import '@/styles/footer.css';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SessionProvider, useSession } from "next-auth/react";
@@ -125,8 +127,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider>
       <Head>
-
-        {/* google search console verfication code`` */}
 
         {/* --- ✅ Basic SEO Meta --- */}
         <title>{pageTitle}</title>

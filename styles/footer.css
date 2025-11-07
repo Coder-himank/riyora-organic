@@ -1,0 +1,199 @@
+/* ========================= FOOTER STYLES ========================= */
+footer {
+  width: 100%;
+  min-height: 40vh;
+  margin-top: 50px;
+  text-align: center;
+  color: var(--primary-color);
+  border-top: 2px solid green;
+  position: relative;
+}
+
+footer::after {
+  z-index: -1;
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+  background-image: url('/images/footer bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.newsLetter {
+  width: 100%;
+  padding: 20px;
+}
+
+.newsLetter .text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.newsLetter h2, .newsLetter p { padding: 0; }
+
+.newsLetter p { font-weight: 400; font-size: 18px; }
+
+.newsLetter .field {
+  width: 100%;
+  padding: 20px 0;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  margin: auto;
+}
+
+.field input { outline: 1px solid green; padding: 0 10px; border: none; }
+.field button { outline: 1px solid var(--primary-color); border-radius: 0; }
+.field button:hover { transform: none; }
+
+.otherPlatforms {
+  display: flex;
+  align-items: center;
+  padding: 30px 0;
+  flex-direction: column;
+}
+
+.otherPlatformsin {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.otherPlatformsin .amazon,
+.otherPlatformsin .flipkart,
+.otherPlatformsin .meesho {
+  max-width: 100px;
+  height: 50px;
+  width: auto;
+  aspect-ratio: 2 / 1;
+}
+
+.phonepayLogoFooter { width: 90px !important; }
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap-reverse;
+  border-bottom: 2px solid var(--primary-color);
+  padding: 0 20px;
+}
+
+.footer-content .footer-section {
+  width: 100%;
+  max-width: 350px;
+  min-width: fit-content;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left;
+}
+
+.footer-content ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 300px;
+}
+
+.footer-content ul li {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.footer h2 {
+  width: fit-content;
+  text-align: center;
+  border-bottom: 2px solid var(--primary-color);
+  font-size: 16px;
+}
+
+.Footer-logo,
+.Footer-logo-mobile,
+.payment-opt {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Footer-logo img,
+.Footer-logo-mobile img { width: 140px; height: auto; object-fit: contain; }
+
+.Footer-logo-mobile { display: none; }
+
+.payment-opt img { height: 30px; }
+
+.app-images {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.app-images img { width: 60px; height: auto; object-fit: contain; }
+
+.social-app {
+  /* margin: auto; */
+  width: 100%;
+  justify-content: space-between;
+  max-width: 300px;
+}
+
+.social-app img { width: 35px; height: auto; margin: 10px 0; }
+
+.footer-connect{
+  width: 100%;
+}
+
+/* Responsive Footer */
+@media screen and (max-width: 900px) {
+  .footer-content {
+    padding: 20px 0;
+  }
+  .footer-content .footer-section { max-width: 100%; align-items: start; }
+  .footer-content .footer-section ul { padding: 20px; max-width: none;}
+  .Footer-logo { display: none; }
+  .Footer-logo-mobile { display: flex; }
+  .footer-content .payment-opt{
+    width: 100%;
+    max-width: none;
+  }
+
+  .appIcons{
+    width: 100%;
+    /* display: flex; */
+  }
+
+  .payment-opt{
+    /* border: 1px solid; */
+    justify-content: space-around;
+  }
+  
+  .otherPlatforms{
+    width: 100%;
+  }
+  .otherPlatformsin{
+    width: 100%;
+    justify-content: center;
+  }
+  /* .footer-content .payment-opt img { width: clamp(50px, 17%, 70px); } */
+}

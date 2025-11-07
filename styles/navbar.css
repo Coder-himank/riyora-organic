@@ -1,0 +1,354 @@
+/* ========================= NAVBAR STYLES ========================= */
+header {
+  width: 100%;
+  height: fit-content;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  box-shadow: 0 0 20px -14px black;
+}
+
+.offerBanner {
+  width: 100%;
+  height: 40px;
+  background-color: #ffd814;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  padding: 2px;
+  text-align: center;
+}
+
+/* Navbar Holder */
+.navHolder {
+  height: 170px;
+  display: none;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  height: 130px;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  background: var(--navbar-background);
+  z-index: 10;
+  /* transition: all 0.5s; */
+  color: var(--navbar-text-color);
+  backdrop-filter: blur(1px);
+  flex-wrap: wrap;
+}
+
+
+
+.navOpen {
+  color: var(--navbar-text-color);
+  padding: 0;
+  height: fit-content;
+}
+
+.navOpen .nav-left { height: 70px; }
+
+.nav-user-option {
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 100%;
+  max-width: 300px;
+}
+
+.nav-user-option a {
+  border-left: 1px solid rgba(145, 145, 145, 0.185);
+  height: 100%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.navigation a { padding: 10px; }
+
+.nav-left a { text-decoration: none; }
+
+.name-head {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.nav-left .name-head img {
+  width: auto;
+  min-width: 100px;
+  max-width: 15vw;
+  height: 100%;
+  max-height: 100px;
+  margin: 1px 5px;
+  object-fit: contain;
+  transition: all 0.6s;
+}
+
+.navFixed .name-head img {
+  width: 100px;
+  height: auto;
+}
+
+.nav-left, .nav-right, .nav-mid {
+  display: flex;
+  align-items: center;
+}
+
+.nav-mid {
+  width: 60%;
+  justify-content: space-around;
+}
+
+.nav-mid .mobile-header {
+  width: 100%;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-mid .mobile-header img { width: 80px; height: auto; object-fit: contain; }
+
+
+.icon_label{
+  display: none;
+  font-size: 30px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* gap: 10px; */
+}
+
+.nav-links .link {
+  border-bottom: 2px solid transparent;
+  position: relative;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.link .link-text{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 0;
+}
+
+.link i{
+  display: inline-flex;
+}
+
+
+.nav-links .subMenu a {
+  padding: 6px 0;
+  display: block;
+  text-align: left;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.nav-links .activeLink { border-bottom: 2px solid green; }
+
+
+.submenu-toggle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:10px
+}
+.submenu-toggle i{
+  height: fit-content;
+}
+
+.has-submenu{
+  position: relative;
+}
+.submenu-wrapper {
+  display: none;
+  position: absolute;
+  background: white;
+  /* box-shadow: 0 2px 10px rgba(0,0,0,0.1); */
+  padding: 0.5rem 1rem;
+  /* border-radius: 0.5rem; */
+  z-index: 100;
+  top: 100%;
+  min-width: fit-content;
+  width: 200px;
+  left: 0;
+
+  flex-direction: column;
+}
+
+.submenu-Close{
+  display: block;
+  /* max-width: 40px; */
+  height: 40px;
+  border-radius: 8px;
+  /* padding: 10px; */
+  font-size: 1rem;
+  /* border: 1px solid; */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+
+.toogleNavBar {
+  display: none;
+  margin: 0 10px;
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--navbar-text-color);
+  padding: 10px;
+  font-size: 20px;
+}
+
+.subheader {
+  width: 100%;
+  /* min-height: 40px; */
+  background-color: white;
+  color: black;
+  /* padding: 5px 20px; */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  transition: all 0.3s ease-in-out;
+  opacity: 0.7;
+  max-height: 0;
+  padding: 0 20px;
+  position: absolute;
+}
+.submenu-close{
+  width: 100%;
+
+}
+.subheader.show {
+  padding: 20px;
+  max-height: fit-content;
+  display: flex;
+  opacity: 1;
+  height: fit-content;
+  box-shadow: 0 7px 20px -18px;
+}
+
+.subheader a {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Responsive Navbar */
+@media screen and (max-width: 900px) {
+  .nav-mid {
+    order: 3;
+    height: 100vh;
+    width: 100%;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: all 0.6s ease-in;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    display: none;
+  }
+
+
+
+  .nav-mid .mobile-header { display: flex; }
+
+  .navbar { height: 80px; }
+
+  .nav-right { width: fit-content; }
+
+  .toogleNavBar { display: flex; }
+
+  .nav-left { justify-content: left; height: 100%; min-height: 70px; }
+
+  .nav-links {
+    min-width: 90vw;
+    justify-content: start;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    z-index: 10;
+    padding: 0 30px;
+  }
+
+
+  .nav-links .link, .nav-links select {
+    flex-direction: row;
+    height: unset;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: var(--spacing);
+    font-size: 1.1rem;
+  }
+
+  .has-submenu{
+    position: relative;
+  }
+
+  .nav-links .activeLink::after { display: none; }
+
+  .icon_label { font-size: 1rem; display: inline-flex; }
+
+  .subheader{
+    left: 100%;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+  }
+  .subheader.show{
+    max-height: 100vh;
+    height: 100vh;
+    left: 0;
+  }
+
+  .subheader a{
+    display: block;
+    width: 100%;
+  
+  }
+}
+
+@media screen and (max-width: 750px) { .navHolder { height: 130px; } }
+

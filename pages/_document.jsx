@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 export default function Document() {
   return (
@@ -15,6 +16,7 @@ export default function Document() {
         />
       </Head>
       <body>
+        <GoogleAnalytics trackPageViews gaMeasurementId="G-2SQ2FY87LM" />
         <Main />
         <NextScript />
       </body>
