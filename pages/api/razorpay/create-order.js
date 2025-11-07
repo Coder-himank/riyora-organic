@@ -23,14 +23,18 @@ export default async function handler(req, res) {
   try {
     // ===== Step 1: Verify request origin (CSRF protection) =====
     const origin = req.headers.origin || req.headers.referer || "";
-    if (ALLOWED_ORIGIN) {
-      const normalizedOrigin = origin.replace(/\/$/, "");
-      const normalizedAllowed = ALLOWED_ORIGIN.replace(/\/$/, "");
-      if (!normalizedOrigin.startsWith(normalizedAllowed)) {
-        return res.status(403).json({ error: "Invalid request origin " + normalizedAllowed +" "+ normalizedOrigin});
-      }
-    }
+  if (ALLOWED_ORIGIN) {
+    const normalize = (url) => url.replace(/\/$/, '').replace(/^https?:\/\/(www\.)?/, '');
+    
+    const normalizedOrigin = normalize(origin);
+    const normalizedAllowed = normalize(ALLOWED_ORIGIN);
 
+    if (normalizedOrigin !== normalizedAllowed) {
+      return res.status(403).json({ 
+        error: "Invalid request origin: " + normalizedAllowed + " vs " + normalizedOrigin 
+      });
+    }
+  }
     // ===== Step 2: Rate limit =====
     await rateLimit(req, res, { key: "createorder", points: 10, duration: 60 });
 
