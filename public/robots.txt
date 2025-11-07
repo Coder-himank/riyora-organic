@@ -15,11 +15,12 @@ Disallow: /user-profile/
 Disallow: /login/
 Disallow: /signup/
 Disallow: /search/
+Disallow: /dashboard/
 Disallow: /*?sort=
 Disallow: /*?filter=
 
 # Sitemap Location
-Sitemap: https://organic-robust.vercel.app/api/sitemap.xml
+Sitemap: https://www.riyoraorganic.com/sitemap
 
 # Block aggressive bots
 User-agent: AhrefsBot
