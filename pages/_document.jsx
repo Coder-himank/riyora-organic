@@ -16,7 +16,7 @@ export default function Document() {
         />
       </Head>
       <body>
-        <GoogleAnalytics trackPageViews gaMeasurementId="G-2SQ2FY87LM" />
+        {/* <GoogleAnalytics trackPageViews gaMeasurementId="G-2SQ2FY87LM" /> */}
         <Main />
         <NextScript />
       </body>
