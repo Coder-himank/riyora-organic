@@ -6,7 +6,7 @@ header {
   top: 0;
   left: 0;
   z-index: 11;
-  box-shadow: 0 0 20px -14px black;
+  /* box-shadow: 0 0 20px -14px black; */
 }
 
 .offerBanner {
@@ -137,7 +137,7 @@ header {
   /* gap: 10px; */
 }
 
-.nav-links .link {
+.nav-links .link, .subheader .link {
   border-bottom: 2px solid transparent;
   position: relative;
   height: 30px;
@@ -161,14 +161,6 @@ header {
   display: inline-flex;
 }
 
-
-.nav-links .subMenu a {
-  padding: 6px 0;
-  display: block;
-  text-align: left;
-  width: 100%;
-  border-bottom: 1px solid #ccc;
-}
 
 .nav-links .activeLink { border-bottom: 2px solid green; }
 
@@ -258,11 +250,10 @@ header {
   height: fit-content;
   box-shadow: 0 7px 20px -18px;
 }
-
-.subheader a {
-  color: var(--primary-color);
-  font-weight: 500;
-  text-decoration: none;
+.subheaderLinks{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Responsive Navbar */
@@ -307,7 +298,7 @@ header {
   }
 
 
-  .nav-links .link, .nav-links select {
+  .nav-links .link, .nav-links select, .subheader .link {
     flex-direction: row;
     height: unset;
     width: 100%;
@@ -316,6 +307,13 @@ header {
     align-items: center;
     padding: var(--spacing);
     font-size: 1.1rem;
+
+  }
+
+  .nav-links .activeLink, .subheader .activeLink{
+    background-color: rgb(223, 243, 223);
+    border-radius: 8px;
+    border: transparent;
   }
 
   .has-submenu{
@@ -343,10 +341,13 @@ header {
     left: 0;
   }
 
-  .subheader a{
-    display: block;
+
+  .subheader .headBtn{
     width: 100%;
-  
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: ce;
   }
 }
 

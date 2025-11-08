@@ -111,6 +111,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
       try {
         const res = await axios.get("/api/getblogs");
         setBlogs(res.data); // Axios automatically parses JSON
+        // console.log(res);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       } finally {
@@ -475,11 +476,11 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
             </section>
           ) : (
             <section className={styles.blog_in}>
-              {blogs.map((blog, index) => (
+              {blogs.slice(0, 3).map((blog, index) => (
                 <Blog
                   key={index}
-                  {...blog}
-                  showContent={false}
+                  blog={blog}
+                  showContent={true}
                   flexDirection={index % 2 === 0 ? "row-reverse" : "row"}
                 />
               ))}
@@ -559,7 +560,9 @@ export const getStaticProps = async ({ params }) => {
         name: "Loading",
         price: 0,
         mrp: 0,
-      }))
-    }
+      }
+      ))
+    },
+    revalidate: 600,
   }
 }
