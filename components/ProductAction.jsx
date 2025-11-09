@@ -30,12 +30,13 @@ export async function onAddToCart({ router, productId, session, quantity_demande
         } else {
             cart.push({
                 productId,
-                quantity: quantity_demanded,
+                quantity_demanded,
                 variantId
             });
         }
 
         saveCartToLocal(cart);
+        console.log("addd " + quantity_demanded + "to data");
 
         // Push user to login but still store cart
         // router.push({ pathname: `/authenticate`, query: { callback: `/cart`, productId } });

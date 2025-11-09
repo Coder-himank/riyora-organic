@@ -234,9 +234,10 @@ header {
   flex-wrap: wrap;
   transition: all 0.3s ease-in-out;
   opacity: 0.7;
-  max-height: 0;
+  max-height: 0px;
   padding: 0 20px;
   position: absolute;
+  transition: all 0.5s;
 }
 .submenu-close{
   width: 100%;

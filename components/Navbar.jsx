@@ -46,19 +46,21 @@ const NavLink = ({ link, index, isOpen, handleClick, mobile, isActive }) => {
   );
 };
 // Submenu Component (Render inside Subheader)
-const SubmenuComponent = ({ links, onBack }) => {
+const SubmenuComponent = ({ links, onBack, mobile }) => {
   const router = useRouter();
 
   return (
     <div className="subheader show">
-      <div className="headBtn">
-        {onBack && (
-          <span className="submenu-close" onClick={onBack}>
-            <FaAngleLeft /> back
-          </span>
-        )}
-        <Image src="/images/logo.png" width={100} height={60} alt="Logo" />
-      </div>
+      {mobile &&
+        <div className="headBtn">
+          {onBack && (
+            <span className="submenu-close" onClick={onBack}>
+              <FaAngleLeft /> back
+            </span>
+          )}
+          <Image src="/images/logo.png" width={100} height={60} alt="Logo" />
+        </div>
+      }
 
       <div className="subheaderLinks">
 
@@ -244,6 +246,7 @@ export default function Navbar() {
         {/* Subheader */}
         {subheaderLinks.length > 0 && (
           <SubmenuComponent
+            mobile={mobile}
             links={subheaderLinks}
             onBack={() => setSubheaderLinks([])}
           />

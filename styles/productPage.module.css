@@ -331,6 +331,7 @@
     overflow: hidden;
     max-width: fit-content;
     padding: 0 20px;
+    cursor: pointer;
     color: var(--primary-color);
 }
 
