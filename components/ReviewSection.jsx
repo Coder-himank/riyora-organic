@@ -282,7 +282,7 @@ export const ReviewSection = ({ productId, reviews = [] }) => {
                             <div className={styles.reviewHeader}>
                                 <span className={styles.customersRating}><StarRating rating={r.rating} /></span>
                                 <strong className={styles.customersName}>{r.name || "Anonymous"}</strong>
-                                <span className={styles.reviewDate}>{formatdate(r.createdAt)}</span>
+                                {/* <span className={styles.reviewDate}>{formatdate(r.createdAt)}</span> */}
                             </div>
                             <p>{r.comment}</p>
                             {r.images?.length > 0 && (
