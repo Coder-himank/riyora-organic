@@ -3,6 +3,7 @@
 import crypto from "crypto";
 import dbConnect from "@/server/db";
 import Order from "@/server/models/Order";
+import { handleOrderAction } from "@/utils/orderHelper";
 
 export const config = {
   api: {
@@ -126,6 +127,19 @@ export default async function handler(req, res) {
         note: "Payment captured via webhook",
         updatedBy: "system",
       });
+
+      // creating the order on ship rocket
+
+      try{
+        const res = await handleOrderAction(order._id, "create", {});
+        if(!res){
+          console.error("Failed to create order on external system");
+          return res.status(500).send("something went wrong");
+        }
+      }catch(err){
+        console.error("Error in handleOrderAction:", err);
+        return res.status(500).send("Internal server error");
+      }
     }
 
     if (eventType === "payment.failed") {
