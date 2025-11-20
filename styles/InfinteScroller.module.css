@@ -19,7 +19,7 @@
     display: flex;
     flex-direction: row;
     gap: 12px;
-    align-items: center;
+    align-items: stretch;
 }
 
 .item {
@@ -28,6 +28,7 @@
     align-items: center;
     justify-content: center;
     user-select: none;
+    height: auto;
     pointer-events: auto; /* allow gestures over items */
 }
 

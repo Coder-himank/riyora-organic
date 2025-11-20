@@ -58,7 +58,7 @@ export default async function handler(req, res) {
 
     /** Step 6: Create review object */
     const review = {
-      _id: new Date().getTime().toString(), // local unique ID for client reference
+      // _id: new Date().getTime().toString(), // local unique ID for client reference
       name: userName,
       userId,
       comment: safeComment,

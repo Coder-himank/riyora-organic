@@ -566,8 +566,8 @@ const ProductPage = ({ productId, pdata, pInfodata }) => {
                 <InfinteScroller>
                   {displayProduct?.chooseUs?.map((item, idx) => (
                     <div className={styles.icon} key={idx}>
-                      <Image src={item?.imageUrl} width={80} height={80} alt={item.text} title={item.text} />
-                      <p>{item.text}</p>
+                      <Image src={item?.imageUrl} width={80} height={80} alt={item.name} title={item.name} />
+                      <p>{item.name}</p>
                     </div>
                   ))}
                 </InfinteScroller>

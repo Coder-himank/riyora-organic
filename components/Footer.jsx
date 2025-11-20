@@ -266,7 +266,7 @@ export default function Footer() {
                   alt="follow our Facebook account"
                 />
               </Link>
-              <Link href={" https://x.com/riyoraorganic?s=21"} target="_blank">
+              <Link href={"https://x.com/riyoraorganic"} target="_blank">
                 <Image
                   src={"/images/twitter.png"}
                   width={100}

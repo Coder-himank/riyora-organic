@@ -40,6 +40,7 @@ export default async function handler(req, res) {
         user.addresses.push({
           address: String(address.address).trim(),
           city: String(address.city).trim(),
+          state: String(address.state).trim(),
           country: String(address.country).trim(),
           pincode: String(address.pincode).trim(),
           label: String(address.label || "Other").trim(),

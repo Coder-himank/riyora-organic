@@ -43,6 +43,7 @@ export default function Checkout() {
     label: "Home",
     address: "",
     city: "",
+    state: "",
     country: "",
     pincode: "",
   });
@@ -259,13 +260,14 @@ export default function Checkout() {
   };
 
   const addNewAddress = async () => {
-    if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
+    if (!newAddress.address || !newAddress.city || !newAddress.state || !newAddress.country || !newAddress.pincode) {
       alert("Please fill all address fields.");
       return;
     }
 
     if (session?.user?.id) {
       try {
+        // console.log(newAddress);
         await axios.post(
           "/api/secure/userProfile",
           { userId: session.user.id, address: newAddress },
@@ -273,7 +275,7 @@ export default function Checkout() {
         );
         await fetchAddresses();
         setShowNewAddressForm(false);
-        setNewAddress({ label: "Home", address: "", city: "", country: "", pincode: "" });
+        setNewAddress({ label: "Home", address: "", city: "", state: "", country: "", pincode: "" });
       } catch (err) {
         console.error("Failed to add address", err);
         alert("Could not add address. Try again.");
@@ -341,6 +343,7 @@ export default function Checkout() {
             label: newAddress.label,
             address: newAddress.address,
             city: newAddress.city,
+            state: newAddress.state,
             country: newAddress.country,
             pincode: newAddress.pincode,
           },
@@ -389,7 +392,7 @@ export default function Checkout() {
         return alert("Please select a delivery address or add a new one.");
       }
       if (showNewAddressForm) {
-        if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
+        if (!newAddress.address || !newAddress.city || !newAddress.state || !newAddress.country || !newAddress.pincode) {
           return alert("Please complete the new address form.");
         }
         deliveryAddressPayload = { ...newAddress };
@@ -398,7 +401,7 @@ export default function Checkout() {
       }
     } else {
       // Guest: take address from newAddress form
-      if (!newAddress.address || !newAddress.city || !newAddress.country || !newAddress.pincode) {
+      if (!newAddress.address || !newAddress.city || !newAddress.state || !newAddress.country || !newAddress.pincode) {
         return alert("Please fill in your address details for delivery.");
       }
       deliveryAddressPayload = { ...newAddress };
@@ -657,6 +660,13 @@ export default function Checkout() {
                   />
                   <input
                     type="text"
+                    placeholder="State"
+                    value={newAddress.state}
+                    onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
+                    className={styles.input}
+                  />
+                  <input
+                    type="text"
                     placeholder="Country"
                     value={newAddress.country}
                     onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })}
@@ -704,6 +714,13 @@ export default function Checkout() {
                 placeholder="City"
                 value={newAddress.city}
                 onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                className={styles.input}
+              />
+              <input
+                type="text"
+                placeholder="State"
+                value={newAddress.state}
+                onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
                 className={styles.input}
               />
               <input

@@ -172,6 +172,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
         <meta name="twitter:title" content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth" />
         <meta
           name="twitter:description"
+
           content="Shop Riyora Organic Ayurvedic hair oils for natural hair growth, shine, and strength. 100% organic, cruelty-free, and eco-friendly."
         />
         <meta
@@ -273,9 +274,10 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                 {highlightedProduct.imageUrl.map((img, index) => (
 
                   <Image
+                    key={img}
                     src={img || "/products/root_strength_hair_oil_2.png"}
-                    width={1000}
-                    height={1000}
+                    width={500}
+                    height={500}
                     alt={highlightedProduct.name || "Riyora Root Strength Hair Oil Bottle"}
                   />
                 ))}
@@ -354,7 +356,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
             </div>
             <div className={styles.choose_us_image_wrapper}>
               {choose_us_list.map((ch, index) => (
-                <section className={styles.choose_us_image_row}>
+                <section className={styles.choose_us_image_row} key={index} >
                   {ch.map((choose_us, index) => (
                     <motion.div
                       key={index}

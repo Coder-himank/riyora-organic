@@ -25,6 +25,7 @@ export default function UserProfile() {
   const [formData, setFormData] = useState({
     address: "",
     city: "",
+    state: "",
     country: "",
     pincode: "",
     label: "Home",
@@ -106,7 +107,7 @@ export default function UserProfile() {
       setFormData({ ...addr });
       setEditIndex(index);
     } else {
-      setFormData({ address: "", city: "", country: "", pincode: "", label: "Home" });
+      setFormData({ address: "", city: "", state: "", country: "", pincode: "", label: "Home" });
       setEditIndex(null);
     }
     setShowAddressForm(true);
@@ -114,7 +115,7 @@ export default function UserProfile() {
 
   // Save address (reuses same PUT endpoint)
   const saveAddress = async () => {
-    if (!formData.address.trim() || !formData.city.trim() || !formData.country.trim() || !formData.pincode.trim())
+    if (!formData.address.trim() || !formData.city.trim() || !formData.state.trim() || !formData.country.trim() || !formData.pincode.trim())
       return setNotification("All address fields are required");
 
     if (!session?.user?.id) return setNotification("Authentication error");
@@ -123,6 +124,7 @@ export default function UserProfile() {
     const normalized = {
       address: formData.address.trim(),
       city: formData.city.trim(),
+      state: formData.state.trim(),
       country: formData.country.trim(),
       pincode: formData.pincode.trim(),
       label: formData.label || "Other",
@@ -239,7 +241,7 @@ export default function UserProfile() {
                       <div className={styles.address_item} key={idx}>
                         <div>
                           <div className={styles.addr_label}>{item.label}</div>
-                          <div className={styles.addr_text}>{`${item.address}, ${item.city}, ${item.country} - ${item.pincode}`}</div>
+                          <div className={styles.addr_text}>{`${item.address}, ${item.city}, ${item.state}, ${item.country} - ${item.pincode}`}</div>
                         </div>
                         <div className={styles.addr_actions}>
                           <button className={styles.icon_btn} onClick={() => openAddressForm(idx)} title="Edit address"><FaEdit /></button>
@@ -313,6 +315,10 @@ export default function UserProfile() {
               <div className={styles.field_group} style={{ flex: 1 }}>
                 <label>City</label>
                 <input value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} placeholder="City" />
+              </div>
+              <div className={styles.field_group} style={{ flex: 1 }}>
+                <label>State</label>
+                <input value={formData.state} onChange={(e) => setFormData({ ...formData, state: e.target.value })} placeholder="State" />
               </div>
               <div className={styles.field_group} style={{ flex: 1 }}>
                 <label>Country</label>
