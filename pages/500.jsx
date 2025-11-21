@@ -1,24 +1,18 @@
-
-import { useEffect } from 'react';
-
+import styles from '@/styles/error.module.css';
 export default function GlobalError({ error, reset }) {
-    useEffect(() => {
-        console.error(error);
-    }, [error]);
-
     return (
-        <html>
-            <body className="flex h-screen items-center justify-center bg-gray-100 text-center">
-                <div>
-                    <h2 className="text-2xl font-bold mb-4">Something went wrong 😢</h2>
-                    <button
-                        onClick={() => reset()}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-md"
-                    >
-                        Try again
-                    </button>
-                </div>
-            </body>
-        </html>
+        <div className={styles.container}>
+            <div className={styles.error_box}>
+
+                <h2 className={styles.heading}>Server Error</h2>
+                <p>Server Responded 500</p>
+                <button
+                    onClick={() => reset()}
+                    className={styles.button}
+                >
+                    Try again
+                </button>
+            </div>
+        </div>
     );
 }
