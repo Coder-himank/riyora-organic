@@ -1,9 +1,8 @@
 export async function handleOrderAction(orderId, type, options = {}) {
-    const apiUrl = `${process.env.EXTERNAL_API_BASE_URL}/orderAction`;
+    const apiUrl = `${process.env.EXTERNAL_API_BASE_URL}/orderActionApi`;
 
     try {
 
-        console.log(apiUrl);
         const res = await fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -19,7 +18,7 @@ export async function handleOrderAction(orderId, type, options = {}) {
 
         // Check for HTTP-level errors (500, 404, etc.)
         if (!res.ok) {
-            const text = await res.text(); 
+            const text = JSON.stringify(res); 
             throw new Error(`HTTP Error ${res.status}: ${text}`);
         }
 
@@ -27,6 +26,7 @@ export async function handleOrderAction(orderId, type, options = {}) {
 
         // Check your API's "ok" field
         if (!data.ok) {
+
             throw new Error(data.error || "API returned failure");
         }
 

@@ -94,7 +94,7 @@ if (ALLOWED_ORIGIN) {
   });
 
   await order.save();
-  await handleOrderAction(order._id.toString(), "create", { paymentGateway: "razorpay" });
+  
 
   res.json({ status: "success" });
 }
