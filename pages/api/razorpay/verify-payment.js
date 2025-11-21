@@ -4,6 +4,7 @@ import Order from "@/server/models/Order";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { rateLimit } from "@/utils/rateLimit";
+import { handleOrderAction } from "@/utils/orderHelper";
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -93,6 +94,7 @@ if (ALLOWED_ORIGIN) {
   });
 
   await order.save();
+  await handleOrderAction(order._id.toString(), "create", { paymentGateway: "razorpay" });
 
   res.json({ status: "success" });
 }

@@ -24,6 +24,10 @@ const nextConfig = {
         source: "/products",
         destination: "/",
       },
+      {
+        source: "/info/:slug",
+        destination: "/files/:slug.pdf",
+      },
     ];
   },
 

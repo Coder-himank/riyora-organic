@@ -130,16 +130,16 @@ export default async function handler(req, res) {
 
       // creating the order on ship rocket
 
-      try{
-        const res = await handleOrderAction(order._id, "create", {});
-        if(!res){
-          console.error("Failed to create order on external system");
-          return res.status(500).send("something went wrong");
-        }
-      }catch(err){
-        console.error("Error in handleOrderAction:", err);
-        return res.status(500).send("Internal server error");
-      }
+      // try{
+      //   const res = await handleOrderAction(order._id, "create", {});
+      //   if(!res){
+      //     console.error("Failed to create order on external system");
+      //     return res.status(500).send("something went wrong");
+      //   }
+      // }catch(err){
+      //   console.error("Error in handleOrderAction:", err);
+      //   return res.status(500).send("Internal server error");
+      // }
     }
 
     if (eventType === "payment.failed") {
