@@ -88,7 +88,7 @@ export async function middleware(req) {
     script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com;
-    connect-src 'self' https://api.razorpay.com https://lumberjack.razorpay.com https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com;
+    connect-src 'self' https://api.razorpay.com https://lumberjack.razorpay.com https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://api.postalpincode.in;
     frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.googletagmanager.com;
 ;
     object-src 'none';

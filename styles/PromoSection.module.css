@@ -1,0 +1,71 @@
+
+
+.promo_section{
+    margin: 10px 0;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  /* border: 1px solid #f4f9f6; */
+  /* background-color: #f4f9f6; */
+  border-radius: 10px;
+  padding: 3px;
+}
+.promo_section_head {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.promoMessage{
+  font-size: 13px;
+  color: #136132;
+  padding: 0 8px;
+}
+.promoError{
+  padding: 0 8px;
+  font-size: 13px;
+  color: #dc2626;
+}
+
+.promo_section .promoList{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+.promoList .promoItem{
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 8px;
+  /* background: #eef9f1; */
+  border: 1px solid #248549;
+  /* background-color: #d4f0d9; */
+  cursor: pointer;
+}
+
+.promoItem p{
+  font-size: 12px;
+  color: #000000;
+}
+
+.promoList .promoactive{
+  background-color: rgb(233, 255, 189);
+  
+}
+
+.inputPromo {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #c2e7d0;
+}
+
+.applyBtn {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #136132;
+  color: white;
+  cursor: pointer;
+}

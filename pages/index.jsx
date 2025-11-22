@@ -18,7 +18,7 @@ import { FaUserMd, FaLeaf, FaSeedling, FaShieldAlt } from "react-icons/fa";
 import { GiHairStrands } from "react-icons/gi";
 
 import axios from "axios";
-import getProductUrl from "@/utils/productsUtils";
+import getProductUrl from "@/utils/products/productsUtils";
 import connectDB from "@/server/db";
 import Product from "@/server/models/Product";
 

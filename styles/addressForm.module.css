@@ -1,0 +1,83 @@
+
+/* new address form */
+.new_address_form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.addressLabels {
+  display: flex;
+  gap: 8px;
+}
+
+.addressLabelBtn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #c2e7d0;
+  background: #fff;
+  cursor: pointer;
+  color: black;
+  font-size: 13px;
+}
+
+.addressLabelBtn.active,
+.addressLabelBtn:hover {
+  background: #a5e2b7;
+  border-color: #136132;
+}
+
+.input_tiles {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.new_address_form input{
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #c2e7d0;
+    background: white;
+}
+
+.errorText{
+    line-height: 2px;
+    color: #dc2626;
+    font-size: 13px;
+    padding: 0 8px;
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* margin-bottom: 14px; */
+}
+
+.fieldLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+}
+
+.fieldInput {
+    width: 100%;
+    /* padding: 10px 12px; */
+    border: 1.5px solid #d1d1d1;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+.fieldInput:focus {
+    border-color: #13ac4d;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 112, 243, 0.2);
+}
+
+.fieldError {
+    font-size: 13px;
+    color: #d9534f;
+    margin-top: 2px;
+}

@@ -3,8 +3,8 @@ import dbConnect from "@/server/db";
 import Order from "@/server/models/Order";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { rateLimit } from "@/utils/rateLimit";
-import { handleOrderAction } from "@/utils/orderHelper";
+import { rateLimit } from "@/utils/security/rateLimit";
+import { handleOrderAction } from "@/utils/order/orderHelper";
 
 const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL;
 

@@ -4,7 +4,7 @@ import connectDB from "@/server/db";
 import Feedback from "@/server/models/Feedback";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { rateLimit } from "@/utils/rateLimit";
+import { rateLimit } from "@/utils/security/rateLimit";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

@@ -3,7 +3,7 @@
 import crypto from "crypto";
 import dbConnect from "@/server/db";
 import Order from "@/server/models/Order";
-import { handleOrderAction } from "@/utils/orderHelper";
+import { handleOrderAction } from "@/utils/order/orderHelper";
 
 export const config = {
   api: {

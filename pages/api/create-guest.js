@@ -1,6 +1,6 @@
 import connectDB from "@/server/db";
 import User from "@/server/models/User";
-import { rateLimit } from "@/utils/rateLimit";
+import { rateLimit } from "@/utils/security/rateLimit";
 const handler = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "Method Not Allowed" });
     try {

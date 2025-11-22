@@ -16,9 +16,14 @@ export async function rateLimit(req, res, { key, points = 30, duration = 60 }) {
     bucket.remaining -= 1;
     buckets.set(bucketKey, bucket);
 
+    if(process.env.NODE_ENV === "production") {
+{
+
     if (bucket.remaining < 0) {
-        const retry = Math.ceil((bucket.reset - now) / 1000);
-        res.setHeader("Retry-After", String(retry));
-        throw res.status(429).json({ error: "Too many requests. Please slow down." });
+            const retry = Math.ceil((bucket.reset - now) / 1000);
+            res.setHeader("Retry-After", String(retry));
+            throw res.status(429).json({ error: "Too many requests. Please slow down." });
+        }
     }
+}
 }

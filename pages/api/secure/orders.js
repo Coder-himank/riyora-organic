@@ -5,7 +5,7 @@ import Order from "@/server/models/Order";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { rateLimit } from "@/utils/rateLimit";
+import { rateLimit } from "@/utils/security/rateLimit";
 
 export default async function handler(req, res) {
   await connectDB();

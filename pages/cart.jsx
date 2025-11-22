@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import styles from "@/styles/cart.module.css";
-import getProductUrl from "@/utils/productsUtils";
+import getProductUrl from "@/utils/products/productsUtils";
 
 // 🛒 Guest cart utils (unchanged)
 const getGuestCart = () => {

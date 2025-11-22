@@ -18,7 +18,7 @@ import Head from "next/head";
 import { FaUser, FaShoppingCart, FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Image from "next/image";
-import getProductUrl from "@/utils/productsUtils";
+import getProductUrl from "@/utils/products/productsUtils";
 import { FaX } from "react-icons/fa6";
 // Single Link Component for Normal & Submenu Links
 const NavLink = ({ link, index, isOpen, handleClick, mobile, isActive }) => {

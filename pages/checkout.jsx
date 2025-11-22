@@ -5,7 +5,8 @@ import { signIn, useSession } from "next-auth/react";
 import styles from "@/styles/checkout.module.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-
+import NewAddressForm from "@/components/AddressForm";
+import PromoSection from "@/components/PromoSection";
 const LOCAL_CART_KEY = "guest_cart";
 
 function loadCartFromLocalStorage() {
@@ -36,6 +37,7 @@ export default function Checkout() {
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
   const [summary, setSummary] = useState(null);
+  const [availablePromos, setAvailablePromos] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
@@ -48,6 +50,8 @@ export default function Checkout() {
     pincode: "",
   });
   const [promocode, setPromocode] = useState("");
+  const [promoError, setPromoError] = useState("");
+  const [promoMessage, setPromoMessage] = useState("");
 
   // Product list: { productId, variantId|null, quantity }
   const [products, setProducts] = useState([]);
@@ -185,6 +189,7 @@ export default function Checkout() {
     (async () => {
       try {
         await fetchSummary();
+        await fetchPromoCodes();
       } catch (e) {
         setError("Failed to initialize checkout");
       } finally {
@@ -194,6 +199,16 @@ export default function Checkout() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, products, selectedAddressId]);
+
+  const fetchPromoCodes = async () => {
+    try {
+      const { data } = await axios.get("/api/secure/getPromo");
+      // console.log("Active promo codes:", data);
+      setAvailablePromos(data)
+    } catch (err) {
+      console.error("Failed to fetch promo codes", err);
+    }
+  };
 
   const fetchSummary = async () => {
     try {
@@ -209,6 +224,7 @@ export default function Checkout() {
           totalAmount: 0,
           finalAmount: 0,
           addresses: [],
+          promorError: null
         });
         return;
       }
@@ -229,6 +245,9 @@ export default function Checkout() {
       }
 
       setSummary(data);
+      setPromoError(data.promoError)
+      setPromoMessage(data.promoMessage)
+
 
       if (!selectedAddressId && data.addresses?.length) {
         setSelectedAddressId(data.addresses[0]._id);
@@ -377,6 +396,11 @@ export default function Checkout() {
     }
   };
 
+  const ValidateAndApplyPromo = () => {
+
+    fetchSummary()
+  }
+
   const initiatePayment = async () => {
     if (typeof window === "undefined" || !window.Razorpay) return alert("Payment gateway not ready yet.");
     if (!razorpayLoaded) return alert("Payment gateway not ready");
@@ -501,298 +525,218 @@ export default function Checkout() {
       <div className={styles.navHolder}></div>
 
       <div className={styles.checkout_container}>
-        <h1 className={styles.checkout_head}>Checkout</h1>
 
-        {/* Account label */}
-        <div style={{ marginBottom: 12 }}>
-          {session?.user ? (
-            <div className={styles.accountLabel}>
-              <strong>Logged in as:</strong> {session.user.name} ({session.user.email || "no email"})
-            </div>
-          ) : (
-            <div className={styles.accountLabel}>
-              <strong>Guest Checkout</strong> — an account will be created automatically with the phone number you provide.
-            </div>
-          )}
-        </div>
+        <div className={styles.leftPannel}>
+          <h1 className={styles.checkout_head}>Checkout</h1>
 
-        {/* Product List */}
-        <section className={styles.productList}>
-          {summary.products && summary.products.length > 0 ? (
-            summary.products.map((p) => {
-              const productState = products.find((prod) => {
-                const sameProduct = prod.productId === p.productId;
-                const prodVariant = prod.variantId ?? null;
-                const pVariant = p.variantId ?? null;
-                const sameVariant = prodVariant === pVariant;
-                return sameProduct && sameVariant;
-              });
-
-              return (
-                <div key={`${p.productId}-${p.variantId ?? "default"}`} className={styles.product}>
-                  <img src={p.imageUrl} alt={p.name} className={styles.product_img} />
-                  <div className={styles.product_details}>
-                    <h3>{p.name}</h3>
-                    {p.variantName && <p className={styles.variant}>Variant: {p.variantName}</p>}
-                    <p className={styles.price}>₹{p.price}</p>
-                    <div className={styles.quantity_setter}>
-                      <button
-                        onClick={() => updateQuantity(p.productId, p.variantId ?? null, -1)}
-                        disabled={!productState || productState?.quantity <= 1}
-                        aria-label={`Decrease quantity for ${p.name}`}
-                      >
-                        −
-                      </button>
-                      <span className={styles.qtyDisplay}>{productState?.quantity ?? 1}</span>
-                      <button
-                        onClick={() => updateQuantity(p.productId, p.variantId ?? null, +1)}
-                        disabled={!productState || productState?.quantity >= 5}
-                        aria-label={`Increase quantity for ${p.name}`}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div className={styles.emptyCart}>Your cart is empty.</div>
-          )}
-        </section>
-
-        {/* customer name */}
-        <div className={styles.name_section}>
-          <label className={styles.label}>Full name (required)</label>
-          <input
-            type="text"
-            placeholder="Recipient name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className={styles.input}
-          />
-        </div>
-
-        {/* Phone input (always required) */}
-        <div className={styles.phone_section}>
-          <label className={styles.label}>Phone number (required)</label>
-          <PhoneInput
-            country={countryCode}
-            value={phone}
-            onChange={(value) => setPhone(value)}
-            inputProps={{ name: "phone", required: true }}
-            containerClass={styles.phoneInput}
-          />
-        </div>
-
-        {/* Address Section */}
-        <div className={styles.address_section}>
-          <h3 className={styles.sectionTitle}>Delivery address</h3>
-          {session?.user ? (
-            <>
-              <div className={styles.address_list}>
-                {addresses.map((addr) => (
-                  <label
-                    key={addr._id}
-                    className={`${styles.address_card} ${selectedAddressId === addr._id ? styles.active : ""
-                      }`}
-                  >
-                    <input
-                      type="radio"
-                      name="address"
-                      value={addr._id}
-                      checked={selectedAddressId === addr._id}
-                      onChange={() => setSelectedAddressId(addr._id)}
-                    />
-
-                    <div className={styles.address_icon}>
-                      <i className="fa-solid fa-location-dot"></i>
-                    </div>
-
-                    <div className={styles.address_info}>
-                      <h4>{addr.label}</h4>
-                      <p>{addr.address}, {addr.city}, {addr.state}</p>
-                      <p>{addr.country} - {addr.pincode}</p>
-                      {/* <p>📞 {user.phone}</p> */}
-                    </div>
-                  </label>
-                ))}
-                <div
-                  role="button"
-                  className={styles.add_address_btn}
-                  onClick={() => setShowNewAddressForm((s) => !s)}
-                >
-                  {showNewAddressForm ? "Cancel" : "+ Add New Address"}
-                </div>
+          {/* Account label */}
+          <div style={{ marginBottom: 12 }}>
+            {session?.user ? (
+              <div className={styles.accountLabel}>
+                <strong>Logged in as:</strong> {session.user.name} ({session.user.email || "no email"})
               </div>
+            ) : (
+              <div className={styles.accountLabel}>
+                <strong>Guest Checkout</strong> — an account will be created automatically with the phone number you provide.
+              </div>
+            )}
+          </div>
 
 
 
+          {/* Product List */}
+          <section className={styles.productList}>
+            {summary.products && summary.products.length > 0 ? (
+              summary.products.map((p) => {
+                const productState = products.find((prod) => {
+                  const sameProduct = prod.productId === p.productId;
+                  const prodVariant = prod.variantId ?? null;
+                  const pVariant = p.variantId ?? null;
+                  const sameVariant = prodVariant === pVariant;
+                  return sameProduct && sameVariant;
+                });
 
-
-              {showNewAddressForm && (
-                <div className={styles.new_address_form}>
-                  <div className={styles.addressLabels}>
-                    {["Home", "Office", "Other"].map((label) => (
-                      <button
-                        key={label}
-                        type="button"
-                        className={`${styles.addressLabelBtn} ${newAddress.label === label ? styles.active : ""}`}
-                        onClick={() => setNewAddress({ ...newAddress, label })}
-                      >
-                        {label}
-                      </button>
-                    ))}
+                return (
+                  <div key={`${p.productId}-${p.variantId ?? "default"}`} className={styles.product}>
+                    <img src={p.imageUrl} alt={p.name} className={styles.product_img} />
+                    <div className={styles.product_details}>
+                      <h3>{p.name}</h3>
+                      {p.variantName && <p className={styles.variant}>Variant: {p.variantName}</p>}
+                      <p className={styles.price}>₹{p.price}</p>
+                      <div className={styles.quantity_setter}>
+                        <button
+                          onClick={() => updateQuantity(p.productId, p.variantId ?? null, -1)}
+                          disabled={!productState || productState?.quantity <= 1}
+                          aria-label={`Decrease quantity for ${p.name}`}
+                        >
+                          −
+                        </button>
+                        <span className={styles.qtyDisplay}>{productState?.quantity ?? 1}</span>
+                        <button
+                          onClick={() => updateQuantity(p.productId, p.variantId ?? null, +1)}
+                          disabled={!productState || productState?.quantity >= 5}
+                          aria-label={`Increase quantity for ${p.name}`}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Address"
-                    value={newAddress.address}
-                    onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
-                    className={styles.input}
-                  />
-                  <input
-                    type="text"
-                    placeholder="City"
-                    value={newAddress.city}
-                    onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                    className={styles.input}
-                  />
-                  <input
-                    type="text"
-                    placeholder="State"
-                    value={newAddress.state}
-                    onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                    className={styles.input}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Country"
-                    value={newAddress.country}
-                    onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })}
-                    className={styles.input}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Pincode"
-                    value={newAddress.pincode}
-                    onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
-                    className={styles.input}
-                  />
-                  <div style={{ marginTop: 8 }}>
-                    <button className={styles.primaryBtn} onClick={addNewAddress}>
-                      Save address
-                    </button>
+                );
+              })
+            ) : (
+              <div className={styles.emptyCart}>Your cart is empty.</div>
+            )}
+          </section>
+
+
+          <div className={styles.customer_info_section}>
+
+            {/* customer name */}
+
+            <div className={styles.name_section}>
+              <label className={styles.label}>Full name (required)</label>
+              <input
+                type="text"
+                placeholder="Recipient name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={styles.input}
+              />
+            </div>
+
+            {/* Phone input (always required) */}
+            <div className={styles.phone_section}>
+              <label className={styles.label}>Phone number (required)</label>
+              <PhoneInput
+                country={countryCode}
+                value={phone}
+                onChange={(value) => setPhone(value)}
+                inputProps={{ name: "phone", required: true }}
+                containerClass={styles.phoneInput}
+              />
+            </div>
+
+          </div>
+          {/* Address Section */}
+          <div className={styles.address_section}>
+            <h3 className={styles.sectionTitle}>Delivery address</h3>
+            {session?.user ? (
+              <>
+                <div className={styles.address_list}>
+                  {addresses.map((addr) => (
+                    <label
+                      key={addr._id}
+                      className={`${styles.address_card} ${selectedAddressId === addr._id ? styles.active : ""
+                        }`}
+                    >
+                      <input
+                        type="radio"
+                        name="address"
+                        value={addr._id}
+                        checked={selectedAddressId === addr._id}
+                        onChange={() => setSelectedAddressId(addr._id)}
+                      />
+
+                      <div className={styles.address_icon}>
+                        <i className="fa-solid fa-location-dot"></i>
+                      </div>
+
+                      <div className={styles.address_info}>
+                        <h4>{addr.label}</h4>
+                        <p>{addr.address}, {addr.city}, {addr.state}</p>
+                        <p>{addr.country} - {addr.pincode}</p>
+                        {/* <p>📞 {user.phone}</p> */}
+                      </div>
+                    </label>
+                  ))}
+                  <div
+                    role="button"
+                    className={styles.add_address_btn}
+                    onClick={() => setShowNewAddressForm((s) => !s)}
+                  >
+                    {showNewAddressForm ? "Cancel" : "+ Add New Address"}
                   </div>
+                </div>
+
+                {showNewAddressForm && <NewAddressForm
+                  newAddress={newAddress}
+                  setNewAddress={setNewAddress}
+                  onSave={addNewAddress}
+                />}
+              </>
+            )
+              :
+              (
+                <NewAddressForm
+                  newAddress={newAddress}
+                  setNewAddress={setNewAddress}
+                  onSave={null}
+                />
+
+              )
+            }
+          </div>
+
+
+
+
+        </div>
+
+        <div className={styles.rightPannel}>
+
+          {/* Promo Section */}
+          <section className={styles.promo_section}>
+
+            <PromoSection
+              promocode={promocode}
+              setPromocode={setPromocode}
+              promoError={promoError}
+              promoMessage={promoMessage}
+              availablePromos={availablePromos}
+              ValidateAndApplyPromo={ValidateAndApplyPromo}
+            />
+          </section>
+
+          {/* Amount Section */}
+          <section className={styles.amount_section}>
+            <h2 className={styles.sectionTitle}>Amount breakdown</h2>
+            <div className={styles.amountSummary}>
+              <div className={styles.row}>
+                <span>Item total</span>
+                <span>₹{summary.itemTotal ?? 0}</span>
+              </div>
+              {summary.promoDiscount > 0 && (
+                <div className={styles.row}>
+                  <span>Promo discount</span>
+                  <span>-₹{summary.promoDiscount}</span>
                 </div>
               )}
-            </>
-          ) : (
-            // Guest: show one address form (we'll use newAddress as delivery data)
-            <div className={styles.new_address_form}>
-              <div className={styles.addressLabels}>
-                {["Home", "Office", "Other"].map((label) => (
-                  <button
-                    key={label}
-                    type="button"
-                    className={`${styles.addressLabelBtn} ${newAddress.label === label ? styles.active : ""}`}
-                    onClick={() => setNewAddress({ ...newAddress, label })}
-                  >
-                    {label}
-                  </button>
-                ))}
+              <div className={styles.row}>
+                <span>Delivery</span>
+                <span>₹{summary.deliveryCharges ?? 0}</span>
               </div>
-              <input
-                type="text"
-                placeholder="Address"
-                value={newAddress.address}
-                onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="City"
-                value={newAddress.city}
-                onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="State"
-                value={newAddress.state}
-                onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="Country"
-                value={newAddress.country}
-                onChange={(e) => setNewAddress({ ...newAddress, country: e.target.value })}
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="Pincode"
-                value={newAddress.pincode}
-                onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
-                className={styles.input}
-              />
+              <div className={styles.row}>
+                <strong>Total</strong>
+                <strong>₹{summary.totalAmount ?? 0}</strong>
+              </div>
+              {summary.deliveryCharges > 0 && (
+                <div className={styles.row}>
+                  <span>Free Delivery</span>
+                  <span>-₹{summary.deliveryCharges}</span>
+                </div>
+              )}
+              <div className={styles.rowTotal}>
+                <strong>Total payable</strong>
+                <strong>₹{summary.finalAmount ?? 0}</strong>
+              </div>
             </div>
-          )}
-        </div>
+          </section>
 
-        {/* Promo Section */}
-        <section className={styles.promo_section}>
-          <input
-            type="text"
-            placeholder="Promo code"
-            value={promocode}
-            onChange={(e) => setPromocode(e.target.value)}
-            className={styles.inputPromo}
-          />
-          <button className={styles.applyBtn} onClick={fetchSummary}>
-            Apply
+          <button onClick={initiatePayment} className={styles.pay_btn}>
+            Proceed to pay ₹{summary.finalAmount ?? 0}
           </button>
-        </section>
-
-        {/* Amount Section */}
-        <section className={styles.amount_section}>
-          <h2 className={styles.sectionTitle}>Amount breakdown</h2>
-          <div className={styles.amountSummary}>
-            <div className={styles.row}>
-              <span>Item total</span>
-              <span>₹{summary.itemTotal ?? 0}</span>
-            </div>
-            {summary.promoDiscount > 0 && (
-              <div className={styles.row}>
-                <span>Promo discount</span>
-                <span>-₹{summary.promoDiscount}</span>
-              </div>
-            )}
-            <div className={styles.row}>
-              <span>Delivery</span>
-              <span>₹{summary.deliveryCharges ?? 0}</span>
-            </div>
-            <div className={styles.row}>
-              <strong>Total</strong>
-              <strong>₹{summary.totalAmount ?? 0}</strong>
-            </div>
-            {summary.deliveryCharges > 0 && (
-              <div className={styles.row}>
-                <span>Free Delivery</span>
-                <span>-₹{summary.deliveryCharges}</span>
-              </div>
-            )}
-            <div className={styles.rowTotal}>
-              <strong>Total payable</strong>
-              <strong>₹{summary.finalAmount ?? 0}</strong>
-            </div>
-          </div>
-        </section>
-
-        <button onClick={initiatePayment} className={styles.pay_btn}>
-          Proceed to pay ₹{summary.finalAmount ?? 0}
-        </button>
+        </div>
       </div >
     </>
   );
