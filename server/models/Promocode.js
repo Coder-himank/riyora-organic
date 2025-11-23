@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { unique } from 'next/dist/build/utils';
 
 const promocodeSchema = new mongoose.Schema({
   onlyForSignedInUser : {type : Boolean, default:false},
