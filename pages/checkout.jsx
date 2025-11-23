@@ -7,6 +7,8 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import NewAddressForm from "@/components/AddressForm";
 import PromoSection from "@/components/PromoSection";
+import { addNewAddress } from "@/utils/address/saveAddress";
+import LoadingWheel from "@/components/LoadingWheel";
 const LOCAL_CART_KEY = "guest_cart";
 
 function loadCartFromLocalStorage() {
@@ -56,6 +58,8 @@ export default function Checkout() {
   // Product list: { productId, variantId|null, quantity }
   const [products, setProducts] = useState([]);
 
+  const [summaryLoading, setSummaryLoading] = useState(false);
+
   // Always gather phone from user (prefill if available)
   // react-phone-input-2 expects country code like 'in' for India
   const [phone, setPhone] = useState("");
@@ -98,12 +102,7 @@ export default function Checkout() {
     }
   }, [session?.user]);
 
-  // Redirect if not logged in (kept non-blocking — guest checkout supported)
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      // guest flows allowed — no redirect
-    }
-  }, [status, router]);
+
 
   // Initialize products from query or cart (backend or localStorage)
   useEffect(() => {
@@ -112,10 +111,11 @@ export default function Checkout() {
 
       // 1) If explicit buy-now via query
       if (router.query.productId && router.query.productId !== "null") {
+        console.log(router.query.variantId);
         setProducts([
           {
             productId: router.query.productId,
-            variantId: router.query.variantId ?? null,
+            variantId: router.query.variantId.length > 0 ? router.query.variantId : null,
             quantity: Number(router.query.quantity_demanded ?? 1),
           },
         ]);
@@ -214,6 +214,7 @@ export default function Checkout() {
   const fetchSummary = async () => {
     try {
       setError(null);
+      setSummaryLoading(true);
 
       // If no products, return a default empty summary (prevents "stuck loading")
       if (!products || products.length === 0) {
@@ -227,6 +228,7 @@ export default function Checkout() {
           addresses: [],
           promorError: null
         });
+        setSummaryLoading(false);
         return;
       }
 
@@ -244,6 +246,7 @@ export default function Checkout() {
 
       if (!data) {
         setError("Checkout service returned no data");
+        setSummaryLoading(false);
         return;
       }
 
@@ -259,6 +262,8 @@ export default function Checkout() {
       console.error("Error fetching summary", err);
       setError("Failed to prepare checkout data");
     }
+
+    setSummaryLoading(false);
   };
 
   const fetchAddresses = async () => {
@@ -281,32 +286,12 @@ export default function Checkout() {
     }
   };
 
-  const addNewAddress = async () => {
-    if (!newAddress.address || !newAddress.city || !newAddress.state || !newAddress.country || !newAddress.pincode) {
-      alert("Please fill all address fields.");
-      return;
+  const handleAddNewAddress = async () => {
+    if (await addNewAddress({ session, newAddress, setNewAddress })) {
+      await fetchAddresses();
+      setShowNewAddressForm(false);
     }
-
-    if (session?.user?.id) {
-      try {
-        // console.log(newAddress);
-        await axios.post(
-          "/api/secure/userProfile",
-          { userId: session.user.id, address: newAddress },
-          { withCredentials: true }
-        );
-        await fetchAddresses();
-        setShowNewAddressForm(false);
-        setNewAddress({ label: "Home", address: "", city: "", state: "", country: "", pincode: "" });
-      } catch (err) {
-        console.error("Failed to add address", err);
-        alert("Could not add address. Try again.");
-      }
-      return;
-    }
-
     // guest: keep new address in state and close form
-    setShowNewAddressForm(false);
   };
 
   const updateQuantity = (productId, variantId, change) => {
@@ -552,6 +537,7 @@ export default function Checkout() {
             {summary.products && summary.products.length > 0 ? (
               summary.products.map((p) => {
                 const productState = products.find((prod) => {
+                  console.log(prod, p);
                   const sameProduct = prod.productId === p.productId;
                   const prodVariant = prod.variantId ?? null;
                   const pVariant = p.variantId ?? null;
@@ -572,7 +558,7 @@ export default function Checkout() {
                           disabled={!productState || productState?.quantity <= 1}
                           aria-label={`Decrease quantity for ${p.name}`}
                         >
-                          −
+                          -
                         </button>
                         <span className={styles.qtyDisplay}>{productState?.quantity ?? 1}</span>
                         <button
@@ -665,7 +651,7 @@ export default function Checkout() {
                 {showNewAddressForm && <NewAddressForm
                   newAddress={newAddress}
                   setNewAddress={setNewAddress}
-                  onSave={addNewAddress}
+                  onSave={handleAddNewAddress}
                 />}
               </>
             )
@@ -707,37 +693,37 @@ export default function Checkout() {
             <div className={styles.amountSummary}>
               <div className={styles.row}>
                 <span>Item total</span>
-                <span>₹{summary.itemTotal ?? 0}</span>
+                <span>{summaryLoading ? <LoadingWheel /> : "₹" + summary.itemTotal ?? 0}</span>
               </div>
               {summary.promoDiscount > 0 && (
                 <div className={styles.row}>
                   <span>Promo discount</span>
-                  <span>-₹{summary.promoDiscount}</span>
+                  <span>-{summaryLoading ? <LoadingWheel /> : "₹" + summary.promoDiscount}</span>
                 </div>
               )}
               <div className={styles.row}>
                 <span>Delivery</span>
-                <span>₹{summary.deliveryCharges ?? 0}</span>
+                <span>{summaryLoading ? <LoadingWheel /> : "₹" + summary.deliveryCharges ?? 0}</span>
               </div>
               <div className={styles.row}>
                 <strong>Total</strong>
-                <strong>₹{summary.totalAmount ?? 0}</strong>
+                <strong>{summaryLoading ? <LoadingWheel /> : "₹" + summary.totalAmount ?? 0}</strong>
               </div>
               {summary.deliveryCharges > 0 && (
                 <div className={styles.row}>
                   <span>Free Delivery</span>
-                  <span>-₹{summary.deliveryCharges}</span>
+                  <span>-{summaryLoading ? <LoadingWheel /> : "₹" + summary.deliveryCharges}</span>
                 </div>
               )}
               <div className={styles.rowTotal}>
                 <strong>Total payable</strong>
-                <strong>₹{summary.finalAmount ?? 0}</strong>
+                <strong>{summaryLoading ? <LoadingWheel /> : "₹" + summary.finalAmount ?? 0}</strong>
               </div>
             </div>
           </section>
 
           <button onClick={initiatePayment} className={styles.pay_btn}>
-            Proceed to pay ₹{summary.finalAmount ?? 0}
+            Proceed to pay  {summaryLoading ? <LoadingWheel /> : "₹" + summary.finalAmount ?? 0}
           </button>
         </div>
       </div >

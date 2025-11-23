@@ -1,5 +1,5 @@
 // utils/order/applyPromo.js
-import { validatePromo } from "@/utils/promo";
+import { validatePromo } from "@/utils/promo/promo";
 
 export async function applyPromo(promoCode, amount, session, phone, cartProductIds = []) {
   const userId = session?.user?.id || null;

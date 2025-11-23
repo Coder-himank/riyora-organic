@@ -87,6 +87,8 @@ export async function onAddToWishlist(router, productId, session) {
 export const onBuy = (router, productId, quantity_demanded, session, variantId = null) => {
     router.push({
         pathname: `/checkout`,
-        query: { productId, quantity_demanded, variantId }
+        query: {
+            productId, quantity_demanded, variantId: variantId ?? null
+        }
     })
 }

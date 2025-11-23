@@ -8,8 +8,8 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { sanitizePromo, sanitizeProducts } from "@/utils/security/sanitize";
 import { rateLimit } from "@/utils/security/rateLimit";
 
-import { resolveProducts } from "@/utils/checkoutHelper/resolveProducts";
-import { applyPromo } from "@/utils/checkoutHelper/applyPromo";
+import { resolveProducts } from "@/utils/products/resolveProducts";
+import { applyPromo } from "@/utils/promo/applyPromo";
 import { calcDelivery } from "@/utils/checkoutHelper/calcDelivery";
 
 import { validateOrigin, setupBase } from "@/utils/security/secureApi";
