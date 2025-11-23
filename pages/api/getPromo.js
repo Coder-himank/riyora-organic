@@ -2,7 +2,7 @@ import { setupBase, validateOrigin } from "@/utils/security/secureApi";
 import Promocode from "@/server/models/Promocode";
 const handler = async (req, res) => {
     
-    const AllowedOrigins = process.env.NEXT_PUBLIC_BASE_URL;    
+    const AllowedOrigins = process.env.NEXT_PUBLIC_SITE_URL;    
     validateOrigin(req, AllowedOrigins);
     // Check for the correct HTTP method
 
