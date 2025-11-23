@@ -236,6 +236,8 @@ export default function Checkout() {
         addressId: selectedAddressId || null,
       };
 
+      console.log(payload);
+
       const { data } = await axios.post("/api/secure/checkout", payload, {
         withCredentials: true,
       });
