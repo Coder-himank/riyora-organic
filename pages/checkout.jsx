@@ -236,23 +236,23 @@ export default function Checkout() {
         addressId: selectedAddressId || null,
       };
 
-      const { data } = await axios.post("/api/secure/checkout", payload, {
-        withCredentials: true,
-      });
+      // const { data } = await axios.post("/api/secure/checkout", payload, {
+      //   withCredentials: true,
+      // });
 
-      if (!data) {
-        setError("Checkout service returned no data");
-        return;
-      }
+      // if (!data) {
+      //   setError("Checkout service returned no data");
+      //   return;
+      // }
 
-      setSummary(data);
-      setPromoError(data.promoError)
-      setPromoMessage(data.promoMessage)
+      // setSummary(data);
+      // setPromoError(data.promoError)
+      // setPromoMessage(data.promoMessage)
 
 
-      if (!selectedAddressId && data.addresses?.length) {
-        setSelectedAddressId(data.addresses[0]._id);
-      }
+      // if (!selectedAddressId && data.addresses?.length) {
+      //   setSelectedAddressId(data.addresses[0]._id);
+      // }
     } catch (err) {
       console.error("Error fetching summary", err);
       setError("Failed to prepare checkout data");
