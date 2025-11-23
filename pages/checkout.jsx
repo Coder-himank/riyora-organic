@@ -202,10 +202,11 @@ export default function Checkout() {
 
   const fetchPromoCodes = async () => {
     try {
-      const { data } = await axios.get("/api/secure/getPromo");
+      const { data } = await axios.get("/api/getPromo");
       // console.log("Active promo codes:", data);
       setAvailablePromos(data)
     } catch (err) {
+      setAvailablePromos([])
       console.error("Failed to fetch promo codes", err);
     }
   };
