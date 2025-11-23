@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import styles from "@/styles/checkout.module.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -43,6 +43,7 @@ export default function Checkout() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
+  const [isValidUser, setIsValidUser] = useState(false);
   const [newAddress, setNewAddress] = useState({
     label: "Home",
     address: "",
@@ -83,11 +84,24 @@ export default function Checkout() {
     }
   }, []);
 
+  const validateUser = async () => {
+    if (session?.user) {
+      try {
+        await axios.get(`/api/secure/userProfile?userId=${session.user.id}`, { withCredentials: true });
+        setIsValidUser(true)
+      } catch (e) {
+        setIsValidUser(false);
+        signOut()
+      }
+    }
+  }
+
   // Prefill name/phone from session or guest_user local storage
   useEffect(() => {
     if (session?.user) {
       if (session.user.name) setName(session.user.name);
       if (session.user.phone) setPhone(session.user.phone);
+      validateUser();
     } else if (typeof window !== "undefined") {
       const storedGuest = localStorage.getItem("guest_user");
       if (storedGuest) {
@@ -123,7 +137,7 @@ export default function Checkout() {
       }
 
       // 2) If user is logged in, attempt to fetch backend cart
-      if (session?.user?.id) {
+      if (session?.user?.id && isValidUser) {
         try {
           const { data } = await axios.get(
             `/api/secure/cart?userId=${session.user.id}`,
@@ -170,13 +184,13 @@ export default function Checkout() {
 
     initProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady, router.query, session?.user?.id]);
+  }, [router.isReady, router.query, session?.user?.id, isValidUser]);
 
   // Fetch addresses & summary once session & products are ready
   useEffect(() => {
     if (!products) return;
 
-    if (session?.user) {
+    if (session?.user && isValidUser) {
       (async () => {
         try {
           await fetchAddresses();
@@ -198,7 +212,7 @@ export default function Checkout() {
     })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session, products, selectedAddressId]);
+  }, [session, products, selectedAddressId, isValidUser]);
 
   const fetchPromoCodes = async () => {
     try {
@@ -268,6 +282,7 @@ export default function Checkout() {
 
   const fetchAddresses = async () => {
     if (!session?.user?.id) return;
+    if (!isValidUser) return;
     try {
       const { data } = await axios.get(`/api/secure/userProfile?userId=${session.user.id}`, {
         withCredentials: true,
@@ -398,7 +413,7 @@ export default function Checkout() {
 
     // prepare delivery address data
     let deliveryAddressPayload = null;
-    if (session?.user) {
+    if (session?.user && isValidUser) {
       const selectedAddr = addresses.find((a) => a._id === selectedAddressId);
       if (!selectedAddr && !showNewAddressForm) {
         return alert("Please select a delivery address or add a new one.");
@@ -423,9 +438,9 @@ export default function Checkout() {
 
     try {
       // If guest, create a user account first
-      let userForOrder = session?.user ?? null;
+      let userForOrder = isValidUser ? session?.user ?? null : null;
 
-      if (!session?.user) {
+      if (!session?.user && !isValidUser) {
         const createdUser = await createGuestUser(phone.trim());
         if (!createdUser || !createdUser._id) {
           throw new Error("Failed to create guest user");
@@ -437,9 +452,9 @@ export default function Checkout() {
       const orderPayload = {
         promocode,
         deliveryAddress: {
-          name: session?.user?.name ?? name,
+          name: isValidUser ? session?.user?.name : name,
           phone: phone.trim(),
-          email: session?.user?.email ?? null,
+          email: isValidUser ? session?.user?.email : null,
           ...deliveryAddressPayload,
         },
         products: products && products.length > 0 ? products : null,
@@ -530,8 +545,6 @@ export default function Checkout() {
             )}
           </div>
 
-
-
           {/* Product List */}
           <section className={styles.productList}>
             {summary.products && summary.products.length > 0 ? (
@@ -577,13 +590,10 @@ export default function Checkout() {
               <div className={styles.emptyCart}>Your cart is empty.</div>
             )}
           </section>
-
-
           <div className={styles.customer_info_section}>
 
             {/* customer name */}
-
-            <div className={styles.name_section}>
+            <div className={styles.input_group}>
               <label className={styles.label}>Full name (required)</label>
               <input
                 type="text"
@@ -610,7 +620,7 @@ export default function Checkout() {
           {/* Address Section */}
           <div className={styles.address_section}>
             <h3 className={styles.sectionTitle}>Delivery address</h3>
-            {session?.user ? (
+            {isValidUser && session?.user ? (
               <>
                 <div className={styles.address_list}>
                   {addresses.map((addr) => (
@@ -666,9 +676,6 @@ export default function Checkout() {
               )
             }
           </div>
-
-
-
 
         </div>
 

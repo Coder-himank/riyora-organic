@@ -1,26 +1,37 @@
 
 .checkout_container {
   margin: 0 auto;
+  width: 100%;
   padding: clamp(9px, 1vw, 40px);
   background: #ffffff;
   border-radius: 14px;
   font-family: Poppins, sans-serif;
-
+  
   display: grid;
   grid-template-columns: 1fr 500px;
   gap: 24px;
+  overflow: hidden;
 }
 
 
 
 .leftPannel{
+  padding: 0;
+  box-sizing: border-box;
   border-right: 1px solid #dfe8e3;
+  max-width: 100%;
   padding-right: 20px;
+  width: 100%;
+  
 }
 .rightPannel{
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
   position: sticky;
   top: 100px;
   max-height: fit-content;
+  max-width: 100%;
 }
 
 /* Spacing for nav */
@@ -150,8 +161,10 @@
 
 /* Customer info */
 .customer_info_section {
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  flex-wrap: wrap;
   gap: 22px;
   background: #ffffff;
   padding: 18px;
@@ -185,13 +198,15 @@
 }
 
 /* Phone input wrapper */
-.phone_section * {
-  background: transparent ;
+.phone_section  {
+  max-width: 100%;
 }
 
 .phone_section input {
   width: 100% !important;
   border: 1px solid #c7dfd2 !important;
+  padding: 20px 50px !important;
+  border-radius: 10px !important;
 }
 
 /* Address area */
