@@ -2,6 +2,7 @@ import { setupBase, validateOrigin } from "@/utils/security/secureApi";
 import Promocode from "@/server/models/Promocode";
 const handler = async (req, res) => {
     
+  try {
     const AllowedOrigins = process.env.NEXT_PUBLIC_SITE_URL;    
     validateOrigin(req, AllowedOrigins);
     // Check for the correct HTTP method
@@ -12,7 +13,6 @@ const handler = async (req, res) => {
     // Check for the presence of the Authorization header
     await setupBase(req, res, "promocode", 30, 60);
 
-    try {
       const promos = await Promocode.find({active: true}).lean();
       return res.status(200).json(promos);
     } catch (error) {
