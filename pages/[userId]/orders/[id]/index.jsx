@@ -57,28 +57,28 @@ export default function OrderDetails() {
   }, [orderId, session]);
 
 
-  const handleOrderCancel = () => {
-    if (!order) return;
-    if (!["pending", "confirmed", "ready_to_ship"].includes(order.status.toLowerCase())) {
-      alert("Order cannot be cancelled at this stage.");
-      return;
-    }
-    if (confirm("Are you sure you want to cancel this order?")) {
-      axios.put(`/api/secure/orders?orderId=${order._id}&userId=${session.user.id}`, {
-        status: "cancelled",
+  // const handleOrderCancel = () => {
+  //   if (!order) return;
+  //   if (!["pending"].includes(order.status.toLowerCase())) {
+  //     alert("Order cannot be cancelled at this stage.");
+  //     return;
+  //   }
+  //   if (confirm("Are you sure you want to cancel this order?")) {
+  //     axios.put(`/api/secure/orders?orderId=${order._id}&userId=${session.user.id}`, {
+  //       status: "cancelled",
 
-      })
-        .then(response => {
-          alert("Order cancelled successfully.");
-          setOrder(prev => ({ ...prev, status: 'cancelled' }));
-        })
-        .catch(error => {
-          console.error("Error cancelling order", error);
-          alert("Failed to cancel order. Please try again.");
-        });
+  //     })
+  //       .then(response => {
+  //         alert("Order cancelled successfully.");
+  //         setOrder(prev => ({ ...prev, status: 'cancelled' }));
+  //       })
+  //       .catch(error => {
+  //         console.error("Error cancelling order", error);
+  //         alert("Failed to cancel order. Please try again.");
+  //       });
 
-    }
-  }
+  //   }
+  // }
   if (status === "loading") {
     return (
       <div className={styles.loaderWrapper}>
@@ -228,10 +228,10 @@ export default function OrderDetails() {
           &larr; Back to Orders
         </button>
         {/* cancelButton */}
-        {["pending", "confirmed", "ready_to_ship"].includes(order.status.toLowerCase()) && (
+        {/* {["pending", "confirmed", "ready_to_ship"].includes(order.status.toLowerCase()) && (
           <button className={styles.cancelBtn}
             onClick={handleOrderCancel}>Cancel</button>
-        )}
+        )} */}
       </div>
     </div>
   );
