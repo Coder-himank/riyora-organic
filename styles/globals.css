@@ -127,10 +127,11 @@ button,
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-light);
+  font-family: Poppins, sans-serif;
 }
 
-button:hover,
-.btn:hover { box-shadow: var(--button-hover-shadow); }
+/* button:hover,
+.btn:hover { box-shadow: var(--button-hover-shadow); } */
 
 button:active,
 .btn:active {

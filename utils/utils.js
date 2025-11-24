@@ -71,3 +71,19 @@ export const setNestedValue = (obj, path, value) => {
     }, obj);
     deepRef[lastKey] = value;
 };
+
+
+export function camelToNormal(text) {
+  return text
+    .replace(/([A-Z])/g, " $1")
+    .trim()
+    .replace(/^./, str => str.toUpperCase());
+}
+export function normalizeVariantImages(variant) {
+  if (!variant) return [];
+  return Array.isArray(variant.imageUrl)
+    ? variant.imageUrl
+    : variant.imageUrl
+    ? [variant.imageUrl]
+    : [];
+}

@@ -334,10 +334,10 @@ export default function Cart() {
 
         {cart.length === 0 ? (
           <div className={styles.empty_cart}>
-            <p>Your cart is empty</p>
+            <p>Your cart is empty </p>
             {shopNowLink && (
-              <Link href={shopNowLink}>
-                <button className="shop-now">Shop Now</button>
+              <Link href={shopNowLink} >
+                <span className={styles.shopBtn}>Shop Now</span>
               </Link>
             )}
           </div>
@@ -372,18 +372,20 @@ export default function Cart() {
                     <span className={styles.quantity_controls}>
                       <button
                         onClick={() =>
-                          updateQuantityOptimistic(item.productId, item.variantId, qty + 1)
-                        }
-                      >
-                        +
-                      </button>
-                      <span className={styles.qty}>{qty}</span>
-                      <button
-                        onClick={() =>
                           updateQuantityOptimistic(item.productId, item.variantId, qty - 1)
                         }
                       >
                         -
+                      </button>
+
+                      <span className={styles.qty}>{qty}</span>
+
+                      <button
+                        onClick={() =>
+                          updateQuantityOptimistic(item.productId, item.variantId, qty + 1)
+                        }
+                      >
+                        +
                       </button>
                     </span>
                   </div>

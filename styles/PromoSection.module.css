@@ -62,10 +62,11 @@
 }
 
 .applyBtn {
-  padding: 10px 12px;
+  padding: 8px 12px;
   border-radius: 8px;
   border: none;
   background: #136132;
   color: white;
   cursor: pointer;
+  font-size: 0.8rem;
 }

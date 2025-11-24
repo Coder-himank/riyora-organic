@@ -78,7 +78,7 @@ function FaqItem({ question, answer }) {
 
 export default function Faqs({ dynamicFaqs = [] }) {
   const [searchText, setSearchText] = useState("");
-  const allFaqs = [...faqsData, ...dynamicFaqs]; // Merge static + dynamic FAQs
+  const allFaqs = [...faqsData, ...dynamicFaqs];
 
   const filteredFaqs = allFaqs.filter(
     (faq) =>
@@ -86,10 +86,23 @@ export default function Faqs({ dynamicFaqs = [] }) {
       faq.answer.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  // Proper FAQPage structured data
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": allFaqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer,
+      },
+    })),
+  };
+
   return (
     <>
       <Head>
-        {/* --- Primary SEO --- */}
         <title>Riyora Hair Oil FAQs | Natural Hair Care Questions Answered</title>
         <meta
           name="description"
@@ -102,24 +115,19 @@ export default function Faqs({ dynamicFaqs = [] }) {
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://riyoraorganic.com/faqs" />
 
-        {/* --- Open Graph / Social Sharing --- */}
         <meta property="og:title" content="Riyora Hair Oil FAQs" />
         <meta
           property="og:description"
           content="Get all your questions answered about Riyora's natural, herbal hair oil. Suitable for all genders and hair types."
         />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://riyoraorganic.com/faqs"
-        />
+        <meta property="og:url" content="https://riyoraorganic.com/faqs" />
         <meta
           property="og:image"
           content="https://riyoraorganic.com/images/faqs-og.jpg"
         />
         <meta property="og:site_name" content="Riyora Organic" />
 
-        {/* --- Twitter Card --- */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Riyora Hair Oil FAQs" />
         <meta
@@ -132,19 +140,11 @@ export default function Faqs({ dynamicFaqs = [] }) {
         />
         <meta name="twitter:site" content="@riyora_organic" />
 
-        {/* --- Structured Data --- */}
+        {/* --- Proper Structured Data --- */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: allFaqs.map((faq) => ({
-                "@type": "Question",
-                name: faq.question,
-                acceptedAnswer: { "@type": "Answer", text: faq.answer },
-              })),
-            }),
+            __html: JSON.stringify(faqSchema),
           }}
         />
       </Head>

@@ -8,16 +8,16 @@ export default function About() {
     "@type": "AboutPage",
     "name": "About Riyora Organic",
     "description": "Learn about Riyora Organic: Ayurvedic hair oils, natural hair care, and our commitment to chemical-free, herbal hair wellness.",
-    "url": "https://riyoraorganic.com.app/about",
+    "url": "https://riyoraorganic.com/about",
     "publisher": {
       "@type": "Organization",
       "name": "Riyora Organic",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://riyoraorganic.com.app/images/logo.png"
+        "url": "https://riyoraorganic.com/images/logo.png"
       }
     },
-    "mainEntityOfPage": "https://riyoraorganic.com.app/about"
+    "mainEntityOfPage": "https://riyoraorganic.com/about"
   };
 
   const sections = [
@@ -69,6 +69,7 @@ export default function About() {
       </Head>
 
       <main className={styles.container}>
+        <h1>About Riyora Orgnaic</h1>
         {sections.map((section, index) => (
           <section
             key={index}

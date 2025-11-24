@@ -287,3 +287,13 @@
   font-weight: bold;
   color: green;
 }
+
+
+
+@media screen and (max-width:700px) {
+  .rightPanel {
+    border-left: none;
+    padding-left: 0;
+  }
+  
+}

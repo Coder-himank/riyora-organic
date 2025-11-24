@@ -2,12 +2,15 @@ import Blog from "@/server/models/Blogs";
 import styles from "@/styles/blogPage.module.css";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import connectDB from "@/server/db"; // Your MongoDB connection helper
+import buildBlogSchema from "@/utils/blogs/buildBlogSchema";
 
-const BlogPage = ({ blog }) => {
+const BlogPage = ({ blog, blogSchema }) => {
     const siteUrl = "https://riyoraorganic.com";
     const brandName = "Riyora Organic";
+
+
+
 
     if (!blog) {
         return <center><h1>Blog Not Found</h1></center>;
@@ -24,7 +27,7 @@ const BlogPage = ({ blog }) => {
             <Head>
                 <title>{blog.title} | {brandName}</title>
                 <meta name="description" content={blogDescription} />
-                <meta name="keywords" content={`Riyora Organic, Hair Oil, ${blog.title}, Natural Hair Care, Herbal Hair Oil`} />
+                <meta name="keywords" content={`${blog.tags?.join(", ")}, Hair Care, Herbal, Riyora Organic`} />
                 <link rel="canonical" href={blogUrl} />
 
                 {/* Open Graph */}
@@ -40,29 +43,15 @@ const BlogPage = ({ blog }) => {
                 <meta name="twitter:description" content={blogDescription} />
                 <meta name="twitter:image" content={blogImage} />
 
-                {/* Structured Data */}
+                {/* BlogPosting Schema */}
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "BlogPosting",
-                            headline: blog.title,
-                            description: blogDescription,
-                            url: blogUrl,
-                            datePublished: blog.createdAt,
-                            author: { "@type": "Person", name: blog.author || brandName },
-                            publisher: {
-                                "@type": "Organization",
-                                name: brandName,
-                                logo: { "@type": "ImageObject", url: `${siteUrl}/logo.png` }
-                            },
-                            image: blogImage,
-                            mainEntityOfPage: blogUrl
-                        })
+                        __html: JSON.stringify(blogSchema)
                     }}
                 />
             </Head>
+
 
             <main className={styles.blog_container}>
                 {blog.imageUrl && (
@@ -109,15 +98,18 @@ export async function getStaticPaths() {
 // Fetch blog by slug
 export async function getStaticProps({ params }) {
     await connectDB();
-    console.log(params);
+    const siteUrl = "https://riyoraorganic.com";
+    const brandName = "Riyora Organic";
+
     const blog = await Blog.findOne({ slug: params.slug, published: true }).lean();
+    const blogSchema = buildBlogSchema(blog, siteUrl, brandName);
 
     if (!blog) {
         return { notFound: true };
     }
 
     return {
-        props: { blog: JSON.parse(JSON.stringify(blog)) },
+        props: { blog: JSON.parse(JSON.stringify(blog)), blogSchema: JSON.parse(JSON.stringify(blogSchema)) },
         revalidate: 60 // ISR: update page every 60 seconds
     };
 }

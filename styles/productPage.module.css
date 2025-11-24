@@ -239,11 +239,12 @@
     /* font-size: 18px; */
     /* padding: 20px 0; */
     height: fit-content;
+    text-decoration: none;
 }
 .description a{
     color: green;
     font-weight: 500;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 
@@ -326,9 +327,10 @@
     border-radius: 30px;
     overflow: hidden;
     max-width: fit-content;
-    padding: 0 20px;
+    padding: 10px 20px;
     cursor: pointer;
     color: var(--primary-color);
+    font-size: 12px;
 }
 
 .selected_variant{
@@ -414,7 +416,7 @@
     gap: 10px;
     flex-wrap: wrap;
     margin: auto;
-    padding: 20px 10;
+    /* padding: 20px 10px; */
     
 }
 
@@ -423,7 +425,7 @@
 .suitable_cards .suitable_images {
     min-width: 150px;
     /* max-width: 210px; */
-    width: calc(50% - 19px);
+    width: calc(50% - 10px);
     height: 150px;
     max-height: fit-content;
     display: flex;

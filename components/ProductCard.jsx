@@ -35,13 +35,13 @@ export default function ProductCard({ product, router, session }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVariantIdx]);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if ((selectedVariant.stock || 0) < quantity) {
       alert("Not enough stock for selected variant");
       return;
     }
 
-    const res = onAddToCart({
+    const res = await onAddToCart({
       productId: product._id,
       variantId: selectedVariant._id,
       quantity_demanded: quantity,

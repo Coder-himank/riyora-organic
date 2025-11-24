@@ -21,12 +21,20 @@ export async function onAddToCart({ router, productId, session, quantity_demande
     if (!session?.user) {
         let cart = loadCartFromLocal();
 
-        const existing = cart.find(
-            item => item.productId === productId && item.variantId === variantId
+        console.log(cart);
+
+        const existing = await cart.find(
+            item => {
+                console.log(item, productId, variantId);
+                return item.productId === productId && item.variantId === variantId
+            }
         );
+
+        console.log(existing);
 
         if (existing) {
             existing.quantity += quantity_demanded;
+            cart = [...cart.filter(item => item.productId !== existing.productId), existing];
         } else {
             cart.push({
                 productId,

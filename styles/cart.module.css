@@ -23,7 +23,10 @@
     flex-direction: column;
     min-height: 50vh;
 }
-
+.shopBtn{
+    text-decoration: underline;
+    color: green;
+}
 .cart_head {
     max-width: 900px;
     margin: auto;
@@ -110,11 +113,15 @@
     height: fit-content;
 
     padding: 4px 20px;
-    /* border-radius: ; */
-    background: #136132; /* light green */
     border: 1px solid #c2e7d0;
-    color: white;
+      background: #ffffff;
+  color: #0f3d27;
     cursor: pointer;
+}
+
+.quantity_controls button:disabled {
+    
+background: #ccc; /* light green */
 }
 
 /* skeleton elements */
@@ -187,13 +194,16 @@
 }
 
 .checkoutbtn{
-    background-color: #136132;
-    width: 95%;
+    background-color: rgb(216, 216, 5);
+    width: 100%;
     margin-top: 24px;
-    padding: 20px;
-    position: absolute;
+    padding: 10px;
+    position: sticky;
+    border-radius: 20px;
     bottom: 10px;
     left: 2.5%;
+    color: black;
+    box-shadow: 0 0 20px rgba(19, 97, 50, 0.2);
 }
 
 @keyframes skeleton-loading {
