@@ -276,8 +276,8 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                   <Image
                     key={img}
                     src={img || "/products/root_strength_hair_oil_2.png"}
-                    width={500}
-                    height={500}
+                    width={400}
+                    height={400}
                     alt={highlightedProduct.name || "Riyora Root Strength Hair Oil Bottle"}
                   />
                 ))}
@@ -397,16 +397,16 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                 <Image
                   src={"/Riyora-Logo-Favicon.png"}
                   alt="Riyora Organic Logo"
-                  width={500}
-                  height={500}
+                  width={200}
+                  height={200}
                 />
               </div>
               <div className={styles.about_img_2}>
                 <Image
                   src={"/Riyora-Logo-Favicon.png"}
                   alt="Riyora Organic Logo"
-                  width={500}
-                  height={500}
+                  width={200}
+                  height={200}
                 />
               </div>
             </motion.div>
@@ -504,7 +504,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
               difference.
             </p>
           </div>
-          <Carousel>
+          {/* <Carousel>
             {Array.from({ length: 5 }).map((_, index) => (
               <motion.section className={styles.testimony_section} key={index}>
                 <div className={styles.testimony_image_wrapper}>
@@ -529,7 +529,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
                 </div>
               </motion.section>
             ))}
-          </Carousel>
+          </Carousel> */}
         </motion.section>
 
         {/* Trending Products Section (again for SEO and engagement) */}

@@ -55,6 +55,7 @@ function MyApp({ Component, pageProps }) {
   const siteName = "Riyora";
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://riyora.com";
   const currentUrl = `${siteUrl}${router.asPath}`;
+  const currentwwwUrl = `https://www.riyoraorganic.com${router.asPath}`;
   const defaultTitle = "Riyora | Premium Lifestyle & Fashion Products";
   const defaultDescription = "Shop premium lifestyle, beauty, and fashion products at Riyora. Discover quality, sustainability, and style for modern living.";
   const defaultImage = `${siteUrl}/images/og-image.jpg`;
@@ -99,6 +100,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="description" content={defaultDescription} />
         <meta name="keywords" content={defaultKeywords} />
         <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={currentUrl} />
         <link rel="canonical" href={currentUrl} />
 
         {/* --- Open Graph / Twitter --- */}
