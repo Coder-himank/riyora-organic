@@ -4,6 +4,7 @@ import crypto from "crypto";
 import dbConnect from "@/server/db";
 import Order from "@/server/models/Order";
 import { handleOrderAction } from "@/utils/order/orderHelper";
+import increasePromo from "@/utils/promo/updatePromo";
 
 export const config = {
   api: {
@@ -127,6 +128,8 @@ export default async function handler(req, res) {
         note: "Payment captured via webhook",
         updatedBy: "system",
       });
+
+      await increasePromo();
 
       // creating the order on ship rocket
 
