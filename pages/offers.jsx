@@ -9,7 +9,6 @@ export default function OfferPage() {
     const [timeLeft, setTimeLeft] = useState(""); // 👈 timer state
 
     const router = useRouter()
-    const { offerCode } = router.query;
 
     // 👇 Timer Logic Function
     function calculateTime(targetDate) {
@@ -25,40 +24,34 @@ export default function OfferPage() {
     }
 
     useEffect(() => {
+        if (!router.query.offerCode) return; // wait for code
+
         async function fetchPromo() {
-            if (!offerCode) return
             try {
-                const res = await axios.get("/api/getPromo?code=" + offerCode);
-                const data = await res.json();
-                setPromo(data);
-                setLoading(false);
+                setLoading(true);
 
-                // 👇 start timer immediately after promo loads
-                const timer = setInterval(() => {
-                    const timerValue =
-                        new Date(data.validFrom) > new Date()
-                            ? calculateTime(data.validFrom) // not valid yet
-                            : calculateTime(data.expiry); // valid now → expiry countdown
+                const res = await axios.get("/api/getPromo?code=" + router.query.offerCode);
+                const data = res.data;
 
-                    setTimeLeft(timerValue ?? 0);
-                }, 1000);
-
-                return () => clearInterval(timer);
+                setPromo(data ?? false); // 👈 important change
             } catch (err) {
-                console.error(err);
+                setPromo(false); // 👈 explicitly mark not found
+            } finally {
                 setLoading(false);
             }
         }
+
         fetchPromo();
-    }, [offerCode]);
+    }, [router.query.offerCode]);
 
     if (loading) {
         return <div className={styles.center}>Loading exciting offer...</div>;
     }
 
-    if (!promo) {
+    if (promo === false) {  // 👈 check this instead of !promo
         return <div className={styles.center}>No Offer Found</div>;
     }
+
 
     const isLimitReached = promo.usageLimit ? promo.timesUsed >= promo.usageLimit : false;
 
@@ -78,47 +71,50 @@ export default function OfferPage() {
     return (
         <div className={styles.container}>
 
-                <div className={styles.card}>
-                    <span className={styles.badge}>Limited Offer</span>
+            <div className={styles.card}>
+                <span className={styles.badge}>Limited Offer</span>
 
-                    <h1 className={styles.title}>
-                        Get <b>{promo.discount}% OFF</b>{" "}
-                        {promo.usageLimit ? <span>for First {promo.usageLimit} Users!</span> : ""}
-                    </h1>
+                <h1 className={styles.title}>
+                    Get <b>{promo.discount}% OFF</b>{" "}
+                    {promo.usageLimit ? <span>for First {promo.usageLimit} Users!</span> : ""}
+                </h1>
 
-                    <p className={styles.desc}>{promo.description}</p>
+                <p className={styles.desc}>{promo.description}</p>
 
-                    <div className={styles.codeBox}>{promo.code}</div>
+                <div className={styles.codeBox}>{promo.code}</div>
 
-                    {/* 👇 SHOW TIMER HERE */}
-                    <p className={`${styles.timer} ${timeLeft ? "" : styles.timeOver}`}>
-                        {timeLeft ? new Date(promo.validFrom) > new Date()
-                            ? `⏳ Starts In: ${timeLeft}`
-                            : `⚡ Valid For: ${timeLeft}` : "Validity Ended"}
-                    </p>
+                {/* 👇 SHOW TIMER HERE */}
+                <p className={`${styles.timer} ${timeLeft ? "" : styles.timeOver}`}>
+                    {timeLeft ? new Date(promo.validFrom) > new Date()
+                        ? `⏳ Starts In: ${timeLeft}`
+                        : `⚡ Valid For: ${timeLeft}` : "Validity Ended"}
+                </p>
 
-                    {timeLeft && !isLimitReached ? (
-                        <>
+                {timeLeft && !isLimitReached ? (
+                    <>
 
-                            <p className={styles.usersLeft}>
-                                {isLimitReached
-                                    ? "❗ Offer Limit Reached"
-                                    : promo.usageLimit
-                                        ? `🔥 Only ${promo.usageLimit - promo.timesUsed} spots left!`
-                                        : ""}
-                            </p>
+                        <p className={styles.usersLeft}>
+                            {isLimitReached
+                                ? "❗ Offer Limit Reached"
+                                : promo.usageLimit
+                                    ? `🔥 Only ${promo.usageLimit - promo.timesUsed} spots left!`
+                                    : ""}
+                        </p>
 
-                            <button
-                                onClick={goToCheckout}
-                                disabled={isLimitReached}
-                                className={styles.btn}
-                            >
-                                {isLimitReached ? "Offer Closed" : "Claim Discount & Checkout"}
-                            </button>
-                        </>
-                    ) : <Link href={"/products"}>Buy Products And Check Other Offers!!</Link>}
-                </div> 
-            
+                        <button
+                            onClick={goToCheckout}
+                            disabled={isLimitReached}
+                            className={styles.btn}
+                        >
+                            {isLimitReached ? "Offer Closed" : "Claim Discount & Checkout"}
+                        </button>
+                    </>
+                ) : <Link href={"/products"}>Buy Products And Check Other Offers!!</Link>}
+            </div>
+
+
+
+
         </div>
     );
 }
