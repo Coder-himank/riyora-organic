@@ -6,12 +6,20 @@ const handler = async (req, res) => {
     const AllowedOrigins = process.env.NEXT_PUBLIC_SITE_URL;    
     validateOrigin(req, AllowedOrigins);
     // Check for the correct HTTP method
+    
 
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
     // Check for the presence of the Authorization header
     await setupBase(req, res, "promocode", 30, 60);
+
+    const {code} = req.query;
+    if(code) {
+
+      const promos = await Promocode.findOne({code : code.trim().toUpperCase(), active: true}).lean();
+      return res.status(200).json(promos);
+    }
 
       const promos = await Promocode.find({active: true}).lean();
       return res.status(200).json(promos);
