@@ -10,7 +10,7 @@ export default function HowToUseTab({ product }) {
             <div className={styles.apply_section}>
                 {product?.howToApply?.map((step, idx) => (
                     <div key={idx} className={styles.apply_box}>
-                        <h4>Step {step.step}</h4>
+                        <h4>{step.step}</h4>
                         <p>{step.description}</p>
                     </div>
                 ))}

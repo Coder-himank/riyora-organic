@@ -21,6 +21,7 @@ import axios from "axios";
 import getProductUrl from "@/utils/products/productsUtils";
 import connectDB from "@/server/db";
 import Product from "@/server/models/Product";
+import { Testimoneals } from "@/components/Testimoneals";
 
 export const TrendingProduct = ({ products }) => {
   return;
@@ -534,6 +535,9 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
 
         {/* Trending Products Section (again for SEO and engagement) */}
         <TrendingProduct products={products} />
+
+        {/* custoemrReviews */}
+        <Testimoneals />
       </div >
     </>
   );
