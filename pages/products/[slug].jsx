@@ -128,12 +128,31 @@ export default function ProductPage({ productId, pdata, pInfodata, productSchema
     "How To Use": <HowToUseTab product={displayProduct} />,
   };
 
+  const siteName = "Riyora";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://riyora.com";
+  const currentUrl = `${siteUrl}${router.asPath}`;
+
   return (
     <>
       <Head>
         <title>{`${displayProduct.name} | ${displayProduct.brand}`}</title>
         <meta name="description" content={displayProduct.description?.slice(0, 160)} />
         <link rel="canonical" href={`${site_url}/products/${displayProduct.slug}`} />
+
+        {/* --- Open Graph / Twitter --- */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={siteName} />
+        <meta property="og:title" content={displayProduct.name} />
+        <meta property="og:description" content={displayProduct.description} />
+        <meta property="og:url" content={currentUrl} />
+        <meta property="og:image" content={displayProduct.imageUrl[0]} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={displayProduct.name} />
+        <meta name="twitter:description" content={displayProduct.description} />
+        <meta name="twitter:image" content={displayProduct.imageUrl[0]} />
+        <meta name="twitter:creator" content="@riyoraofficial" />
+
 
 
         {productSchema && (

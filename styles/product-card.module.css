@@ -19,7 +19,7 @@
   box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.176);
 
   min-width: clamp(130px, 40vw, 230px);
-  max-width: 340px;
+  max-width: 100%;
 
   font-family: "Poppins", sans-serif;
 

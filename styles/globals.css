@@ -199,23 +199,27 @@ button:disabled { background: #ccc; cursor: not-allowed; }
 
 /* ========================= CHAT BUTTON ========================= */
 .chat_Button {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  width: fit-content;
+  padding: 20px;
+  height: 45px;
+  border-radius: 40px;
+  
   box-shadow: 0 0 20px -14px black;
   position: fixed;
   bottom: 30px;
   right: 20px;
-  background-color: rgb(56, 49, 49);
+  background-color: rgb(255, 255, 255);
   color: green;
+  border: 2px solid green;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  flex-direction: column;
+  gap: 20px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   z-index: 1000;
+  font-size: 20px;
   animation: chat_btn_animate 3s ease-in-out infinite alternate;
 }
 

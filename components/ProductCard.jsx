@@ -86,14 +86,15 @@ export default function ProductCard({ product, router, session }) {
         </div>
 
         <div className={styles.cta}>
-          <input
-            type="number"
-            min={1}
-            max={5}
-            value={quantity}
+
+          <select
             onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-            className={styles.qty}
-          />
+            className={styles.qty}  >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
           <button onClick={handleAddToCart} disabled={(selectedVariant.stock || 0) <= 0} className={styles.addBtn}>
             Add to Cart
           </button>

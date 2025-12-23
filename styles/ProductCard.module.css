@@ -11,7 +11,7 @@
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  /* transform: translateY(-4px); */
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 
@@ -21,6 +21,8 @@
   object-fit: cover;
   border-bottom: 1px solid #f0f0f0;
   background-color: #fafafa;
+  /* max-width: 270px; */
+  margin: auto;
 }
 
 .title {
@@ -84,10 +86,12 @@
 }
 
 .cta {
+  flex: 1;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   gap: 0.75rem;
+  height: 40px;
 }
 
 .qty {
@@ -100,21 +104,21 @@
   outline: none;
   transition: border-color 0.2s ease;
 }
-
 .qty:focus {
-  border-color: #0070f3;
+  border-color: #15803d;
 }
 
 .addBtn {
   flex: 1;
   background: linear-gradient(90deg, #15803d, #15803d);
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
-  padding: 0.6rem 1rem;
+  padding: 30px;
   border-radius: 0.5rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
+  padding: 10px;
 }
 
 .addBtn:hover {
@@ -137,6 +141,5 @@
   }
   .addBtn {
     font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
   }
 }

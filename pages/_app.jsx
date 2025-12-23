@@ -12,6 +12,43 @@ import { ThemeProvider } from "@/components/themeContext";
 import { useEffect, useState } from "react";
 import { Loader } from "@/components/Loader";
 import Script from 'next/script';
+import { PromoPrompt } from '@/components/PromoPrompt';
+import axios from 'axios';
+import { set } from 'mongoose';
+
+function ShowPromoPrompt() {
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promo, setPromo] = useState(null);
+  useEffect(() => {
+
+    const fetchPromo = async () => {
+      try {
+        const response = await axios.get('/api/getPromo');
+        if (response.data.length === 0) {
+          setPromo(null);
+          return;
+        }
+        setPromo(response.data[0]);
+      } catch (error) {
+        console.error('Error fetching promo data:', error);
+        return null;
+      }
+    };
+    const timer = setTimeout(() => {
+      fetchPromo()
+      setShowPrompt(true);
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  return (
+    <>
+      {showPrompt && promo && <PromoPrompt onClose={() => setShowPrompt(false)} code={promo.code} discount={promo.discount} />}
+    </>
+  );
+}
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -149,6 +186,7 @@ function MyApp({ Component, pageProps }) {
           rel="noopener noreferrer"
           aria-label="Chat on WhatsApp"
         >
+          chat with us
           <Image
             src="/images/whatsapp.png"
             alt="Chat with Riyora on WhatsApp"
@@ -161,6 +199,8 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
         <Footer />
       </SessionProvider>
+
+      <ShowPromoPrompt />
     </ThemeProvider>
   );
 }

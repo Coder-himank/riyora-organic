@@ -17,11 +17,19 @@ const handler = async (req, res) => {
     const {code} = req.query;
     if(code) {
 
-      const promos = await Promocode.findOne({code : code.trim().toUpperCase(), active: true}).lean();
+      const promos = await Promocode.findOne({code : code.trim().toUpperCase(), active: true, }).lean();
       return res.status(200).json(promos);
     }
-
-      const promos = await Promocode.find({active: true}).lean();
+  const now = new Date();
+      const promos = await Promocode.find({
+        active: true,
+        validFrom: { $lte: now },
+        expiry: { $gte: now }, 
+        $or: [
+          { usageLimit: 0 }, // unlimited usage
+          { $expr: { $lt: ['$timesUsed', '$usageLimit'] } }
+        ]
+      });
       return res.status(200).json(promos);
     } catch (error) {
       console.error('Error fetching promocodes:', error);

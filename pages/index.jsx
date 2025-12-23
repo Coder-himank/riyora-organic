@@ -140,10 +140,11 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
 
         <meta name="google-site-verification" content="1WG-oTVjwsg7Ao2HO7gti-pNdawLpflABelO3wayk7c" />
         {/* Primary SEO Tags */}
-        <title>Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth</title>
+        <title>Riyora Organic Hair Oil | Best Ayurvedic Oil for Hair Fall & Growth
+        </title>
         <meta
           name="description"
-          content="Riyora Organic offers premium Ayurvedic hair oils for strong, healthy, and shiny hair. 100% natural, cruelty-free, and eco-friendly hair care products."
+          content="Riyora Organic Hair Oil - Pure Ayurvedic formula for root strength, hair growth & fall control. Natural herbal blend nourishes scalp, reduces thinning, adds shine. Best organic oil for thick, healthy hair. Buy now!"
         />
         <meta
           name="keywords"
@@ -163,7 +164,7 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
         <meta property="og:url" content="https://riyoraorganic.com/" />
         <meta
           property="og:image"
-          content="https://riyoraorganic.com/images/og-image.jpg"
+          content="https://riyoraorganic.com/images/logo.png"
         />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Riyora Organic" />
@@ -173,12 +174,11 @@ export default function Home({ prouctsAvailable, highlightedProduct }) {
         <meta name="twitter:title" content="Riyora Organic | Ayurvedic Hair Oil for Healthy Hair Growth" />
         <meta
           name="twitter:description"
-
           content="Shop Riyora Organic Ayurvedic hair oils for natural hair growth, shine, and strength. 100% organic, cruelty-free, and eco-friendly."
         />
         <meta
           name="twitter:image"
-          content="https://riyoraorganic.com/images/twitter-image.jpg"
+          content="https://riyoraorganic.com/images/logo.png"
         />
 
         {/* Structured Data */}
