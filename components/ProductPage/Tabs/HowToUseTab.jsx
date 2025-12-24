@@ -11,7 +11,12 @@ export default function HowToUseTab({ product }) {
                 {product?.howToApply?.map((step, idx) => (
                     <div key={idx} className={styles.apply_box}>
                         <h4>{step.step}</h4>
-                        <p>{step.description}</p>
+
+                        <p
+                            dangerouslySetInnerHTML={{
+                                __html: step.description,
+                            }}
+                        />
                     </div>
                 ))}
             </div>
