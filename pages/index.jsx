@@ -50,7 +50,7 @@ export const TrendingProduct = ({ products }) => {
           <>No Products</>
         ) : (
           products.map((product, index) => (
-            <ProductCard key={index} product={product} />
+            <ProductCard key={index} product={product} toast={toast} />
           ))
         )}
         {/* </Carousel> */}

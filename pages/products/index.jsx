@@ -7,7 +7,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-
+import { ToastContainer, toast } from "react-toastify";
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +83,7 @@ export default function Products() {
           }}
         />
       </Head>
-
+      <ToastContainer position="top-right" autoClose={3000} />
       <main>
         {/* Hero Section */}
         <section className={styles.hero} aria-label="Riyora Organic Hair Oil Hero Section">
@@ -121,6 +121,7 @@ export default function Products() {
                     product={product}
                     session={session}
                     router={router}
+                    toast={toast}
                   />
                 ))
                 : <p className={styles.empty}>No Products Available</p>

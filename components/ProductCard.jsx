@@ -5,7 +5,7 @@ import styles from "@/styles/ProductCard.module.css"; // optional: create/adjust
 import { onAddToCart } from "@/components/ProductAction";
 
 import { toast } from "react-hot-toast";
-export default function ProductCard({ product, router, session }) {
+export default function ProductCard({ product, router, session, toast }) {
   // fallback: if product.variants is empty, treat base as single variant
   const variants = [{
     _id: product._id,

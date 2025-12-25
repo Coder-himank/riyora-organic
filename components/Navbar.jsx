@@ -162,7 +162,7 @@ export default function Navbar() {
       </Head>
 
       <div className="offerBanner">
-        <span>Launch offer 8% off</span>
+        <span>Purest Touch of Nature</span>
       </div>
 
       <header
