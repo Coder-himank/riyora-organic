@@ -315,6 +315,21 @@
   box-shadow: 0 0 20px rgba(19, 97, 50, 0.2);
 }
 
+
+.pay_btn .checkoutImages{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+}
+.checkoutImages >*{
+  position: absolute;
+  left: 0;
+}
+.checkoutImages img:nth-child(2){
+  left: 20px;
+}
 /* General small items */
 .emptyCart {
   padding: 20px;

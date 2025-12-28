@@ -9,7 +9,10 @@ import NewAddressForm from "@/components/AddressForm";
 import PromoSection from "@/components/PromoSection";
 import { addNewAddress } from "@/utils/address/saveAddress";
 import LoadingWheel from "@/components/LoadingWheel";
+import Image from "next/image";
+import { FaArrowAltCircleRight } from "react-icons/fa";
 const LOCAL_CART_KEY = "guest_cart";
+
 
 function loadCartFromLocalStorage() {
   if (typeof window === "undefined") return [];
@@ -125,7 +128,7 @@ export default function Checkout() {
 
       // 1) If explicit buy-now via query
       if (router.query.productId && router.query.productId !== "null") {
-        console.log(router.query.variantId);
+        // console.log(router.query.variantId);
         setProducts([
           {
             productId: router.query.productId,
@@ -252,7 +255,7 @@ export default function Checkout() {
         addressId: selectedAddressId || null,
       };
 
-      console.log(payload);
+      // console.log(payload);
 
       const { data } = await axios.post("/api/secure/checkout", payload, {
         withCredentials: true,
@@ -550,7 +553,7 @@ export default function Checkout() {
             {summary.products && summary.products.length > 0 ? (
               summary.products.map((p) => {
                 const productState = products.find((prod) => {
-                  console.log(prod, p);
+                  // console.log(prod, p);
                   const sameProduct = prod.productId === p.productId;
                   const prodVariant = prod.variantId ?? null;
                   const pVariant = p.variantId ?? null;
@@ -731,6 +734,23 @@ export default function Checkout() {
 
           <button onClick={initiatePayment} className={styles.pay_btn}>
             Proceed to pay  {summaryLoading ? <LoadingWheel /> : "₹" + summary.finalAmount ?? 0}
+            <div className={styles.checkoutImages}>
+
+              <Image
+                src="/images/gpayLogo.png"
+                width={30}
+                height={30}
+                alt="Google Pay Logo"
+                style={{ marginLeft: 8 }}
+              />
+              <Image
+                src="/images/phonepeLogo.png"
+                width={30}
+                height={30}
+                alt="Phone Pay Logo"
+                style={{ marginLeft: 8 }}
+              />
+            </div>
           </button>
         </div>
       </div >

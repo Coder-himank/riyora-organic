@@ -19,6 +19,9 @@ header {
   justify-content: center;
   color: black;
   padding: 2px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 1px;
   text-align: center;
 }
 
@@ -36,7 +39,9 @@ header {
   left: 0;
   display: flex;
   justify-content: space-between;
-  background: var(--navbar-background);
+  /* background: var(--navbar-background); */
+  background-color:red;
+
   z-index: 10;
   /* transition: all 0.5s; */
   color: var(--navbar-text-color);
@@ -44,6 +49,22 @@ header {
   flex-wrap: wrap;
 }
 
+
+.userIcon, .cartIcon{
+  width: unset;
+  padding: 10px 50px;
+  /* background-color: rgb(45, 45, 45); */
+  background-color: rgb(154, 193, 134);
+  color: white;
+  border-radius: 30px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  box-shadow: 0 0 10px -5px rgba(0, 0, 0, 0.764);
+
+}
 
 
 .navOpen {
@@ -61,6 +82,7 @@ header {
   justify-content: right;
   width: 100%;
   max-width: 300px;
+  gap: 10px;
 }
 
 .nav-user-option a {
@@ -109,6 +131,13 @@ header {
 .nav-left, .nav-right, .nav-mid {
   display: flex;
   align-items: center;
+}
+
+.nav-right {
+  width: fit-content;
+  justify-content: right;
+  gap: 10px;
+  padding: 0 10px;
 }
 
 .nav-mid {
@@ -238,6 +267,7 @@ header {
   padding: 0 20px;
   position: absolute;
   transition: all 0.5s;
+  height: 0%;
 }
 .submenu-close{
   width: 100%;
@@ -250,12 +280,53 @@ header {
   opacity: 1;
   height: fit-content;
   box-shadow: 0 7px 20px -18px;
+  background-color: white;
 }
 .subheaderLinks{
   width: 100%;
   display: flex;
   flex-direction: column;
 }
+
+.subiconheader{
+  width: 100%;
+  background-color: rgb(241, 255, 200);
+  z-index: -1;
+  margin-bottom: 10px;
+  padding: 0;
+  height: fit-content;
+}
+
+.subiconheader .icons{
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 60%;
+  /* gap: 10px; */
+  padding: 3px;
+}
+
+.subiconheader .subiconitem{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(10px, 1.5vw, 14px);
+  gap: 5px;
+  padding: 5px;
+}
+.subiconheader img{
+  width: clamp(20px, 3vw, 30px);
+  height: clamp(20px, 3vw, 30px);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  filter: grayscale(.5);
+
+  box-shadow: 0 0 10px -5px rgba(0, 0, 0, 0.438);
+  border-radius: 50%;
+}
+
 
 /* Responsive Navbar */
 @media screen and (max-width: 900px) {

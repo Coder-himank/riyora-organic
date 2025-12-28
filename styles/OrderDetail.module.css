@@ -1,33 +1,31 @@
-/* === OrderDetail.module.css === */
-
-
 /* === Layout === */
 .container {
   max-width: 900px;
   margin: 4rem auto;
   padding: 2rem;
-  background: var(--bg-light);
+  background: #faf8f6; /* light organic background */
   border-radius: 1rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', sans-serif;
 }
 
 .title {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #3A3A3A; /* neutral dark */
   text-align: center;
   margin-bottom: 2rem;
 }
 
 /* === Success Box === */
 .successBox {
-  background: linear-gradient(135deg, #16a34a, #4ade80);
+  background: linear-gradient(135deg, #4C774E, #A3C293);
   color: #fff;
   text-align: center;
   padding: 2rem;
   border-radius: 1rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
+  box-shadow: 0 4px 20px rgba(76, 119, 78, 0.3);
 }
 
 .successIcon {
@@ -44,30 +42,30 @@
 .progressBar {
   position: relative;
   background: #e5e7eb;
-  height: 6px;
-  border-radius: 10px;
+  height: 8px;
+  border-radius: 12px;
   overflow: hidden;
   margin-bottom: 1.5rem;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--progress), #60a5fa);
-  border-radius: 10px;
+  background: linear-gradient(90deg, #4C774E, #A3C293);
+  border-radius: 12px;
 }
 
 .truck {
   position: absolute;
-  top: -16px;
+  top: -18px;
   transform: translateX(-50%);
-  color: var(--progress);
+  color: #4C774E;
 }
 
 .steps {
   display: flex;
   justify-content: space-between;
   text-align: center;
-  color: var(--text-light);
+  color: #777;
   font-size: 0.9rem;
 }
 
@@ -81,7 +79,7 @@
 
 .stepIcon {
   background: #e5e7eb;
-  color: #6b7280;
+  color: #777;
   border-radius: 50%;
   padding: 0.5rem;
   display: flex;
@@ -91,68 +89,84 @@
 }
 
 .active .stepIcon {
-  background: var(--progress);
+  background: #4C774E;
   color: #fff;
 }
 
 .active span {
-  color: var(--text-dark);
+  color: #3A3A3A;
   font-weight: 600;
 }
 
-/* === Order Card === */
+/* === Order Card Section === */
 .orderCard {
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   border-radius: 1rem;
   margin-bottom: 2rem;
-  background: var(--card-bg);
+  background: #fff; /* card background */
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   transition: 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .orderCard h3 {
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #3A3A3A;
+  margin-bottom: 0.5rem;
 }
 
-.orderCard p {
-  color: var(--text-light);
-  margin: 0.25rem 0;
+.orderInfoRow {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: #555;
   font-size: 0.95rem;
 }
 
-/* Status-based Color */
+.orderTotal {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3A3A3A;
+  margin-top: 0.5rem;
+}
+
+/* Status-based border */
 .successColor {
-  border-left: 5px solid var(--success);
+  border-left: 5px solid #4C774E;
 }
 
 .danger {
-  border-left: 5px solid var(--danger);
+  border-left: 5px solid #DC2626;
 }
 
 .progressColor {
-  border-left: 5px solid var(--progress);
+  border-left: 5px solid #A3C293;
 }
 
-/* === Products === */
+/* === Products Section === */
 .products {
   margin-bottom: 2rem;
 }
 
 .productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1rem;
 }
 
 .productCard {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
+  background: #fff;
+  border: 1px solid #E0DFDB;
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .productCard:hover {
@@ -162,23 +176,26 @@
 
 .productImg {
   border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
 }
 
 .productCard h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text-dark);
+  color: #3A3A3A;
 }
 
 .productCard p {
-  color: var(--text-light);
+  color: #555;
+  font-size: 0.9rem;
 }
 
-/* === Buttons === */
+/* === Buttons Section === */
 .actionBtns {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
   margin-top: 2rem;
 }
@@ -190,12 +207,12 @@
   border: none;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
   font-size: 1rem;
 }
 
 .backButton {
-  background: linear-gradient(90deg, #6366f1, #3b82f6);
+  background: linear-gradient(90deg, #4C774E, #A3C293);
   color: white;
 }
 
@@ -205,7 +222,7 @@
 }
 
 .cancelBtn {
-  background: linear-gradient(90deg, #ef4444, #dc2626);
+  background: linear-gradient(90deg, #DC2626, #EF4444);
   color: white;
 }
 
@@ -228,19 +245,18 @@
   width: 40px;
   height: 40px;
   border: 4px solid #d1d5db;
-  border-top: 4px solid var(--progress);
+  border-top: 4px solid #4C774E;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .error {
-  color: var(--danger);
+  color: #DC2626;
   text-align: center;
   font-weight: 500;
+  font-size: 1rem;
 }

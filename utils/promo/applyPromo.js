@@ -11,7 +11,6 @@ export async function applyPromo(promoCode, amount, session, phone, cartProductI
     cartProductIds
   );
 
-  console.log(discountValue, error, message);
 
   return {discountValue, error, message};
 }

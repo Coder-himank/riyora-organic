@@ -52,7 +52,7 @@ const PreferencesSchema = new mongoose.Schema({
 
 const UserSchema = new mongoose.Schema(
   {
-    customUserId: { type: String, unique: true, required: true },
+    // customUserId: { type: String, unique: true, required: true },
     name: { type: String, required: true, trim: true },
     phone: { type: String, required: true, unique: true, trim: true },
     email: { type: String, unique: true, lowercase: true, trim: true , sparse : true},

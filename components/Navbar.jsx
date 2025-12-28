@@ -125,6 +125,21 @@ export default function Navbar() {
     setToogleNavBar(false);
   }, [router.pathname]);
 
+  const choose_us_list = [
+
+
+    { img: "/images/choose_us_icon_1.png", text: "Cruelty Free" },
+    { img: "/images/choose_us_icon_2.png", text: "Eco Friendly" },
+    { img: "/images/choose_us_icon_3.png", text: "Non Sticky" },
+    { img: "/images/choose_us_icon_4.png", text: "Vegan" },
+    { img: "/images/choose_us_icon_5.png", text: "No Artificial Color" },
+    { img: "/images/choose_us_icon_6.png", text: "glute free" },
+    { img: "/images/choose_us_icon_7.png", text: "With Plant Extract" },
+    { img: "/images/choose_us_icon_8.png", text: "Dermatology tested" },
+    { img: "/images/choose_us_icon_9.png", text: "Chemical Free" },
+    { img: "/images/choose_us_icon_10.png", text: "Chemical Free" },
+  ]
+
   const navLinks = [
     { name: "Home", path: "/", icon: <FaHome /> },
     { name: "Shop Now", path: productUrl, icon: <FaProductHunt /> },
@@ -180,7 +195,7 @@ export default function Navbar() {
             changeNavStyle
               ? navStyle
               : {
-                background: toogleNavBar ? "white" : "transparent",
+                background: toogleNavBar ? "#fffbe0" : "#fffbe0",
                 transition: toogleNavBar ? "all 0s" : "all 0.05s",
               }
           }
@@ -231,13 +246,13 @@ export default function Navbar() {
 
           <div className="nav-right">
             <div className="nav-user-option">
-              <Link href={`/cart`}>
+              <Link href={`/cart`} className="cartIcon">
                 {pathname === `/cart` ? <FaShoppingCart /> : <AiOutlineShoppingCart />}
                 <span className="hide">Cart</span>
               </Link>
-              <Link href={!session ? "/authenticate" : `/dashboard`}>
+              <Link href={!session ? "/authenticate" : `/dashboard`} className="userIcon">
                 {pathname === `/[userId]/dashboard` ? <FaUser /> : <FaRegUser />}
-                <span className="hide">User Dashboard</span>
+                <span >Profile</span>
               </Link>
             </div>
           </div>
@@ -251,7 +266,18 @@ export default function Navbar() {
             onBack={() => setSubheaderLinks([])}
           />
         )}
+
       </header>
+      <div className="subiconheader">
+        <div className="icons">
+
+          {choose_us_list.map((item, idx) => (
+            <div className="subiconitem" key={idx}>
+              <Image src={item.img} alt={item.text} width={20} height={20} />
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

@@ -21,16 +21,16 @@ export async function onAddToCart({ router, productId, session, quantity_demande
     if (!session?.user) {
         let cart = loadCartFromLocal();
 
-        console.log(cart);
+        // console.log(cart);
 
         const existing = await cart.find(
             item => {
-                console.log(item, productId, variantId);
+                // console.log(item, productId, variantId);
                 return item.productId === productId && item.variantId === variantId
             }
         );
 
-        console.log(existing);
+        // console.log(existing);
 
         if (existing) {
             existing.quantity += quantity_demanded;
@@ -44,7 +44,7 @@ export async function onAddToCart({ router, productId, session, quantity_demande
         }
 
         saveCartToLocal(cart);
-        console.log("addd " + quantity_demanded + "to data");
+        // console.log("addd " + quantity_demanded + "to data");
 
         // Push user to login but still store cart
         // router.push({ pathname: `/authenticate`, query: { callback: `/cart`, productId } });

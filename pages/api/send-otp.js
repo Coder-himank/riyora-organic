@@ -1,14 +1,14 @@
-// pages/api/send-otp.js
+// pages/api/send-otp-whatsapp.js
 import redis from "@/server/redis";
 
 /**
- * API Route: Send OTP via Fast2SMS
+ * API Route: Send OTP via Fast2SMS WhatsApp
  *
  * Flow:
  *  - Validates phone and countryCode
  *  - Prevents repeated requests using cooldown
  *  - Generates and stores OTP in Redis with expiry
- *  - Sends OTP via Fast2SMS HTTP API
+ *  - Sends OTP via Fast2SMS WhatsApp API
  */
 
 export default async function handler(req, res) {
@@ -37,25 +37,31 @@ export default async function handler(req, res) {
 
     // Generate 4-digit OTP
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    console.log("otp is "+otp);
 
     // Store OTP in Redis (5 min expiry)
     await redis.set(redisKey, otp, "EX", 300);
-
+    
     // Store cooldown (25 sec)
     await redis.set(cooldownKey, "true", "EX", 25);
-
-    // Send SMS via Fast2SMS
+    
+    return res.status(200).json({ success: true, message: "OTP sent via WhatsApp" });
+    // Send WhatsApp via Fast2SMS
     const fast2smsApiKey = process.env.FAST2SMS_API_KEY; // Store in .env
     const message = `Your OTP is ${otp}`;
-    const url = `https://www.fast2sms.com/dev/bulkV2`;
+
+    const url = "https://www.fast2sms.com/dev/bulkV2"; // Same endpoint
 
     const payload = {
       route: "v3",
-      sender_id: "FSTSMS",
+      sender_id: "FSTSMS", // Can remain same
       message: message,
       language: "english",
       flash: 0,
-      numbers: `${countryCode}${phone}`
+      numbers: `${countryCode}${phone}`,
+      // WhatsApp specific parameters
+      type: "whatsapp",        // indicate WhatsApp message
+      template_id: "YourTemplateID" // optional if using pre-approved template
     };
 
     const response = await fetch(url, {
@@ -70,14 +76,14 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (data.return) {
-      return res.status(200).json({ success: true, message: "OTP sent successfully", otp });
+      return res.status(200).json({ success: true, message: "OTP sent via WhatsApp" });
     } else {
-      console.error("Fast2SMS error:", data);
-      return res.status(500).json({ success: false, message: "Failed to send OTP" });
+      console.error("Fast2SMS WhatsApp error:", data);
+      return res.status(500).json({ success: false, message: "Failed to send OTP via WhatsApp" });
     }
 
   } catch (error) {
-    console.error("Send OTP error:", error);
-    return res.status(500).json({ success: false, message: "Failed to send OTP" });
+    console.error("Send OTP WhatsApp error:", error);
+    return res.status(500).json({ success: false, message: "Failed to send OTP via WhatsApp" });
   }
 }

@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background-color: #98ac7f;
-    padding: 20px;
+    /* background-color: #98ac7f; */
+    padding: 20px 0;
 }
 
 .testimonials{
@@ -30,7 +30,7 @@
 
 .testimonial{
     scroll-snap-align: start;
-    flex: 1 0 400px;
+    flex: 1 0 500px;
     max-width: 90%;
     /* padding: 15px; */
     border-radius: 8px;
@@ -40,7 +40,7 @@
     height: fit-content;
     width: 200px;
     aspect-ratio: 1/1;
-    max-height: 400px;
+    /* max-height: 400px; */
 }
 .testimonial img{
     object-fit: contain;

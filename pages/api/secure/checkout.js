@@ -39,7 +39,6 @@ export default async function handler(req, res) {
       items.map((item) => item.productId)
     );
 
-    console.log(totals);
 
     const productDiscount = totals.totalMrp - totals.totalPrice;
 
@@ -70,7 +69,6 @@ export default async function handler(req, res) {
       promoMessage,
     }
 
-    console.log(response);
     res.status(200).json(response);
   } catch (error) {
     console.error("Checkout API Error:", error);

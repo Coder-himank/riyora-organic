@@ -26,7 +26,6 @@ const statusMap = {
 export default function OrderDetails() {
   const router = useRouter();
   const { id: orderId } = router.query;
-
   const { data: session, status } = useSession();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -56,29 +55,6 @@ export default function OrderDetails() {
     };
   }, [orderId, session]);
 
-
-  // const handleOrderCancel = () => {
-  //   if (!order) return;
-  //   if (!["pending"].includes(order.status.toLowerCase())) {
-  //     alert("Order cannot be cancelled at this stage.");
-  //     return;
-  //   }
-  //   if (confirm("Are you sure you want to cancel this order?")) {
-  //     axios.put(`/api/secure/orders?orderId=${order._id}&userId=${session.user.id}`, {
-  //       status: "cancelled",
-
-  //     })
-  //       .then(response => {
-  //         alert("Order cancelled successfully.");
-  //         setOrder(prev => ({ ...prev, status: 'cancelled' }));
-  //       })
-  //       .catch(error => {
-  //         console.error("Error cancelling order", error);
-  //         alert("Failed to cancel order. Please try again.");
-  //       });
-
-  //   }
-  // }
   if (status === "loading") {
     return (
       <div className={styles.loaderWrapper}>
@@ -88,37 +64,24 @@ export default function OrderDetails() {
     );
   }
 
-  if (!session) {
-    return <p className={styles.error}>Please log in to view your order.</p>;
-  }
-
-  if (loading) {
-    return (
-      <div className={styles.loaderWrapper}>
-        <div className={styles.loader}></div>
-        <p>Loading order...</p>
-      </div>
-    );
-  }
-
-  if (!order) {
-    return <p className={styles.error}>Order not found</p>;
-  }
+  if (!session) return <p className={styles.error}>Please log in to view your order.</p>;
+  if (loading) return (
+    <div className={styles.loaderWrapper}>
+      <div className={styles.loader}></div>
+      <p>Loading order...</p>
+    </div>
+  );
+  if (!order) return <p className={styles.error}>Order not found</p>;
 
   const statusIndex = statusMap[order.status.toLowerCase()] ?? 0;
   const clampedIndex = Math.min(statusIndex, steps.length - 1);
   const isDelivered = clampedIndex === steps.length - 1;
 
-  const orderTotal = order.products?.reduce(
-    (sum, p) => sum + p.price * p.quantity,
-    0
-  ) ?? 0;
-
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Order Details</h1>
+      <h1 className={styles.title}>Order Summary</h1>
 
-      {/* ✅ Delivery Success State */}
+      {/* === Delivery Success Section === */}
       {isDelivered && (
         <motion.div
           className={styles.successBox}
@@ -128,27 +91,23 @@ export default function OrderDetails() {
         >
           <CircleCheckBig size={80} className={styles.successIcon} />
           <h2>Delivered Successfully 🎉</h2>
-          <p>Thank you for shopping with us! We hope you enjoy your order.</p>
+          <p>Thank you for shopping with us! Enjoy your order.</p>
         </motion.div>
       )}
 
-      {/* Progress Tracker */}
-      {!isDelivered && order.status !== "cancelled" && (
-        <div className={styles.progressWrapper} aria-label="Order Progress">
+      {/* === Order Progress Tracker === */}
+      {order.status !== "cancelled" && !isDelivered && (
+        <div className={styles.progressWrapper}>
           <div className={styles.progressBar}>
             <motion.div
               className={styles.progressFill}
               initial={{ width: 0 }}
-              animate={{
-                width: `${(clampedIndex / (steps.length - 1)) * 100}%`,
-              }}
+              animate={{ width: `${(clampedIndex / (steps.length - 1)) * 100}%` }}
               transition={{ duration: 1 }}
             />
             <motion.div
               className={styles.truck}
-              animate={{
-                left: `${(clampedIndex / (steps.length - 1)) * 100}%`,
-              }}
+              animate={{ left: `${(clampedIndex / (steps.length - 1)) * 100}%` }}
               transition={{ duration: 1, type: "spring" }}
             >
               <Truck size={30} />
@@ -156,11 +115,7 @@ export default function OrderDetails() {
           </div>
           <div className={styles.steps}>
             {steps.map((step, i) => (
-              <div
-                key={i}
-                className={`${styles.step} ${i <= clampedIndex ? styles.active : ""
-                  }`}
-              >
+              <div key={i} className={`${styles.step} ${i <= clampedIndex ? styles.active : ""}`}>
                 <div className={styles.stepIcon}>{step.icon}</div>
                 <span>{step.label}</span>
               </div>
@@ -169,68 +124,54 @@ export default function OrderDetails() {
         </div>
       )}
 
-      {/* Order Info */}
-      <div className={`${styles.orderCard} ${isDelivered ? styles.successColor : order.status === "cancelled" ? styles.danger : styles.progressColor}`}
-      >
+      {/* === Order Information Section === */}
+      <div className={`${styles.orderCard} ${isDelivered ? styles.successColor : order.status === "cancelled" ? styles.danger : styles.progressColor}`}>
         <h3>Order #{order.razorpayOrderId}</h3>
-        <p>
-          <strong>Placed on:</strong>{" "}
-          {new Date(order.createdAt).toLocaleDateString()}
-        </p>
-        <p>
-          <strong>Payment:</strong> {order.paymentStatus}
-        </p>
-        <p>
-          <strong>Status:</strong> {order.status}
-        </p>
-        <p>
-          <strong>Expected Delivery:</strong>{" "}
-          {new Date(order.estimatedDelivery).toLocaleDateString()}
-        </p>
-        <p>
-          <strong>Total:</strong> ₹ {orderTotal}
-        </p>
+        <div className={styles.orderInfoRow}>
+          <div>
+            <strong>Placed on:</strong>{" "}
+            {new Date(order.createdAt).toLocaleDateString()}
+          </div>
+          <div>
+            <strong>Expected Delivery:</strong>{" "}
+            {new Date(order.estimatedDelivery).toLocaleDateString()}
+          </div>
+        </div>
+        <div className={styles.orderInfoRow}>
+          <div><strong>Payment:</strong> {order.paymentStatus}</div>
+          <div><strong>Status:</strong> {order.status}</div>
+        </div>
+        <div className={styles.orderTotal}>
+          <strong>Total:</strong> ₹ {order.amount}
+        </div>
       </div>
 
-      {/* Products */}
+      {/* === Products Section === */}
       <div className={styles.products}>
         <h2>Items in this Order</h2>
         <div className={styles.productGrid}>
           {order.products?.length ? (
             order.products.map((p, idx) => (
-              <motion.div
-                key={idx}
-                className={styles.productCard}
-                whileHover={{ scale: 1.05 }}
-              >
-                <Image
-                  src={p.imageUrl || "/placeholder.png"}
-                  width={90}
-                  height={90}
-                  alt={p.name}
-                  className={styles.productImg}
-                />
+              <motion.div key={idx} className={styles.productCard} whileHover={{ scale: 1.05 }}>
+                <Image src={p.imageUrl || "/placeholder.png"} width={90} height={90} alt={p.name} className={styles.productImg} />
                 <div>
                   <h3>{p.name}</h3>
-                  <p>₹ {p.price}  x {p.quantity}</p>
+                  <p>₹ {p.price} x {p.quantity}</p>
                 </div>
               </motion.div>
             ))
-          ) : (
-            <p>No items found in this order.</p>
-          )}
+          ) : <p>No items found in this order.</p>}
         </div>
       </div>
 
+      {/* === Actions Section === */}
       <div className={styles.actionBtns}>
-
         <button className={styles.backButton} onClick={() => router.back()}>
           &larr; Back to Orders
         </button>
-        {/* cancelButton */}
-        {/* {["pending", "confirmed", "ready_to_ship"].includes(order.status.toLowerCase()) && (
-          <button className={styles.cancelBtn}
-            onClick={handleOrderCancel}>Cancel</button>
+        {/* Uncomment when cancel functionality is enabled */}
+        {/* {["pending","confirmed","ready_to_ship"].includes(order.status.toLowerCase()) && (
+          <button className={styles.cancelBtn} onClick={handleOrderCancel}>Cancel</button>
         )} */}
       </div>
     </div>
