@@ -305,6 +305,7 @@ header {
   width: 60%;
   /* gap: 10px; */
   padding: 3px;
+  min-width: fit-content;
 }
 
 .subiconheader .subiconitem{
@@ -423,5 +424,20 @@ header {
   }
 }
 
-@media screen and (max-width: 750px) { .navHolder { height: 130px; } }
+@media screen and (max-width: 750px) { .navHolder { height: 130px; } 
+
+.nav-user-option{
+  gap: 0;
+}
+.userIcon, .cartIcon{
+  padding: 10px;
+  font-size: 0.9rem;
+  box-shadow: none;
+  background-color: transparent;
+  color: black;
+}
+.userIcon span, .cartIcon span{
+  display: none;
+}
+}
 
