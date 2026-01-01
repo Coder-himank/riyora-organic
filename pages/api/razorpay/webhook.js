@@ -30,6 +30,7 @@ export default async function handler(req, res) {
   }
 
   const rawBody = await getRawBody(req);
+
   const signature = req.headers["x-razorpay-signature"];
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
@@ -149,6 +150,15 @@ export default async function handler(req, res) {
         }
         return res.status(500).send("Internal server error");
       }
+
+      if (notes.email) {
+        await sendMail(
+          notes.email,
+          "orderPlaced",
+          order._id.toString(),
+          notes.name || "Customer"
+        );
+      }
     }
 
     /* =============================
@@ -172,6 +182,29 @@ export default async function handler(req, res) {
         );
       }
     }
+
+    // payement cancelled
+    if (eventType === "payment.cancelled") {
+      order.paymentId = payment.id;
+      order.paymentStatus = "cancelled";
+      order.orderHistory.push({
+        status: "payment_cancelled",
+        note: "Payment cancelled via webhook",
+        updatedBy: "system",
+      });
+
+      if (notes.email) {
+        await sendMail(
+          notes.email,
+          "paymentFailed",
+          notes.name || "Customer",
+          order._id.toString(),
+          // "Payment was cancelled."
+        );
+      }
+
+    }
+    
 
     await order.save();
     return res.status(200).send("Order updated");
