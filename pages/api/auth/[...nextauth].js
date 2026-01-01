@@ -57,13 +57,14 @@ export const authOptions = {
             user = await User.create({
               name,
               phone,
-              phoneVerified: true,
+              // phoneVerified: true,
+              emailVerified: true,
               enrolled: false // enrollment completed later
             });
           } else {
             // If user exists but not verified → verify
-            if (!user.phoneVerified) {
-              user.phoneVerified = true;
+            if (!user.emailVerified) {
+              user.emailVerified = true;
               await user.save();
             }
           }

@@ -10,6 +10,7 @@ import User from "@/server/models/User";
  * - Validates OTP stored in Redis
  * - Marks user as phone verified, or creates a new user if not found
  */
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
@@ -58,12 +59,14 @@ export default async function handler(req, res) {
       user = new User({
         name: "Temp", // Placeholder name until user completes profile
         phone,
-        phoneVerified: true,
+        // phoneVerified: true,
+        emailVerified: true,
         enrolled: false,
       });
       await user.save();
     } else {
-      user.phoneVerified = true;
+      // user.phoneVerified = true;
+              user.emailVerified = true;
       await user.save();
     }
 

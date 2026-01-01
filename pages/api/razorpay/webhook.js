@@ -5,15 +5,16 @@ import dbConnect from "@/server/db";
 import Order from "@/server/models/Order";
 import { handleOrderAction } from "@/utils/order/orderHelper";
 import increasePromo from "@/utils/promo/updatePromo";
+import sendMail from "@/utils/sendMail";
 
 export const config = {
   api: {
-    bodyParser: false, // Required: Razorpay needs the raw request body
+    bodyParser: false, // Required for Razorpay webhook
   },
 };
 
 /**
- * Helper: Collects raw request body into a Buffer.
+ * Helper: Collect raw body
  */
 const getRawBody = (req) =>
   new Promise((resolve, reject) => {
@@ -23,49 +24,37 @@ const getRawBody = (req) =>
     req.on("error", reject);
   });
 
-/**
- * API Route: Razorpay Webhook
- *
- * Responsibilities:
- * 1. Accept webhook events from Razorpay.
- * 2. Verify signature with HMAC SHA256.
- * 3. Parse and validate payment payload.
- * 4. Create or update order records accordingly.
- * 5. Maintain order history for traceability.
- */
 export default async function handler(req, res) {
-  // Enforce POST requests
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
   }
 
-  // Collect raw request body (required for signature validation)
   const rawBody = await getRawBody(req);
   const signature = req.headers["x-razorpay-signature"];
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
-  // Compute expected signature
   const expectedSignature = crypto
     .createHmac("sha256", secret)
     .update(rawBody)
     .digest("hex");
 
-  // Secure comparison to avoid timing attacks
   if (
     !signature ||
     expectedSignature.length !== signature.length ||
-    !crypto.timingSafeEqual(Buffer.from(expectedSignature), Buffer.from(signature))
+    !crypto.timingSafeEqual(
+      Buffer.from(expectedSignature),
+      Buffer.from(signature)
+    )
   ) {
     return res.status(400).json({ error: "Invalid signature" });
   }
 
-  // Parse event payload
   const event = JSON.parse(rawBody);
   const eventType = event.event;
   const payment = event?.payload?.payment?.entity;
 
   if (!payment) {
-    console.error("Webhook error: No payment entity in payload");
+    console.error("Webhook error: No payment entity");
     return res.status(400).send("Malformed webhook");
   }
 
@@ -74,32 +63,31 @@ export default async function handler(req, res) {
   try {
     await dbConnect();
 
-    // Attempt to locate order by Razorpay orderId
-    let order = await Order.findOne({ razorpayOrderId: payment.order_id });
+    let order = await Order.findOne({
+      razorpayOrderId: payment.order_id,
+    });
 
-    // If not found, create a new order as fallback
     if (!order) {
       order = new Order({
         userId: notes.userId,
-        // modified for variants → products may contain variantId + variantName
         products: notes.products
           ? JSON.parse(notes.products).map((p) => ({
               productId: p.productId,
               quantity: p.quantity,
-              variantId: p.variantId || null, // added for variants
-              variantName: p.variantName || null, // added for variants
+              variantId: p.variantId || null,
+              variantName: p.variantName || null,
               price: p.price,
             }))
           : [],
-        address: notes.address ? JSON.parse(notes.address) : { city: "lund" },
+        address: notes.address ? JSON.parse(notes.address) : {},
         amountBreakDown: notes.amountBreakDown
           ? JSON.parse(notes.amountBreakDown)
           : {},
         promoCode: notes.promocode || null,
-        amount: payment.amount / 100, // Convert paise to INR
+        amount: payment.amount / 100,
         currency: payment.currency,
         razorpayOrderId: payment.order_id,
-        status: "pending", // Business workflow may update later
+        status: "pending",
         orderHistory: [
           {
             status: "pending",
@@ -110,9 +98,9 @@ export default async function handler(req, res) {
       });
     }
 
-    /**
-     * Update order details based on event type
-     */
+    /* =============================
+       PAYMENT CAPTURED
+    ============================== */
     if (eventType === "payment.captured") {
       order.paymentId = payment.id;
       order.signature = signature;
@@ -120,9 +108,10 @@ export default async function handler(req, res) {
       order.paymentDetails = {
         transactionId: payment.id,
         paymentGateway: "razorpay",
-        paymentDate: new Date(payment.created_at * 1000), // Unix timestamp
+        paymentDate: new Date(payment.created_at * 1000),
         method: payment.method,
       };
+
       order.orderHistory.push({
         status: "confirmed",
         note: "Payment captured via webhook",
@@ -131,21 +120,40 @@ export default async function handler(req, res) {
 
       await increasePromo();
 
-      // creating the order on ship rocket
+      try {
+        const result = await handleOrderAction(
+          order._id.toString(),
+          "create",
+          { paymentGateway: "razorpay" }
+        );
 
-      try{
-        // const res = await handleOrderAction(order._id, "create", {});
-        await handleOrderAction(order._id.toString(), "create", { paymentGateway: "razorpay" });
-        if(!res){
-          console.error("Failed to create order on external system");
-          return res.status(500).send("something went wrong");
+        if (!result) {
+          console.error("External system failure");
+          if (notes.email) {
+            await sendMail(
+              notes.email,
+              "externalSystemFailure",
+              notes.name || "Customer"
+            );
+          }
+          return res.status(500).send("External system error");
         }
-      }catch(err){
-        console.error("Error in handleOrderAction:", err);
+      } catch (err) {
+        console.error("handleOrderAction error:", err);
+        if (notes.email) {
+          await sendMail(
+            notes.email,
+            "externalSystemFailure",
+            notes.name || "Customer"
+          );
+        }
         return res.status(500).send("Internal server error");
       }
     }
 
+    /* =============================
+       PAYMENT FAILED
+    ============================== */
     if (eventType === "payment.failed") {
       order.paymentId = payment.id;
       order.paymentStatus = "failed";
@@ -154,11 +162,18 @@ export default async function handler(req, res) {
         note: "Payment failed via webhook",
         updatedBy: "system",
       });
+
+      if (notes.email) {
+        await sendMail(
+          notes.email,
+          "paymentFailed",
+          order._id.toString(),
+          notes.name || "Customer"
+        );
+      }
     }
 
-    // Save updates
     await order.save();
-
     return res.status(200).send("Order updated");
   } catch (error) {
     console.error("Webhook processing error:", error);

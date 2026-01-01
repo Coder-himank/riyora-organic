@@ -19,10 +19,10 @@ export default async function handler(req, res) {
   const { name, email, phone } = req.body;
 
   // Validate input
-  if (!name || !phone) {
+  if (!name || !phone || !email) {
     return res.status(400).json({
       success: false,
-      message: "Name and phone are required",
+      message: "Name, email, and phone are required",
     });
   }
 
@@ -31,47 +31,24 @@ export default async function handler(req, res) {
     await dbConnect();
 
     const existingUser = await User.findOne({ phone });
-
-    // Case 1: User already exists, fully verified and enrolled
-    if (existingUser && existingUser.phoneVerified && existingUser.enrolled) {
+    if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: "User already exists",
+        message: "Phone number already registered",
       });
     }
-
-    // Case 2: User exists but phone is not verified
-    if (existingUser && !existingUser.phoneVerified) {
-      return res.status(400).json({
-        success: false,
-        message: "Phone number not verified",
-      });
-    }
-
-    // Case 3: User exists, phone verified but not enrolled → update profile
-    if (existingUser && existingUser.phoneVerified && !existingUser.enrolled) {
-      const updatedUser = await User.findOneAndUpdate(
-        { phone },
-        {
-          name,
-          email: email || existingUser.email, // Update email if provided
-          phoneVerified: true,
-          enrolled: true,
-        },
-        { new: true }
-      );
-
-      return res.status(201).json({
-        success: true,
-        user: updatedUser,
-      });
-    }
-
-    // Case 4: No valid case found (potential suspicious request)
-    return res.status(401).json({
-      success: false,
-      message: "Suspicious user state",
+    // Create new user with no verification markups
+    const newUser = new User({
+      name,
+      email,
+      phone,
     });
+    await newUser.save();
+
+          return res.status(200).json({
+        success: false,
+        message: "Account Created Successfully",
+      });
   } catch (error) {
     console.error("Signup error:", error);
     return res.status(500).json({

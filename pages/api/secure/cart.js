@@ -59,10 +59,10 @@ export default async function handler(req, res) {
     if (!session?.user?.id) {
       return res.status(401).json({ message: "Unauthorized." });
     }
-    const userId = session.user.id;
+    const userPhone = session.user.phone;
 
     // Load user
-    const user = await User.findById(userId);
+    const user = await User.findOne({phone: userPhone});
     if (!user) return res.status(404).json({ message: "User not found." });
 
     // common parsed inputs
@@ -181,6 +181,7 @@ export default async function handler(req, res) {
             return res.status(400).json({ message: `Cannot add more than ${CART_ITEM_LIMIT} items of the same product.` });
           }
           existingItem.quantity_demanded += quantity;
+          await user.save();
         } else {
           // push a new item. store variantId as ObjectId or null
 

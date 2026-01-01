@@ -67,6 +67,7 @@ export default function Checkout() {
   // Always gather phone from user (prefill if available)
   // react-phone-input-2 expects country code like 'in' for India
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [countryCode, setCountryCode] = useState("in"); // use country iso
   const [name, setName] = useState("");
 
@@ -104,6 +105,7 @@ export default function Checkout() {
     if (session?.user) {
       if (session.user.name) setName(session.user.name);
       if (session.user.phone) setPhone(session.user.phone);
+      if (session.user.email) setEmail(session.user.email);
       validateUser();
     } else if (typeof window !== "undefined") {
       const storedGuest = localStorage.getItem("guest_user");
@@ -112,6 +114,7 @@ export default function Checkout() {
           const guest = JSON.parse(storedGuest);
           if (guest.name) setName(guest.name);
           if (guest.phone) setPhone(guest.phone);
+          if (guest.email) setPhone(guest.email);
         } catch (e) {
           // ignore
         }
@@ -296,9 +299,10 @@ export default function Checkout() {
       if (userAddresses.length) {
         setSelectedAddressId((prev) => prev || userAddresses[0]._id || "");
       }
-      // prefill phone and name correctly
+      // prefill email and name correctly
       if (data.user?.phone) setPhone(data.user.phone);
       if (data.user?.name) setName(data.user.name);
+      if (data.user?.email) setEmail(data.user.email);
     } catch (err) {
       console.error("Failed to fetch addresses", err);
     }
@@ -364,6 +368,7 @@ export default function Checkout() {
         {
           name: name,
           phone: phoneNumber,
+          email: email,
           address: {
             label: newAddress.label,
             address: newAddress.address,
@@ -385,6 +390,7 @@ export default function Checkout() {
             id: guestUser._id ?? guestUser.id,
             name: guestUser.name,
             phone: guestUser.phone,
+            email: guestUser.email,
           })
         );
       }
@@ -411,6 +417,7 @@ export default function Checkout() {
     if (typeof window === "undefined" || !window.Razorpay) return alert("Payment gateway not ready yet.");
     if (!razorpayLoaded) return alert("Payment gateway not ready");
     if (!phone || phone.trim().length < 6) return alert("Please enter a valid phone number.");
+    if (!email || email.trim().length < 6) return alert("Please enter a valid email address.");
     if (!name || name.trim().length < 2) return alert("Please enter a name.");
     if (products.length === 0) return alert("Your cart is empty.");
 
@@ -457,7 +464,7 @@ export default function Checkout() {
         deliveryAddress: {
           name: isValidUser ? session?.user?.name : name,
           phone: phone.trim(),
-          email: isValidUser ? session?.user?.email : null,
+          email: isValidUser ? session?.user?.email.trim() : email.trim(),
           ...deliveryAddressPayload,
         },
         products: products && products.length > 0 ? products : null,
@@ -509,6 +516,7 @@ export default function Checkout() {
         prefill: {
           name: session?.user?.name || name,
           contact: phone.trim() || "",
+          email: session?.user?.email || email.trim() || "",
         },
         theme: { color: "#136132" },
       };
@@ -616,6 +624,18 @@ export default function Checkout() {
                 onChange={(value) => setPhone(value)}
                 inputProps={{ name: "phone", required: true }}
                 containerClass={styles.phoneInput}
+              />
+            </div>
+
+            {/* Email input (always required) */}
+            <div className={styles.input_group}>
+              <label className={styles.label}>Email address (required)</label>
+              <input
+                type="email"
+                placeholder="Recipient email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.input}
               />
             </div>
 

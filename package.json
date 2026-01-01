@@ -30,6 +30,7 @@
     "next-auth": "^4.24.11",
     "next-i18next": "^15.4.2",
     "nextjs-google-analytics": "^2.3.7",
+    "nodemailer": "^7.0.12",
     "razorpay": "^2.9.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

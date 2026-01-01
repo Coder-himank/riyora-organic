@@ -53,20 +53,20 @@ export async function onAddToCart({ router, productId, session, quantity_demande
 
     // ✅ Logged-in user → backend API call
     try {
-        const response = await fetch(`/api/secure/cart?userId=${session.user.id}`, {
+        const response = await fetch(`/api/secure/cart`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                userId: session?.user?.id,
                 productId,
                 quantity: quantity_demanded,
                 variantId
             })
         });
         const data = await response.json();
-        return data;
+        return { success: true, message: "Added TO Cart" };
+        // return data;
     } catch (error) {
-        console.error("Error updating user data:", error);
+        // console.error("Error updating user data:", error);
         return { success: false, message: "Request failed" };
     }
 }

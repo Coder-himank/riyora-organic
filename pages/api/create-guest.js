@@ -10,16 +10,18 @@ const handler = async (req, res) => {
     await rateLimit(req, res, { key: "createguest", points: 20, duration: 60 });
     // ===== Step 3: Create guest user =====
 
-    const {name, phone, address} = req.body;
+    const {name, phone, address, userMail} = req.body;
     if(!phone || phone.length < 10){
       return res.status(400).json({ error: "Valid phone number and name is required" });
     }
     const existingUser = await User.findOne({ phone });
     if (existingUser) {
+      existingUser.addresses.push(address);
+      // await existingUser.save();
       return res.status(200).json({ message: "user exists", user: existingUser });
     }
 
-    const guestUser = new User({ phone, name, addresses: [address], isGuest: true });
+    const guestUser = new User({ phone, email:userMail, name, addresses: [address], isGuest: true });
     await guestUser.save();
     return res.status(201).json({ user:guestUser });
   } catch (error) {

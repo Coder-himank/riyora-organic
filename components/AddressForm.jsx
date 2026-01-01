@@ -133,11 +133,11 @@ export default function NewAddressForm({ newAddress, setNewAddress, onSave }) {
                 </div>
             </div>
 
-            {onSave && (
+            {/* {onSave && (
                 <button className={styles.primaryBtn} onClick={onSave}>
                     Save address
                 </button>
-            )}
+            )} */}
 
         </div>
     );

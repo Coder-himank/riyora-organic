@@ -11,6 +11,8 @@ import Image from "next/image";
 import styles from "@/styles/authenticate.module.css";
 import { validatePhone } from "@/utils/otp"; // only keeping phone validation here
 
+import LoadingWheel from "@/components/LoadingWheel";
+import { set } from "mongoose";
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -28,6 +30,8 @@ export default function AuthPage() {
   const [canResend, setCanResend] = useState(true);
   const [countryCode, setCountryCode] = useState("IN");
   const [sentOtp, setSentOtp] = useState(0);
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [sentOtpMessage, seSentOtpMessage] = useState(null);
 
   const { data: session } = useSession();
 
@@ -74,13 +78,18 @@ export default function AuthPage() {
       return;
     }
 
+    setOtpLoading(true);
+
     try {
       const res = await axios.post("/api/send-otp", {
         phone: formData.phone,
         countryCode,
+        method: isLogin ? "login" : "signup",
+        email: formData.email, // for signup flow
       });
       if (res.data.success) {
         toast.success("OTP sent successfully");
+        seSentOtpMessage(res.data.message)
         setStep(2);
         setSentOtp(res.data.otp);
 
@@ -89,9 +98,12 @@ export default function AuthPage() {
       } else {
         toast.error(res.data.message || "Failed to send OTP");
       }
-    } catch {
+
+    } catch (e) {
+      console.log(e);
       toast.error("Error sending OTP");
     }
+    setOtpLoading(false);
   };
 
 
@@ -111,39 +123,15 @@ export default function AuthPage() {
     router.push(callbackUrl || "/");
   }
 
-  const handleVerifyOtp = async () => {
-    if (!otp || otp.length < 4) {
-      toast.error("Please enter a valid OTP");
-      return false;
-    }
-    try {
-      const res = await axios.post("/api/verify-otp", {
-        countryCode,
-        phone: formData.phone,
-        otp,
-      });
-      if (res.data.success) {
-        toast.success("Phone verified successfully");
-        return true;
-      } else {
-        toast.error(res.data.message || "Invalid OTP");
-        return false;
-      }
-    } catch {
-      toast.error("OTP verification failed");
-      return false;
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const otpVerified = await handleVerifyOtp();
-    if (!otpVerified) {
-      setLoading(false);
-      return;
-    }
+    // const otpVerified = await handleVerifyOtp();
+    // if (!otpVerified) {
+    //   setLoading(false);
+    //   return;
+    // }
 
     try {
       if (isLogin) {
@@ -170,7 +158,7 @@ export default function AuthPage() {
           address: formData.address,
           city: formData.city,
           country: formData.country,
-          phoneVerified: true,
+          phoneVerified: false,
         });
         const res = await signIn("credentials", {
           countryCode,
@@ -229,6 +217,18 @@ export default function AuthPage() {
               />
             )}
 
+            {!isLogin && (
+              <input
+                type="text"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            )}
+
+
             <PhoneInput
               country={countryCode.toLowerCase()}
               value={formData.phone}
@@ -236,6 +236,7 @@ export default function AuthPage() {
               inputProps={{ name: "phone", required: true }}
               className={styles.phoneInput}
             />
+
 
             {step === 2 && (
               <>
@@ -246,9 +247,9 @@ export default function AuthPage() {
                   placeholder="Enter OTP"
                   required
                 />
-                {sentOtp}
               </>
             )}
+            {sentOtpMessage && <p className={styles.otpMessage}>{sentOtpMessage}</p>}
           </div>
 
           <div className={styles.formAreaBottom}>
@@ -258,7 +259,7 @@ export default function AuthPage() {
               onClick={handleSendOtp}
               disabled={!canResend}
             >
-              {canResend ? "Send OTP" : `Resend in ${resendTimer}s`}
+              {canResend ? <span> Send OTP {otpLoading && <LoadingWheel />}</span> : `Resend in ${resendTimer}s`}
             </button>
 
             {step === 2 && (
