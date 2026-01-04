@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 /**
  * Send email using predefined templates
@@ -146,14 +147,17 @@ const sendMail = async (email, type, ...args) => {
 
     console.log("sending mail");
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER, // Gmail address
-        pass: process.env.GMAIL_PASS, // App password
-      },
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: process.env.GMAIL_USER, // Gmail address
+    //     pass: process.env.GMAIL_PASS, // App password
+    //   },
+    // });
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    
     console.log("transporter created");
 
     const mailOptions = {
@@ -163,7 +167,7 @@ const sendMail = async (email, type, ...args) => {
       html: template.html(...args),
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    const info = await resend.emails.send(mailOptions);
     console.log("Email sent:", info.messageId);
     return info;
   } catch (error) {
