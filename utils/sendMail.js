@@ -144,6 +144,8 @@ const sendMail = async (email, type, ...args) => {
       throw new Error(`Email template "${type}" not found`);
     }
 
+    console.log("sending mail");
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -151,6 +153,8 @@ const sendMail = async (email, type, ...args) => {
         pass: process.env.GMAIL_PASS, // App password
       },
     });
+
+    console.log("transporter created");
 
     const mailOptions = {
       from: template.from,
