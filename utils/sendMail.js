@@ -141,42 +141,19 @@ const mailTemplates = {
 };
 
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-/* Verify SMTP on startup */
-transporter.verify((err) => {
-  if (err) {
-    console.error("❌ SMTP Error:", err);
-  } else {
-    console.log("✅ SMTP Server Ready");
-  }
-});
 const sendMail = async (to, type, ...args) => {
-  try {
-    const template = mailTemplates[type];
-    if (!template) {
-      throw new Error(`Email template "${type}" not found`);
-    }
+  const template = mailTemplates[type];
+  if (!template) throw new Error("Template not found");
 
-    const mailOptions = {
-      from: SENDER,
+  try{
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
       to,
       subject: template.subject,
       html: template.html(...args),
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log("📨 Email sent:", info.messageId);
-
-    return info;
+    });
   } catch (error) {
     console.error("❌ Send mail failed:", error.message);
     throw error;
