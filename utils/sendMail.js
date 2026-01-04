@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
+import "dotenv/config";
 
 /**
  * Send email using predefined templates
@@ -7,6 +8,8 @@ import { Resend } from "resend";
  * @param {string} type - template key (otpAuth, orderSuccess, passwordReset)
  * @param  {...any} args - arguments required by the template
  */
+
+const SENDER = `"Riyora Organic" <${process.env.GMAIL_USER}>`;
 
 
 
@@ -93,7 +96,7 @@ const mailTemplates = {
   },
 
   otpAuth: {
-    from: `"Authentication" <${process.env.EMAIL_USER}>`,
+    from: `"Authentication" <${process.env.GMAIL_USER}>`,
     subject: "Your OTP for Authentication",
     html: (otp, validityMinutes = 5) => `
       <div style="font-family: Arial, sans-serif; background: #f9fafb; padding: 20px;">
@@ -137,41 +140,45 @@ const mailTemplates = {
   },
 };
 
-const sendMail = async (email, type, ...args) => {
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
+});
+
+/* Verify SMTP on startup */
+transporter.verify((err) => {
+  if (err) {
+    console.error("❌ SMTP Error:", err);
+  } else {
+    console.log("✅ SMTP Server Ready");
+  }
+});
+const sendMail = async (to, type, ...args) => {
   try {
     const template = mailTemplates[type];
-
     if (!template) {
       throw new Error(`Email template "${type}" not found`);
     }
 
-    console.log("sending mail");
-
-    // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: process.env.GMAIL_USER, // Gmail address
-    //     pass: process.env.GMAIL_PASS, // App password
-    //   },
-    // });
-
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    
-    console.log("transporter created");
-
     const mailOptions = {
-      from: template.from,
-      to: email,
+      from: SENDER,
+      to,
       subject: template.subject,
       html: template.html(...args),
     };
 
-    const info = await resend.emails.send(mailOptions);
-    console.log("Email sent:", info.messageId);
+    const info = await transporter.sendMail(mailOptions);
+    console.log("📨 Email sent:", info.messageId);
+
     return info;
   } catch (error) {
-    console.error("Send mail error:", error);
+    console.error("❌ Send mail failed:", error.message);
     throw error;
   }
 };
