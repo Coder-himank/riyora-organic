@@ -122,6 +122,7 @@ export default async function handler(req, res) {
       await increasePromo();
 
       try {
+        console.log("Plaing orer on shiprocketafeet payemnt success");
         const result = await handleOrderAction(
           order._id.toString(),
           "create",
