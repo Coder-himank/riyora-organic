@@ -13,7 +13,13 @@ const generateOtp = () => {
 /* ---------------- EMAIL SENDER ---------------- */
 
 const otpOnMail = async (email, otp) => {
-  await sendMail(email, "otpAuth",otp)
+  try{
+
+    await sendMail(email, "otpAuth",otp)
+    console.log("otp sent");
+  }catch(err){
+    console.log("Error sending OTP email:", err);
+  }
 };
 
 /* ---------------- DB ---------------- */

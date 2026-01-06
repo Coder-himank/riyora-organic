@@ -3,7 +3,7 @@ export const getProductUrl = async () => {
 //   if (!product || !product.id) {
 //     throw new Error('Invalid product object');
 //   }
-  const BASEURL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const BASEURL =  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   try{
     const response = await axios.get(BASEURL+"/api/getProducts");
 

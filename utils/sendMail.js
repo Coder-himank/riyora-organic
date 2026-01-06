@@ -148,12 +148,31 @@ const sendMail = async (to, type, ...args) => {
   if (!template) throw new Error("Template not found");
 
   try{
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to,
+    // await resend.emails.send({
+    //   from: "onboarding@resend.dev",
+    //   to,
+    //   subject: template.subject,
+    //   html: template.html(...args),
+    // });
+
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.GMAIL_USER,        // your@gmail.com
+    pass: process.env.GMAIL_PASS // app password
+  }
+});
+
+await transporter.sendMail({
+  from: `"Riyora Organic" <${process.env.GMAIL_USER}>`,
+  to,
       subject: template.subject,
       html: template.html(...args),
-    });
+});
+
   } catch (error) {
     console.error("❌ Send mail failed:", error.message);
     throw error;

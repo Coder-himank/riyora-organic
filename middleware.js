@@ -83,17 +83,17 @@ export async function middleware(req) {
   "Content-Security-Policy",
   `
     default-src 'self';
-    img-src 'self' data: https://res.cloudinary.com www.googletagmanager.com www.google-analytics.com;
-    media-src 'self' https://res.cloudinary.com;
-    script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    font-src 'self' https://fonts.gstatic.com;
-    connect-src 'self' https://api.razorpay.com https://lumberjack.razorpay.com https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://api.postalpincode.in;
-    frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.googletagmanager.com;
+    img-src 'self' data: https://res.cloudinary.com www.googletagmanager.com www.google-analytics.com e4a2bf0d4afc.ngrok-free.app;
+    media-src 'self' https://res.cloudinary.com e4a2bf0d4afc.ngrok-free.app;
+    script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com e4a2bf0d4afc.ngrok-free.app;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com e4a2bf0d4afc.ngrok-free.app;
+    font-src 'self' https://fonts.gstatic.com e4a2bf0d4afc.ngrok-free.app;
+    connect-src 'self' https://api.razorpay.com https://lumberjack.razorpay.com https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://api.postalpincode.in e4a2bf0d4afc.ngrok-free.app;
+    frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.googletagmanager.com e4a2bf0d4afc.ngrok-free.app;
 ;
     object-src 'none';
-    base-uri 'self';
-    form-action 'self' https://checkout.razorpay.com;
+    base-uri 'self' e4a2bf0d4afc.ngrok-free.app;
+    form-action 'self' https://checkout.razorpay.com e4a2bf0d4afc.ngrok-free.app;
   `.replace(/\s+/g, " ")
     .trim()
 );
