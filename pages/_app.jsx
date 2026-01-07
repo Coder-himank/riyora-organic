@@ -186,7 +186,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:image" content={defaultImage} />
         <meta name="twitter:creator" content="@riyoraofficial" />
 
-        <meta name="facebook-domain-verification" content="6onsd-cwg1phj74v629j8ipvgfjgka8" />
+        <meta name="facebook-domain-verification" content="6onsdcwg1phj74v629j8ipvgfjgka8" />
 
         {/* Icons / PWA */}
         <link rel="shortcut icon" href="/Riyora-Logo-Favicon.ico" type="image/x-icon" />
