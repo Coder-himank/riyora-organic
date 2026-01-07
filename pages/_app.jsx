@@ -14,12 +14,13 @@ import { Loader } from "@/components/Loader";
 import Script from 'next/script';
 import { PromoPrompt } from '@/components/PromoPrompt';
 import axios from 'axios';
+import { pageview, FB_PIXEL_ID } from '@/utils/pixel';
 
 function ShowPromoPrompt() {
   const [showPrompt, setShowPrompt] = useState(false);
   const [promo, setPromo] = useState(null);
-  useEffect(() => {
 
+  useEffect(() => {
     const fetchPromo = async () => {
       try {
         const response = await axios.get('/api/getPromo');
@@ -30,17 +31,16 @@ function ShowPromoPrompt() {
         setPromo(response.data[0]);
       } catch (error) {
         console.error('Error fetching promo data:', error);
-        return null;
       }
     };
+
     const timer = setTimeout(() => {
-      fetchPromo()
+      fetchPromo();
       setShowPrompt(true);
     }, 0);
 
     return () => clearTimeout(timer);
   }, []);
-
 
   return (
     <>
@@ -55,9 +55,10 @@ function MyApp({ Component, pageProps }) {
   const [hydrated, setHydrated] = useState(false);
   const [percentage, setPercentage] = useState(0);
 
+  // mark hydration complete
   useEffect(() => setHydrated(true), []);
 
-  // Route change loader
+  // Loader percentage animation
   useEffect(() => {
     let interval;
     if (loading) {
@@ -70,6 +71,7 @@ function MyApp({ Component, pageProps }) {
     return () => clearInterval(interval);
   }, [loading]);
 
+  // Route change loading
   useEffect(() => {
     const handleStart = () => setLoading(true);
     const handleStop = () => setLoading(false);
@@ -85,13 +87,17 @@ function MyApp({ Component, pageProps }) {
     };
   }, [router]);
 
-  if (!hydrated) return <Loader status={true} percentage={"100%"} />;
+  // SPA Pageview tracking (Facebook Pixel)
+  useEffect(() => {
+    const handleRouteChange = () => pageview();
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => router.events.off('routeChangeComplete', handleRouteChange);
+  }, [router]);
 
-  // SEO & GA
+  // SEO & defaults
   const siteName = "Riyora";
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://riyora.com";
   const currentUrl = `${siteUrl}${router.asPath}`;
-  const currentwwwUrl = `https://www.riyoraorganic.com${router.asPath}`;
   const defaultTitle = "Riyora | Premium Lifestyle & Fashion Products";
   const defaultDescription = "Shop premium lifestyle, beauty, and fashion products at Riyora. Discover quality, sustainability, and style for modern living.";
   const defaultImage = `${siteUrl}/images/og-image.jpg`;
@@ -130,37 +136,43 @@ function MyApp({ Component, pageProps }) {
         }}
       />
 
-
-      <Head>
-
-
-        <Script
-          id="meta-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+      {/* --- Facebook Pixel --- */}
+      <Script
+        id="fb-pixel"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
             !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod ?
-            n.callMethod.apply(n, arguments) : n.queue.push(arguments)};
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
             if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
             n.queue=[];t=b.createElement(e);t.async=!0;
             t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            s.parentNode.insertBefore(t,s)}(window,document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '895422442831701');
+            fbq('init', '${FB_PIXEL_ID}');
             fbq('track', 'PageView');
           `,
-          }}
+        }}
+      />
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: 'none' }}
+          src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
         />
-        {/* --- Basic SEO --- */}
+      </noscript>
+
+      <Head>
+        {/* --- SEO --- */}
         <title>{defaultTitle}</title>
         <meta name="description" content={defaultDescription} />
         <meta name="keywords" content={defaultKeywords} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={currentUrl} />
-        <link rel="canonical" href={currentUrl} />
 
-        {/* --- Open Graph / Twitter --- */}
+        {/* Open Graph / Twitter */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={siteName} />
         <meta property="og:title" content={defaultTitle} />
@@ -174,28 +186,25 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:image" content={defaultImage} />
         <meta name="twitter:creator" content="@riyoraofficial" />
 
-        {/* --- Icons / PWA --- */}
+        {/* Icons / PWA */}
         <link rel="shortcut icon" href="/Riyora-Logo-Favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" href="/images/riyora-apple-touch-icon.png" />
         <meta name="theme-color" content="#ffffff" />
 
-        {/* --- Structured Data --- */}
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
 
-        {/* --- Preconnect / Performance hints --- */}
+        {/* Preconnect */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
       </Head>
 
       <SessionProvider session={pageProps.session}>
-        {loading && <Loader status={loading} percentage={percentage + "%"} />}
-        {!loading && percentage > 0 && percentage < 100 && (
-          <Loader status={true} percentage={percentage + "%"} />
-        )}
+        {/* Single Loader component to avoid hooks mismatch */}
+        <Loader status={!hydrated || loading || (percentage > 0 && percentage < 100)} percentage={percentage + "%"} />
 
         <Navbar />
 
@@ -220,15 +229,6 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
         <Footer />
       </SessionProvider>
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=895422442831701&ev=PageView&noscript=1"
-        />
-      </noscript>
-
 
       <ShowPromoPrompt />
     </ThemeProvider>
