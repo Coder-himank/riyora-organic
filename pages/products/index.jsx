@@ -96,7 +96,7 @@ export default function Products() {
             </div>
             <div className={styles.heroImage}>
               <Image
-                src="/images/oil bottle.png"
+                src="/images/riyora-logo-favicon.png"
                 alt="Riyora Organic Hair Oil Bottle"
                 width={320}
                 height={420}
