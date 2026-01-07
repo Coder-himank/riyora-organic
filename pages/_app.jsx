@@ -185,7 +185,6 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:description" content={defaultDescription} />
         <meta name="twitter:image" content={defaultImage} />
         <meta name="twitter:creator" content="@riyoraofficial" />
-
         <meta name="facebook-domain-verification" content="6onsdcwg1phj74v629j8ipvgfjgka8" />
 
         {/* Icons / PWA */}
