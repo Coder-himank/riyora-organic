@@ -1,5 +1,5 @@
 // lib/fbpixel.js
-export const FB_PIXEL_ID = '1941913876669583';
+export const FB_PIXEL_ID = '895422442831701';
 
 // Log pageview
 export const pageview = () => {
