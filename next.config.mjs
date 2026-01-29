@@ -16,6 +16,7 @@ const nextConfig = {
         source: "/sitemap.xml",
         destination: "/api/sitemap.xml",
       },
+      
       {
         source: "/sitemap",
         destination: "/api/sitemap.xml",

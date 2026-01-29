@@ -93,10 +93,13 @@ export async function onAddToWishlist(router, productId, session) {
 }
 
 export const onBuy = (router, productId, quantity_demanded, session, variantId = null) => {
+    // router.push({
+    //     pathname: `/checkout`,
+    //     query: {
+    //         productId, quantity_demanded, variantId: variantId ?? null
+    //     }
+    // })
     router.push({
-        pathname: `/checkout`,
-        query: {
-            productId, quantity_demanded, variantId: variantId ?? null
-        }
+        pathname: `https://www.flipkart.com/riyora-organic-root-strength-hair-oil-ayurvedic-formula-growth-fall-control/p/itmd5b1b871c9faa`,
     })
 }

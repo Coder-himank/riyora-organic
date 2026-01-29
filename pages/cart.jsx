@@ -402,7 +402,7 @@ export default function Cart() {
 
             <div className={styles.cart_billing}>
               <div className={styles.cart_total}>Total: ₹{cartTotal.toFixed(2)}</div>
-              <Link href="/checkout">
+              <Link href="https://www.flipkart.com/riyora-organic-root-strength-hair-oil-ayurvedic-formula-growth-fall-control/p/itmd5b1b871c9faa">
                 <button className={styles.checkoutbtn}>Checkout</button>
               </Link>
             </div>
